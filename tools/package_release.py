@@ -26,7 +26,7 @@ def main():
     parser.add_argument('--loader',type=Path,required=True,help='Pinned loader folder containing dwmapi.dll and ue4ss/UE4SS.dll')
     parser.add_argument('--bridge',type=Path,default=ROOT/'build/native-release/main.dll')
     parser.add_argument('--output',type=Path,required=True,help='New, empty output directory; never overwrites earlier releases')
-    parser.add_argument('--version',default='0.1.0-alpha.2')
+    parser.add_argument('--version',default='0.1.0-alpha.3')
     args=parser.parse_args()
     if not args.version or any(c not in '0123456789abcdefghijklmnopqrstuvwxyz.-' for c in args.version):raise ValueError('Invalid release version')
     if sha(args.loader/'ue4ss/UE4SS.dll')!=LOADER_HASH:raise ValueError('Wrong loader DLL')
@@ -36,7 +36,7 @@ def main():
     package=stage/'PBZMC';payload=package/'payload';host=payload/'platform/steam'
     for name in ('Launch-PBZMC.cmd','Backup-PBZMC.cmd','Uninstall-PBZMC.cmd'):
         copy(ROOT/'distribution'/name,stage/name)
-    for name in ('Manage-PBZMC.ps1','toolchain.lock.json'):
+    for name in ('Manage-PBZMC.ps1','Download-PBZMC.ps1','toolchain.lock.json'):
         copy(ROOT/'distribution'/name,package/name)
     for name in ('README.md','LICENSE','NOTICE','CHANGELOG.md'):
         copy(ROOT/name,stage/name)
@@ -57,6 +57,7 @@ def main():
     copy(ROOT/'third_party/dkjson/dkjson.lua',scripts/'pbzmc/vendor/dkjson.lua')
     source=package/'source'
     copy(ROOT/'tools/prepare_release_assets.py',source/'tools/prepare_release_assets.py')
+    copy(ROOT/'tools/resource_download.py',source/'tools/resource_download.py')
     tree(ROOT/'tools/assets',source/'tools/assets',{'.py'})
     tree(ROOT/'src/content',source/'src/content',{'.lua','.json'})
     tree(ROOT/'distribution/asset-recipes',source/'distribution/asset-recipes',{'.json'})

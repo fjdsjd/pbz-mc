@@ -72,16 +72,6 @@ function Backup-Saves {
     Write-Host "Save backup: $backup ($($files.Count) files)"
     return $backup
 }
-function Download-Pinned($Spec,[string]$Destination) {
-    if ((Test-Path -LiteralPath $Destination) -and (Hash $Destination) -eq $Spec.sha256) { return }
-    $uri=[Uri]$Spec.url
-    if ($uri.Scheme -ne 'https' -or $uri.Host -notin @('www.python.org','files.pythonhosted.org','www.gyan.dev')) { throw 'Unapproved bootstrap download host.' }
-    $temp=$Destination+'.download'
-    Write-Host "Downloading $($Spec.filename)..."
-    Invoke-WebRequest -UseBasicParsing -Uri $Spec.url -OutFile $temp -TimeoutSec 600
-    if ((Hash $temp) -ne $Spec.sha256) { Remove-Item -LiteralPath $temp;throw 'Download checksum mismatch.' }
-    Move-Item -LiteralPath $temp -Destination $Destination -Force
-}
 function Expand-Safe([string]$Archive,[string]$Destination) {
     Add-Type -AssemblyName System.IO.Compression.FileSystem
     $zip=[IO.Compression.ZipFile]::OpenRead($Archive)
@@ -109,6 +99,8 @@ function Prepare-Resources {
     Write-Host 'First launch: preparing original resources locally. Keep this window open; subsequent launches reuse the result.'
     $cache=Join-Path $PSScriptRoot 'cache/downloads'
     New-Item -ItemType Directory -Force -Path $cache | Out-Null
+    . (Join-Path $PSScriptRoot 'Download-PBZMC.ps1')
+    $env:PBZMC_DOWNLOAD_LOG=Join-Path $PSScriptRoot 'cache/downloads.jsonl'
     $tools=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'toolchain.lock.json') -Raw | ConvertFrom-Json
     foreach ($key in @('python','pillow','json5','ffmpeg')) {
         $spec=$tools.$key;Download-Pinned $spec (Join-Path $cache $spec.filename)
@@ -116,7 +108,7 @@ function Prepare-Resources {
     $pythonRoot=Join-Path $PSScriptRoot 'cache/python'
     Expand-Safe (Join-Path $cache $tools.python.filename) $pythonRoot
     foreach ($key in @('pillow','json5')) { Expand-Safe (Join-Path $cache $tools.$key.filename) $pythonRoot }
-    [IO.File]::WriteAllText((Join-Path $pythonRoot 'python312._pth'),"python312.zip`r`n.`r`n../asset-work/tools`r`nimport site`r`n",[Text.Encoding]::ASCII)
+    [IO.File]::WriteAllText((Join-Path $pythonRoot 'python312._pth'),"python312.zip`r`n.`r`n../asset-work/tools`r`n../../source/tools`r`nimport site`r`n",[Text.Encoding]::ASCII)
     $ffmpegRoot=Join-Path $PSScriptRoot 'cache/ffmpeg'
     Expand-Safe (Join-Path $cache $tools.ffmpeg.filename) $ffmpegRoot
     $ffmpeg=@(Get-ChildItem -LiteralPath $ffmpegRoot -Recurse -File -Filter ffmpeg.exe)

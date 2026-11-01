@@ -2,21 +2,34 @@
   "pillow": {
     "url": "https://files.pythonhosted.org/packages/3d/17/688626d192d7261bbbf98846fc98995726bddc2c945344b65bec3a29d731/pillow-12.1.1-cp312-cp312-win_amd64.whl",
     "sha256": "21329ec8c96c6e979cd0dfd29406c40c1d52521a90544463057d2aaa937d66a6",
-    "filename": "pillow-12.1.1-cp312-cp312-win_amd64.whl"
+    "filename": "pillow-12.1.1-cp312-cp312-win_amd64.whl",
+    "mirrors": [
+      "https://repo.huaweicloud.com/repository/pypi/packages/3d/17/688626d192d7261bbbf98846fc98995726bddc2c945344b65bec3a29d731/pillow-12.1.1-cp312-cp312-win_amd64.whl"
+    ]
   },
   "json5": {
     "url": "https://files.pythonhosted.org/packages/85/e2/05328bd2621be49a6fed9e3030b1e51a2d04537d3f816d211b9cc53c5262/json5-0.12.1-py3-none-any.whl",
     "sha256": "d9c9b3bc34a5f54d43c35e11ef7cb87d8bdd098c6ace87117a7b7e83e705c1d5",
-    "filename": "json5-0.12.1-py3-none-any.whl"
+    "filename": "json5-0.12.1-py3-none-any.whl",
+    "mirrors": [
+      "https://repo.huaweicloud.com/repository/pypi/packages/85/e2/05328bd2621be49a6fed9e3030b1e51a2d04537d3f816d211b9cc53c5262/json5-0.12.1-py3-none-any.whl"
+    ]
   },
   "python": {
     "url": "https://www.python.org/ftp/python/3.12.8/python-3.12.8-embed-amd64.zip",
     "sha256": "8d3f33be9eb810f23c102f08475af2854e50484b8e4e06275e937be61ce3d2fb",
-    "filename": "python-3.12.8-embed-amd64.zip"
+    "filename": "python-3.12.8-embed-amd64.zip",
+    "mirrors": [
+      "https://mirrors.huaweicloud.com/python/3.12.8/python-3.12.8-embed-amd64.zip"
+    ]
   },
   "ffmpeg": {
+    "prefer_origin": true,
     "url": "https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-8.1.2-essentials_build.zip",
     "sha256": "db580001caa24ac104c8cb856cd113a87b0a443f7bdf47d8c12b1d740584a2ec",
-    "filename": "ffmpeg-8.1.2-essentials_build.zip"
+    "filename": "ffmpeg-8.1.2-essentials_build.zip",
+    "mirrors": [
+      "https://ghfast.top/https://github.com/GyanD/codexffmpeg/releases/download/8.1.2/ffmpeg-8.1.2-essentials_build.zip"
+    ]
   }
 }

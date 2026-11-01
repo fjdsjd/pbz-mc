@@ -11,11 +11,11 @@
 ## 安装
 
 1. **退出游戏并备份存档。** 原生存档和模组数据需要一起保存，具体位置见[备份说明](docs/INSTALLATION.md#备份与恢复)。
-2. 在 Releases 下载 `PBZMC-0.1.0-alpha.2-win64.zip`，不要下载 GitHub 自动生成的 Source code 压缩包作为模组。
+2. 在 Releases 下载 `PBZMC-0.1.0-alpha.3-win64.zip`，不要下载 GitHub 自动生成的 Source code 压缩包作为模组。GitHub 下载困难时可使用[大陆网络备用下载](https://ghfast.top/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.3/PBZMC-0.1.0-alpha.3-win64.zip)。
 3. 将压缩包内容解压到 PBZ 游戏根目录，也就是包含 `platform/steam/PBZ.exe` 的目录。解压后 `Launch-PBZMC.cmd` 应与 `platform` 文件夹并列。
 4. 双击 **`Launch-PBZMC.cmd`**。首次运行会备份存档、校验游戏版本、下载并在本机转换资源，然后安装模组并通过 Steam 启动。以后使用同一脚本直接启动。
 
-首次准备需要联网及额外磁盘空间，不需要自行安装 Python、编译器、Java 或 Minecraft 模组加载器。资源来自固定版本的原始来源并校验哈希；不会安装到系统 Python，不会改动 Minecraft 安装目录。下载受阻时保留缓存、重试即可。普通游戏启动前务必完成第一次准备。
+首次准备需要联网及额外磁盘空间，不需要自行安装 Python、编译器、Java 或 Minecraft 模组加载器。按资源选择镜像／原站优先顺序，失败自动切换，支持断线续传；所有来源使用相同的固定版本与哈希。下载受阻时保留缓存、重试即可，详见[下载来源与重试方法](docs/INSTALLATION.md#中国大陆网络与下载失败)。普通游戏启动前务必完成第一次准备。
 
 仅支持 Windows x64 和[已验证的 PBZ 构建](docs/COMPATIBILITY.md)。这是早期测试版，不承诺跨所有章节、所有模组组合或未来 PBZ 更新兼容。游戏更新后，启动脚本和原生桥会拒绝未经验证的版本；请等待对应更新，不要删除版本检查。
 

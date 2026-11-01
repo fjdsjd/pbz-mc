@@ -19,8 +19,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File native/json_bridge/build-por
 ## 打包
 
 ```powershell
-python tools/package_release.py --loader build/loader --output build/package-0.1.0-alpha.2
-python tools/check_release.py build/package-0.1.0-alpha.2/stage
+python tools/package_release.py --loader build/loader --output build/package-0.1.0-alpha.3
+python tools/check_release.py build/package-0.1.0-alpha.3/stage
 ```
 
 输出目录必须为空。打包脚本使用明确的文件列表，输出可解压到游戏根目录的 ZIP 与 SHA256SUMS。不会复制本机存档、日志、原游戏文件、私有资源缓存或开发命令入口。
@@ -30,6 +30,8 @@ python tools/check_release.py build/package-0.1.0-alpha.2/stage
 ## 资源准备与校验
 
 首次安装由启动脚本准备独立的 Python、Pillow、json5、FFmpeg 环境，再调用 `tools/prepare_release_assets.py`。固定工具 URL／哈希在 `distribution/toolchain.lock.json`；原始资源来源在 `distribution/asset-recipes/sources.lock.json`。
+
+`distribution/Download-PBZMC.ps1` 负责 Python 启动前的工具下载，`tools/resource_download.py` 负责资源下载。镜像列表不改变固定文件身份；新增镜像必须验证完整文件哈希。默认 `PBZMC_DOWNLOAD_SOURCE=auto`，也可选择 `official`。`PBZMC_DOWNLOAD_PROXY=direct` 只关闭下载进程使用的代理，不改系统设置。安装器将下载记录写到包内缓存；独立运行转换器时可用 `PBZMC_DOWNLOAD_LOG` 指定 JSONL 记录路径。
 
 手动构建资源时，使用锁文件对应的 Pillow、json5 和 FFmpeg 版本：
 
@@ -42,5 +44,7 @@ python tools/prepare_release_assets.py --work build/asset-work --cache build/dow
 ## 验证边界
 
 `tools/check_release.py` 检查发行内容、哈希、启动入口及 PowerShell 解析；加 `--installer-test` 可在临时模拟游戏目录验证安装、备份、冲突、卸载与版本保护，不启动游戏。安装器测试不会操作真实游戏目录。
+
+运行 `python tools/check_downloads.py`，在本机 HTTP 故障服务器上验证 Python 和 Windows PowerShell 5.1 两套生产下载器的回退、断线续传、错误 Range、损坏文件、缓存及失败时保留已有文件。测试仅替换网络连接入口，不连接游戏或外部下载源；不把该检查当作大陆运营商网络实测。
 
 安装 `lupa` 后可运行 `python tools/check_starter_loadout.py` 检查初始物品及原生槽位延迟发现。规则和安装器测试不能代替真实 PBZ 运行验证。游戏更新需重新验证接口、原生入口、生命／死亡和输入路径，再明确增加受支持的游戏哈希；不能只删除版本保护。

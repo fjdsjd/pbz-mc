@@ -13,8 +13,8 @@ from pathlib import Path
 import shutil
 import subprocess
 import sys
-import urllib.request
 import zipfile
+from resource_download import fetch
 
 SOURCE=Path(__file__).resolve().parents[1]
 RECIPE=SOURCE/'distribution/asset-recipes'
@@ -27,19 +27,6 @@ def digest(p,algorithm='sha256'):
     with p.open('rb') as f:
         for b in iter(lambda:f.read(1024*1024),b''):h.update(b)
     return h.hexdigest()
-def fetch(url,target,expected,algorithm='sha256'):
-    if target.is_file() and digest(target,algorithm)==expected:return
-    if not url.startswith(('https://piston-data.mojang.com/','https://piston-meta.mojang.com/',
-                            'https://resources.download.minecraft.net/','https://raw.githubusercontent.com/Mojang/bedrock-samples/')):
-        raise ValueError('Unapproved resource host: '+url)
-    target.parent.mkdir(parents=True,exist_ok=True)
-    temp=target.with_name(target.name+'.download')
-    with urllib.request.urlopen(urllib.request.Request(url,headers={'User-Agent':'PBZMC-resource-preparer/0.1'}),timeout=60) as response,temp.open('wb') as output:
-        shutil.copyfileobj(response,output)
-    if digest(temp,algorithm)!=expected:
-        temp.unlink();raise ValueError('Resource checksum mismatch: '+target.name)
-    os.replace(temp,target)
-
 def inputs(work,cache,local_cache=None):
     lock=load(RECIPE/'sources.lock.json')
     for version,spec in lock['versions'].items():
@@ -220,7 +207,7 @@ def main():
     ap.add_argument('--resume',action='store_true')
     ap.add_argument('--skip-inputs',action='store_true')
     ap.add_argument('--output',type=Path)
-    ap.add_argument('--release',default='0.1.0-alpha.2')
+    ap.add_argument('--release',default='0.1.0-alpha.3')
     args=ap.parse_args();work=args.work.resolve();cache=args.cache.resolve()
     work.mkdir(parents=True,exist_ok=True);cache.mkdir(parents=True,exist_ok=True)
     if not args.skip_inputs:inputs(work,cache,args.local_cache)

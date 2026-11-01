@@ -36,6 +36,8 @@
 !/tools/assets/
 !/tools/assets/**
 !/tools/prepare_release_assets.py
+!/tools/resource_download.py
+!/tools/check_downloads.py
 !/tools/package_release.py
 !/tools/check_release.py
 !/tools/check_starter_loadout.py

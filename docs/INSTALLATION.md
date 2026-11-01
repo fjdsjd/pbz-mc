@@ -22,9 +22,37 @@ PBZ/
 
 双击 `Launch-PBZMC.cmd`。首次运行会检查版本及文件冲突，备份存档，在 `PBZMC/cache` 中准备固定版本的资源，再把正式运行文件安装到 `platform/steam`。最后通过 Steam 启动游戏。首次准备比以后启动耗时长，窗口会报告当前转换步骤；不要提前关闭。
 
-原始资源由 Mojang 的官方分发端点和固定提交的 Bedrock samples 获取；Python、Pillow、json5、FFmpeg 由各自发行来源获取。所有下载固定 URL 与哈希，校验失败即停止。无需修改系统 PATH、关闭杀毒软件或以管理员身份运行。若目录不可写，先将 Steam 游戏移到当前账户可写的库目录。
+原始资源由 Mojang 的官方分发端点、固定提交的 Bedrock samples 及其镜像获取；工具同样固定版本。每个候选来源必须匹配同一个哈希，校验失败的文件不会被安装，会尝试下一来源。无需修改系统 PATH、关闭杀毒软件或以管理员身份运行。若目录不可写，先将 Steam 游戏移到当前账户可写的库目录。
 
 第一次安装后可离线复用资源缓存，但 Steam 和游戏本身的离线要求仍按原游戏执行。不要删除 `PBZMC` 文件夹中的安装记录，否则自动卸载无法区分本模组与其他工具拥有的文件。
+
+## 中国大陆网络与下载失败
+
+双击启动脚本即可使用以下线路，无需另装下载工具或手动替换资源：
+
+| 内容 | 优先来源 | 失败时回退 |
+| --- | --- | --- |
+| MC 客户端资源、索引、声音、字体 | [BMCLAPI](https://bmclapidoc.bangbang93.com/) | Mojang 原始地址 |
+| Bedrock 分类 UI，固定提交 | [jsDelivr Gcore](https://www.jsdelivr.com/network) | jsDelivr 默认线路、Mojang 的 GitHub 原始地址 |
+| Python、Pillow、json5 | [华为云镜像](https://mirrors.huaweicloud.com/) | Python／PyPI 原始地址 |
+| 固定版本 FFmpeg | [Gyan 原始地址](https://www.gyan.dev/ffmpeg/builds/) | [ghfast](https://ghfast.top/) 转发 Gyan 的公开发行文件 |
+
+镜像是第三方服务，会按地区调度，也可能临时不可用；BMCLAPI 在部分地区会转回 Mojang。下载器连接／读取超时为 20 秒，自动切换来源并重试。支持 Range 的服务器会续传；不支持的服务器会重新下载该文件。损坏的下载会丢弃，完整文件先校验再使用，不关闭 TLS 或哈希校验。
+
+下载中断时**保留 `PBZMC/cache`，重新双击启动脚本**。完整文件不会重复下载，未完成的 `.download` 文件会继续使用。下载记录位于 `PBZMC/cache/downloads.jsonl`；已有安装更新到相同资源配方时无需重新下载或转换。
+
+如需排查镜像问题，可在游戏根目录用 PowerShell 临时切回原站：
+
+```powershell
+$env:PBZMC_DOWNLOAD_SOURCE='official'
+.\Launch-PBZMC.cmd
+```
+
+关闭这个 PowerShell 窗口即可恢复默认镜像策略。若本机代理配置失效，可在同一窗口设置 `$env:PBZMC_DOWNLOAD_PROXY='direct'` 后重试；这仅对本次启动有效，不改变系统代理设置。
+
+Release 页面无法下载时，可使用 README 中的备用链接；对应[校验文件](https://ghfast.top/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.3/SHA256SUMS.txt)与原 Release 一致。可用 `Get-FileHash .\PBZMC-0.1.0-alpha.3-win64.zip -Algorithm SHA256` 核对。
+
+alpha.3 已从空缓存完整下载并校验 4 个工具包和 166 个不同的资源输入，生成的 3172 个运行资源逐个匹配固定哈希；该完整下载在关闭进程代理的日本出口完成。另通过 Globalping 的中国大陆电信、联通、移动节点进行 HTTPS Range 下载抽查，确认各类资源至少有一条可用线路，并据此将 Bedrock 切到 Gcore、FFmpeg 原站优先。节点抽查不等于每个地区的完整安装测试，第三方线路也不能保证永久可用。
 
 ## 备份与恢复
 

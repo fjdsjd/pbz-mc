@@ -38,9 +38,11 @@ def audit(stage):
     main=(package/'payload/platform/steam/ue4ss/Mods/PBZMCProbe/Scripts/main.lua').read_text('utf-8')
     assert 'PBZMC_HostCompatible' in main and "require('host.pbz.mod').start"in main
     if shutil.which('powershell.exe'):
-        script=str(package/'Manage-PBZMC.ps1').replace("'","''")
-        command=f"$e=$null;$t=$null;[System.Management.Automation.Language.Parser]::ParseFile('{script}',[ref]$t,[ref]$e)|Out-Null;if($e.Count){{$e|ForEach-Object{{$_.Message}};exit 1}}"
-        subprocess.run(['powershell.exe','-NoProfile','-Command',command],check=True)
+        for name in ('Manage-PBZMC.ps1','Download-PBZMC.ps1'):
+            script=str(package/name).replace("'","''")
+            command=f"$e=$null;$t=$null;[System.Management.Automation.Language.Parser]::ParseFile('{script}',[ref]$t,[ref]$e)|Out-Null;if($e.Count){{$e|ForEach-Object{{$_.Message}};exit 1}}"
+            subprocess.run(['powershell.exe','-NoProfile','-Command',command],check=True)
+    assert (package/'source/tools/resource_download.py').is_file(),'missing embedded downloader'
     print(f'PASS: {len(manifest["files"])} runtime files; no private files, original game resources or secrets; installer parses')
 
 def installer_test(stage):

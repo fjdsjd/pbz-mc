@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "files": [
+    {
+      "path": "critical_hit.json",
+      "sha256": "41538d188ee75cddef42295bc1a94373d80bd0d2d6d707ecb701d3f604138f92"
+    },
+    {
+      "path": "critical_hit.png",
+      "sha256": "a7c036fd1b4c73856e3a7d638b56c1cbd047a2b18c504923ad7d5ae07046d908"
+    }
+  ],
+  "origin": "1.21.1.jar",
+  "origin_sha256": "499f6897d1837516680f3114072d8106e11c9adcd933fe5cf051b551089b0c99"
+}

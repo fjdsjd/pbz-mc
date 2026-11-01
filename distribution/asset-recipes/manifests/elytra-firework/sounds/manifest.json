@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "version": "1.21.1",
+  "format": "s16le",
+  "channels": 2,
+  "sample_rate": 44100,
+  "event_names": {
+    "launch": "entity.firework_rocket.launch",
+    "blast": "entity.firework_rocket.blast",
+    "twinkle": "entity.firework_rocket.twinkle",
+    "flying": "item.elytra.flying"
+  },
+  "events": {
+    "launch": [
+      "fireworks_launch1"
+    ],
+    "blast": [
+      "fireworks_blast1"
+    ],
+    "twinkle": [
+      "fireworks_twinkle1"
+    ],
+    "flying": [
+      "item_elytra_elytra_loop"
+    ]
+  },
+  "variants": {
+    "launch": [
+      {
+        "clip": "fireworks_launch1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "blast": [
+      {
+        "clip": "fireworks_blast1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "twinkle": [
+      {
+        "clip": "fireworks_twinkle1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "flying": [
+      {
+        "clip": "item_elytra_elytra_loop",
+        "volume": 0.6,
+        "pitch": 1,
+        "weight": 1
+      }
+    ]
+  },
+  "clips": [
+    {
+      "name": "fireworks_launch1",
+      "file": "fireworks_launch1.pcm",
+      "bytes": 286652,
+      "sha256": "2dbae54f54d6577953401b00e8954beab0331cb58fa45560876e73a35b126e31",
+      "source": "minecraft/sounds/fireworks/launch1.ogg",
+      "source_sha1": "b1715242916d56140486c612056ea4d6dd5a4404",
+      "source_sha256": "1505700bf51d55c1b99505edc3e3d4cd2158376ef88885c9ea4544f36dbc618f",
+      "original": "original/1.21.1/indexed-assets/minecraft/sounds/fireworks/launch1.ogg",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 1.6250113378684807
+    },
+    {
+      "name": "fireworks_blast1",
+      "file": "fireworks_blast1.pcm",
+      "bytes": 176400,
+      "sha256": "78cd0453016bfdec18546f75a3369e10125b4d52873ab60793c0f350db749c10",
+      "source": "minecraft/sounds/fireworks/blast1.ogg",
+      "source_sha1": "d9d7511e8944da0c7ab4ed2d3e3d964f98dd6997",
+      "source_sha256": "9377171cf33d982af07afee8969bbb2211516c287d579bb1ba49ab75c06a9232",
+      "original": "original/1.21.1/indexed-assets/minecraft/sounds/fireworks/blast1.ogg",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 1.0
+    },
+    {
+      "name": "fireworks_twinkle1",
+      "file": "fireworks_twinkle1.pcm",
+      "bytes": 235296,
+      "sha256": "9665f443426c1e98565a496903e368f2438c255be05af01e55b9cea6c984eaf0",
+      "source": "minecraft/sounds/fireworks/twinkle1.ogg",
+      "source_sha1": "41b9c631e9c1c40800b3b02a0ac5855d6ad4846d",
+      "source_sha256": "0c2eaff9130e2ed5fec3543e0d7e156b5d4489245fb4a7c591fc6020aed8147d",
+      "original": "original/1.21.1/indexed-assets/minecraft/sounds/fireworks/twinkle1.ogg",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 1.3338775510204082
+    },
+    {
+      "name": "item_elytra_elytra_loop",
+      "file": "item_elytra_elytra_loop.pcm",
+      "bytes": 1802868,
+      "sha256": "dd44c7914b676f79769012a12d2c4ceb5456a6e5e04d7c9c793adce575948cbd",
+      "source": "minecraft/sounds/item/elytra/elytra_loop.ogg",
+      "source_sha1": "90d599a1760137a7c4d7a52c77f5c65c02f137d4",
+      "source_sha256": "0f51f0fd6647cf4d5fcabc1184cb5d3858aa49fe677e71991245d8b5b54ec1cd",
+      "original": "original/1.21.1/indexed-assets/minecraft/sounds/item/elytra/elytra_loop.ogg",
+      "source_codec": "vorbis",
+      "source_channels": 2,
+      "source_sample_rate": 48000,
+      "duration_seconds": 10.220340136054421
+    }
+  ],
+  "sounds_json_sha256": "51b23584d267ba37d3a1bafd4f24d3dda07672ab91672ea6f7a1bc86067a1a6b",
+  "asset_index_sha256": "9edfa2ad3a1850ce1c152052c5f17a8772d9b4f8f5a478b0ca4f66556816347f",
+  "asset_index": "1.21.1-17.json",
+  "encoder": {
+    "path": "ffmpeg.exe",
+    "sha256": "02bf91bdadca0a6b401ee36dce0e916df882df74eb3651e02ca5c5ad00386d8a"
+  },
+  "event_policy": "No-star rocket uses launch only; blast/twinkle are retained original events for explicitly configured explosion components. Flying is an original loop.",
+  "native_audio_modified": false
+}

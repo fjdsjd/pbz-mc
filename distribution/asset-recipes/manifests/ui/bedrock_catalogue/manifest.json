@@ -1,0 +1,246 @@
+{
+  "schema": 1,
+  "layout_profile": "bedrock-classified-pages-v1",
+  "source_commit": "15701fa9c13923f12662984c32c124327e40e3d3",
+  "repository": "bedrock-samples",
+  "source_ui": "inventory_screen.json",
+  "organization": "Bedrock construction/equipment/nature/items, extended with redstone and armour; six local categories with independent pagination, not a full copy of the Bedrock inventory screen",
+  "columns": 5,
+  "rows": 4,
+  "skin": {
+    "panel": {
+      "path": "bedrock_catalogue/textures/ui/dialog_background_opaque.png",
+      "width": 16,
+      "height": 16,
+      "nineslice_size": 4
+    },
+    "tab_active": {
+      "path": "bedrock_catalogue/textures/ui/TabTopFront.png",
+      "width": 12,
+      "height": 11,
+      "nineslice_size": 4
+    },
+    "tab_inactive": {
+      "path": "bedrock_catalogue/textures/ui/TabTopBack.png",
+      "width": 12,
+      "height": 11,
+      "nineslice_size": 4
+    },
+    "tab_active_hover": {
+      "path": "bedrock_catalogue/textures/ui/TabTopFrontHover.png",
+      "width": 12,
+      "height": 11,
+      "nineslice_size": 4
+    },
+    "tab_hover": {
+      "path": "bedrock_catalogue/textures/ui/TabTopBackHover.png",
+      "width": 12,
+      "height": 11,
+      "nineslice_size": 4
+    },
+    "slot": {
+      "path": "bedrock_catalogue/textures/ui/item_cell.png",
+      "width": 16,
+      "height": 16,
+      "nineslice_size": 1
+    },
+    "slot_hover": {
+      "path": "bedrock_catalogue/textures/ui/pocket_ui_highlight_slot.png",
+      "width": 24,
+      "height": 24,
+      "nineslice_size": 4
+    },
+    "previous": {
+      "path": "bedrock_catalogue/textures/ui/arrow_l_default.png",
+      "width": 7,
+      "height": 9
+    },
+    "previous_hover": {
+      "path": "bedrock_catalogue/textures/ui/arrow_l_hover.png",
+      "width": 7,
+      "height": 9
+    },
+    "next": {
+      "path": "bedrock_catalogue/textures/ui/arrow_r_default.png",
+      "width": 7,
+      "height": 9
+    },
+    "next_hover": {
+      "path": "bedrock_catalogue/textures/ui/arrow_r_hover.png",
+      "width": 7,
+      "height": 9
+    },
+    "construction": {
+      "path": "bedrock_catalogue/textures/ui/icon_recipe_construction.png",
+      "width": 17,
+      "height": 17
+    },
+    "equipment": {
+      "path": "bedrock_catalogue/textures/ui/icon_recipe_equipment.png",
+      "width": 17,
+      "height": 17
+    },
+    "nature": {
+      "path": "bedrock_catalogue/textures/ui/icon_recipe_nature.png",
+      "width": 17,
+      "height": 17
+    },
+    "items": {
+      "path": "bedrock_catalogue/textures/ui/icon_recipe_item.png",
+      "width": 17,
+      "height": 17
+    },
+    "tooltip": {
+      "path": "bedrock_catalogue/textures/ui/tooltip_default_background.png",
+      "width": 9,
+      "height": 9,
+      "nineslice_size": 4
+    }
+  },
+  "outputs": [
+    {
+      "path": "bedrock_catalogue/textures/ui/dialog_background_opaque.png",
+      "width": 16,
+      "height": 16,
+      "sha256": "45e365955de8800424ea35bfa589ca38535df6211c10d24bcde280cae09dc69f",
+      "source": "dialog_background_opaque.png",
+      "source_sha256": "45e365955de8800424ea35bfa589ca38535df6211c10d24bcde280cae09dc69f",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/TabTopFront.png",
+      "width": 12,
+      "height": 11,
+      "sha256": "ca2abc2d1515c29b78ceb303ab893f86e6160700031568584e259d0ad8687d04",
+      "source": "TabTopFront.png",
+      "source_sha256": "ca2abc2d1515c29b78ceb303ab893f86e6160700031568584e259d0ad8687d04",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/TabTopBack.png",
+      "width": 12,
+      "height": 11,
+      "sha256": "f84f1c01f1f7dfb30876f5bf0866d2f8bb2dc90d4c4e2971a25c07343320e324",
+      "source": "TabTopBack.png",
+      "source_sha256": "f84f1c01f1f7dfb30876f5bf0866d2f8bb2dc90d4c4e2971a25c07343320e324",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/TabTopFrontHover.png",
+      "width": 12,
+      "height": 11,
+      "sha256": "745d36f8e8ec21faf5e98e5e6a5c08e70ffbe65906708e5c374c23902894f66e",
+      "source": "TabTopFrontHover.png",
+      "source_sha256": "745d36f8e8ec21faf5e98e5e6a5c08e70ffbe65906708e5c374c23902894f66e",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/TabTopBackHover.png",
+      "width": 12,
+      "height": 11,
+      "sha256": "bdfd101269cd2a13f83654f2b0e26ef7bf10261498c6348da55cc47f3deb44b9",
+      "source": "TabTopBackHover.png",
+      "source_sha256": "bdfd101269cd2a13f83654f2b0e26ef7bf10261498c6348da55cc47f3deb44b9",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/item_cell.png",
+      "width": 16,
+      "height": 16,
+      "sha256": "ab99ee4d9f2780c54d32a372d95e9243386b171995b4ab582b416a3e8322bf84",
+      "source": "item_cell.png",
+      "source_sha256": "ab99ee4d9f2780c54d32a372d95e9243386b171995b4ab582b416a3e8322bf84",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/pocket_ui_highlight_slot.png",
+      "width": 24,
+      "height": 24,
+      "sha256": "57e84fc08ca19e8eb4ba10e5729db6e38c27319e4fafc472fdac37fe575ed4ae",
+      "source": "pocket_ui_highlight_slot.png",
+      "source_sha256": "57e84fc08ca19e8eb4ba10e5729db6e38c27319e4fafc472fdac37fe575ed4ae",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/arrow_l_default.png",
+      "width": 7,
+      "height": 9,
+      "sha256": "2930e3d4bff0fa83d0cf13bb3f4c0e30542e41e50b604a19e83c472a614c9369",
+      "source": "arrow_l_default.png",
+      "source_sha256": "2930e3d4bff0fa83d0cf13bb3f4c0e30542e41e50b604a19e83c472a614c9369",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/arrow_l_hover.png",
+      "width": 7,
+      "height": 9,
+      "sha256": "ad3b73f98fa47793a822dd0529639f633fa594fe8d0bd70341098c91a68f146b",
+      "source": "arrow_l_hover.png",
+      "source_sha256": "ad3b73f98fa47793a822dd0529639f633fa594fe8d0bd70341098c91a68f146b",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/arrow_r_default.png",
+      "width": 7,
+      "height": 9,
+      "sha256": "6aeb95fcac2611b74fa003e8de6ac561a6d320512200f1da7d794ad41a5719d3",
+      "source": "arrow_r_default.png",
+      "source_sha256": "6aeb95fcac2611b74fa003e8de6ac561a6d320512200f1da7d794ad41a5719d3",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/arrow_r_hover.png",
+      "width": 7,
+      "height": 9,
+      "sha256": "6fddb5f5f6e22dfd649b20576c6527695c6249c97c01e8d387960b62f7d05a70",
+      "source": "arrow_r_hover.png",
+      "source_sha256": "6fddb5f5f6e22dfd649b20576c6527695c6249c97c01e8d387960b62f7d05a70",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/icon_recipe_construction.png",
+      "width": 17,
+      "height": 17,
+      "sha256": "621c27048e015fa79ff04936cbc8b02d0c71fdeb3a8ed0d50b33d791b5bb5796",
+      "source": "icon_recipe_construction.png",
+      "source_sha256": "621c27048e015fa79ff04936cbc8b02d0c71fdeb3a8ed0d50b33d791b5bb5796",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/icon_recipe_equipment.png",
+      "width": 17,
+      "height": 17,
+      "sha256": "da02526305b5f254e47da59b015f91e82278b3cdb4c0f500f78d7a7252ff6550",
+      "source": "icon_recipe_equipment.png",
+      "source_sha256": "da02526305b5f254e47da59b015f91e82278b3cdb4c0f500f78d7a7252ff6550",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/icon_recipe_nature.png",
+      "width": 17,
+      "height": 17,
+      "sha256": "0f334a123b498ecec76b4512c4fcf269ee3e79169e79a338db43b5f6a9f6fca9",
+      "source": "icon_recipe_nature.png",
+      "source_sha256": "0f334a123b498ecec76b4512c4fcf269ee3e79169e79a338db43b5f6a9f6fca9",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/icon_recipe_item.png",
+      "width": 17,
+      "height": 17,
+      "sha256": "482f9199200fabcd51d8afbadfee4d039f051626164bf9d5f72fed6caac58bce",
+      "source": "icon_recipe_item.png",
+      "source_sha256": "482f9199200fabcd51d8afbadfee4d039f051626164bf9d5f72fed6caac58bce",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "bedrock_catalogue/textures/ui/tooltip_default_background.png",
+      "width": 9,
+      "height": 9,
+      "sha256": "7c71b806e3e6ff807f04668a26f3aff6d8a67d0e72db60ea2083d37ac8a31dfa",
+      "source": "tooltip_default_background.png",
+      "source_sha256": "7c71b806e3e6ff807f04668a26f3aff6d8a67d0e72db60ea2083d37ac8a31dfa",
+      "operation": "byte-copy"
+    }
+  ]
+}

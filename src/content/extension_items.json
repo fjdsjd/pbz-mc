@@ -1,0 +1,268 @@
+{
+  "schema": 1,
+  "source": "PBZ user requirements; separate from the pinned 96 upstream IDs",
+  "items": [
+    {
+      "id": "pbzmc:ender_chest",
+      "stack_limit": 64,
+      "source": "PBZ requirement 2026-10-30"
+    },
+    {
+      "id": "pbzmc:wooden_shovel",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "shovel",
+      "material": "wooden",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:stone_shovel",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "shovel",
+      "material": "stone",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:copper_shovel",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "shovel",
+      "material": "copper",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:iron_shovel",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "shovel",
+      "material": "iron",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:golden_shovel",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "shovel",
+      "material": "golden",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:diamond_shovel",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "shovel",
+      "material": "diamond",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:netherite_shovel",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "shovel",
+      "material": "netherite",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:wooden_axe",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "axe",
+      "material": "wooden",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:stone_axe",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "axe",
+      "material": "stone",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:copper_axe",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "axe",
+      "material": "copper",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:iron_axe",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "axe",
+      "material": "iron",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:golden_axe",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "axe",
+      "material": "golden",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:diamond_axe",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "axe",
+      "material": "diamond",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:netherite_axe",
+      "stack_limit": 1,
+      "instance": true,
+      "tool_kind": "axe",
+      "material": "netherite",
+      "visual_version": "26.3",
+      "source": "PBZ requirement 2026-10-31"
+    },
+    {
+      "id": "pbzmc:enchanted_golden_apple",
+      "stack_limit": 64,
+      "source": "minecraft:enchanted_golden_apple",
+      "visual_version": "1.21.1"
+    },
+    {
+      "id": "pbzmc:chorus_fruit",
+      "stack_limit": 64,
+      "source": "minecraft:chorus_fruit",
+      "visual_version": "1.21.1"
+    },
+    {
+      "id": "pbzmc:turtle_helmet",
+      "stack_limit": 1,
+      "instance": true,
+      "equipment_slot": "head",
+      "material": "turtle",
+      "source": "minecraft:turtle_helmet",
+      "visual_version": "26.3"
+    },
+    {
+      "id": "pbzmc:oak_log",
+      "stack_limit": 64,
+      "source": "minecraft:oak_log",
+      "visual_version": "1.21.1"
+    },
+    {
+      "id": "pbzmc:stripped_oak_log",
+      "stack_limit": 64,
+      "source": "minecraft:stripped_oak_log",
+      "visual_version": "1.21.1"
+    },
+    {
+      "id": "pbzmc:oak_planks",
+      "stack_limit": 64,
+      "source": "minecraft:oak_planks",
+      "visual_version": "1.21.1"
+    },
+    {
+      "id": "pbzmc:cobblestone",
+      "stack_limit": 64,
+      "source": "minecraft:cobblestone",
+      "visual_version": "1.21.1"
+    },
+    {
+      "id": "pbzmc:glass",
+      "stack_limit": 64,
+      "source": "minecraft:glass",
+      "visual_version": "1.21.1"
+    },
+    {
+      "id": "pbzmc:oak_door",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:iron_door",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:redstone_torch",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:repeater",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:comparator",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:obsidian",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:water_bucket",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:lava_bucket",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:bucket",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:slime_block",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:honey_block",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ mechanisms requirement 2026-11-01"
+    },
+    {
+      "id": "pbzmc:elytra",
+      "stack_limit": 1,
+      "instance": true,
+      "equipment_slot": "chest",
+      "visual_version": "1.21.1",
+      "source": "PBZ request 2026-11-01"
+    },
+    {
+      "id": "pbzmc:firework_rocket",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "PBZ request 2026-11-01"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "project": "nlohmann/json",
+  "version": "3.11.3",
+  "release": "https://github.com/nlohmann/json/releases/tag/v3.11.3",
+  "header": "https://raw.githubusercontent.com/nlohmann/json/v3.11.3/single_include/nlohmann/json.hpp",
+  "header_sha256": "9bea4c8066ef4a1c206b2be5a36302f8926f7fdc6087af5d20b417d0cf103ea6",
+  "license": "MIT",
+  "license_file": "LICENSE.MIT",
+  "purpose": "Strict native campaign JSON parsing with decoded keys and lossless numeric token comparison"
+}

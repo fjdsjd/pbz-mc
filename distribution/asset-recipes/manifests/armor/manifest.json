@@ -1,0 +1,5983 @@
+{
+  "schema": 1,
+  "format": "STEVEM01",
+  "private_local_assets": true,
+  "items": {
+    "pbzmc:leather_helmet": {
+      "slot": "head",
+      "material": "leather",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "head",
+          "path": "minecraft/1.21.1/leather/helmet_head.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "default/leather_outer.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1.png",
+              "sha256": "6c96099472fc44dc11b5823a81c57ec7c207203050cd088a15d2358b3df6b5e7",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1.png",
+              "tinted": true
+            },
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1_overlay.png",
+              "sha256": "45f68c68cf1106e35d34cd2a35fc5f46d685ec6a10331b50b3bab47c7db6304c",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1_overlay.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -9.0,
+              -0.25
+            ],
+            [
+              -5.0,
+              5.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": [
+        160,
+        101,
+        64
+      ],
+      "untrimmed": true,
+      "hat_cube_empty": true,
+      "icon": "original/minecraft/1.21.1/rendered/leather_helmet_default.png",
+      "held_model": "minecraft/1.21.1/item/leather_helmet.mesh",
+      "label": "皮革帽子"
+    },
+    "pbzmc:leather_chestplate": {
+      "slot": "chest",
+      "material": "leather",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/leather/chestplate_body.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "default/leather_outer.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1.png",
+              "sha256": "6c96099472fc44dc11b5823a81c57ec7c207203050cd088a15d2358b3df6b5e7",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1.png",
+              "tinted": true
+            },
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1_overlay.png",
+              "sha256": "45f68c68cf1106e35d34cd2a35fc5f46d685ec6a10331b50b3bab47c7db6304c",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1_overlay.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -1.0,
+              11.833333333333332
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "right_arm",
+          "path": "minecraft/1.21.1/leather/chestplate_right_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -5,
+            2,
+            0
+          ],
+          "mirror": false,
+          "texture": "default/leather_outer.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1.png",
+              "sha256": "6c96099472fc44dc11b5823a81c57ec7c207203050cd088a15d2358b3df6b5e7",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1.png",
+              "tinted": true
+            },
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1_overlay.png",
+              "sha256": "45f68c68cf1106e35d34cd2a35fc5f46d685ec6a10331b50b3bab47c7db6304c",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1_overlay.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.0,
+              2.0
+            ],
+            [
+              -3.0,
+              4.0
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "left_arm",
+          "path": "minecraft/1.21.1/leather/chestplate_left_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            5,
+            2,
+            0
+          ],
+          "mirror": true,
+          "texture": "default/leather_outer.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1.png",
+              "sha256": "6c96099472fc44dc11b5823a81c57ec7c207203050cd088a15d2358b3df6b5e7",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1.png",
+              "tinted": true
+            },
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1_overlay.png",
+              "sha256": "45f68c68cf1106e35d34cd2a35fc5f46d685ec6a10331b50b3bab47c7db6304c",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1_overlay.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.0,
+              4.0
+            ],
+            [
+              -3.0,
+              4.0
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": [
+        160,
+        101,
+        64
+      ],
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/rendered/leather_chestplate_default.png",
+      "held_model": "minecraft/1.21.1/item/leather_chestplate.mesh",
+      "label": "皮革外套"
+    },
+    "pbzmc:leather_leggings": {
+      "slot": "legs",
+      "material": "leather",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/leather/leggings_body.mesh",
+          "layer": "inner",
+          "dilation": 0.5,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "default/leather_inner.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_2.png",
+              "sha256": "72e7df28fae9ee52cff987967f4a61996827271045d99bed3dd364a9ba41f839",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_2.png",
+              "tinted": true
+            },
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_2_overlay.png",
+              "sha256": "965703d1efd6fa8245ae0d288383d41194813db8259b3a4c01ad215b9e44385a",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_2_overlay.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.5,
+              4.5
+            ],
+            [
+              7.083333333333334,
+              12.5
+            ],
+            [
+              -2.5,
+              2.5
+            ]
+          ]
+        },
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/leather/leggings_right_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "default/leather_inner.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_2.png",
+              "sha256": "72e7df28fae9ee52cff987967f4a61996827271045d99bed3dd364a9ba41f839",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_2.png",
+              "tinted": true
+            },
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_2_overlay.png",
+              "sha256": "965703d1efd6fa8245ae0d288383d41194813db8259b3a4c01ad215b9e44385a",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_2_overlay.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/leather/leggings_left_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "default/leather_inner.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_2.png",
+              "sha256": "72e7df28fae9ee52cff987967f4a61996827271045d99bed3dd364a9ba41f839",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_2.png",
+              "tinted": true
+            },
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_2_overlay.png",
+              "sha256": "965703d1efd6fa8245ae0d288383d41194813db8259b3a4c01ad215b9e44385a",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_2_overlay.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": [
+        160,
+        101,
+        64
+      ],
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/rendered/leather_leggings_default.png",
+      "held_model": "minecraft/1.21.1/item/leather_leggings.mesh",
+      "label": "皮革裤子"
+    },
+    "pbzmc:leather_boots": {
+      "slot": "feet",
+      "material": "leather",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/leather/boots_right_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "default/leather_outer.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1.png",
+              "sha256": "6c96099472fc44dc11b5823a81c57ec7c207203050cd088a15d2358b3df6b5e7",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1.png",
+              "tinted": true
+            },
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1_overlay.png",
+              "sha256": "45f68c68cf1106e35d34cd2a35fc5f46d685ec6a10331b50b3bab47c7db6304c",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1_overlay.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/leather/boots_left_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "default/leather_outer.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1.png",
+              "sha256": "6c96099472fc44dc11b5823a81c57ec7c207203050cd088a15d2358b3df6b5e7",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1.png",
+              "tinted": true
+            },
+            {
+              "path": "assets/minecraft/textures/models/armor/leather_layer_1_overlay.png",
+              "sha256": "45f68c68cf1106e35d34cd2a35fc5f46d685ec6a10331b50b3bab47c7db6304c",
+              "retained": "original/1.21.1/textures/models/armor/leather_layer_1_overlay.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": [
+        160,
+        101,
+        64
+      ],
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/rendered/leather_boots_default.png",
+      "held_model": "minecraft/1.21.1/item/leather_boots.mesh",
+      "label": "皮革靴子"
+    },
+    "pbzmc:copper_helmet": {
+      "slot": "head",
+      "material": "copper",
+      "minecraft_version": "26.3",
+      "parts": [
+        {
+          "bone": "head",
+          "path": "minecraft/26.3/copper/helmet_head.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/entity/equipment/humanoid/copper.png",
+              "sha256": "1ab6f7f3d87cc1ad183f08afe585a57cc81f0e9404e5593b43b4d622c7d8736b",
+              "retained": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -9.0,
+              -0.25
+            ],
+            [
+              -5.0,
+              5.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": true,
+      "icon": "original/minecraft/26.3/textures/item/copper_helmet.png",
+      "held_model": "minecraft/26.3/item/copper_helmet.mesh",
+      "label": "铜头盔"
+    },
+    "pbzmc:copper_chestplate": {
+      "slot": "chest",
+      "material": "copper",
+      "minecraft_version": "26.3",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/26.3/copper/chestplate_body.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/entity/equipment/humanoid/copper.png",
+              "sha256": "1ab6f7f3d87cc1ad183f08afe585a57cc81f0e9404e5593b43b4d622c7d8736b",
+              "retained": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -1.0,
+              11.833333333333332
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "right_arm",
+          "path": "minecraft/26.3/copper/chestplate_right_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -5,
+            2,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/entity/equipment/humanoid/copper.png",
+              "sha256": "1ab6f7f3d87cc1ad183f08afe585a57cc81f0e9404e5593b43b4d622c7d8736b",
+              "retained": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.0,
+              2.0
+            ],
+            [
+              -3.0,
+              2.833333333333334
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "left_arm",
+          "path": "minecraft/26.3/copper/chestplate_left_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            5,
+            2,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/entity/equipment/humanoid/copper.png",
+              "sha256": "1ab6f7f3d87cc1ad183f08afe585a57cc81f0e9404e5593b43b4d622c7d8736b",
+              "retained": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.0,
+              4.0
+            ],
+            [
+              -3.0,
+              2.833333333333334
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/26.3/textures/item/copper_chestplate.png",
+      "held_model": "minecraft/26.3/item/copper_chestplate.mesh",
+      "label": "铜胸甲"
+    },
+    "pbzmc:copper_leggings": {
+      "slot": "legs",
+      "material": "copper",
+      "minecraft_version": "26.3",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/26.3/copper/leggings_body.mesh",
+          "layer": "inner",
+          "dilation": 0.5,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/26.3/textures/entity/equipment/humanoid_leggings/copper.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/entity/equipment/humanoid_leggings/copper.png",
+              "sha256": "b8a66b3d7f6a71dfc004a5cbc15aae844aa58715a366d42e21258db9315e040b",
+              "retained": "original/26.3/textures/entity/equipment/humanoid_leggings/copper.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.5,
+              4.5
+            ],
+            [
+              7.083333333333334,
+              12.5
+            ],
+            [
+              -2.5,
+              2.5
+            ]
+          ]
+        },
+        {
+          "bone": "right_leg",
+          "path": "minecraft/26.3/copper/leggings_right_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/26.3/textures/entity/equipment/humanoid_leggings/copper.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/entity/equipment/humanoid_leggings/copper.png",
+              "sha256": "b8a66b3d7f6a71dfc004a5cbc15aae844aa58715a366d42e21258db9315e040b",
+              "retained": "original/26.3/textures/entity/equipment/humanoid_leggings/copper.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/26.3/copper/leggings_left_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/26.3/textures/entity/equipment/humanoid_leggings/copper.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/entity/equipment/humanoid_leggings/copper.png",
+              "sha256": "b8a66b3d7f6a71dfc004a5cbc15aae844aa58715a366d42e21258db9315e040b",
+              "retained": "original/26.3/textures/entity/equipment/humanoid_leggings/copper.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/26.3/textures/item/copper_leggings.png",
+      "held_model": "minecraft/26.3/item/copper_leggings.mesh",
+      "label": "铜护腿"
+    },
+    "pbzmc:copper_boots": {
+      "slot": "feet",
+      "material": "copper",
+      "minecraft_version": "26.3",
+      "parts": [
+        {
+          "bone": "right_leg",
+          "path": "minecraft/26.3/copper/boots_right_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/entity/equipment/humanoid/copper.png",
+              "sha256": "1ab6f7f3d87cc1ad183f08afe585a57cc81f0e9404e5593b43b4d622c7d8736b",
+              "retained": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/26.3/copper/boots_left_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/entity/equipment/humanoid/copper.png",
+              "sha256": "1ab6f7f3d87cc1ad183f08afe585a57cc81f0e9404e5593b43b4d622c7d8736b",
+              "retained": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/26.3/textures/item/copper_boots.png",
+      "held_model": "minecraft/26.3/item/copper_boots.mesh",
+      "label": "铜靴子"
+    },
+    "pbzmc:chainmail_helmet": {
+      "slot": "head",
+      "material": "chainmail",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "head",
+          "path": "minecraft/1.21.1/chainmail/helmet_head.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/chainmail_layer_1.png",
+              "sha256": "c35a5adbdee47f27c5f91928e9a84b225264131ac43062cc0e7946038733fd99",
+              "retained": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -9.0,
+              1.0
+            ],
+            [
+              -5.0,
+              5.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": true,
+      "icon": "original/minecraft/1.21.1/textures/item/chainmail_helmet.png",
+      "held_model": "minecraft/1.21.1/item/chainmail_helmet.mesh",
+      "label": "锁链头盔"
+    },
+    "pbzmc:chainmail_chestplate": {
+      "slot": "chest",
+      "material": "chainmail",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/chainmail/chestplate_body.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/chainmail_layer_1.png",
+              "sha256": "c35a5adbdee47f27c5f91928e9a84b225264131ac43062cc0e7946038733fd99",
+              "retained": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -1.0,
+              9.5
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "right_arm",
+          "path": "minecraft/1.21.1/chainmail/chestplate_right_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -5,
+            2,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/chainmail_layer_1.png",
+              "sha256": "c35a5adbdee47f27c5f91928e9a84b225264131ac43062cc0e7946038733fd99",
+              "retained": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.0,
+              2.0
+            ],
+            [
+              -3.0,
+              4.0
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "left_arm",
+          "path": "minecraft/1.21.1/chainmail/chestplate_left_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            5,
+            2,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/chainmail_layer_1.png",
+              "sha256": "c35a5adbdee47f27c5f91928e9a84b225264131ac43062cc0e7946038733fd99",
+              "retained": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.0,
+              4.0
+            ],
+            [
+              -3.0,
+              4.0
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/chainmail_chestplate.png",
+      "held_model": "minecraft/1.21.1/item/chainmail_chestplate.mesh",
+      "label": "锁链胸甲"
+    },
+    "pbzmc:chainmail_leggings": {
+      "slot": "legs",
+      "material": "chainmail",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/chainmail/leggings_body.mesh",
+          "layer": "inner",
+          "dilation": 0.5,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/chainmail_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/chainmail_layer_2.png",
+              "sha256": "06657c8632aae7f79451dfe10718f294bf7a13c789c576bd207c7ae1a4cf4c40",
+              "retained": "original/1.21.1/textures/models/armor/chainmail_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.5,
+              4.5
+            ],
+            [
+              7.083333333333334,
+              11.416666666666666
+            ],
+            [
+              -2.5,
+              2.5
+            ]
+          ]
+        },
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/chainmail/leggings_right_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/chainmail_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/chainmail_layer_2.png",
+              "sha256": "06657c8632aae7f79451dfe10718f294bf7a13c789c576bd207c7ae1a4cf4c40",
+              "retained": "original/1.21.1/textures/models/armor/chainmail_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              8.133333333333333
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/chainmail/leggings_left_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/chainmail_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/chainmail_layer_2.png",
+              "sha256": "06657c8632aae7f79451dfe10718f294bf7a13c789c576bd207c7ae1a4cf4c40",
+              "retained": "original/1.21.1/textures/models/armor/chainmail_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              8.133333333333333
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/chainmail_leggings.png",
+      "held_model": "minecraft/1.21.1/item/chainmail_leggings.mesh",
+      "label": "锁链护腿"
+    },
+    "pbzmc:chainmail_boots": {
+      "slot": "feet",
+      "material": "chainmail",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/chainmail/boots_right_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/chainmail_layer_1.png",
+              "sha256": "c35a5adbdee47f27c5f91928e9a84b225264131ac43062cc0e7946038733fd99",
+              "retained": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/chainmail/boots_left_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/chainmail_layer_1.png",
+              "sha256": "c35a5adbdee47f27c5f91928e9a84b225264131ac43062cc0e7946038733fd99",
+              "retained": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/chainmail_boots.png",
+      "held_model": "minecraft/1.21.1/item/chainmail_boots.mesh",
+      "label": "锁链靴子"
+    },
+    "pbzmc:iron_helmet": {
+      "slot": "head",
+      "material": "iron",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "head",
+          "path": "minecraft/1.21.1/iron/helmet_head.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/iron_layer_1.png",
+              "sha256": "4ab8a988d646e8a22a78fe71d0bc293579c65a663e3c1755cac698acbbdc2a66",
+              "retained": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -9.0,
+              -0.25
+            ],
+            [
+              -5.0,
+              5.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": true,
+      "icon": "original/minecraft/1.21.1/textures/item/iron_helmet.png",
+      "held_model": "minecraft/1.21.1/item/iron_helmet.mesh",
+      "label": "铁头盔"
+    },
+    "pbzmc:iron_chestplate": {
+      "slot": "chest",
+      "material": "iron",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/iron/chestplate_body.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/iron_layer_1.png",
+              "sha256": "4ab8a988d646e8a22a78fe71d0bc293579c65a663e3c1755cac698acbbdc2a66",
+              "retained": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -1.0,
+              11.833333333333332
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "right_arm",
+          "path": "minecraft/1.21.1/iron/chestplate_right_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -5,
+            2,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/iron_layer_1.png",
+              "sha256": "4ab8a988d646e8a22a78fe71d0bc293579c65a663e3c1755cac698acbbdc2a66",
+              "retained": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.0,
+              2.0
+            ],
+            [
+              -3.0,
+              2.833333333333334
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "left_arm",
+          "path": "minecraft/1.21.1/iron/chestplate_left_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            5,
+            2,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/iron_layer_1.png",
+              "sha256": "4ab8a988d646e8a22a78fe71d0bc293579c65a663e3c1755cac698acbbdc2a66",
+              "retained": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.0,
+              4.0
+            ],
+            [
+              -3.0,
+              2.833333333333334
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/iron_chestplate.png",
+      "held_model": "minecraft/1.21.1/item/iron_chestplate.mesh",
+      "label": "铁胸甲"
+    },
+    "pbzmc:iron_leggings": {
+      "slot": "legs",
+      "material": "iron",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/iron/leggings_body.mesh",
+          "layer": "inner",
+          "dilation": 0.5,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/iron_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/iron_layer_2.png",
+              "sha256": "bc36923b5c049b2730840b8529df127d6877891897a8c11db42a62c882f3d42e",
+              "retained": "original/1.21.1/textures/models/armor/iron_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.5,
+              4.5
+            ],
+            [
+              7.083333333333334,
+              12.5
+            ],
+            [
+              -2.5,
+              2.5
+            ]
+          ]
+        },
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/iron/leggings_right_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/iron_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/iron_layer_2.png",
+              "sha256": "bc36923b5c049b2730840b8529df127d6877891897a8c11db42a62c882f3d42e",
+              "retained": "original/1.21.1/textures/models/armor/iron_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/iron/leggings_left_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/iron_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/iron_layer_2.png",
+              "sha256": "bc36923b5c049b2730840b8529df127d6877891897a8c11db42a62c882f3d42e",
+              "retained": "original/1.21.1/textures/models/armor/iron_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/iron_leggings.png",
+      "held_model": "minecraft/1.21.1/item/iron_leggings.mesh",
+      "label": "铁护腿"
+    },
+    "pbzmc:iron_boots": {
+      "slot": "feet",
+      "material": "iron",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/iron/boots_right_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/iron_layer_1.png",
+              "sha256": "4ab8a988d646e8a22a78fe71d0bc293579c65a663e3c1755cac698acbbdc2a66",
+              "retained": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/iron/boots_left_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/iron_layer_1.png",
+              "sha256": "4ab8a988d646e8a22a78fe71d0bc293579c65a663e3c1755cac698acbbdc2a66",
+              "retained": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/iron_boots.png",
+      "held_model": "minecraft/1.21.1/item/iron_boots.mesh",
+      "label": "铁靴子"
+    },
+    "pbzmc:golden_helmet": {
+      "slot": "head",
+      "material": "golden",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "head",
+          "path": "minecraft/1.21.1/golden/helmet_head.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/gold_layer_1.png",
+              "sha256": "787442eb093e6a6c4c839fe7f3e88f2ac62b14f10e7184eb0947fb255e98c790",
+              "retained": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -9.0,
+              -0.25
+            ],
+            [
+              -5.0,
+              5.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": true,
+      "icon": "original/minecraft/1.21.1/textures/item/golden_helmet.png",
+      "held_model": "minecraft/1.21.1/item/golden_helmet.mesh",
+      "label": "金头盔"
+    },
+    "pbzmc:golden_chestplate": {
+      "slot": "chest",
+      "material": "golden",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/golden/chestplate_body.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/gold_layer_1.png",
+              "sha256": "787442eb093e6a6c4c839fe7f3e88f2ac62b14f10e7184eb0947fb255e98c790",
+              "retained": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -1.0,
+              11.833333333333332
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "right_arm",
+          "path": "minecraft/1.21.1/golden/chestplate_right_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -5,
+            2,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/gold_layer_1.png",
+              "sha256": "787442eb093e6a6c4c839fe7f3e88f2ac62b14f10e7184eb0947fb255e98c790",
+              "retained": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.0,
+              2.0
+            ],
+            [
+              -3.0,
+              2.833333333333334
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "left_arm",
+          "path": "minecraft/1.21.1/golden/chestplate_left_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            5,
+            2,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/gold_layer_1.png",
+              "sha256": "787442eb093e6a6c4c839fe7f3e88f2ac62b14f10e7184eb0947fb255e98c790",
+              "retained": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.0,
+              4.0
+            ],
+            [
+              -3.0,
+              2.833333333333334
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/golden_chestplate.png",
+      "held_model": "minecraft/1.21.1/item/golden_chestplate.mesh",
+      "label": "金胸甲"
+    },
+    "pbzmc:golden_leggings": {
+      "slot": "legs",
+      "material": "golden",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/golden/leggings_body.mesh",
+          "layer": "inner",
+          "dilation": 0.5,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/gold_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/gold_layer_2.png",
+              "sha256": "8d16316662aa0d595ab420fea7aa2fec3723850713a8677b20d05a38c3f23506",
+              "retained": "original/1.21.1/textures/models/armor/gold_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.5,
+              4.5
+            ],
+            [
+              7.083333333333334,
+              12.5
+            ],
+            [
+              -2.5,
+              2.5
+            ]
+          ]
+        },
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/golden/leggings_right_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/gold_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/gold_layer_2.png",
+              "sha256": "8d16316662aa0d595ab420fea7aa2fec3723850713a8677b20d05a38c3f23506",
+              "retained": "original/1.21.1/textures/models/armor/gold_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/golden/leggings_left_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/gold_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/gold_layer_2.png",
+              "sha256": "8d16316662aa0d595ab420fea7aa2fec3723850713a8677b20d05a38c3f23506",
+              "retained": "original/1.21.1/textures/models/armor/gold_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/golden_leggings.png",
+      "held_model": "minecraft/1.21.1/item/golden_leggings.mesh",
+      "label": "金护腿"
+    },
+    "pbzmc:golden_boots": {
+      "slot": "feet",
+      "material": "golden",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/golden/boots_right_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/gold_layer_1.png",
+              "sha256": "787442eb093e6a6c4c839fe7f3e88f2ac62b14f10e7184eb0947fb255e98c790",
+              "retained": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/golden/boots_left_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/gold_layer_1.png",
+              "sha256": "787442eb093e6a6c4c839fe7f3e88f2ac62b14f10e7184eb0947fb255e98c790",
+              "retained": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/golden_boots.png",
+      "held_model": "minecraft/1.21.1/item/golden_boots.mesh",
+      "label": "金靴子"
+    },
+    "pbzmc:diamond_helmet": {
+      "slot": "head",
+      "material": "diamond",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "head",
+          "path": "minecraft/1.21.1/diamond/helmet_head.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/diamond_layer_1.png",
+              "sha256": "68b43393d01db814bd2e9311bc2a5d3be5bb5294e9d557c60cc59c0ed9878e8a",
+              "retained": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -9.0,
+              -0.25
+            ],
+            [
+              -5.0,
+              5.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": true,
+      "icon": "original/minecraft/1.21.1/textures/item/diamond_helmet.png",
+      "held_model": "minecraft/1.21.1/item/diamond_helmet.mesh",
+      "label": "钻石头盔"
+    },
+    "pbzmc:diamond_chestplate": {
+      "slot": "chest",
+      "material": "diamond",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/diamond/chestplate_body.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/diamond_layer_1.png",
+              "sha256": "68b43393d01db814bd2e9311bc2a5d3be5bb5294e9d557c60cc59c0ed9878e8a",
+              "retained": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -1.0,
+              11.833333333333332
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "right_arm",
+          "path": "minecraft/1.21.1/diamond/chestplate_right_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -5,
+            2,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/diamond_layer_1.png",
+              "sha256": "68b43393d01db814bd2e9311bc2a5d3be5bb5294e9d557c60cc59c0ed9878e8a",
+              "retained": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.0,
+              2.0
+            ],
+            [
+              -3.0,
+              2.833333333333334
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "left_arm",
+          "path": "minecraft/1.21.1/diamond/chestplate_left_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            5,
+            2,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/diamond_layer_1.png",
+              "sha256": "68b43393d01db814bd2e9311bc2a5d3be5bb5294e9d557c60cc59c0ed9878e8a",
+              "retained": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.0,
+              4.0
+            ],
+            [
+              -3.0,
+              2.833333333333334
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/diamond_chestplate.png",
+      "held_model": "minecraft/1.21.1/item/diamond_chestplate.mesh",
+      "label": "钻石胸甲"
+    },
+    "pbzmc:diamond_leggings": {
+      "slot": "legs",
+      "material": "diamond",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/diamond/leggings_body.mesh",
+          "layer": "inner",
+          "dilation": 0.5,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/diamond_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/diamond_layer_2.png",
+              "sha256": "a2a435fbf364ed2399de22770fbad2ecd383faebc75df32e20e2826af0ca8c01",
+              "retained": "original/1.21.1/textures/models/armor/diamond_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.5,
+              4.5
+            ],
+            [
+              7.083333333333334,
+              12.5
+            ],
+            [
+              -2.5,
+              2.5
+            ]
+          ]
+        },
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/diamond/leggings_right_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/diamond_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/diamond_layer_2.png",
+              "sha256": "a2a435fbf364ed2399de22770fbad2ecd383faebc75df32e20e2826af0ca8c01",
+              "retained": "original/1.21.1/textures/models/armor/diamond_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/diamond/leggings_left_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/diamond_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/diamond_layer_2.png",
+              "sha256": "a2a435fbf364ed2399de22770fbad2ecd383faebc75df32e20e2826af0ca8c01",
+              "retained": "original/1.21.1/textures/models/armor/diamond_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/diamond_leggings.png",
+      "held_model": "minecraft/1.21.1/item/diamond_leggings.mesh",
+      "label": "钻石护腿"
+    },
+    "pbzmc:diamond_boots": {
+      "slot": "feet",
+      "material": "diamond",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/diamond/boots_right_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/diamond_layer_1.png",
+              "sha256": "68b43393d01db814bd2e9311bc2a5d3be5bb5294e9d557c60cc59c0ed9878e8a",
+              "retained": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/diamond/boots_left_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/diamond_layer_1.png",
+              "sha256": "68b43393d01db814bd2e9311bc2a5d3be5bb5294e9d557c60cc59c0ed9878e8a",
+              "retained": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/diamond_boots.png",
+      "held_model": "minecraft/1.21.1/item/diamond_boots.mesh",
+      "label": "钻石靴子"
+    },
+    "pbzmc:netherite_helmet": {
+      "slot": "head",
+      "material": "netherite",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "head",
+          "path": "minecraft/1.21.1/netherite/helmet_head.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/netherite_layer_1.png",
+              "sha256": "118ec4ea6f7adf31b962ef92cf851e4d569c37120eacd114e5282647139147d5",
+              "retained": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -9.0,
+              1.0
+            ],
+            [
+              -5.0,
+              5.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": true,
+      "icon": "original/minecraft/1.21.1/textures/item/netherite_helmet.png",
+      "held_model": "minecraft/1.21.1/item/netherite_helmet.mesh",
+      "label": "下界合金头盔"
+    },
+    "pbzmc:netherite_chestplate": {
+      "slot": "chest",
+      "material": "netherite",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/netherite/chestplate_body.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/netherite_layer_1.png",
+              "sha256": "118ec4ea6f7adf31b962ef92cf851e4d569c37120eacd114e5282647139147d5",
+              "retained": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -1.0,
+              13.0
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "right_arm",
+          "path": "minecraft/1.21.1/netherite/chestplate_right_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -5,
+            2,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/netherite_layer_1.png",
+              "sha256": "118ec4ea6f7adf31b962ef92cf851e4d569c37120eacd114e5282647139147d5",
+              "retained": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.0,
+              2.0
+            ],
+            [
+              -3.0,
+              5.166666666666668
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        },
+        {
+          "bone": "left_arm",
+          "path": "minecraft/1.21.1/netherite/chestplate_left_arm.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            5,
+            2,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/netherite_layer_1.png",
+              "sha256": "118ec4ea6f7adf31b962ef92cf851e4d569c37120eacd114e5282647139147d5",
+              "retained": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.0,
+              4.0
+            ],
+            [
+              -3.0,
+              5.166666666666668
+            ],
+            [
+              -3.0,
+              3.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/netherite_chestplate.png",
+      "held_model": "minecraft/1.21.1/item/netherite_chestplate.mesh",
+      "label": "下界合金胸甲"
+    },
+    "pbzmc:netherite_leggings": {
+      "slot": "legs",
+      "material": "netherite",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "body",
+          "path": "minecraft/1.21.1/netherite/leggings_body.mesh",
+          "layer": "inner",
+          "dilation": 0.5,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/netherite_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/netherite_layer_2.png",
+              "sha256": "49b55a02eae5dee8c182f52b84060705b72a5fae3e3c624fbbd19b0225510407",
+              "retained": "original/1.21.1/textures/models/armor/netherite_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -4.5,
+              4.5
+            ],
+            [
+              7.083333333333334,
+              12.5
+            ],
+            [
+              -2.5,
+              2.5
+            ]
+          ]
+        },
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/netherite/leggings_right_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/netherite_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/netherite_layer_2.png",
+              "sha256": "49b55a02eae5dee8c182f52b84060705b72a5fae3e3c624fbbd19b0225510407",
+              "retained": "original/1.21.1/textures/models/armor/netherite_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/netherite/leggings_left_leg.mesh",
+          "layer": "inner",
+          "dilation": 0.4,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/netherite_layer_2.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/netherite_layer_2.png",
+              "sha256": "49b55a02eae5dee8c182f52b84060705b72a5fae3e3c624fbbd19b0225510407",
+              "retained": "original/1.21.1/textures/models/armor/netherite_layer_2.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.4,
+              2.4
+            ],
+            [
+              -0.4,
+              9.200000000000001
+            ],
+            [
+              -2.4,
+              2.4
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/netherite_leggings.png",
+      "held_model": "minecraft/1.21.1/item/netherite_leggings.mesh",
+      "label": "下界合金护腿"
+    },
+    "pbzmc:netherite_boots": {
+      "slot": "feet",
+      "material": "netherite",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "right_leg",
+          "path": "minecraft/1.21.1/netherite/boots_right_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            -1.9,
+            12,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/netherite_layer_1.png",
+              "sha256": "118ec4ea6f7adf31b962ef92cf851e4d569c37120eacd114e5282647139147d5",
+              "retained": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        },
+        {
+          "bone": "left_leg",
+          "path": "minecraft/1.21.1/netherite/boots_left_leg.mesh",
+          "layer": "outer",
+          "dilation": 0.9,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            1.9,
+            12,
+            0
+          ],
+          "mirror": true,
+          "texture": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/netherite_layer_1.png",
+              "sha256": "118ec4ea6f7adf31b962ef92cf851e4d569c37120eacd114e5282647139147d5",
+              "retained": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -2.9,
+              2.9
+            ],
+            [
+              6.0,
+              12.9
+            ],
+            [
+              -2.9,
+              2.9
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": false,
+      "icon": "original/minecraft/1.21.1/textures/item/netherite_boots.png",
+      "held_model": "minecraft/1.21.1/item/netherite_boots.mesh",
+      "label": "下界合金靴子"
+    },
+    "pbzmc:turtle_helmet": {
+      "slot": "head",
+      "material": "turtle",
+      "minecraft_version": "1.21.1",
+      "parts": [
+        {
+          "bone": "head",
+          "path": "minecraft/1.21.1/turtle/helmet_head.mesh",
+          "layer": "outer",
+          "dilation": 1,
+          "pivot": [
+            0,
+            0,
+            0
+          ],
+          "original_joint_pivot": [
+            0,
+            0,
+            0
+          ],
+          "mirror": false,
+          "texture": "original/1.21.1/textures/models/armor/turtle_layer_1.png",
+          "source_layers": [
+            {
+              "path": "assets/minecraft/textures/models/armor/turtle_layer_1.png",
+              "sha256": "57f096b65570480f0b0203d6e123df3ccfc88aa08e428ebe1b7df831aaf8c3be",
+              "retained": "original/1.21.1/textures/models/armor/turtle_layer_1.png",
+              "tinted": false
+            }
+          ],
+          "local_bounds_model_pixels": [
+            [
+              -5.0,
+              5.0
+            ],
+            [
+              -9.0,
+              1.0
+            ],
+            [
+              -5.0,
+              5.0
+            ]
+          ]
+        }
+      ],
+      "default_dye_rgb": null,
+      "untrimmed": true,
+      "hat_cube_empty": true,
+      "icon": "original/minecraft/1.21.1/textures/item/turtle_helmet.png",
+      "held_model": "minecraft/1.21.1/item/turtle_helmet.mesh",
+      "label": "海龟壳"
+    }
+  },
+  "outputs": [
+    {
+      "path": "original/1.21.1/textures/models/armor/leather_layer_1.png",
+      "sha256": "6c96099472fc44dc11b5823a81c57ec7c207203050cd088a15d2358b3df6b5e7",
+      "bytes": 413,
+      "source": "assets/minecraft/textures/models/armor/leather_layer_1.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/leather_layer_1_overlay.png",
+      "sha256": "45f68c68cf1106e35d34cd2a35fc5f46d685ec6a10331b50b3bab47c7db6304c",
+      "bytes": 172,
+      "source": "assets/minecraft/textures/models/armor/leather_layer_1_overlay.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "default/leather_outer.png",
+      "sha256": "eaa6f95193da12a311b107412e02d12bd2ae5ec2b105a06f29857b56676491b2",
+      "bytes": 956,
+      "operation": "original-default-dye-plus-overlay",
+      "default_dye_rgb": [
+        160,
+        101,
+        64
+      ]
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/leather_layer_2.png",
+      "sha256": "72e7df28fae9ee52cff987967f4a61996827271045d99bed3dd364a9ba41f839",
+      "bytes": 254,
+      "source": "assets/minecraft/textures/models/armor/leather_layer_2.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/leather_layer_2_overlay.png",
+      "sha256": "965703d1efd6fa8245ae0d288383d41194813db8259b3a4c01ad215b9e44385a",
+      "bytes": 180,
+      "source": "assets/minecraft/textures/models/armor/leather_layer_2_overlay.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "default/leather_inner.png",
+      "sha256": "6f26f092b7ffaff0270491929014c38dcd44e502e07b935d379ff996c12924f6",
+      "bytes": 522,
+      "operation": "original-default-dye-plus-overlay",
+      "default_dye_rgb": [
+        160,
+        101,
+        64
+      ]
+    },
+    {
+      "path": "minecraft/1.21.1/leather/helmet_head.mesh",
+      "sha256": "70f6d82f73c38a167fa3cd91ac581f35ed414dec441a7f32ef60a92bbad6c133",
+      "bytes": 31480,
+      "bone": "head",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -9.0,
+          -0.25
+        ],
+        [
+          -5.0,
+          5.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 214,
+      "merged_quads": 131,
+      "vertices_before_merge": 856,
+      "vertices": 524,
+      "indices": 1572,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/leather/chestplate_body.mesh",
+      "sha256": "2283c6bee67d450f1748182ac802d10745f4c73722b38536ffae38e6e5646f23",
+      "bytes": 32200,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -1.0,
+          11.833333333333332
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 222,
+      "merged_quads": 134,
+      "vertices_before_merge": 888,
+      "vertices": 536,
+      "indices": 1608,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/leather/chestplate_right_arm.mesh",
+      "sha256": "915c8b5b56a3bdd16aa243afc8fe57d2412f6604968d752cbdb80a627de4f56e",
+      "bytes": 14685,
+      "bone": "right_arm",
+      "local_bounds_model_pixels": [
+        [
+          -4.0,
+          2.0
+        ],
+        [
+          -3.0,
+          4.0
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 112,
+      "merged_quads": 61,
+      "vertices_before_merge": 448,
+      "vertices": 244,
+      "indices": 732,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/leather/chestplate_left_arm.mesh",
+      "sha256": "046b2af0ed099591c031598ca47cccd4b7c70462a1514f228607479d095de836",
+      "bytes": 14684,
+      "bone": "left_arm",
+      "local_bounds_model_pixels": [
+        [
+          -2.0,
+          4.0
+        ],
+        [
+          -3.0,
+          4.0
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 112,
+      "merged_quads": 61,
+      "vertices_before_merge": 448,
+      "vertices": 244,
+      "indices": 732,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/leather/leggings_body.mesh",
+      "sha256": "c981ff4487b98d6c090e495c135596273546ae3f7c7fa33f9f564559e1989622",
+      "bytes": 13240,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -4.5,
+          4.5
+        ],
+        [
+          7.083333333333334,
+          12.5
+        ],
+        [
+          -2.5,
+          2.5
+        ]
+      ],
+      "dilation": 0.5,
+      "source_opaque_texels": 120,
+      "merged_quads": 55,
+      "vertices_before_merge": 480,
+      "vertices": 220,
+      "indices": 660,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/leather/leggings_right_leg.mesh",
+      "sha256": "3932cd0406b12d6e467309fb1157011592ef8d0d07a68715ec6c62dd21bec890",
+      "bytes": 24285,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 101,
+      "vertices_before_merge": 640,
+      "vertices": 404,
+      "indices": 1212,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/leather/leggings_left_leg.mesh",
+      "sha256": "7fe0b655921ff7956d137ea8ce4e9b23836551cc88bd11c78dc0396a54a7dbb0",
+      "bytes": 24284,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 101,
+      "vertices_before_merge": 640,
+      "vertices": 404,
+      "indices": 1212,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/leather/boots_right_leg.mesh",
+      "sha256": "8dd9df1cd906092b19f01ae843a30f0c5c8f49322bb8594c0372b0f911e608db",
+      "bytes": 18285,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 112,
+      "merged_quads": 76,
+      "vertices_before_merge": 448,
+      "vertices": 304,
+      "indices": 912,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/leather/boots_left_leg.mesh",
+      "sha256": "c6615df12fcb2beda7cb59c5003d734acde498b1237a5bc78f1c329012d7762d",
+      "bytes": 18284,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 112,
+      "merged_quads": 76,
+      "vertices_before_merge": 448,
+      "vertices": 304,
+      "indices": 912,
+      "double_sided_indices": true
+    },
+    {
+      "path": "original/26.3/textures/entity/equipment/humanoid/copper.png",
+      "sha256": "1ab6f7f3d87cc1ad183f08afe585a57cc81f0e9404e5593b43b4d622c7d8736b",
+      "bytes": 423,
+      "source": "assets/minecraft/textures/entity/equipment/humanoid/copper.png",
+      "minecraft_version": "26.3",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/26.3/textures/entity/equipment/humanoid_leggings/copper.png",
+      "sha256": "b8a66b3d7f6a71dfc004a5cbc15aae844aa58715a366d42e21258db9315e040b",
+      "bytes": 258,
+      "source": "assets/minecraft/textures/entity/equipment/humanoid_leggings/copper.png",
+      "minecraft_version": "26.3",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "minecraft/26.3/copper/helmet_head.mesh",
+      "sha256": "1aaf0e3525420569d645fbd3360ba6175cc1a01b91aaf2529978ad2ddcdf230b",
+      "bytes": 31480,
+      "bone": "head",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -9.0,
+          -0.25
+        ],
+        [
+          -5.0,
+          5.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 218,
+      "merged_quads": 131,
+      "vertices_before_merge": 872,
+      "vertices": 524,
+      "indices": 1572,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/26.3/copper/chestplate_body.mesh",
+      "sha256": "d7fb47b2c97dd5946f24b30c7ddfd62aad4564e0fd015563a7a69c2f4d0841b5",
+      "bytes": 32200,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -1.0,
+          11.833333333333332
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 222,
+      "merged_quads": 134,
+      "vertices_before_merge": 888,
+      "vertices": 536,
+      "indices": 1608,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/26.3/copper/chestplate_right_arm.mesh",
+      "sha256": "6110dc44c7fa7a2a36b6bb7327325657f190c75baf219ec97f0f07fabb796ab0",
+      "bytes": 15405,
+      "bone": "right_arm",
+      "local_bounds_model_pixels": [
+        [
+          -4.0,
+          2.0
+        ],
+        [
+          -3.0,
+          2.833333333333334
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 96,
+      "merged_quads": 64,
+      "vertices_before_merge": 384,
+      "vertices": 256,
+      "indices": 768,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/26.3/copper/chestplate_left_arm.mesh",
+      "sha256": "1dfe023f8cfe453cc7cc43e8803d75a423a3120822916855cd67614789345e47",
+      "bytes": 15404,
+      "bone": "left_arm",
+      "local_bounds_model_pixels": [
+        [
+          -2.0,
+          4.0
+        ],
+        [
+          -3.0,
+          2.833333333333334
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 96,
+      "merged_quads": 64,
+      "vertices_before_merge": 384,
+      "vertices": 256,
+      "indices": 768,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/26.3/copper/leggings_body.mesh",
+      "sha256": "af55f71a39b18457d276e06c7ad514fbc8d6e80c2fde155956835b006a252539",
+      "bytes": 19000,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -4.5,
+          4.5
+        ],
+        [
+          7.083333333333334,
+          12.5
+        ],
+        [
+          -2.5,
+          2.5
+        ]
+      ],
+      "dilation": 0.5,
+      "source_opaque_texels": 120,
+      "merged_quads": 79,
+      "vertices_before_merge": 480,
+      "vertices": 316,
+      "indices": 948,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/26.3/copper/leggings_right_leg.mesh",
+      "sha256": "e0c5095d6a152b9924bd8ab0258985dff50b40e76b7f0f31559ac707a4ac1f7f",
+      "bytes": 24525,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 102,
+      "vertices_before_merge": 640,
+      "vertices": 408,
+      "indices": 1224,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/26.3/copper/leggings_left_leg.mesh",
+      "sha256": "caabe6e406fd83059c65cf62f0439265ef863459d0f7f1b6b6f57808eced0202",
+      "bytes": 24524,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 102,
+      "vertices_before_merge": 640,
+      "vertices": 408,
+      "indices": 1224,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/26.3/copper/boots_right_leg.mesh",
+      "sha256": "11403a80eced390efeb20333faba411411c064f8bcdce7c607dd98fba6499e3f",
+      "bytes": 19965,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 112,
+      "merged_quads": 83,
+      "vertices_before_merge": 448,
+      "vertices": 332,
+      "indices": 996,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/26.3/copper/boots_left_leg.mesh",
+      "sha256": "edae24587fdddefea65933419b234555d76c6ade731ef00f5b519c53d90f2752",
+      "bytes": 19964,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 112,
+      "merged_quads": 83,
+      "vertices_before_merge": 448,
+      "vertices": 332,
+      "indices": 996,
+      "double_sided_indices": true
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/chainmail_layer_1.png",
+      "sha256": "c35a5adbdee47f27c5f91928e9a84b225264131ac43062cc0e7946038733fd99",
+      "bytes": 258,
+      "source": "assets/minecraft/textures/models/armor/chainmail_layer_1.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/chainmail_layer_2.png",
+      "sha256": "06657c8632aae7f79451dfe10718f294bf7a13c789c576bd207c7ae1a4cf4c40",
+      "bytes": 167,
+      "source": "assets/minecraft/textures/models/armor/chainmail_layer_2.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "minecraft/1.21.1/chainmail/helmet_head.mesh",
+      "sha256": "42ea4838719db1d52ee5f3c46fdc2c44525057be24836ced3571e471cc60ff9e",
+      "bytes": 29080,
+      "bone": "head",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -9.0,
+          1.0
+        ],
+        [
+          -5.0,
+          5.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 159,
+      "merged_quads": 121,
+      "vertices_before_merge": 636,
+      "vertices": 484,
+      "indices": 1452,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/chainmail/chestplate_body.mesh",
+      "sha256": "02113aa2fcb84dc7a82214e677fd3b8d4713d1ee6d37ea01ea8992cbb345bb3a",
+      "bytes": 25480,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -1.0,
+          9.5
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 118,
+      "merged_quads": 106,
+      "vertices_before_merge": 472,
+      "vertices": 424,
+      "indices": 1272,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/chainmail/chestplate_right_arm.mesh",
+      "sha256": "6a0b81e6a5ec8ed91db16a11f1708c26a2001358d15535ffe3626840564abcf6",
+      "bytes": 12525,
+      "bone": "right_arm",
+      "local_bounds_model_pixels": [
+        [
+          -4.0,
+          2.0
+        ],
+        [
+          -3.0,
+          4.0
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 64,
+      "merged_quads": 52,
+      "vertices_before_merge": 256,
+      "vertices": 208,
+      "indices": 624,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/chainmail/chestplate_left_arm.mesh",
+      "sha256": "129aeda30aab3168109893483c3297b81ea2f9e2a9f3c36d5dbce02086154e0a",
+      "bytes": 12524,
+      "bone": "left_arm",
+      "local_bounds_model_pixels": [
+        [
+          -2.0,
+          4.0
+        ],
+        [
+          -3.0,
+          4.0
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 64,
+      "merged_quads": 52,
+      "vertices_before_merge": 256,
+      "vertices": 208,
+      "indices": 624,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/chainmail/leggings_body.mesh",
+      "sha256": "12126e10b188c58c9116ac47982e37400fc35917a66520c7545c029a7579bcab",
+      "bytes": 11800,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -4.5,
+          4.5
+        ],
+        [
+          7.083333333333334,
+          11.416666666666666
+        ],
+        [
+          -2.5,
+          2.5
+        ]
+      ],
+      "dilation": 0.5,
+      "source_opaque_texels": 49,
+      "merged_quads": 49,
+      "vertices_before_merge": 196,
+      "vertices": 196,
+      "indices": 588,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/chainmail/leggings_right_leg.mesh",
+      "sha256": "727876af52b4fd017b0e501a06d55007672366f6e0cbbeac66191cfb3d423103",
+      "bytes": 16605,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          8.133333333333333
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 88,
+      "merged_quads": 69,
+      "vertices_before_merge": 352,
+      "vertices": 276,
+      "indices": 828,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/chainmail/leggings_left_leg.mesh",
+      "sha256": "7b627f2ca7a1752b3d86bdaca15c563be2726a3270c77c35735ed9a9f7b69f24",
+      "bytes": 16604,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          8.133333333333333
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 88,
+      "merged_quads": 69,
+      "vertices_before_merge": 352,
+      "vertices": 276,
+      "indices": 828,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/chainmail/boots_right_leg.mesh",
+      "sha256": "53c4319c87d6b80de9717ea13a5eebb9b946069a2ab6ae929798fbcc3d5b717a",
+      "bytes": 11565,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 48,
+      "merged_quads": 48,
+      "vertices_before_merge": 192,
+      "vertices": 192,
+      "indices": 576,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/chainmail/boots_left_leg.mesh",
+      "sha256": "94be997b85c2492bcc59160c58cca4ce8d995c1f15ea6d0dfca65f9d73da1a54",
+      "bytes": 11564,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 48,
+      "merged_quads": 48,
+      "vertices_before_merge": 192,
+      "vertices": 192,
+      "indices": 576,
+      "double_sided_indices": true
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/iron_layer_1.png",
+      "sha256": "4ab8a988d646e8a22a78fe71d0bc293579c65a663e3c1755cac698acbbdc2a66",
+      "bytes": 424,
+      "source": "assets/minecraft/textures/models/armor/iron_layer_1.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/iron_layer_2.png",
+      "sha256": "bc36923b5c049b2730840b8529df127d6877891897a8c11db42a62c882f3d42e",
+      "bytes": 243,
+      "source": "assets/minecraft/textures/models/armor/iron_layer_2.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "minecraft/1.21.1/iron/helmet_head.mesh",
+      "sha256": "24b3112d992dabfb4b1ce07516a48bb0185a583e1a3d8da622d9fd566faabf3a",
+      "bytes": 31480,
+      "bone": "head",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -9.0,
+          -0.25
+        ],
+        [
+          -5.0,
+          5.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 218,
+      "merged_quads": 131,
+      "vertices_before_merge": 872,
+      "vertices": 524,
+      "indices": 1572,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/iron/chestplate_body.mesh",
+      "sha256": "0c9aa48f1dfefe33ec27bac0557ec267b83f1eb4b511897368bfc1564bd49420",
+      "bytes": 32200,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -1.0,
+          11.833333333333332
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 222,
+      "merged_quads": 134,
+      "vertices_before_merge": 888,
+      "vertices": 536,
+      "indices": 1608,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/iron/chestplate_right_arm.mesh",
+      "sha256": "572d418821651990d7b8edaac0dc70ba7cd94d71462b7b9c77cac5a8d5539c76",
+      "bytes": 15405,
+      "bone": "right_arm",
+      "local_bounds_model_pixels": [
+        [
+          -4.0,
+          2.0
+        ],
+        [
+          -3.0,
+          2.833333333333334
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 96,
+      "merged_quads": 64,
+      "vertices_before_merge": 384,
+      "vertices": 256,
+      "indices": 768,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/iron/chestplate_left_arm.mesh",
+      "sha256": "d59a29425a979655a9ece3cbdca6bab20f3bb5b70ba6632d28963bbbbd010d26",
+      "bytes": 15404,
+      "bone": "left_arm",
+      "local_bounds_model_pixels": [
+        [
+          -2.0,
+          4.0
+        ],
+        [
+          -3.0,
+          2.833333333333334
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 96,
+      "merged_quads": 64,
+      "vertices_before_merge": 384,
+      "vertices": 256,
+      "indices": 768,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/iron/leggings_body.mesh",
+      "sha256": "98463b3b23fa143a73033bdd103619bd67260810fd432dd6f9556085a192697d",
+      "bytes": 17800,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -4.5,
+          4.5
+        ],
+        [
+          7.083333333333334,
+          12.5
+        ],
+        [
+          -2.5,
+          2.5
+        ]
+      ],
+      "dilation": 0.5,
+      "source_opaque_texels": 120,
+      "merged_quads": 74,
+      "vertices_before_merge": 480,
+      "vertices": 296,
+      "indices": 888,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/iron/leggings_right_leg.mesh",
+      "sha256": "ca0869e35cf2b65adfb6e5aa2119dd423d6654313b5b46e962fad23782facb8c",
+      "bytes": 23085,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 96,
+      "vertices_before_merge": 640,
+      "vertices": 384,
+      "indices": 1152,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/iron/leggings_left_leg.mesh",
+      "sha256": "8549ce6a3ada3db7354910c7efbcc528e116608069c04f339158eb1d8394505f",
+      "bytes": 23084,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 96,
+      "vertices_before_merge": 640,
+      "vertices": 384,
+      "indices": 1152,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/iron/boots_right_leg.mesh",
+      "sha256": "bf7613039ed9e52274112925ab1fc8539ec6c3a0231d6ead40c278701d15c4d5",
+      "bytes": 19965,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 112,
+      "merged_quads": 83,
+      "vertices_before_merge": 448,
+      "vertices": 332,
+      "indices": 996,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/iron/boots_left_leg.mesh",
+      "sha256": "672d2830d47eaccb069b0055aef1bc67e082536a28a34708bbfc3083f3e59cbf",
+      "bytes": 19964,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 112,
+      "merged_quads": 83,
+      "vertices_before_merge": 448,
+      "vertices": 332,
+      "indices": 996,
+      "double_sided_indices": true
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/gold_layer_1.png",
+      "sha256": "787442eb093e6a6c4c839fe7f3e88f2ac62b14f10e7184eb0947fb255e98c790",
+      "bytes": 434,
+      "source": "assets/minecraft/textures/models/armor/gold_layer_1.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/gold_layer_2.png",
+      "sha256": "8d16316662aa0d595ab420fea7aa2fec3723850713a8677b20d05a38c3f23506",
+      "bytes": 261,
+      "source": "assets/minecraft/textures/models/armor/gold_layer_2.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "minecraft/1.21.1/golden/helmet_head.mesh",
+      "sha256": "69bcdeb65da2537ff413111f86cc65835b274848d2482d8170984d593ba802f0",
+      "bytes": 31720,
+      "bone": "head",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -9.0,
+          -0.25
+        ],
+        [
+          -5.0,
+          5.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 218,
+      "merged_quads": 132,
+      "vertices_before_merge": 872,
+      "vertices": 528,
+      "indices": 1584,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/golden/chestplate_body.mesh",
+      "sha256": "c8af1e8c439ad9b85b6230423bd858fe86802b7023361eb054e6848795fbf3b6",
+      "bytes": 32200,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -1.0,
+          11.833333333333332
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 222,
+      "merged_quads": 134,
+      "vertices_before_merge": 888,
+      "vertices": 536,
+      "indices": 1608,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/golden/chestplate_right_arm.mesh",
+      "sha256": "df1057bd698a56130ceb3b9b76a102f14c26ce1ddc8b74821e6e4d2a82971e32",
+      "bytes": 15405,
+      "bone": "right_arm",
+      "local_bounds_model_pixels": [
+        [
+          -4.0,
+          2.0
+        ],
+        [
+          -3.0,
+          2.833333333333334
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 96,
+      "merged_quads": 64,
+      "vertices_before_merge": 384,
+      "vertices": 256,
+      "indices": 768,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/golden/chestplate_left_arm.mesh",
+      "sha256": "f6c3cd7380519b310f2a82424a0afc22df0ef52842de698dfaa5c179128e956b",
+      "bytes": 15404,
+      "bone": "left_arm",
+      "local_bounds_model_pixels": [
+        [
+          -2.0,
+          4.0
+        ],
+        [
+          -3.0,
+          2.833333333333334
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 96,
+      "merged_quads": 64,
+      "vertices_before_merge": 384,
+      "vertices": 256,
+      "indices": 768,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/golden/leggings_body.mesh",
+      "sha256": "0587ec81210b9aa61e9c8f25f9f5e3ffcc61e51e3eae3f81977f9ff899df27ac",
+      "bytes": 19240,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -4.5,
+          4.5
+        ],
+        [
+          7.083333333333334,
+          12.5
+        ],
+        [
+          -2.5,
+          2.5
+        ]
+      ],
+      "dilation": 0.5,
+      "source_opaque_texels": 120,
+      "merged_quads": 80,
+      "vertices_before_merge": 480,
+      "vertices": 320,
+      "indices": 960,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/golden/leggings_right_leg.mesh",
+      "sha256": "ce99992375cae0fa5eec2dc6f8436fcb83314212dfd4836cea1994383f9451dc",
+      "bytes": 24525,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 102,
+      "vertices_before_merge": 640,
+      "vertices": 408,
+      "indices": 1224,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/golden/leggings_left_leg.mesh",
+      "sha256": "9258ae813c09b5566108104b63bb69220ccaff33ad3a233a6d4a65614b6c55a3",
+      "bytes": 24524,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 102,
+      "vertices_before_merge": 640,
+      "vertices": 408,
+      "indices": 1224,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/golden/boots_right_leg.mesh",
+      "sha256": "22c9cb926d50fb5236836591f4f0d0dce15f0eceb28992d8b77fd96e1a41b6ee",
+      "bytes": 19965,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 112,
+      "merged_quads": 83,
+      "vertices_before_merge": 448,
+      "vertices": 332,
+      "indices": 996,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/golden/boots_left_leg.mesh",
+      "sha256": "a7c47749913c6fb34918a559439338f5c8f92f6047da4ba5c588f492068951b1",
+      "bytes": 19964,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 112,
+      "merged_quads": 83,
+      "vertices_before_merge": 448,
+      "vertices": 332,
+      "indices": 996,
+      "double_sided_indices": true
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/diamond_layer_1.png",
+      "sha256": "68b43393d01db814bd2e9311bc2a5d3be5bb5294e9d557c60cc59c0ed9878e8a",
+      "bytes": 448,
+      "source": "assets/minecraft/textures/models/armor/diamond_layer_1.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/diamond_layer_2.png",
+      "sha256": "a2a435fbf364ed2399de22770fbad2ecd383faebc75df32e20e2826af0ca8c01",
+      "bytes": 272,
+      "source": "assets/minecraft/textures/models/armor/diamond_layer_2.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "minecraft/1.21.1/diamond/helmet_head.mesh",
+      "sha256": "5068719d460cecdd835677b0f12c31e40565945fdfd13c84c658efc3020e5325",
+      "bytes": 32200,
+      "bone": "head",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -9.0,
+          -0.25
+        ],
+        [
+          -5.0,
+          5.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 218,
+      "merged_quads": 134,
+      "vertices_before_merge": 872,
+      "vertices": 536,
+      "indices": 1608,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/diamond/chestplate_body.mesh",
+      "sha256": "bf5bb456d51eb4884404439083ae4c9356fcbe5538571e7f7ca582089d072b19",
+      "bytes": 32200,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -1.0,
+          11.833333333333332
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 222,
+      "merged_quads": 134,
+      "vertices_before_merge": 888,
+      "vertices": 536,
+      "indices": 1608,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/diamond/chestplate_right_arm.mesh",
+      "sha256": "e6a9c437cf25105d99364508dbe88104eaf828d6e0b6346e6fac194a05225c4b",
+      "bytes": 13485,
+      "bone": "right_arm",
+      "local_bounds_model_pixels": [
+        [
+          -4.0,
+          2.0
+        ],
+        [
+          -3.0,
+          2.833333333333334
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 80,
+      "merged_quads": 56,
+      "vertices_before_merge": 320,
+      "vertices": 224,
+      "indices": 672,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/diamond/chestplate_left_arm.mesh",
+      "sha256": "6a4402108753c2c40eae729efcd68734f9458bff9cc43fba67154f18c573faca",
+      "bytes": 13484,
+      "bone": "left_arm",
+      "local_bounds_model_pixels": [
+        [
+          -2.0,
+          4.0
+        ],
+        [
+          -3.0,
+          2.833333333333334
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 80,
+      "merged_quads": 56,
+      "vertices_before_merge": 320,
+      "vertices": 224,
+      "indices": 672,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/diamond/leggings_body.mesh",
+      "sha256": "d4841da0ad4997ce94f7cc258574f51aa7a20f283625a3f0c4ffd03035a2aaa7",
+      "bytes": 19480,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -4.5,
+          4.5
+        ],
+        [
+          7.083333333333334,
+          12.5
+        ],
+        [
+          -2.5,
+          2.5
+        ]
+      ],
+      "dilation": 0.5,
+      "source_opaque_texels": 120,
+      "merged_quads": 81,
+      "vertices_before_merge": 480,
+      "vertices": 324,
+      "indices": 972,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/diamond/leggings_right_leg.mesh",
+      "sha256": "a48004d4e7c4550e1167d632b8d52bc3c87e9b314a533dcd7e0b8c48fc483a36",
+      "bytes": 24525,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 102,
+      "vertices_before_merge": 640,
+      "vertices": 408,
+      "indices": 1224,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/diamond/leggings_left_leg.mesh",
+      "sha256": "9652f3dabf59f6628e366fb46aa31a8ae3aa822800575871a1b9a8faf3dfa741",
+      "bytes": 24524,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 102,
+      "vertices_before_merge": 640,
+      "vertices": 408,
+      "indices": 1224,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/diamond/boots_right_leg.mesh",
+      "sha256": "cb2cd55a1a114f98c584892d2e87c9351d396149ee692d3340c4296d2f4cc4d2",
+      "bytes": 20205,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 112,
+      "merged_quads": 84,
+      "vertices_before_merge": 448,
+      "vertices": 336,
+      "indices": 1008,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/diamond/boots_left_leg.mesh",
+      "sha256": "ba96c7dd1614ad10d1eead843fd02602cdc1bfe0480bc9e58c28451b5c10d605",
+      "bytes": 20204,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 112,
+      "merged_quads": 84,
+      "vertices_before_merge": 448,
+      "vertices": 336,
+      "indices": 1008,
+      "double_sided_indices": true
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/netherite_layer_1.png",
+      "sha256": "118ec4ea6f7adf31b962ef92cf851e4d569c37120eacd114e5282647139147d5",
+      "bytes": 467,
+      "source": "assets/minecraft/textures/models/armor/netherite_layer_1.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/netherite_layer_2.png",
+      "sha256": "49b55a02eae5dee8c182f52b84060705b72a5fae3e3c624fbbd19b0225510407",
+      "bytes": 264,
+      "source": "assets/minecraft/textures/models/armor/netherite_layer_2.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "minecraft/1.21.1/netherite/helmet_head.mesh",
+      "sha256": "9669a4c2b9bede56379fc1833da070b891350d34416352e211d0c05d0f1db80c",
+      "bytes": 38680,
+      "bone": "head",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -9.0,
+          1.0
+        ],
+        [
+          -5.0,
+          5.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 240,
+      "merged_quads": 161,
+      "vertices_before_merge": 960,
+      "vertices": 644,
+      "indices": 1932,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/netherite/chestplate_body.mesh",
+      "sha256": "32959daf6cee77ab9bbdefcf68475ff2b84910eb3a3cc5abc4c505c87c428ea1",
+      "bytes": 42760,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -1.0,
+          13.0
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 242,
+      "merged_quads": 178,
+      "vertices_before_merge": 968,
+      "vertices": 712,
+      "indices": 2136,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/netherite/chestplate_right_arm.mesh",
+      "sha256": "bc55d663e3c7698c431272059c9dc5b9f4b0b6e5dec10b16f41af2826d09e25d",
+      "bytes": 16605,
+      "bone": "right_arm",
+      "local_bounds_model_pixels": [
+        [
+          -4.0,
+          2.0
+        ],
+        [
+          -3.0,
+          5.166666666666668
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 115,
+      "merged_quads": 69,
+      "vertices_before_merge": 460,
+      "vertices": 276,
+      "indices": 828,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/netherite/chestplate_left_arm.mesh",
+      "sha256": "55f60384909fc0bf7c9bf3513d7d5d2a0b8a5665751e38a99d8fdefc5b94f984",
+      "bytes": 16604,
+      "bone": "left_arm",
+      "local_bounds_model_pixels": [
+        [
+          -2.0,
+          4.0
+        ],
+        [
+          -3.0,
+          5.166666666666668
+        ],
+        [
+          -3.0,
+          3.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 115,
+      "merged_quads": 69,
+      "vertices_before_merge": 460,
+      "vertices": 276,
+      "indices": 828,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/netherite/leggings_body.mesh",
+      "sha256": "0b77628f1409e08a72dc4fca1c4b8629b9ea1f9ec9fa205731a15be90c1f1fdb",
+      "bytes": 14440,
+      "bone": "body",
+      "local_bounds_model_pixels": [
+        [
+          -4.5,
+          4.5
+        ],
+        [
+          7.083333333333334,
+          12.5
+        ],
+        [
+          -2.5,
+          2.5
+        ]
+      ],
+      "dilation": 0.5,
+      "source_opaque_texels": 112,
+      "merged_quads": 60,
+      "vertices_before_merge": 448,
+      "vertices": 240,
+      "indices": 720,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/netherite/leggings_right_leg.mesh",
+      "sha256": "3e976a4b9cd1c6013c906412eeb42cdf9d12a6e49fb26b9085eee3d1ecbcab25",
+      "bytes": 25965,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 108,
+      "vertices_before_merge": 640,
+      "vertices": 432,
+      "indices": 1296,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/netherite/leggings_left_leg.mesh",
+      "sha256": "7ff16f288462fe56be5d3a1f61cb854ef2bd79b9d1e55c02322f18e3362cb1d0",
+      "bytes": 25964,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.4,
+          2.4
+        ],
+        [
+          -0.4,
+          9.200000000000001
+        ],
+        [
+          -2.4,
+          2.4
+        ]
+      ],
+      "dilation": 0.4,
+      "source_opaque_texels": 160,
+      "merged_quads": 108,
+      "vertices_before_merge": 640,
+      "vertices": 432,
+      "indices": 1296,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/netherite/boots_right_leg.mesh",
+      "sha256": "25818a80e80e51dd215eedc00cd4674bd0dee6426400fc7dedb444d0f5efa229",
+      "bytes": 16365,
+      "bone": "right_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 102,
+      "merged_quads": 68,
+      "vertices_before_merge": 408,
+      "vertices": 272,
+      "indices": 816,
+      "double_sided_indices": true
+    },
+    {
+      "path": "minecraft/1.21.1/netherite/boots_left_leg.mesh",
+      "sha256": "b689d6581325957b66b57e4e523b4adcbb3177ce54387809cb9d7e1c6b17b8c7",
+      "bytes": 16364,
+      "bone": "left_leg",
+      "local_bounds_model_pixels": [
+        [
+          -2.9,
+          2.9
+        ],
+        [
+          6.0,
+          12.9
+        ],
+        [
+          -2.9,
+          2.9
+        ]
+      ],
+      "dilation": 0.9,
+      "source_opaque_texels": 102,
+      "merged_quads": 68,
+      "vertices_before_merge": 408,
+      "vertices": 272,
+      "indices": 816,
+      "double_sided_indices": true
+    },
+    {
+      "path": "original/1.21.1/textures/models/armor/turtle_layer_1.png",
+      "sha256": "57f096b65570480f0b0203d6e123df3ccfc88aa08e428ebe1b7df831aaf8c3be",
+      "bytes": 278,
+      "source": "assets/minecraft/textures/models/armor/turtle_layer_1.png",
+      "minecraft_version": "1.21.1",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "minecraft/1.21.1/turtle/helmet_head.mesh",
+      "sha256": "4bbf18949b22fff4ca6bff32ced1ba121b42189fbc7ccc9edc2acb284f473d75",
+      "bytes": 33160,
+      "bone": "head",
+      "local_bounds_model_pixels": [
+        [
+          -5.0,
+          5.0
+        ],
+        [
+          -9.0,
+          1.0
+        ],
+        [
+          -5.0,
+          5.0
+        ]
+      ],
+      "dilation": 1,
+      "source_opaque_texels": 216,
+      "merged_quads": 138,
+      "vertices_before_merge": 864,
+      "vertices": 552,
+      "indices": 1656,
+      "double_sided_indices": true
+    },
+    {
+      "path": "LICENSE-NOTICE.txt",
+      "sha256": "1cb2a38b698c737ba3511edf2132a56138c46a44831531acfeb5ba9dd8756244",
+      "bytes": 396
+    }
+  ],
+  "units": {
+    "scale_for_mesh_bundle": 5.859375,
+    "pixel_cm": 5.859375,
+    "base_block_cm": 100,
+    "steve_scale": 0.9375
+  },
+  "coordinate_contract": "Original bone-local MC(x,y,z) -> mesh_bundle UE(-z,-x,-y)*scale; pivot is zero; attach to render_pose[bone]. Do not add original_joint_pivot twice.",
+  "original_parts": {
+    "head": {
+      "origin": [
+        -4,
+        -8,
+        -4
+      ],
+      "size": [
+        8,
+        8,
+        8
+      ],
+      "uv": [
+        0,
+        0
+      ],
+      "joint": [
+        0,
+        0,
+        0
+      ],
+      "mirror": false
+    },
+    "body": {
+      "origin": [
+        -4,
+        0,
+        -2
+      ],
+      "size": [
+        8,
+        12,
+        4
+      ],
+      "uv": [
+        16,
+        16
+      ],
+      "joint": [
+        0,
+        0,
+        0
+      ],
+      "mirror": false
+    },
+    "right_arm": {
+      "origin": [
+        -3,
+        -2,
+        -2
+      ],
+      "size": [
+        4,
+        12,
+        4
+      ],
+      "uv": [
+        40,
+        16
+      ],
+      "joint": [
+        -5,
+        2,
+        0
+      ],
+      "mirror": false
+    },
+    "left_arm": {
+      "origin": [
+        -1,
+        -2,
+        -2
+      ],
+      "size": [
+        4,
+        12,
+        4
+      ],
+      "uv": [
+        40,
+        16
+      ],
+      "joint": [
+        5,
+        2,
+        0
+      ],
+      "mirror": true
+    },
+    "right_leg": {
+      "origin": [
+        -2,
+        0,
+        -2
+      ],
+      "size": [
+        4,
+        12,
+        4
+      ],
+      "uv": [
+        0,
+        16
+      ],
+      "joint": [
+        -1.9,
+        12,
+        0
+      ],
+      "mirror": false
+    },
+    "left_leg": {
+      "origin": [
+        -2,
+        0,
+        -2
+      ],
+      "size": [
+        4,
+        12,
+        4
+      ],
+      "uv": [
+        0,
+        16
+      ],
+      "joint": [
+        1.9,
+        12,
+        0
+      ],
+      "mirror": true
+    }
+  },
+  "optimization": "Offline exact RGBA greedy rectangles within each original cube face; mirrored geometry and reversed winding; original no-cull backface index pass; cache decoded geometry by path+scale.",
+  "material_contract": "Hard alpha holes omitted; original default leather dye and untinted overlay composed once at RGBA8 precision; original sRGB colors, white-texture vertex-color renderer; no filtering or relighting parity claim.",
+  "totals": {
+    "items": 29,
+    "meshes": 64,
+    "vertices": 23124,
+    "vertices_before_merge": 35064,
+    "indices": 69372
+  },
+  "sources": [
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/entity/player/wide/steve.png",
+      "sha256": "d876e0c88f4b3de71040966ed94a614f315b888592b520b993399fd2738418d0"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/leather_layer_1.png",
+      "sha256": "6c96099472fc44dc11b5823a81c57ec7c207203050cd088a15d2358b3df6b5e7"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/leather_layer_1_overlay.png",
+      "sha256": "45f68c68cf1106e35d34cd2a35fc5f46d685ec6a10331b50b3bab47c7db6304c"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/leather_layer_2.png",
+      "sha256": "72e7df28fae9ee52cff987967f4a61996827271045d99bed3dd364a9ba41f839"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/leather_layer_2_overlay.png",
+      "sha256": "965703d1efd6fa8245ae0d288383d41194813db8259b3a4c01ad215b9e44385a"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/chainmail_layer_1.png",
+      "sha256": "c35a5adbdee47f27c5f91928e9a84b225264131ac43062cc0e7946038733fd99"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/chainmail_layer_2.png",
+      "sha256": "06657c8632aae7f79451dfe10718f294bf7a13c789c576bd207c7ae1a4cf4c40"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/iron_layer_1.png",
+      "sha256": "4ab8a988d646e8a22a78fe71d0bc293579c65a663e3c1755cac698acbbdc2a66"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/iron_layer_2.png",
+      "sha256": "bc36923b5c049b2730840b8529df127d6877891897a8c11db42a62c882f3d42e"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/gold_layer_1.png",
+      "sha256": "787442eb093e6a6c4c839fe7f3e88f2ac62b14f10e7184eb0947fb255e98c790"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/gold_layer_2.png",
+      "sha256": "8d16316662aa0d595ab420fea7aa2fec3723850713a8677b20d05a38c3f23506"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/diamond_layer_1.png",
+      "sha256": "68b43393d01db814bd2e9311bc2a5d3be5bb5294e9d557c60cc59c0ed9878e8a"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/diamond_layer_2.png",
+      "sha256": "a2a435fbf364ed2399de22770fbad2ecd383faebc75df32e20e2826af0ca8c01"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/netherite_layer_1.png",
+      "sha256": "118ec4ea6f7adf31b962ef92cf851e4d569c37120eacd114e5282647139147d5"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/netherite_layer_2.png",
+      "sha256": "49b55a02eae5dee8c182f52b84060705b72a5fae3e3c624fbbd19b0225510407"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/models/armor/turtle_layer_1.png",
+      "sha256": "57f096b65570480f0b0203d6e123df3ccfc88aa08e428ebe1b7df831aaf8c3be"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/leather_helmet.json",
+      "sha256": "d8061c0d6b3068f746d5c5d3271969fa2fb7fb35765dbafca952e25e513b2de0"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/generated.json",
+      "sha256": "63190611202e75ad7b812bc9a4b31bd53f3e186895d7b53e5e280b0d1e30a67a"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/leather_helmet.png",
+      "sha256": "fb5c1283c5ad8e2d32ad4154e12f759a94d0431f36ecca49b3da84ffc050cd7c"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/leather_helmet_overlay.png",
+      "sha256": "5ece5fc6b1b2423953c42de058c9641dd6eacd50027f9226cac2e20f8e7add4c"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/leather_chestplate.json",
+      "sha256": "0b59aa1c73dd6019cd38d3a2e3dde131f0bed190c222ceac6e4b816ea932cb27"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/leather_chestplate.png",
+      "sha256": "bf5990a680964167f9e9eb3d1a362750cef1f0bcd115caec88434e23e90cf0b8"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/leather_chestplate_overlay.png",
+      "sha256": "eec51b2266af48812f347de3b41d10c16205fe602ef0b02efb52af190365edea"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/leather_leggings.json",
+      "sha256": "7a29e1fc7e112001d32f88eb6b66aa693cdf1f7db05c6452e4ba77c09ac44181"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/leather_leggings.png",
+      "sha256": "5fe9d39042279e71ed6279e430401f46a571c519768717631c5683d3b6f65536"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/leather_leggings_overlay.png",
+      "sha256": "3256a5dbbf0e249dbbc90421c97dabd7407b6e5372768c6b18c0c79d32c7f50d"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/leather_boots.json",
+      "sha256": "8a06868256932f7c0d85b1f6a2721b71248522c6f245daca48885c1d37ada4d3"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/leather_boots.png",
+      "sha256": "d54ca10f90b72004436fd9a6aa8d136a692f89f505056ae47d8395137b46637c"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/leather_boots_overlay.png",
+      "sha256": "fbd87a98ff5bab4a028c2f314a98c19434cfb71d947fbde129ec474196568cb0"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/chainmail_helmet.json",
+      "sha256": "b7745c0f5e99902345dcc15808a13fb57eb20c0773098bc1530cb97a2497322e"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/chainmail_helmet.png",
+      "sha256": "43ff24a39061e9ac1143254e803877331587479a2398c801a7d4be7329c918a3"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/chainmail_chestplate.json",
+      "sha256": "9b40e9ac6b1e6d67c23ad0ca168aa76dffc869fb16354e70bf76cd753c4a4966"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/chainmail_chestplate.png",
+      "sha256": "fa35055fc557527bd4f63d696fef640f505f28073964afd2fcc5757dcef36ccc"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/chainmail_leggings.json",
+      "sha256": "1857b3eb8849f023b8b3f0afe1fc2a1857c3b146e8b209037c40e6392fb34a1c"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/chainmail_leggings.png",
+      "sha256": "6836097d33aa0d542b4f1f29874bc09297244a5a6dce4221d68c8a4493202150"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/chainmail_boots.json",
+      "sha256": "c9adfdee1e1c1fb5284513543175f03c1c0dc1917e2501ffcebb2229f1d912e5"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/chainmail_boots.png",
+      "sha256": "061be8e65b0e28df352a8da03d28d587dfa73cfd5f795af4833d4463e3213811"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/iron_helmet.json",
+      "sha256": "4bb72c2d7a7bc999984354c8de7a4b943c1bdadc1c719f6e12f921d82b02dedd"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/iron_helmet.png",
+      "sha256": "db530074cf0a2b1e6d6958f66536625764f47e00e3c1cc9f558586c24a5cf9dc"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/iron_chestplate.json",
+      "sha256": "ba25a316d839e3c9db85ad70ffc8abbd49ca6f1419d15e3335c4188b715bc520"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/iron_chestplate.png",
+      "sha256": "028d1a738128c5622471a9d1b94f00b49a696e7c4fac3dfccd07272e50021f71"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/iron_leggings.json",
+      "sha256": "7d5ae72410858c46a1ebe459f41c5fffa946f4e0c5d3d37f0509384499d23e95"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/iron_leggings.png",
+      "sha256": "64fee8e18c943e5131041b6cd560c33e2d512f3a56f99cbc4a1c545479ccba2c"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/iron_boots.json",
+      "sha256": "cd8a9774647b3e234f28a450158a28174a5451e6d3d33c8c4ad40d2749674638"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/iron_boots.png",
+      "sha256": "e4a500c023d7a54a63810b97187de55503960298a225bd64f68e18253e408a14"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/golden_helmet.json",
+      "sha256": "1f129486e28429cf188a46e80ce5238d865bd0cb04c8f2bcfc37122524c2c680"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/golden_helmet.png",
+      "sha256": "8ae45e17781348267aa32b03e7e4f8c828d1f62b2b9a3f4216b04b6932f73868"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/golden_chestplate.json",
+      "sha256": "3786b1cb02ad2a2c71388fda5a1ac094490ae4d5fb904ed34656199fe597930d"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/golden_chestplate.png",
+      "sha256": "4e4de9bb73504c717a0f067eba682336da1c637f3eeea0c313f15d125f588417"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/golden_leggings.json",
+      "sha256": "f04305ce6a4ec790383eceae3490fae07e95a7b41340ff8ff12c093ecba45fb4"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/golden_leggings.png",
+      "sha256": "158ea37cf5d31214ffc3a0c57f34451e08f97aedeea16d2f90dff7e666ec67e9"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/golden_boots.json",
+      "sha256": "b1cfd7f7cfd73e931293fa5f2f5cec1c63dc6dd1037c9536cdb4a3bec004a257"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/golden_boots.png",
+      "sha256": "4b7571b2b480059c0b8845858258913468f57921a150d42f90774af077bf21ba"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/diamond_helmet.json",
+      "sha256": "801a752c06fd324b427f0ad4fd2558c86a6e57c6f747a78b2e9fce31dfb9d49a"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/diamond_helmet.png",
+      "sha256": "d95286bd20f5f444dd98d0e13cd8f5e89d6af458819537e3ff408d64153c5f0a"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/diamond_chestplate.json",
+      "sha256": "d3c4062c2a813390a8fc6c0b79ed2d673b9126a799388417d2220b0d392997d6"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/diamond_chestplate.png",
+      "sha256": "930e7f139508543a66fa9335de1dcf1df910b27a325799f2a420fb0d1cc28359"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/diamond_leggings.json",
+      "sha256": "44605905f3d5c13810676d610e2c927cf1ab34b214c11f70ca38523e6bd99dd2"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/diamond_leggings.png",
+      "sha256": "f9c9bbe693d71f5b14b6c8e20fa9263108881edd2af55bd946f268f59c9f9053"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/diamond_boots.json",
+      "sha256": "0d85c6561e09bcaa1f7c895bf4027a508e432eb22ad66a2331ec2b1c064000dc"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/diamond_boots.png",
+      "sha256": "8714f58c2a03425c38118646f6ecaf7a97a1b3b4b72d4ac8171f09249e6dd465"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/netherite_helmet.json",
+      "sha256": "6e7d300d87ce21513ced8e31de6d3314968ecb76f61e4773121b298e7128e9a5"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/netherite_helmet.png",
+      "sha256": "79117a0656e4cd53950ad25aaa073991db83e65be3363de5c1f899b959912d61"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/netherite_chestplate.json",
+      "sha256": "7b8afddb08314c7238fec31c58ee7d6941b7577557d629aec9f4a6e8374d9160"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/netherite_chestplate.png",
+      "sha256": "2a8be1d0598d7e9e0f26340dfb8df695e47e9bdbba65b13970f17b45c29f7160"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/netherite_leggings.json",
+      "sha256": "7e202589227f479b26c185a599be963d1111c4d1672bed375e57d8906f8eb8bf"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/netherite_leggings.png",
+      "sha256": "1f34156db7767c3deca47832b285c5c07d83088bb163d6f8f5d2dfc7d9c94a5f"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/netherite_boots.json",
+      "sha256": "1c9b718729f68d956a87a4d69ded7fd8356f361b8e608ed5b1601b295865c3f6"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/netherite_boots.png",
+      "sha256": "165f358064a52c31bccc0d60475f58ed9e07e8cc8f8e6d7476d605a743c87869"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/models/item/turtle_helmet.json",
+      "sha256": "9164581b94679f69d0f18baa01a2de7839ada0067f2fcb3f583bebbe3f336f8b"
+    },
+    {
+      "minecraft_version": "1.21.1",
+      "path": "assets/minecraft/textures/item/turtle_helmet.png",
+      "sha256": "0e178a0c477e486bbca03a202d2c0e14ce8c3881cecc7626c73fda2d3d92d902"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/items/leather_helmet.json",
+      "sha256": "c730a2271b4ddd5511beba69fb8a307c26753618c2e65e6236761d7b0f73958b"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/textures/entity/equipment/humanoid/copper.png",
+      "sha256": "1ab6f7f3d87cc1ad183f08afe585a57cc81f0e9404e5593b43b4d622c7d8736b"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/textures/entity/equipment/humanoid_leggings/copper.png",
+      "sha256": "b8a66b3d7f6a71dfc004a5cbc15aae844aa58715a366d42e21258db9315e040b"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/models/item/copper_helmet.json",
+      "sha256": "e86f53c5eb6d75f882a917a7bb08d2a5f830c4c746b164bc1b6b5981173c0e15"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/models/item/generated.json",
+      "sha256": "63190611202e75ad7b812bc9a4b31bd53f3e186895d7b53e5e280b0d1e30a67a"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/textures/item/copper_helmet.png",
+      "sha256": "71a338903ac5e50527daf24fc41b3d60480d773c5213551e9deefcada442d4ea"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/models/item/copper_chestplate.json",
+      "sha256": "d09f15bb5a8332083d693e2c467ea9853e234f7d282645989891ddd804eb7ef0"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/textures/item/copper_chestplate.png",
+      "sha256": "fede7c1a2475390ca23afce3ad20a7a8008d7c0a5aa1e32cde744a0c42eb8a75"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/models/item/copper_leggings.json",
+      "sha256": "f575b395200e80573e18611828e2c12f3e6a5246f0c7e9ed12d34910261015aa"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/textures/item/copper_leggings.png",
+      "sha256": "98096be03f3c21fead51d94a4c1696c8cde2da9ecebd11f5cd48a02136fd84fd"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/models/item/copper_boots.json",
+      "sha256": "be8d73b2c928ebe5cd0451bdb7887b396f08518f56b36aeb471e8a2f5530325c"
+    },
+    {
+      "minecraft_version": "26.3",
+      "path": "assets/minecraft/textures/item/copper_boots.png",
+      "sha256": "ec8de55067ad02a5fd06213d19cb5ab4c2f78982379bd6608c56b5cce5dce9aa"
+    }
+  ],
+  "archives": {
+    "1.21.1": "499f6897d1837516680f3114072d8106e11c9adcd933fe5cf051b551089b0c99",
+    "26.3": "4508d006323f24fa02876310c192d739af56516eb259000ac50f0909a68c9a2d"
+  },
+  "labels": {
+    "pbzmc:leather_helmet": {
+      "text": "皮革帽子",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.leather_helmet"
+    },
+    "pbzmc:leather_chestplate": {
+      "text": "皮革外套",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.leather_chestplate"
+    },
+    "pbzmc:leather_leggings": {
+      "text": "皮革裤子",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.leather_leggings"
+    },
+    "pbzmc:leather_boots": {
+      "text": "皮革靴子",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.leather_boots"
+    },
+    "pbzmc:copper_helmet": {
+      "text": "铜头盔",
+      "source": "assets/private/minecraft-original/26.3/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "26.3",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.copper_helmet"
+    },
+    "pbzmc:copper_chestplate": {
+      "text": "铜胸甲",
+      "source": "assets/private/minecraft-original/26.3/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "26.3",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.copper_chestplate"
+    },
+    "pbzmc:copper_leggings": {
+      "text": "铜护腿",
+      "source": "assets/private/minecraft-original/26.3/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "26.3",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.copper_leggings"
+    },
+    "pbzmc:copper_boots": {
+      "text": "铜靴子",
+      "source": "assets/private/minecraft-original/26.3/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "26.3",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.copper_boots"
+    },
+    "pbzmc:chainmail_helmet": {
+      "text": "锁链头盔",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.chainmail_helmet"
+    },
+    "pbzmc:chainmail_chestplate": {
+      "text": "锁链胸甲",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.chainmail_chestplate"
+    },
+    "pbzmc:chainmail_leggings": {
+      "text": "锁链护腿",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.chainmail_leggings"
+    },
+    "pbzmc:chainmail_boots": {
+      "text": "锁链靴子",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.chainmail_boots"
+    },
+    "pbzmc:iron_helmet": {
+      "text": "铁头盔",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.iron_helmet"
+    },
+    "pbzmc:iron_chestplate": {
+      "text": "铁胸甲",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.iron_chestplate"
+    },
+    "pbzmc:iron_leggings": {
+      "text": "铁护腿",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.iron_leggings"
+    },
+    "pbzmc:iron_boots": {
+      "text": "铁靴子",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.iron_boots"
+    },
+    "pbzmc:golden_helmet": {
+      "text": "金头盔",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.golden_helmet"
+    },
+    "pbzmc:golden_chestplate": {
+      "text": "金胸甲",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.golden_chestplate"
+    },
+    "pbzmc:golden_leggings": {
+      "text": "金护腿",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.golden_leggings"
+    },
+    "pbzmc:golden_boots": {
+      "text": "金靴子",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.golden_boots"
+    },
+    "pbzmc:diamond_helmet": {
+      "text": "钻石头盔",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.diamond_helmet"
+    },
+    "pbzmc:diamond_chestplate": {
+      "text": "钻石胸甲",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.diamond_chestplate"
+    },
+    "pbzmc:diamond_leggings": {
+      "text": "钻石护腿",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.diamond_leggings"
+    },
+    "pbzmc:diamond_boots": {
+      "text": "钻石靴子",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.diamond_boots"
+    },
+    "pbzmc:netherite_helmet": {
+      "text": "下界合金头盔",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.netherite_helmet"
+    },
+    "pbzmc:netherite_chestplate": {
+      "text": "下界合金胸甲",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.netherite_chestplate"
+    },
+    "pbzmc:netherite_leggings": {
+      "text": "下界合金护腿",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.netherite_leggings"
+    },
+    "pbzmc:netherite_boots": {
+      "text": "下界合金靴子",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.netherite_boots"
+    },
+    "pbzmc:turtle_helmet": {
+      "text": "海龟壳",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.turtle_helmet"
+    }
+  },
+  "glyphs": [
+    {
+      "character": "下",
+      "codepoint": 19979,
+      "path": "glyphs/004e0b.png",
+      "sha256": "4050ac750604d56f9256591c0baa1c0174f26967193d114b2953c35bd9f06179",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "合",
+      "codepoint": 21512,
+      "path": "glyphs/005408.png",
+      "sha256": "847f994c3b77b075ee619762e0fa96549985ca54868c93f02127aa28d3e72a3a",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "壳",
+      "codepoint": 22771,
+      "path": "fonts/unicode/page_003.png",
+      "sha256": "13de7afc23b556aa5bdbf08f1d8bf4825c005ea96b97841a59b948ecb7418c56",
+      "region": [
+        1152,
+        1552,
+        16,
+        16
+      ],
+      "kind": "existing-original-unihex-atlas"
+    },
+    {
+      "character": "外",
+      "codepoint": 22806,
+      "path": "glyphs/005916.png",
+      "sha256": "861fe12a3157d9ffab54ed42897c99f026a27a4d12e2013335846bddd32b3a19",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "头",
+      "codepoint": 22836,
+      "path": "glyphs/005934.png",
+      "sha256": "82d83ebd4b67f2d5c38a13ba2a1cab2ca6bd516a70135011c379376ad9f9d9ae",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "套",
+      "codepoint": 22871,
+      "path": "glyphs/005957.png",
+      "sha256": "3e6d1e63c71ac7b79403787f6f3270c0d794b14dac835f95ead2f6345a3992ba",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "子",
+      "codepoint": 23376,
+      "path": "glyphs/005b50.png",
+      "sha256": "a543a971c40d098711e3bf21503421b063112ea293c73e8863d0af9793012ebe",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "帽",
+      "codepoint": 24125,
+      "path": "glyphs/005e3d.png",
+      "sha256": "f4a487ccec89ba27ef9ec2ebac2799fe20f5ffcce61c8ad8fc9b78dd774d606b",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "护",
+      "codepoint": 25252,
+      "path": "glyphs/0062a4.png",
+      "sha256": "bb0ee687d922c5cdec04d9f4c2dc5249d2b0e84192f543b32d937e166d0c98f2",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "海",
+      "codepoint": 28023,
+      "path": "fonts/unicode/page_004.png",
+      "sha256": "b563d69c23dd36a3591f2b35e889c9210610d52164bc327b58e8e61a17ba1034",
+      "region": [
+        1440,
+        800,
+        16,
+        16
+      ],
+      "kind": "existing-original-unihex-atlas"
+    },
+    {
+      "character": "甲",
+      "codepoint": 30002,
+      "path": "glyphs/007532.png",
+      "sha256": "0546318ffdb31208757442923d460f04c49763990bcc8e4a666b72d932bb3333",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "界",
+      "codepoint": 30028,
+      "path": "glyphs/00754c.png",
+      "sha256": "b583ab8292b4f73eb47839d5394e819e987537bb5fca2a51adcf8c354ec57f47",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "皮",
+      "codepoint": 30382,
+      "path": "glyphs/0076ae.png",
+      "sha256": "5bdccdc005bd3d55b2bc1a523762557aacd0359f404cd1a043ea26adf61dbe64",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "盔",
+      "codepoint": 30420,
+      "path": "glyphs/0076d4.png",
+      "sha256": "d8352711f7d48b5df910ab37614fbba155525de861afbbd6d3a483afb1144bb8",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "石",
+      "codepoint": 30707,
+      "path": "glyphs/0077f3.png",
+      "sha256": "748a2d268cf6cec6fe528902fe9eb61fdb56a23987b6aa5c4fe8a9118261b104",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "胸",
+      "codepoint": 33016,
+      "path": "glyphs/0080f8.png",
+      "sha256": "24576113bb58d3a37f43eda2f8b1c8b7a44fdf0ecb3e00f8e473d6ccdc06a0c9",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "腿",
+      "codepoint": 33151,
+      "path": "glyphs/00817f.png",
+      "sha256": "050cca6d83af9dba7c3e0401207f6997775c1e38e66ead35d5d9693299cec372",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "裤",
+      "codepoint": 35044,
+      "path": "glyphs/0088e4.png",
+      "sha256": "24062c5bf6349f8b2d12cbbdaaeeaed3a151cb3d89ce16bea7c9d72f244c7976",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "金",
+      "codepoint": 37329,
+      "path": "glyphs/0091d1.png",
+      "sha256": "514d1537a5c0871b13357e0985c04ee3718a9465b3bd33c260815812013f1c49",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "钻",
+      "codepoint": 38075,
+      "path": "glyphs/0094bb.png",
+      "sha256": "a7940600fc16fc66649e5c4b433a710192d7fa1273a3c128b85ca3ba7681220e",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "铁",
+      "codepoint": 38081,
+      "path": "glyphs/0094c1.png",
+      "sha256": "22446f0f721146a54f262ef4b7cbce62143b13b8a983e210f759d83730de08ce",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "铜",
+      "codepoint": 38108,
+      "path": "glyphs/0094dc.png",
+      "sha256": "a6d5f8043de52ca7e3d237d762779d623f2857759c3c0bdb38c8cda568874e25",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "链",
+      "codepoint": 38142,
+      "path": "glyphs/0094fe.png",
+      "sha256": "471d520154ae8338f156be4a9b92c24a7344e7264cae7fee8bd0f39a419ca080",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "锁",
+      "codepoint": 38145,
+      "path": "glyphs/009501.png",
+      "sha256": "925e9c43815be3597fe77d9e20e851bf6b5aa9a44f226ea2cfd590193d2608a5",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "革",
+      "codepoint": 38761,
+      "path": "glyphs/009769.png",
+      "sha256": "949b0f4d8a818c66d23adaaa2eb6e453aeab1436e0b076f545140f31f54a656c",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "靴",
+      "codepoint": 38772,
+      "path": "glyphs/009774.png",
+      "sha256": "78e2e7d1a11038090925427032b581dad064f98b74b03c9659bde1265ff7ceb4",
+      "kind": "existing-explicit-glyph"
+    },
+    {
+      "character": "龟",
+      "codepoint": 40863,
+      "path": "fonts/unicode/page_005.png",
+      "sha256": "45ce782b48c7085f4e6130c376feab117516b7774aa73cdf7c073e599df6e7af",
+      "region": [
+        224,
+        1952,
+        16,
+        16
+      ],
+      "kind": "existing-original-unihex-atlas"
+    }
+  ],
+  "font_regenerated": false,
+  "sound_events": {
+    "leather": "item.armor.equip_leather",
+    "copper": "item.armor.equip_copper",
+    "chainmail": "item.armor.equip_chain",
+    "iron": "item.armor.equip_iron",
+    "golden": "item.armor.equip_gold",
+    "diamond": "item.armor.equip_diamond",
+    "netherite": "item.armor.equip_netherite",
+    "turtle": "item.armor.equip_turtle"
+  },
+  "sound_reference": {
+    "minecraft_version": "26.3",
+    "class_path": "net/minecraft/sounds/SoundEvents.class",
+    "sha256": "4ffc765b593a5b175727eedc2256d8e4408de2b914da6254a796f90be0d2397a",
+    "verification": "ArmorMaterials field reference plus registered event UTF8 in original class; no new clips or native bank"
+  },
+  "audio_added": false,
+  "recipe_sha256": {
+    "convert_original_armor.py": "3c1413e80577982c6496105a95c7f75b57adcaac65e1d1358ffbc3a129ca3886",
+    "convert_original_boat.py": "d53aeef3d6948ac395b8163d6d3f11404f33c5c9e4fecf70550e3d2dc4b751ce"
+  },
+  "upstream": {
+    "commit": "9f213556519dca4498fd46f02af6236ae121ecae",
+    "extractor": "research/upstream/wukong-steve/tools/ExtractMinecraft.py",
+    "sha256": "ecf5ab572145ee5af78e8b854a7dd5f10ae5e46af76cf802a45d1c780054d678",
+    "license": "third_party/wukong-steve/LICENSE",
+    "notice": "third_party/wukong-steve/NOTICE"
+  },
+  "limitations": [
+    "29 default undyed/untrimmed player armor items; arbitrary leather dyes, trims and enchantment glint variants not generated by this converter.",
+    "Host lifecycle, animation attachment, first-person visibility and runtime performance require integration checks."
+  ]
+}

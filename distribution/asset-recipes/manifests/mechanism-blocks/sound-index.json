@@ -1,0 +1,1417 @@
+{
+  "version": "1.21.1",
+  "asset_index": "pinned-original-resource:1.21.1-17.json",
+  "asset_index_sha256": "9edfa2ad3a1850ce1c152052c5f17a8772d9b4f8f5a478b0ca4f66556816347f",
+  "sounds_json": "mojang-object:09eab141cce7550f9a74c65db0e9abbb342cf50f",
+  "sounds_json_sha256": "51b23584d267ba37d3a1bafd4f24d3dda07672ab91672ea6f7a1bc86067a1a6b",
+  "events": {
+    "block.wooden_door.open": [
+      {
+        "member": "minecraft/sounds/block/wooden_door/open1.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/wooden_door/open2.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.wooden_door.close": [
+      {
+        "member": "minecraft/sounds/block/wooden_door/close1.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/wooden_door/close2.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/wooden_door/close3.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.iron_door.open": [
+      {
+        "member": "minecraft/sounds/block/iron_door/open1.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/iron_door/open2.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/iron_door/open3.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/iron_door/open4.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.iron_door.close": [
+      {
+        "member": "minecraft/sounds/block/iron_door/close1.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/iron_door/close2.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/iron_door/close3.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/iron_door/close4.ogg",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.lever.click": [
+      {
+        "member": "minecraft/sounds/random/click.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.stone_button.click_on": [
+      {
+        "member": "minecraft/sounds/random/click.ogg",
+        "volume": 0.3,
+        "pitch": 0.6,
+        "weight": 1
+      }
+    ],
+    "block.stone_button.click_off": [
+      {
+        "member": "minecraft/sounds/random/click.ogg",
+        "volume": 0.3,
+        "pitch": 0.5,
+        "weight": 1
+      }
+    ],
+    "block.comparator.click": [
+      {
+        "member": "minecraft/sounds/random/click.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.piston.extend": [
+      {
+        "member": "minecraft/sounds/tile/piston/out.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.piston.contract": [
+      {
+        "member": "minecraft/sounds/tile/piston/in.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.water.ambient": [
+      {
+        "member": "minecraft/sounds/liquid/water.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.lava.ambient": [
+      {
+        "member": "minecraft/sounds/liquid/lava.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.lava.pop": [
+      {
+        "member": "minecraft/sounds/liquid/lavapop.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.fire.extinguish": [
+      {
+        "member": "minecraft/sounds/random/fizz.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "item.bucket.fill": [
+      {
+        "member": "minecraft/sounds/item/bucket/fill1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/item/bucket/fill2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/item/bucket/fill3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "item.bucket.empty": [
+      {
+        "member": "minecraft/sounds/item/bucket/empty1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/item/bucket/empty1.ogg",
+        "volume": 1,
+        "pitch": 0.9,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/item/bucket/empty2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/item/bucket/empty3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "item.bucket.fill_lava": [
+      {
+        "member": "minecraft/sounds/item/bucket/fill_lava1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/item/bucket/fill_lava2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/item/bucket/fill_lava3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "item.bucket.empty_lava": [
+      {
+        "member": "minecraft/sounds/item/bucket/empty_lava1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/item/bucket/empty_lava2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/item/bucket/empty_lava3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.stone.place": [
+      {
+        "member": "minecraft/sounds/dig/stone1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.stone.break": [
+      {
+        "member": "minecraft/sounds/dig/stone1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.stone.hit": [
+      {
+        "member": "minecraft/sounds/step/stone1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/stone2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/stone3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/stone4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/stone5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/stone6.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.wood.place": [
+      {
+        "member": "minecraft/sounds/dig/wood1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/wood2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/wood3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/wood4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.wood.break": [
+      {
+        "member": "minecraft/sounds/dig/wood1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/wood2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/wood3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/wood4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.wood.hit": [
+      {
+        "member": "minecraft/sounds/step/wood1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/wood2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/wood3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/wood4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/wood5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/wood6.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.metal.place": [
+      {
+        "member": "minecraft/sounds/dig/stone1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.metal.break": [
+      {
+        "member": "minecraft/sounds/dig/stone1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/dig/stone4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.metal.hit": [
+      {
+        "member": "minecraft/sounds/step/stone1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/stone2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/stone3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/stone4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/stone5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/step/stone6.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.slime_block.place": [
+      {
+        "member": "minecraft/sounds/mob/slime/big1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/big2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/big3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/big4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.slime_block.break": [
+      {
+        "member": "minecraft/sounds/mob/slime/big1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/big2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/big3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/big4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.slime_block.hit": [
+      {
+        "member": "minecraft/sounds/mob/slime/small1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.slime_block.step": [
+      {
+        "member": "minecraft/sounds/mob/slime/small1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.slime_block.fall": [
+      {
+        "member": "minecraft/sounds/mob/slime/small1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/mob/slime/small5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.honey_block.place": [
+      {
+        "member": "minecraft/sounds/block/honeyblock/break1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/break2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/break3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/break4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/break5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.honey_block.break": [
+      {
+        "member": "minecraft/sounds/block/honeyblock/break1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/break2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/break3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/break4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/break5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.honey_block.hit": [
+      {
+        "member": "minecraft/sounds/block/honeyblock/step1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.honey_block.step": [
+      {
+        "member": "minecraft/sounds/block/honeyblock/step1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.honey_block.fall": [
+      {
+        "member": "minecraft/sounds/block/honeyblock/step1.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step2.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step3.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step4.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/step5.ogg",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "block.honey_block.slide": [
+      {
+        "member": "minecraft/sounds/block/honeyblock/slide1.ogg",
+        "volume": 0.8,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/slide1.ogg",
+        "volume": 0.8,
+        "pitch": 0.9,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/slide2.ogg",
+        "volume": 0.8,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/slide2.ogg",
+        "volume": 0.8,
+        "pitch": 0.8,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/slide3.ogg",
+        "volume": 0.8,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/slide3.ogg",
+        "volume": 0.8,
+        "pitch": 0.8,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/slide4.ogg",
+        "volume": 0.8,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "member": "minecraft/sounds/block/honeyblock/slide4.ogg",
+        "volume": 0.8,
+        "pitch": 0.8,
+        "weight": 1
+      }
+    ]
+  },
+  "clips": [
+    {
+      "member": "minecraft/sounds/block/wooden_door/open1.ogg",
+      "source_path": "mojang-object:d2ba0797ca24fcf15d105c88899089e4af5cb9f4",
+      "source_sha1": "d2ba0797ca24fcf15d105c88899089e4af5cb9f4",
+      "sha256": "0f6799c9b410bfd11a44d185cc617e47316d885d6615b0882297af995c62959d",
+      "bytes": 6820
+    },
+    {
+      "member": "minecraft/sounds/block/wooden_door/open2.ogg",
+      "source_path": "mojang-object:21464f4cfb0163f9071d2a84d818bd5ac5b6eee6",
+      "source_sha1": "21464f4cfb0163f9071d2a84d818bd5ac5b6eee6",
+      "sha256": "d051a29e4469c1433744825b63185dbfb59d62b89151a38ab96bfd3aa5125432",
+      "bytes": 7472
+    },
+    {
+      "member": "minecraft/sounds/block/wooden_door/close1.ogg",
+      "source_path": "mojang-object:6e0d43b064fb69f7b63e0704d99a38bb2ebc19e0",
+      "source_sha1": "6e0d43b064fb69f7b63e0704d99a38bb2ebc19e0",
+      "sha256": "d77a889b0881364f6705558b82b3cd70c30f64350ac58c32606633ca88854313",
+      "bytes": 6504
+    },
+    {
+      "member": "minecraft/sounds/block/wooden_door/close2.ogg",
+      "source_path": "mojang-object:4cf6992a99518dfac836228cffbbc7e8344d969b",
+      "source_sha1": "4cf6992a99518dfac836228cffbbc7e8344d969b",
+      "sha256": "25122bcbf8511498fa0608f54618f6f78383fa4a924f1376df81f0a5ea83d730",
+      "bytes": 11754
+    },
+    {
+      "member": "minecraft/sounds/block/wooden_door/close3.ogg",
+      "source_path": "mojang-object:73a3bfcb37099c49ac22e6fa308ca14a6e4f8347",
+      "source_sha1": "73a3bfcb37099c49ac22e6fa308ca14a6e4f8347",
+      "sha256": "4a84b8d55149c234a863f56db413458351e7d4c2ccc8cddf7c2e8c8412a278f8",
+      "bytes": 12570
+    },
+    {
+      "member": "minecraft/sounds/block/iron_door/open1.ogg",
+      "source_path": "mojang-object:a8756192499be8204a5e195b9873b6b48c0d1d25",
+      "source_sha1": "a8756192499be8204a5e195b9873b6b48c0d1d25",
+      "sha256": "75ba30a85f82b768d5e0e89f75b7d798c17a9b8774a89d87d75e92f5654d9b45",
+      "bytes": 7486
+    },
+    {
+      "member": "minecraft/sounds/block/iron_door/open2.ogg",
+      "source_path": "mojang-object:0208597870daf05e8bde08d4aac04989c9ebedf2",
+      "source_sha1": "0208597870daf05e8bde08d4aac04989c9ebedf2",
+      "sha256": "0db131ff98c30aed8a4207a4c371218648aa234749f79769c9f09e7acbe94eac",
+      "bytes": 7612
+    },
+    {
+      "member": "minecraft/sounds/block/iron_door/open3.ogg",
+      "source_path": "mojang-object:e700e2c9abdfc27a32ac3b7f759d6c48a0846992",
+      "source_sha1": "e700e2c9abdfc27a32ac3b7f759d6c48a0846992",
+      "sha256": "e31be17850d27c622a4e20f1ddc5ec67ef90198ee5d81d27bfe945a18abb059d",
+      "bytes": 6812
+    },
+    {
+      "member": "minecraft/sounds/block/iron_door/open4.ogg",
+      "source_path": "mojang-object:ae6914ce7180755e98ee2d169e1757bc624bbade",
+      "source_sha1": "ae6914ce7180755e98ee2d169e1757bc624bbade",
+      "sha256": "d9adce852ca5aa8d27ead4adcfbcbff1f0cc0d8f25da47d8618014a7a23c878b",
+      "bytes": 7306
+    },
+    {
+      "member": "minecraft/sounds/block/iron_door/close1.ogg",
+      "source_path": "mojang-object:108c61bfecd4f969778173578984503e08dd7898",
+      "source_sha1": "108c61bfecd4f969778173578984503e08dd7898",
+      "sha256": "2ae8ad578be190ca98e322351a464ce1b08e3064ac9f2404d2267d3320db8ad2",
+      "bytes": 6550
+    },
+    {
+      "member": "minecraft/sounds/block/iron_door/close2.ogg",
+      "source_path": "mojang-object:aec962400204953cc7eefef2c0cc1942bbeaff38",
+      "source_sha1": "aec962400204953cc7eefef2c0cc1942bbeaff38",
+      "sha256": "676dd74aca9e8757fdb32e951e00b09f7dc96138485b3bc4498386b2b69cd479",
+      "bytes": 6590
+    },
+    {
+      "member": "minecraft/sounds/block/iron_door/close3.ogg",
+      "source_path": "mojang-object:278ae35982e186ab9f4a9ef5728b18793c939e98",
+      "source_sha1": "278ae35982e186ab9f4a9ef5728b18793c939e98",
+      "sha256": "2bedf48335359deda2216036b3e9a85071ef25408b7e96f07a003c3384f2b84f",
+      "bytes": 6465
+    },
+    {
+      "member": "minecraft/sounds/block/iron_door/close4.ogg",
+      "source_path": "mojang-object:4710afcb488c6ee3881e3b896dfcd5cc2069049a",
+      "source_sha1": "4710afcb488c6ee3881e3b896dfcd5cc2069049a",
+      "sha256": "3641524e34026b6225d038c6500c9dafc9772dd47159feee71c4b87572b93e7e",
+      "bytes": 6579
+    },
+    {
+      "member": "minecraft/sounds/random/click.ogg",
+      "source_path": "mojang-object:ec4f4d122ab7c5d44e48419de0e3de1b0922514d",
+      "source_sha1": "ec4f4d122ab7c5d44e48419de0e3de1b0922514d",
+      "sha256": "c8e78aea3a020d743189fd4d5b0636b791b557b608c62f6474d0f16abcfcc0d8",
+      "bytes": 9138
+    },
+    {
+      "member": "minecraft/sounds/tile/piston/out.ogg",
+      "source_path": "mojang-object:58fc87d6d9ea1b8967ad1ec6976864c802fe1519",
+      "source_sha1": "58fc87d6d9ea1b8967ad1ec6976864c802fe1519",
+      "sha256": "dc7baf976c94ee4959f8c2acdedf86ce1390b32db99d4a5bebf06ffb7fa63170",
+      "bytes": 15859
+    },
+    {
+      "member": "minecraft/sounds/tile/piston/in.ogg",
+      "source_path": "mojang-object:c83734c663e77e44a34e5779b3fb0bb0e50aad21",
+      "source_sha1": "c83734c663e77e44a34e5779b3fb0bb0e50aad21",
+      "sha256": "f926bea8a67bc06789f4b7ef81db0237aa49bd95bcdb5e129c3a0f66527804e0",
+      "bytes": 15353
+    },
+    {
+      "member": "minecraft/sounds/liquid/water.ogg",
+      "source_path": "mojang-object:3483650440deb3934255e044ddabff5b01a65356",
+      "source_sha1": "3483650440deb3934255e044ddabff5b01a65356",
+      "sha256": "80903e62e3081674799acb05f34991042ef4a053822075f720870b76bc3a306a",
+      "bytes": 36329
+    },
+    {
+      "member": "minecraft/sounds/liquid/lava.ogg",
+      "source_path": "mojang-object:9272aef9f27dfcc10b6e3879b7a2a67f8faa1a83",
+      "source_sha1": "9272aef9f27dfcc10b6e3879b7a2a67f8faa1a83",
+      "sha256": "bd2024d6210d36d8d05b2d90d6ad28d69f80c4874772e2bf85d856675c7eff6e",
+      "bytes": 65328
+    },
+    {
+      "member": "minecraft/sounds/liquid/lavapop.ogg",
+      "source_path": "mojang-object:19a5aae31c3e0018a960b709a9f0240d8d47dda7",
+      "source_sha1": "19a5aae31c3e0018a960b709a9f0240d8d47dda7",
+      "sha256": "36ea4ed27e7ccee174e560e89bb5b1686d49f98136463b9ca1bccfa0d6c37f71",
+      "bytes": 5609
+    },
+    {
+      "member": "minecraft/sounds/random/fizz.ogg",
+      "source_path": "mojang-object:c649e60ea9a99c97501a50d2dc4e579343e91ea8",
+      "source_sha1": "c649e60ea9a99c97501a50d2dc4e579343e91ea8",
+      "sha256": "32c42c9c46b99b40191ab10dca9096ff7d7fc05f69276b418a4ae244f08e319e",
+      "bytes": 17002
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/fill1.ogg",
+      "source_path": "mojang-object:e28ff6368461f0a0308ced79016ea98d5feb645f",
+      "source_sha1": "e28ff6368461f0a0308ced79016ea98d5feb645f",
+      "sha256": "0362efd821a7d9ae41e378b0cd10ccae5e49fd2c9d90de50964961051037457d",
+      "bytes": 10900
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/fill2.ogg",
+      "source_path": "mojang-object:1d69d04c669d82a75da8ea2f8a1a63ebf5fefd0f",
+      "source_sha1": "1d69d04c669d82a75da8ea2f8a1a63ebf5fefd0f",
+      "sha256": "8ea716c9f510926fbeed16f0f67f7da2fdab5b026f9f4444c474ecd8c954f007",
+      "bytes": 10441
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/fill3.ogg",
+      "source_path": "mojang-object:556a88f3a8e8f407a94ad37b131dc8d5c3f236c0",
+      "source_sha1": "556a88f3a8e8f407a94ad37b131dc8d5c3f236c0",
+      "sha256": "025e369f22621e1f0ff0b16aaea02ed94a40580da26516a8f9dade42f8611737",
+      "bytes": 10844
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/empty1.ogg",
+      "source_path": "mojang-object:27987b7065ef4a27106246f9d32382a0514f87b2",
+      "source_sha1": "27987b7065ef4a27106246f9d32382a0514f87b2",
+      "sha256": "cc8edd6bf685ab466cdb19aacfedc84914aac83f043db7d5d7308aa3c28ef138",
+      "bytes": 10498
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/empty2.ogg",
+      "source_path": "mojang-object:a796e8907874e6ae174c30da28ff000f1cf566c3",
+      "source_sha1": "a796e8907874e6ae174c30da28ff000f1cf566c3",
+      "sha256": "f1faefdf9ceab385a441ae3993f12f7b3feb3b995c6d148d56616fbabdfab67f",
+      "bytes": 10277
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/empty3.ogg",
+      "source_path": "mojang-object:8dec8307dff359b0279e3e49798692309204d55e",
+      "source_sha1": "8dec8307dff359b0279e3e49798692309204d55e",
+      "sha256": "713d54d7a1478163cabef813473f50b9ead6f41d1af4fb7ce3b41d8dd831f62d",
+      "bytes": 9888
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/fill_lava1.ogg",
+      "source_path": "mojang-object:840d3f489b866d6ec63e8d885469105ff65c591e",
+      "source_sha1": "840d3f489b866d6ec63e8d885469105ff65c591e",
+      "sha256": "b926dee631b2e7efc8314cea7aac7b6eaf8d28a25abde2748e2e9275a03cb6ea",
+      "bytes": 9211
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/fill_lava2.ogg",
+      "source_path": "mojang-object:54290ce87fb0ebac606f497ac8a12c107b74a586",
+      "source_sha1": "54290ce87fb0ebac606f497ac8a12c107b74a586",
+      "sha256": "54b04401fb2dd0e4f65eeadf0f470024b9f7519339c10dc8ac209b2ecd41f6e7",
+      "bytes": 9211
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/fill_lava3.ogg",
+      "source_path": "mojang-object:99125d80da85a6055d5757fe9194bee680ac9a63",
+      "source_sha1": "99125d80da85a6055d5757fe9194bee680ac9a63",
+      "sha256": "7c6bd78500fa4ed63dcd27b4a3863e5c0b967fa55965ac8aa48b05763c086a6c",
+      "bytes": 9278
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/empty_lava1.ogg",
+      "source_path": "mojang-object:3612c93dfebcedbeb22bc8283e0b85de033d081a",
+      "source_sha1": "3612c93dfebcedbeb22bc8283e0b85de033d081a",
+      "sha256": "b54c0f7f48af47acbf6f757fe7d755fe6a72efce87308bfa845f3c47cdd7e9d5",
+      "bytes": 11764
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/empty_lava2.ogg",
+      "source_path": "mojang-object:b98e76594736052ac7ab8851d95a96b5ad7d2ce2",
+      "source_sha1": "b98e76594736052ac7ab8851d95a96b5ad7d2ce2",
+      "sha256": "06373f3cf511c850f7e67e34b644f8e03db5fa36fca0c7325e023a8d3eb33b03",
+      "bytes": 13443
+    },
+    {
+      "member": "minecraft/sounds/item/bucket/empty_lava3.ogg",
+      "source_path": "mojang-object:d62e50329337eee968b1e93cce04a65aeecad27d",
+      "source_sha1": "d62e50329337eee968b1e93cce04a65aeecad27d",
+      "sha256": "2cdb763b336e146190540ffb21a0db2395b08bac3ea77f0c4d1e627dce93d84d",
+      "bytes": 11774
+    },
+    {
+      "member": "minecraft/sounds/dig/stone1.ogg",
+      "source_path": "mojang-object:4e094ed8dfa98656d8fec52a7d20c5ee6098b6ad",
+      "source_sha1": "4e094ed8dfa98656d8fec52a7d20c5ee6098b6ad",
+      "sha256": "97f2a8a73b6f577b85c1a162c31810c7aff1ad1f34564dfdacebb64b26d1c7c6",
+      "bytes": 6695
+    },
+    {
+      "member": "minecraft/sounds/dig/stone2.ogg",
+      "source_path": "mojang-object:9c92f697142ae320584bf64c0d54381d59703528",
+      "source_sha1": "9c92f697142ae320584bf64c0d54381d59703528",
+      "sha256": "98a5c3197845526e6ca9e8a669ffda843cfae3f5c7ac842ee6aac8896bae03b2",
+      "bytes": 6728
+    },
+    {
+      "member": "minecraft/sounds/dig/stone3.ogg",
+      "source_path": "mojang-object:8f23c02475d388b23e5faa680eafe6b991d7a9d4",
+      "source_sha1": "8f23c02475d388b23e5faa680eafe6b991d7a9d4",
+      "sha256": "19273f0e7e25b459ea29511dcbc4f7f209c04cea2fd1c34a16250737469ca51c",
+      "bytes": 6627
+    },
+    {
+      "member": "minecraft/sounds/dig/stone4.ogg",
+      "source_path": "mojang-object:363545a76277e5e47538b2dd3a0d6aa4f7a87d34",
+      "source_sha1": "363545a76277e5e47538b2dd3a0d6aa4f7a87d34",
+      "sha256": "b164e7324510480abac9518090e48439123ea05ebc48970e48fc59406729a197",
+      "bytes": 6516
+    },
+    {
+      "member": "minecraft/sounds/step/stone1.ogg",
+      "source_path": "mojang-object:4a2e3795ffd4d3aab0834b7e41903af3a8f7d197",
+      "source_sha1": "4a2e3795ffd4d3aab0834b7e41903af3a8f7d197",
+      "sha256": "e94a295a876421dd8a2fa5b211210f66668c31deaff43fc036f7fb6abc98ecae",
+      "bytes": 8012
+    },
+    {
+      "member": "minecraft/sounds/step/stone2.ogg",
+      "source_path": "mojang-object:22a383d9c22342305a4f16fec0bb479a885f8da2",
+      "source_sha1": "22a383d9c22342305a4f16fec0bb479a885f8da2",
+      "sha256": "2cfbf878743612960d8d7eecacc1644b1558a547d8533e22ed7ebd2c9a9625c7",
+      "bytes": 7086
+    },
+    {
+      "member": "minecraft/sounds/step/stone3.ogg",
+      "source_path": "mojang-object:a533e7ae975e62592de868e0d0572778614bd587",
+      "source_sha1": "a533e7ae975e62592de868e0d0572778614bd587",
+      "sha256": "c5d71e8d3251f6c7087e1a45bb6ff244ad5af307c90e1e29a08666f3531842ac",
+      "bytes": 6631
+    },
+    {
+      "member": "minecraft/sounds/step/stone4.ogg",
+      "source_path": "mojang-object:d5218034051a13322d7b5efc0b5a9af739615f04",
+      "source_sha1": "d5218034051a13322d7b5efc0b5a9af739615f04",
+      "sha256": "95820d0b75e8d223bb5ed1af93125beb30270e36a2f39d9bb36ae179e6bedf36",
+      "bytes": 7520
+    },
+    {
+      "member": "minecraft/sounds/step/stone5.ogg",
+      "source_path": "mojang-object:48dd05ab2e4626d74206c2b09a628a3d59ce15e9",
+      "source_sha1": "48dd05ab2e4626d74206c2b09a628a3d59ce15e9",
+      "sha256": "67b1e50426b2c94cdc46308cead018caf9844e36dd5ef4e111e324adcd232113",
+      "bytes": 7752
+    },
+    {
+      "member": "minecraft/sounds/step/stone6.ogg",
+      "source_path": "mojang-object:c4810a3de80cb57f9cdf8deaacfd36cb619cdf0b",
+      "source_sha1": "c4810a3de80cb57f9cdf8deaacfd36cb619cdf0b",
+      "sha256": "2b65e1bdb942e083d282742e8a832fd5c606caf83a3dad4fb9446f2f246354da",
+      "bytes": 8178
+    },
+    {
+      "member": "minecraft/sounds/dig/wood1.ogg",
+      "source_path": "mojang-object:9bc2a84d0aa98113fc52609976fae8fc88ea6333",
+      "source_sha1": "9bc2a84d0aa98113fc52609976fae8fc88ea6333",
+      "sha256": "cb6071c83a7f19ee555e9d661dc9e564c77ad9fcf2d1a6848aab21bc3b1c0289",
+      "bytes": 6541
+    },
+    {
+      "member": "minecraft/sounds/dig/wood2.ogg",
+      "source_path": "mojang-object:98102533e6085617a2962157b4f3658f59aea018",
+      "source_sha1": "98102533e6085617a2962157b4f3658f59aea018",
+      "sha256": "59edca84840951f2d6f0ad9ff5fd439a6dc916b2cc50164569b94ee107b4bc3f",
+      "bytes": 6294
+    },
+    {
+      "member": "minecraft/sounds/dig/wood3.ogg",
+      "source_path": "mojang-object:45b2aef7b5049e81b39b58f8d631563fadcc778b",
+      "source_sha1": "45b2aef7b5049e81b39b58f8d631563fadcc778b",
+      "sha256": "cf6be2314c08ea3fd311bdaebe14d0c73ca189bbbda09f96d26a3dea7e711cf6",
+      "bytes": 6604
+    },
+    {
+      "member": "minecraft/sounds/dig/wood4.ogg",
+      "source_path": "mojang-object:dc66978374a46ab2b87db6472804185824868095",
+      "source_sha1": "dc66978374a46ab2b87db6472804185824868095",
+      "sha256": "de868b3119b03ad42cbe502805e895a5fd8565f059f991f542b4ee68d6556bfe",
+      "bytes": 6817
+    },
+    {
+      "member": "minecraft/sounds/step/wood1.ogg",
+      "source_path": "mojang-object:0a417ba6a01b0552e7d15f5ef175ee9037405e58",
+      "source_sha1": "0a417ba6a01b0552e7d15f5ef175ee9037405e58",
+      "sha256": "9f6425b71baa08434a5ce20320b0cd3e4fb0648ca16a7c18a59f487e54a358fc",
+      "bytes": 17045
+    },
+    {
+      "member": "minecraft/sounds/step/wood2.ogg",
+      "source_path": "mojang-object:de199b6c6f0f5ce2f653273d43f57979ee31c395",
+      "source_sha1": "de199b6c6f0f5ce2f653273d43f57979ee31c395",
+      "sha256": "5da109e455b3be43651167942c4d46a779e17a0500051f945b1daf8d1121380e",
+      "bytes": 18859
+    },
+    {
+      "member": "minecraft/sounds/step/wood3.ogg",
+      "source_path": "mojang-object:20c0daaed4cc2a8b4dee028c8c85185e1322b003",
+      "source_sha1": "20c0daaed4cc2a8b4dee028c8c85185e1322b003",
+      "sha256": "dc6f1450bd37803208e5be17e9f00ab7c3438c37e0f51d13952ce5f94b192c30",
+      "bytes": 18392
+    },
+    {
+      "member": "minecraft/sounds/step/wood4.ogg",
+      "source_path": "mojang-object:8989609f97122d2624e7db821e45e8da2352b025",
+      "source_sha1": "8989609f97122d2624e7db821e45e8da2352b025",
+      "sha256": "58375f561a2efaafb72bcfc371d62c5b9bb6fcd22449b412e7861fcc6e5a4b67",
+      "bytes": 19219
+    },
+    {
+      "member": "minecraft/sounds/step/wood5.ogg",
+      "source_path": "mojang-object:3c7e76b2eabe4f1199b94d308f1c763ccceac76c",
+      "source_sha1": "3c7e76b2eabe4f1199b94d308f1c763ccceac76c",
+      "sha256": "f950e9c5638398ea3119b9fe80b7a91d5e262099a54857b711396240ef23d417",
+      "bytes": 23537
+    },
+    {
+      "member": "minecraft/sounds/step/wood6.ogg",
+      "source_path": "mojang-object:7f9bcd1e3a182da70b32881a7fe92dc17d531824",
+      "source_sha1": "7f9bcd1e3a182da70b32881a7fe92dc17d531824",
+      "sha256": "38ad366819ad0533ff883b16fa17df64dbc1ed5e65f440a227bb0bb18782cde2",
+      "bytes": 19911
+    },
+    {
+      "member": "minecraft/sounds/mob/slime/big1.ogg",
+      "source_path": "mojang-object:b5eca1979e69271b2065ac67ba2c37b5afac0f98",
+      "source_sha1": "b5eca1979e69271b2065ac67ba2c37b5afac0f98",
+      "sha256": "cbb259fba6ec5032bc3707bcf556c248f3878772097ea311202ea10cc896040c",
+      "bytes": 10917
+    },
+    {
+      "member": "minecraft/sounds/mob/slime/big2.ogg",
+      "source_path": "mojang-object:00e06362a31ad7094e452c5bcea837b061825cb0",
+      "source_sha1": "00e06362a31ad7094e452c5bcea837b061825cb0",
+      "sha256": "79196d31b6d4fff4b8cf981ecde1d906aef60e229e7d7157aec7f96bbe246697",
+      "bytes": 7931
+    },
+    {
+      "member": "minecraft/sounds/mob/slime/big3.ogg",
+      "source_path": "mojang-object:2c20816632caecf75f00bb968f51847e3a982e75",
+      "source_sha1": "2c20816632caecf75f00bb968f51847e3a982e75",
+      "sha256": "980752f0ae5cb9007259e859278815b71a033ded9cae34b08e2587740a548045",
+      "bytes": 9436
+    },
+    {
+      "member": "minecraft/sounds/mob/slime/big4.ogg",
+      "source_path": "mojang-object:c906c18d26550ae15c75e23f2c5066e4fc678c89",
+      "source_sha1": "c906c18d26550ae15c75e23f2c5066e4fc678c89",
+      "sha256": "2e3a5b5da98a39be781e8b33a517574b507477ff25f6c37c298eb6921252f2f8",
+      "bytes": 9871
+    },
+    {
+      "member": "minecraft/sounds/mob/slime/small1.ogg",
+      "source_path": "mojang-object:5cde2500773323f7997d75062f8a26afcdf62b2e",
+      "source_sha1": "5cde2500773323f7997d75062f8a26afcdf62b2e",
+      "sha256": "b8e870bb9d5416191ac0e90ca494c8e35bfcc2ad4181518c30184666495aa5e1",
+      "bytes": 6269
+    },
+    {
+      "member": "minecraft/sounds/mob/slime/small2.ogg",
+      "source_path": "mojang-object:5e2ef521293719bbe22bbb515bbcacf4c233a075",
+      "source_sha1": "5e2ef521293719bbe22bbb515bbcacf4c233a075",
+      "sha256": "5e715b90d8ea3b7b76c9f9e225b36da10a14c989b7a7a0b13ce204506c2d9aee",
+      "bytes": 5518
+    },
+    {
+      "member": "minecraft/sounds/mob/slime/small3.ogg",
+      "source_path": "mojang-object:3bc8225914b1be20db68fcdae202d5acee3234c2",
+      "source_sha1": "3bc8225914b1be20db68fcdae202d5acee3234c2",
+      "sha256": "6b450a567cf7556e7ed9c21854a5ceec3ad3db45b28ce3255962b7ba35021c54",
+      "bytes": 5314
+    },
+    {
+      "member": "minecraft/sounds/mob/slime/small4.ogg",
+      "source_path": "mojang-object:4dfe0b607c5de2e47f3b7950c56bbebbf3115957",
+      "source_sha1": "4dfe0b607c5de2e47f3b7950c56bbebbf3115957",
+      "sha256": "8b4d703ebb6d41ec9249d0247316a43f20cca82f515a7a069341dadde0d14cf2",
+      "bytes": 5387
+    },
+    {
+      "member": "minecraft/sounds/mob/slime/small5.ogg",
+      "source_path": "mojang-object:35f0b3c9c462a6c21ec213fbda2437a0e6427883",
+      "source_sha1": "35f0b3c9c462a6c21ec213fbda2437a0e6427883",
+      "sha256": "dc0551c4d6b5eed7065c22ad944e0f056d7ba2d847d22d01d8fb876a7f18c841",
+      "bytes": 4826
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/break1.ogg",
+      "source_path": "mojang-object:5b16028a58fbd888b1ccc5062e2592b2995a159a",
+      "source_sha1": "5b16028a58fbd888b1ccc5062e2592b2995a159a",
+      "sha256": "63cc186a935be10918f53cde3a0a5965f9a6b3dc323982dee98f44b80174d42c",
+      "bytes": 21143
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/break2.ogg",
+      "source_path": "mojang-object:a99000d5d82b75a4c18b44c8579ed1da123fa782",
+      "source_sha1": "a99000d5d82b75a4c18b44c8579ed1da123fa782",
+      "sha256": "bdbf6721e2864c77145db8e9692624e152046f680188a134a4e0579ba15d3c91",
+      "bytes": 21949
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/break3.ogg",
+      "source_path": "mojang-object:b2f3ee9fbe0bdef433cf03fe759f23e04fd46e29",
+      "source_sha1": "b2f3ee9fbe0bdef433cf03fe759f23e04fd46e29",
+      "sha256": "b865e8cac9a987acbee241aecd91879cd16d1a2af8575e77dbf7d9d170786038",
+      "bytes": 16606
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/break4.ogg",
+      "source_path": "mojang-object:f577d81300052c0ee8d5c090384a166a775bfc98",
+      "source_sha1": "f577d81300052c0ee8d5c090384a166a775bfc98",
+      "sha256": "389d9c5b8000993934032e71274f8b0bcd9fe1b7d4629f5d754fd0f44675c054",
+      "bytes": 21495
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/break5.ogg",
+      "source_path": "mojang-object:7e5e2978d628f7fc22ddb0fee1e108228c4aaf65",
+      "source_sha1": "7e5e2978d628f7fc22ddb0fee1e108228c4aaf65",
+      "sha256": "d1b72932710ee7e563c612b23881f3e06d03debc773c981c221a3982be4d2ed3",
+      "bytes": 18584
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/step1.ogg",
+      "source_path": "mojang-object:ec34853a3a7def9e2ed0c530fd79035c1b41d16d",
+      "source_sha1": "ec34853a3a7def9e2ed0c530fd79035c1b41d16d",
+      "sha256": "2cf7693e5bdfb6ade4507b6251c17af869a25f4688ca79882a9981954a543a33",
+      "bytes": 35807
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/step2.ogg",
+      "source_path": "mojang-object:67dd095ff29dea6092530dbf8bcf9cc77efdb49a",
+      "source_sha1": "67dd095ff29dea6092530dbf8bcf9cc77efdb49a",
+      "sha256": "f5c11e6bce3e76bd30896618133e285b6e128a54827fa020f0b6dec18831c6f3",
+      "bytes": 36764
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/step3.ogg",
+      "source_path": "mojang-object:d5d7e396f52574ac18b6cedbd713144c887a7931",
+      "source_sha1": "d5d7e396f52574ac18b6cedbd713144c887a7931",
+      "sha256": "76e587416db8562abe4833454074be2060eef0ed0c6170ef27e688c4c9000932",
+      "bytes": 20095
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/step4.ogg",
+      "source_path": "mojang-object:1ec3dff91a5db985385bf08d47749872cecc08d9",
+      "source_sha1": "1ec3dff91a5db985385bf08d47749872cecc08d9",
+      "sha256": "27e89607430f0298dc2336e5312bad83cc30d85c05f924e0d2244ba0089e623a",
+      "bytes": 34372
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/step5.ogg",
+      "source_path": "mojang-object:5dac0e85e722c9238e95439970693f1838106acd",
+      "source_sha1": "5dac0e85e722c9238e95439970693f1838106acd",
+      "sha256": "d23fa8d30526973a81153f26eac5c9f7a206b2b386791b4407473940c0acfe67",
+      "bytes": 23683
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/slide1.ogg",
+      "source_path": "mojang-object:8245b9f22fa32f4e74e150fd225fff00362e74cc",
+      "source_sha1": "8245b9f22fa32f4e74e150fd225fff00362e74cc",
+      "sha256": "ec89a08b74ceb70e7804606bbd2c2d69a6b3f0d0d8a0faa38ee2f70687fbd4fd",
+      "bytes": 27182
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/slide2.ogg",
+      "source_path": "mojang-object:013b1518d41176f1884ef17944104a8473d408ce",
+      "source_sha1": "013b1518d41176f1884ef17944104a8473d408ce",
+      "sha256": "4c9812fba4adc64d6f03d025fcbfca23c8d4a484d533d3d644b375d4df64a62f",
+      "bytes": 28425
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/slide3.ogg",
+      "source_path": "mojang-object:d4ad02bc3a9c3bd5eac9774d1130bac5cd73ba94",
+      "source_sha1": "d4ad02bc3a9c3bd5eac9774d1130bac5cd73ba94",
+      "sha256": "b943dfd661d519870ba12651ba58959a0df0b43781fc8cdffbac7f8dc6304e4d",
+      "bytes": 29290
+    },
+    {
+      "member": "minecraft/sounds/block/honeyblock/slide4.ogg",
+      "source_path": "mojang-object:102613b04262cd0f94702afd14063fa0187bc158",
+      "source_sha1": "102613b04262cd0f94702afd14063fa0187bc158",
+      "sha256": "d8f96a0c3ab39b21e5927e705eb09a73ee357624a629225112021eb604514a70",
+      "bytes": 23133
+    }
+  ],
+  "converted_to_pcm": false
+}

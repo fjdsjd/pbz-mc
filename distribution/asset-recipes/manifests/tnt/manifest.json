@@ -1,0 +1,1221 @@
+{
+  "schema": 1,
+  "format": "STEVEM01",
+  "minecraft_version": "1.21.1",
+  "namespace": "minecraft",
+  "resource": "minecraft:tnt",
+  "origin_sha256": "499f6897d1837516680f3114072d8106e11c9adcd933fe5cf051b551089b0c99",
+  "units": {
+    "tnt_scale": 6.25,
+    "fire_scale": 5.625,
+    "block_cm": 100
+  },
+  "geometry": "TNT centered +/-8 recipe units; mesh_bundle maps (-z,-x,-y). Original per-face UV and colors; horizontal identical RGBA run merging.",
+  "tnt": {
+    "mesh": "tnt.mesh",
+    "flash": "tnt_flash.mesh",
+    "flash_note": "Pinned black-monkey white geometry variant; Minecraft uses overlay UV instead."
+  },
+  "fire": {
+    "lifetime_seconds": 8,
+    "frame_count": 32,
+    "tick_rate": 20,
+    "scale": 5.625,
+    "origin": "center; spawn at support surface +45 cm for bottom Z=0",
+    "primary_mesh_pattern": "fire/fire_{frame}.mesh",
+    "source_frame_order": [
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "baseline_frame_order": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31
+    ],
+    "textured": {
+      "texture": "original/fire_0.png",
+      "mesh": "fire/fire_textured.mesh",
+      "vertices": 8,
+      "indices": 24,
+      "material": "masked unlit, SpriteTexture, nearest filter",
+      "uv_rule": "u unchanged, v=(source_frame+local_v)/32; do not interpolate between frames"
+    }
+  },
+  "particles": {
+    "path": "particles.json",
+    "sha256": "7e4f2ea1e9d290b4a5aef8b87d65404ab72629853091a549669b32f6dab44771",
+    "frames": 24
+  },
+  "flint_and_steel": {
+    "path": "assets/private/item-models/minecraft/1.21.1/item/flint_and_steel.mesh",
+    "sha256": "6b8bd078a7d94915f434646330e41a4e448f0d98ae94c0f85842111ccbec9625",
+    "manifest": "assets/private/item-models/manifest.json",
+    "key": "1.21.1/assets/minecraft/models/item/flint_and_steel.json",
+    "display": {
+      "ground": {
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "translation": [
+          0.0,
+          2.0,
+          0.0
+        ],
+        "scale": [
+          0.5,
+          0.5,
+          0.5
+        ]
+      },
+      "head": {
+        "rotation": [
+          0,
+          180,
+          0
+        ],
+        "translation": [
+          0.0,
+          13.0,
+          7.0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "thirdperson_righthand": {
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "translation": [
+          0.0,
+          3.0,
+          1.0
+        ],
+        "scale": [
+          0.55,
+          0.55,
+          0.55
+        ]
+      },
+      "firstperson_righthand": {
+        "rotation": [
+          0,
+          -90,
+          25
+        ],
+        "translation": [
+          1.13,
+          3.2,
+          1.13
+        ],
+        "scale": [
+          0.68,
+          0.68,
+          0.68
+        ]
+      },
+      "fixed": {
+        "rotation": [
+          0,
+          180,
+          0
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      },
+      "thirdperson_lefthand": {
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "translation": [
+          0.0,
+          3.0,
+          1.0
+        ],
+        "scale": [
+          0.55,
+          0.55,
+          0.55
+        ]
+      },
+      "firstperson_lefthand": {
+        "rotation": [
+          0,
+          -90,
+          25
+        ],
+        "translation": [
+          1.13,
+          3.2,
+          1.13
+        ],
+        "scale": [
+          0.68,
+          0.68,
+          0.68
+        ]
+      },
+      "gui": {
+        "rotation": [
+          0,
+          0,
+          0
+        ],
+        "translation": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    "copied": false
+  },
+  "sources": [
+    {
+      "path": "assets/minecraft/models/block/tnt.json",
+      "sha256": "ffc1c954adb24641f48d3a617123d1cc7517da0e53c2e8615732cc53a05dcc19",
+      "retained": "original/model_tnt.json"
+    },
+    {
+      "path": "assets/minecraft/models/block/cube_bottom_top.json",
+      "sha256": "14f8400761cfc0c5664d165a3602bd2bb25953ade361c77c43511147bfdd2a15",
+      "retained": "original/model_cube_bottom_top.json"
+    },
+    {
+      "path": "assets/minecraft/models/block/cube.json",
+      "sha256": "3e4aacd02e816aeba38f83076596e18ded4cf49c01e17c62d1fce79850ffb84e",
+      "retained": "original/model_cube.json"
+    },
+    {
+      "path": "assets/minecraft/models/block/block.json",
+      "sha256": "3ef6c442f1ab55d2a57fa58e28bb831268159052659f12b453b637b31ded1da8",
+      "retained": "original/model_block.json"
+    },
+    {
+      "path": "assets/minecraft/textures/block/tnt_top.png",
+      "sha256": "59b071086ceddf43d8a95dec7441e450781215b89e7998c906224af859b04c25",
+      "retained": "original/tnt_top.png"
+    },
+    {
+      "path": "assets/minecraft/textures/block/tnt_bottom.png",
+      "sha256": "bb7837ad4d44f165f3fe78d5eec19dc0713e74e9a724f214643c900bc12c3778",
+      "retained": "original/tnt_bottom.png"
+    },
+    {
+      "path": "assets/minecraft/textures/block/tnt_side.png",
+      "sha256": "950388eb9f86f9882c11e4ef291c4da8416433d9cac8ce2713abfb322f2ca159",
+      "retained": "original/tnt_side.png"
+    },
+    {
+      "path": "assets/minecraft/textures/block/fire_0.png",
+      "sha256": "9d6d68cbf19f2f9aaed72086069faaedb78b9d8384b55b663fbebb2d02afeb48",
+      "retained": "original/fire_0.png"
+    },
+    {
+      "path": "assets/minecraft/textures/block/fire_1.png",
+      "sha256": "0593f9a4ac647db8c300713907edda488e3d442a0cb458af300dcf5a707a4431",
+      "retained": "original/fire_1.png"
+    },
+    {
+      "path": "assets/minecraft/textures/block/fire_0.png.mcmeta",
+      "sha256": "658d67c1b3206e23a401d04ec196512b72702b7b8c6fa0200c6c66250529bbbb",
+      "retained": "original/fire_0.png.mcmeta"
+    },
+    {
+      "path": "assets/minecraft/textures/block/fire_1.png.mcmeta",
+      "sha256": "802acdb8f55f30146d5ed18414b21ba35650d4e550f81825ea104131c12dc4fc",
+      "retained": "original/fire_1.png.mcmeta"
+    },
+    {
+      "path": "assets/minecraft/particles/smoke.json",
+      "sha256": "6167163ecc541c935260294984013dc0d962e61bcdcbda24e31b2bf283505123",
+      "retained": "particles/smoke.json"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/generic_7.png",
+      "sha256": "858a9804aef73be823a616e0faf518ee425421a20ffbb68f2a686ac76c017ca3",
+      "retained": "particles/generic_7.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/generic_6.png",
+      "sha256": "1d0bce47b910d93d60de34deca732abeeea2dcdf0d2ed16bf8881f1f2ee92442",
+      "retained": "particles/generic_6.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/generic_5.png",
+      "sha256": "ea3bb652d7604349517ceb17061b0007578ff70f86e1adc5e823da767a315fcf",
+      "retained": "particles/generic_5.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/generic_4.png",
+      "sha256": "2cacbc3e1b3297b34997fdb46aa35bbc3597d4f1a608f7412aa843a22bfb4a28",
+      "retained": "particles/generic_4.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/generic_3.png",
+      "sha256": "0988037438acb1dab7e583e6e17dbdc0d47c51721d237ea628311fc7ae3e355a",
+      "retained": "particles/generic_3.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/generic_2.png",
+      "sha256": "b685389739d5add8d9240511f15b60e3365262c9e557b80fc3bf352dc30564a2",
+      "retained": "particles/generic_2.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/generic_1.png",
+      "sha256": "85fb6789e97a9385e823a6da6f6fbdd376c6e8165a449e8f1613ef34592afb2e",
+      "retained": "particles/generic_1.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/generic_0.png",
+      "sha256": "040799acfd2e753632cef5642ab07e0182a973cc990cbfcb6bf7d201f10cfa03",
+      "retained": "particles/generic_0.png"
+    },
+    {
+      "path": "assets/minecraft/particles/explosion.json",
+      "sha256": "02e11b7ccd699217f92c4db0e271dc83925ac22d0d1b99987d64880f71751b15",
+      "retained": "particles/explosion.json"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_0.png",
+      "sha256": "3e2ca80f6accdcf50f580df2e8777ada3279ea9b6c74c28028e1bb2d2edb9140",
+      "retained": "particles/explosion_0.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_1.png",
+      "sha256": "06b235749d132ff1ff4e946341c4eb56deb09feaa5f49cbb430383b0bbe4f292",
+      "retained": "particles/explosion_1.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_2.png",
+      "sha256": "59d5544b399a134628fb650cbd40236b3fce87184c8184b0e363bf6f0e61c159",
+      "retained": "particles/explosion_2.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_3.png",
+      "sha256": "ef8ff4cd588bd67765db9d409220706c4730cea00570d51f5fcd26fd77a3557f",
+      "retained": "particles/explosion_3.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_4.png",
+      "sha256": "dfdf936f13d93ace338f4ab287d5cf9a47f8c14df70a916c52412c4d26de41a6",
+      "retained": "particles/explosion_4.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_5.png",
+      "sha256": "42a75efcb1b91104cb2e89ad6cc69670f0ad60b856c818887e2e629ff9d032e8",
+      "retained": "particles/explosion_5.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_6.png",
+      "sha256": "b6a40db64a88e925c10f3e36b38bbe40c06a1370ee3d09258455fa8c9af28b6c",
+      "retained": "particles/explosion_6.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_7.png",
+      "sha256": "3a41ac85c7f7a4b123e78074b7bfb57d2686ff902298f17ecd875d6265b7c253",
+      "retained": "particles/explosion_7.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_8.png",
+      "sha256": "1b1683dc3e20b5680b31b5ab7a1c5ea96984a7e885a03f0c82ea57d3bc0fae25",
+      "retained": "particles/explosion_8.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_9.png",
+      "sha256": "3dbf49687edcb58dea2f10de63981cdfdcfc90f0522cca22a1cafd90afa094d1",
+      "retained": "particles/explosion_9.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_10.png",
+      "sha256": "e166b8ab4d3821dae540daaa8cfb073b44966a87383e26c64a8ca9750301468d",
+      "retained": "particles/explosion_10.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_11.png",
+      "sha256": "4be5b0241d6091fd8da22221173251811e9765813d55c39283ec65ffb5a512b4",
+      "retained": "particles/explosion_11.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_12.png",
+      "sha256": "1e6ff0498e6b03548fdaaa5be79784c62a5ee0c15920cc46be4a9fa38ef946fe",
+      "retained": "particles/explosion_12.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_13.png",
+      "sha256": "30235f3ab1ca0c28b2b203adc733d552df55cde8fe331400f25a564237d88327",
+      "retained": "particles/explosion_13.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_14.png",
+      "sha256": "89ab701df00d106141803f9f839a463d0023bf3aa9998ab4f74eaebecef9b6c8",
+      "retained": "particles/explosion_14.png"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/explosion_15.png",
+      "sha256": "94d0bbc38b84298316831ea5da745747699036261a57d354cefd9fe755289a19",
+      "retained": "particles/explosion_15.png"
+    }
+  ],
+  "upstream": {
+    "commit": "9f213556519dca4498fd46f02af6236ae121ecae",
+    "path": "research/upstream/wukong-steve/tools/ExtractMinecraft.py",
+    "sha256": "ecf5ab572145ee5af78e8b854a7dd5f10ae5e46af76cf802a45d1c780054d678",
+    "license": "PolyForm Noncommercial 1.0.0",
+    "notice": "third_party/wukong-steve/NOTICE"
+  },
+  "recipe_sha256": "2d56b7000ed38abbd06b4bde879103e316da53d88a9514ed61c03d71dc82cf77",
+  "outputs": [
+    {
+      "path": "tnt.mesh",
+      "sha256": "60105ec7b34f8f7d2e60f6f882e16c1eabea4ca33a82dffb99d4d3d53cbfdee7",
+      "bytes": 218199,
+      "vertices": 4040,
+      "indices": 6060,
+      "scale": 6.25,
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ]
+    },
+    {
+      "path": "tnt_flash.mesh",
+      "sha256": "75b3181a9c740a04c32c63dbb02a4b55de98d025d53fe9f0ae11da8458c8000f",
+      "bytes": 1341,
+      "vertices": 24,
+      "indices": 36,
+      "scale": 6.25,
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_0.mesh",
+      "sha256": "265ed01c5568c31ccb0235292ceb606a7e66e00f25ccefb230756353913c6a30",
+      "bytes": 65322,
+      "vertices": 1088,
+      "indices": 3264,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.819805153394636,
+          31.81980515339464
+        ],
+        [
+          -27.84232950922031,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_1.mesh",
+      "sha256": "50e65ad74b80d2664cba07859e9d571ed035718e74a266aafc3993d62efc7547",
+      "bytes": 66282,
+      "vertices": 1104,
+      "indices": 3312,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.819805153394636,
+          31.81980515339464
+        ],
+        [
+          -27.84232950922031,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_2.mesh",
+      "sha256": "8a4c07e37bba04330ac4b921a186831b37e5a62575dd8695faf22e19d636a6d7",
+      "bytes": 70122,
+      "vertices": 1168,
+      "indices": 3504,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_3.mesh",
+      "sha256": "30c20964f22cba0529aafd06f870003eb928b6ecd6a5ef8d26e3cd00a6ffde1d",
+      "bytes": 72042,
+      "vertices": 1200,
+      "indices": 3600,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_4.mesh",
+      "sha256": "4349299796c7d94739a7f46ea65c4861b931fb3efd40d3b7513e7e670c2e4edb",
+      "bytes": 68202,
+      "vertices": 1136,
+      "indices": 3408,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          33.75
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_5.mesh",
+      "sha256": "a5b3d13a6ddfea9c8d8ccb6abddb528faa8049b21d467dd9777a4df031e314fe",
+      "bytes": 70122,
+      "vertices": 1168,
+      "indices": 3504,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          33.75
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_6.mesh",
+      "sha256": "f9bf15e87b04ace813b5b593f725d83fc72d79b16a7a329df6694c94f1f074ed",
+      "bytes": 67242,
+      "vertices": 1120,
+      "indices": 3360,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.819805153394636
+        ],
+        [
+          -31.81980515339464,
+          27.84232950922031
+        ],
+        [
+          -45.0,
+          33.75
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_7.mesh",
+      "sha256": "a1ef38a7978ad2812152c909e769415a819914c07700a8fd1732fc33214b3add",
+      "bytes": 67242,
+      "vertices": 1120,
+      "indices": 3360,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          33.75
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_8.mesh",
+      "sha256": "68d8bc1239ea51e29dd06af9a76bae33ec7ac8d73af6137aef9420cf372c01cb",
+      "bytes": 70122,
+      "vertices": 1168,
+      "indices": 3504,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          33.75
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_9.mesh",
+      "sha256": "67a1e8d7e3eb4885fea8ff0ab90f01fc394ce2e3ed826a5f047f665fc2d1b737",
+      "bytes": 69162,
+      "vertices": 1152,
+      "indices": 3456,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          39.375
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_10.mesh",
+      "sha256": "40798a8759cd2a27ab204c55d050e7e23039f664663d652d30974d4ae443087d",
+      "bytes": 65323,
+      "vertices": 1088,
+      "indices": 3264,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          39.375
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_11.mesh",
+      "sha256": "5db19c2577cd532a54f63fe397bc6fbea5ebbbcad1e8bc244f89a8267cef8854",
+      "bytes": 62923,
+      "vertices": 1048,
+      "indices": 3144,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          39.375
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_12.mesh",
+      "sha256": "623d3411f664a8d10e1f75763a26135ab46acc2e12e5c4495b3c9d1aad6f2087",
+      "bytes": 57643,
+      "vertices": 960,
+      "indices": 2880,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          39.375
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_13.mesh",
+      "sha256": "2acbbfc410238b1b9bff93d3d209f74732022cb28969ed687c94c4ff7a9899c5",
+      "bytes": 54763,
+      "vertices": 912,
+      "indices": 2736,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          39.375
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_14.mesh",
+      "sha256": "f1d446ee977f2f6a77114b5b8971dfc6f651f4bbe03720ea814f7b134dd891f8",
+      "bytes": 54283,
+      "vertices": 904,
+      "indices": 2712,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          22.5
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_15.mesh",
+      "sha256": "f3f90a6a4662da56b4fe3dc501354436a2a71037e5f8822cc7a363da491c2aa2",
+      "bytes": 53323,
+      "vertices": 888,
+      "indices": 2664,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_16.mesh",
+      "sha256": "6b76ddc5846820faf8f72812df32f725e85a31e57eb96b75dbd0def1e629e6d5",
+      "bytes": 55723,
+      "vertices": 928,
+      "indices": 2784,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_17.mesh",
+      "sha256": "617f1809896bc1668da76c346c7b864fba8df94ddd1d645a6636d44a9a60f564",
+      "bytes": 58123,
+      "vertices": 968,
+      "indices": 2904,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          33.75
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_18.mesh",
+      "sha256": "71f9851a00d64d2ee854975bdbdc2fa1a4f03b2456ef5cf21078c88d7c153a4b",
+      "bytes": 56203,
+      "vertices": 936,
+      "indices": 2808,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          33.75
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_19.mesh",
+      "sha256": "b5d86ff925a2a1d246cab4027812a6ba4634ca25834b975ce35ca01916c410f5",
+      "bytes": 61483,
+      "vertices": 1024,
+      "indices": 3072,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_20.mesh",
+      "sha256": "3c9928b2cbbe7525d85c58311544f9decc3ec7658abfba1575fcfefa86c94c9b",
+      "bytes": 61003,
+      "vertices": 1016,
+      "indices": 3048,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          11.25
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_21.mesh",
+      "sha256": "f12194923b40eae6331ab7a930e379b4cc28766ce99300b1cb04f7a82eef4df3",
+      "bytes": 59083,
+      "vertices": 984,
+      "indices": 2952,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          11.25
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_22.mesh",
+      "sha256": "634eafac90f85881bac9a0d92bcdae7d2727ad17f873d9479f305f1f2d4d3213",
+      "bytes": 60043,
+      "vertices": 1000,
+      "indices": 3000,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          16.875
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_23.mesh",
+      "sha256": "4b1ac03e58acca1f46f8ea09100a709691dafec98060970258d15f9c186cf54f",
+      "bytes": 61963,
+      "vertices": 1032,
+      "indices": 3096,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          16.875
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_24.mesh",
+      "sha256": "e52748a20925056cd9a356654db4ecdab92bd732146b805c8e455a971a3ed0fb",
+      "bytes": 59083,
+      "vertices": 984,
+      "indices": 2952,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          16.875
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_25.mesh",
+      "sha256": "2208313cb81c5fdfd86802528b62b202db03aee08926776d7a476ca8fd8e6bf8",
+      "bytes": 59083,
+      "vertices": 984,
+      "indices": 2952,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          22.5
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_26.mesh",
+      "sha256": "ac8d37ad932d4b97293b64789d6fe9ca1ca5f7a43604160000d3c54b044ecd7f",
+      "bytes": 60043,
+      "vertices": 1000,
+      "indices": 3000,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          22.5
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_27.mesh",
+      "sha256": "4d52b6a23314ecc8ef95fbae47e161b9e9b213980eda98c5607b77831de3ce73",
+      "bytes": 57163,
+      "vertices": 952,
+      "indices": 2856,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_28.mesh",
+      "sha256": "b425c4d6e00785237e7a805d578711fe31b6d976ec8118ea9bac94fda75d9aca",
+      "bytes": 57163,
+      "vertices": 952,
+      "indices": 2856,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_29.mesh",
+      "sha256": "b58cff0c432165355e727bff9537afe76a1c64e34a15625d6b4b4e4f5c3fde04",
+      "bytes": 63403,
+      "vertices": 1056,
+      "indices": 3168,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_30.mesh",
+      "sha256": "f5764b1ffa44bda55b08fe454ae3e1cffdf686378f1818ad45a3a892dfdbdbfa",
+      "bytes": 63883,
+      "vertices": 1064,
+      "indices": 3192,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          22.5
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_31.mesh",
+      "sha256": "6f93af535db9f1bf07b5baaf7c8e12702bc2ea213aaf30badafca7ea58e364df",
+      "bytes": 58603,
+      "vertices": 976,
+      "indices": 2928,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          28.125
+        ]
+      ]
+    },
+    {
+      "path": "fire/fire_textured.mesh",
+      "sha256": "f4c8d273642e168d1866b3d8750b24474b58df3a8853038a35b2b4572cfc3d0e",
+      "bytes": 529,
+      "vertices": 8,
+      "indices": 24,
+      "scale": 5.625,
+      "bounds_cm": [
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -31.81980515339464,
+          31.81980515339464
+        ],
+        [
+          -45.0,
+          45.0
+        ]
+      ]
+    }
+  ],
+  "private_local_only": true
+}

@@ -1,0 +1,1044 @@
+{
+  "schema": 1,
+  "private_local_assets": true,
+  "format": "STEVEM01",
+  "minecraft_version": "1.21.1",
+  "namespace": "minecraft",
+  "wings": {
+    "left_wing": {
+      "origin": [
+        -10.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        10.0,
+        20.0,
+        2.0
+      ],
+      "uv": [
+        22,
+        0
+      ],
+      "dilation": 1.0,
+      "mirror": false,
+      "original_pivot_model_pixels": [
+        5.0,
+        0.0,
+        0.0
+      ],
+      "rotation_rest_radians": [
+        0.2617993877991494,
+        0.0,
+        -0.2617993877991494
+      ],
+      "path": "wings/left_wing.mesh",
+      "sha256": "6d209d8afe6569a672fec493ebcaad0783ecda004c2e104d07508a59e7d89608",
+      "bytes": 21165,
+      "binary_pivot": [
+        0,
+        0,
+        0
+      ],
+      "attachment_pivot_model_pixels": [
+        5.0,
+        0.0,
+        2.0
+      ],
+      "pivot_cm": [
+        -11.71875,
+        -29.296875,
+        -0.0
+      ],
+      "renderer_offset_model_pixels": [
+        0.0,
+        0.0,
+        2.0
+      ],
+      "texture": "textures/elytra.png",
+      "vertices": 352,
+      "indices": 1056,
+      "merged_quads": 88,
+      "source_opaque_texels": 206,
+      "vertices_before_merge": 824,
+      "double_sided_indices": true,
+      "local_bounds_model_pixels": [
+        [
+          -11.0,
+          1.0
+        ],
+        [
+          -1.0,
+          21.0
+        ],
+        [
+          -1.0,
+          3.0
+        ]
+      ]
+    },
+    "right_wing": {
+      "origin": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "size": [
+        10.0,
+        20.0,
+        2.0
+      ],
+      "uv": [
+        22,
+        0
+      ],
+      "dilation": 1.0,
+      "mirror": true,
+      "original_pivot_model_pixels": [
+        -5.0,
+        0.0,
+        0.0
+      ],
+      "rotation_rest_radians": [
+        0.2617993877991494,
+        0.0,
+        0.2617993877991494
+      ],
+      "path": "wings/right_wing.mesh",
+      "sha256": "822eb29e2011e1712423e800df7e284994ccbf0008b8c9d15e01dc24698277b5",
+      "bytes": 21166,
+      "binary_pivot": [
+        0,
+        0,
+        0
+      ],
+      "attachment_pivot_model_pixels": [
+        -5.0,
+        0.0,
+        2.0
+      ],
+      "pivot_cm": [
+        -11.71875,
+        29.296875,
+        -0.0
+      ],
+      "renderer_offset_model_pixels": [
+        0.0,
+        0.0,
+        2.0
+      ],
+      "texture": "textures/elytra.png",
+      "vertices": 352,
+      "indices": 1056,
+      "merged_quads": 88,
+      "source_opaque_texels": 206,
+      "vertices_before_merge": 824,
+      "double_sided_indices": true,
+      "local_bounds_model_pixels": [
+        [
+          -1.0,
+          11.0
+        ],
+        [
+          -1.0,
+          21.0
+        ],
+        [
+          -1.0,
+          3.0
+        ]
+      ]
+    }
+  },
+  "units": {
+    "scale_for_mesh_bundle": 5.859375,
+    "pixel_cm": 5.859375,
+    "item_pixel_cm": 6.25,
+    "base_block_cm": 100,
+    "steve_scale": 0.9375
+  },
+  "coordinate_contract": "Wing binary stores original MC bone-local (x,y,z), zero pivot. mesh_bundle converts to UE(-z,-x,-y)*5.859375. Attach to Steve body at pivot_cm, which already includes the renderer offset. Do not add the original pivot twice.",
+  "rotation_contract": "Wing model R = Rz(roll)*Ry(yaw)*Rx(pitch); runtime rotation is P*R*P^-1 with P(x,y,z)=(-z,-x,-y). Item display uses the separate existing generated-item contract.",
+  "material_contract": "Original hard-alpha holes omitted; exact RGBA rectangles merged only within original cube faces; original no-cull backface index pass; original sRGB vertex colors, no resampling or palette substitution.",
+  "pose": {
+    "rest": "rotation_rest_radians per wing",
+    "gliding": {
+      "pitch_min": 0.2617993877991494,
+      "pitch_max": 0.3490658503988659,
+      "left_roll_min": -0.2617993877991494,
+      "left_roll_max": -1.5707963267948966,
+      "falling_factor": "1 - pow(-normalized_velocity_y, 1.5); otherwise 1"
+    },
+    "player_smoothing_per_tick": 0.1,
+    "right_mirrors": [
+      "yaw",
+      "roll"
+    ],
+    "crouch": {
+      "pitch": 0.6981317007977318,
+      "left_roll": -0.7853981633974483,
+      "left_yaw": 0.08726646,
+      "pivot_y_model_pixels": 3
+    }
+  },
+  "items": {
+    "pbzmc:elytra": {
+      "resource": "minecraft:elytra",
+      "minecraft_version": "1.21.1",
+      "contexts": {
+        "thirdperson_righthand": {
+          "model": "1.21.1/assets/minecraft/models/item/elytra.json",
+          "conditions": []
+        },
+        "thirdperson_lefthand": {
+          "model": "1.21.1/assets/minecraft/models/item/elytra.json",
+          "conditions": []
+        },
+        "firstperson_righthand": {
+          "model": "1.21.1/assets/minecraft/models/item/elytra.json",
+          "conditions": []
+        },
+        "firstperson_lefthand": {
+          "model": "1.21.1/assets/minecraft/models/item/elytra.json",
+          "conditions": []
+        },
+        "head": {
+          "model": "1.21.1/assets/minecraft/models/item/elytra.json",
+          "conditions": []
+        },
+        "gui": {
+          "model": "1.21.1/assets/minecraft/models/item/elytra.json",
+          "conditions": []
+        },
+        "ground": {
+          "model": "1.21.1/assets/minecraft/models/item/elytra.json",
+          "conditions": []
+        },
+        "fixed": {
+          "model": "1.21.1/assets/minecraft/models/item/elytra.json",
+          "conditions": []
+        }
+      },
+      "variants": [],
+      "item_dependencies": []
+    },
+    "pbzmc:firework_rocket": {
+      "resource": "minecraft:firework_rocket",
+      "minecraft_version": "1.21.1",
+      "contexts": {
+        "thirdperson_righthand": {
+          "model": "1.21.1/assets/minecraft/models/item/firework_rocket.json",
+          "conditions": []
+        },
+        "thirdperson_lefthand": {
+          "model": "1.21.1/assets/minecraft/models/item/firework_rocket.json",
+          "conditions": []
+        },
+        "firstperson_righthand": {
+          "model": "1.21.1/assets/minecraft/models/item/firework_rocket.json",
+          "conditions": []
+        },
+        "firstperson_lefthand": {
+          "model": "1.21.1/assets/minecraft/models/item/firework_rocket.json",
+          "conditions": []
+        },
+        "head": {
+          "model": "1.21.1/assets/minecraft/models/item/firework_rocket.json",
+          "conditions": []
+        },
+        "gui": {
+          "model": "1.21.1/assets/minecraft/models/item/firework_rocket.json",
+          "conditions": []
+        },
+        "ground": {
+          "model": "1.21.1/assets/minecraft/models/item/firework_rocket.json",
+          "conditions": []
+        },
+        "fixed": {
+          "model": "1.21.1/assets/minecraft/models/item/firework_rocket.json",
+          "conditions": []
+        }
+      },
+      "variants": [],
+      "item_dependencies": []
+    }
+  },
+  "world_firework": {
+    "path": "world/firework_rocket.mesh",
+    "sha256": "8e09477782394eb15954a5e3baec6c4871ac45fb4be2f5bd6a5f29b05b91b1e6",
+    "bytes": 31576,
+    "model": "1.21.1/assets/minecraft/models/item/firework_rocket.json",
+    "context": "ground",
+    "display": {
+      "rotation": [
+        0,
+        0,
+        0
+      ],
+      "translation": [
+        0.0,
+        2.0,
+        0.0
+      ],
+      "scale": [
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "scale_for_mesh_bundle": 6.25,
+    "billboard": "camera quaternion before ground display",
+    "shot_at_angle_rotations_degrees": [
+      [
+        "z",
+        180
+      ],
+      [
+        "y",
+        180
+      ],
+      [
+        "x",
+        90
+      ]
+    ],
+    "source_class": "net/minecraft/client/render/entity/FireworkRocketEntityRenderer",
+    "geometry_contract": "Same original generated item geometry; no invented solid rocket model; display and camera transforms remain unbaked."
+  },
+  "particles": "particles/spark-frames.json",
+  "sounds": {
+    "manifest": "sounds/manifest.json",
+    "events": {
+      "launch": [
+        "fireworks_launch1"
+      ],
+      "blast": [
+        "fireworks_blast1"
+      ],
+      "twinkle": [
+        "fireworks_twinkle1"
+      ],
+      "flying": [
+        "item_elytra_elytra_loop"
+      ]
+    },
+    "clips": 4,
+    "baseline_path": "native/json_bridge/block_audio_catalogue.hpp",
+    "baseline_sha256": "6ca073283ef603cbf190bfafe8dab21e1b3890a52ef42471b9f98777223ce13f",
+    "baseline_clips": 134,
+    "added": [],
+    "combined_clips": 134,
+    "combined_header": "sounds/native-audio-catalogue.hpp",
+    "fragment_header": "sounds/native-catalogue-fragment.hpp"
+  },
+  "labels": {
+    "pbzmc:elytra": {
+      "text": "鞘翅",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.elytra"
+    },
+    "pbzmc:firework_rocket": {
+      "text": "烟花火箭",
+      "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+      "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+      "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+      "minecraft_version": "1.21.1",
+      "kind": "minecraft-translation",
+      "key": "item.minecraft.firework_rocket"
+    }
+  },
+  "font": {
+    "regenerated": false,
+    "glyphs": [
+      {
+        "character": "火",
+        "codepoint": 28779,
+        "sha256": "acc758cef4dd7463851fa1efdf1c252768f7bd547f23ee4db904f52bb2d915d1",
+        "kind": "existing-explicit-glyph",
+        "path": "glyphs/00706b.png"
+      },
+      {
+        "character": "烟",
+        "codepoint": 28895,
+        "sha256": "b563d69c23dd36a3591f2b35e889c9210610d52164bc327b58e8e61a17ba1034",
+        "kind": "existing-original-unihex-atlas",
+        "path": "fonts/unicode/page_004.png",
+        "region": [
+          608,
+          1024,
+          16,
+          16
+        ]
+      },
+      {
+        "character": "箭",
+        "codepoint": 31661,
+        "sha256": "8d3d5b9e06a297164a466706571433f87103e72c1a5e3676e5bf3521ab336ae8",
+        "kind": "existing-explicit-glyph",
+        "path": "glyphs/007bad.png"
+      },
+      {
+        "character": "翅",
+        "codepoint": 32709,
+        "sha256": "b563d69c23dd36a3591f2b35e889c9210610d52164bc327b58e8e61a17ba1034",
+        "kind": "existing-original-unihex-atlas",
+        "path": "fonts/unicode/page_004.png",
+        "region": [
+          704,
+          1968,
+          16,
+          16
+        ]
+      },
+      {
+        "character": "花",
+        "codepoint": 33457,
+        "sha256": "45ce782b48c7085f4e6130c376feab117516b7774aa73cdf7c073e599df6e7af",
+        "kind": "existing-original-unihex-atlas",
+        "path": "fonts/unicode/page_005.png",
+        "region": [
+          1888,
+          96,
+          16,
+          16
+        ]
+      },
+      {
+        "character": "鞘",
+        "codepoint": 38808,
+        "sha256": "45ce782b48c7085f4e6130c376feab117516b7774aa73cdf7c073e599df6e7af",
+        "kind": "existing-original-unihex-atlas",
+        "path": "fonts/unicode/page_005.png",
+        "region": [
+          192,
+          1440,
+          16,
+          16
+        ]
+      }
+    ],
+    "header": "unicode_font.json",
+    "header_sha256": "c7b497cb6500d17fadd0b7e6cb458d1a231cbc069b204ca465adf13b50dda143"
+  },
+  "integration_fragments": "integration-fragments.json",
+  "no_durability_state": true,
+  "excluded_states": [
+    "original broken-elytra predicate/model"
+  ],
+  "archives": {
+    "1.21.1": "499f6897d1837516680f3114072d8106e11c9adcd933fe5cf051b551089b0c99"
+  },
+  "sources": [
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/entity/elytra.png",
+      "sha256": "1f6388d0ff4d871329aa6d0b713cdbfb48781c55da1e055d156f6681d63018f2",
+      "retained": "original/1.21.1/assets/minecraft/textures/entity/elytra.png"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/models/item/elytra.json",
+      "sha256": "d2bfd2516388768a786f545311955606aabdd8b94c78a61f7892d0bc2faebe8e",
+      "retained": "original/1.21.1/assets/minecraft/models/item/elytra.json"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/models/item/generated.json",
+      "sha256": "63190611202e75ad7b812bc9a4b31bd53f3e186895d7b53e5e280b0d1e30a67a",
+      "retained": "original/1.21.1/assets/minecraft/models/item/generated.json"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/item/elytra.png",
+      "sha256": "53e5a899bf9e52733b15ef7a7719a045666fb975db77f0e435c411603eb15ded",
+      "retained": "original/1.21.1/assets/minecraft/textures/item/elytra.png"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/models/item/firework_rocket.json",
+      "sha256": "38b414b5695bff7205e8cb1abfd1f5f48c29e7be54bc3cf98c170c6685e28a34",
+      "retained": "original/1.21.1/assets/minecraft/models/item/firework_rocket.json"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/item/firework_rocket.png",
+      "sha256": "fea5f8fdf3a1517edbc7006d327fe09b8567a0e4c2e76f8aeb8aeac68eabf786",
+      "retained": "original/1.21.1/assets/minecraft/textures/item/firework_rocket.png"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/particles/firework.json",
+      "sha256": "17bbca30b209fdeb96bd8e38f38f6e25fee95788f532a4528d757284992164cf",
+      "retained": "original/1.21.1/assets/minecraft/particles/firework.json"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/particle/spark_7.png",
+      "sha256": "aaa694f62b5474cf8001692b567270b3a6f860c41acb5242e3e95cab154326c6",
+      "retained": "original/1.21.1/assets/minecraft/textures/particle/spark_7.png"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/particle/spark_6.png",
+      "sha256": "e6dd439db2474db73a3d6dc5a1496af033e1058f02b0d8738205c469c505d9b9",
+      "retained": "original/1.21.1/assets/minecraft/textures/particle/spark_6.png"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/particle/spark_5.png",
+      "sha256": "aaa694f62b5474cf8001692b567270b3a6f860c41acb5242e3e95cab154326c6",
+      "retained": "original/1.21.1/assets/minecraft/textures/particle/spark_5.png"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/particle/spark_4.png",
+      "sha256": "cf9ab0778ff604422b3f6663d66afff001dbf75c453c58bb773a6004af381ff6",
+      "retained": "original/1.21.1/assets/minecraft/textures/particle/spark_4.png"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/particle/spark_3.png",
+      "sha256": "336bbd8bf661eb032917113e9dbf0ac04653aef202a5b397d5df15f7feb3b460",
+      "retained": "original/1.21.1/assets/minecraft/textures/particle/spark_3.png"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/particle/spark_2.png",
+      "sha256": "2ebcaa2486b0de8f4fef2caf7400deb5f61e5d6aba430716538d92275f507192",
+      "retained": "original/1.21.1/assets/minecraft/textures/particle/spark_2.png"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/particle/spark_1.png",
+      "sha256": "b69253471906f5adb443b724d89579d34a46fc2c5dd37c1ad1146e2ae8ca9bb1",
+      "retained": "original/1.21.1/assets/minecraft/textures/particle/spark_1.png"
+    },
+    {
+      "version": "1.21.1",
+      "path": "assets/minecraft/textures/particle/spark_0.png",
+      "sha256": "683d658fee68ad73d507efd7018bc87e570e38c6a6ca7f4a7a4e85c432a340de",
+      "retained": "original/1.21.1/assets/minecraft/textures/particle/spark_0.png"
+    }
+  ],
+  "recipe_sha256": {
+    "convert_elytra_firework_resources.py": "4b2241aefe62cb7b2fe04b1083e83b69331083658f2aac6adaf12ad9a589e2fe",
+    "convert_original_boat.py": "d53aeef3d6948ac395b8163d6d3f11404f33c5c9e4fecf70550e3d2dc4b751ce",
+    "convert_original_item_models.py": "3766241a3107dec5861ae49c80aa27a3392c63ee3a92425bfca756495431ac40",
+    "mc_generated_geometry.py": "4abbc66050bf36a890791a3e52761f986e69e657481c93640e0115fb84465b90"
+  },
+  "upstream": {
+    "commit": "9f213556519dca4498fd46f02af6236ae121ecae",
+    "extractor": "research/upstream/wukong-steve/tools/ExtractMinecraft.py",
+    "sha256": "ecf5ab572145ee5af78e8b854a7dd5f10ae5e46af76cf802a45d1c780054d678",
+    "license": "third_party/wukong-steve/LICENSE",
+    "notice": "third_party/wukong-steve/NOTICE"
+  },
+  "totals": {
+    "wings": 2,
+    "wing_vertices": 704,
+    "wing_indices": 2112,
+    "item_models": 2,
+    "item_contexts": 16,
+    "spark_frames": 8,
+    "audio_clips": 4
+  },
+  "outputs": [
+    {
+      "path": "textures/elytra.png",
+      "sha256": "1f6388d0ff4d871329aa6d0b713cdbfb48781c55da1e055d156f6681d63018f2",
+      "bytes": 276,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/entity/elytra.png",
+      "size": [
+        64,
+        32
+      ]
+    },
+    {
+      "path": "wings/left_wing.mesh",
+      "sha256": "6d209d8afe6569a672fec493ebcaad0783ecda004c2e104d07508a59e7d89608",
+      "bytes": 21165,
+      "vertices": 352,
+      "indices": 1056,
+      "merged_quads": 88,
+      "source_opaque_texels": 206,
+      "vertices_before_merge": 824,
+      "double_sided_indices": true,
+      "local_bounds_model_pixels": [
+        [
+          -11.0,
+          1.0
+        ],
+        [
+          -1.0,
+          21.0
+        ],
+        [
+          -1.0,
+          3.0
+        ]
+      ]
+    },
+    {
+      "path": "wings/right_wing.mesh",
+      "sha256": "822eb29e2011e1712423e800df7e284994ccbf0008b8c9d15e01dc24698277b5",
+      "bytes": 21166,
+      "vertices": 352,
+      "indices": 1056,
+      "merged_quads": 88,
+      "source_opaque_texels": 206,
+      "vertices_before_merge": 824,
+      "double_sided_indices": true,
+      "local_bounds_model_pixels": [
+        [
+          -1.0,
+          11.0
+        ],
+        [
+          -1.0,
+          21.0
+        ],
+        [
+          -1.0,
+          3.0
+        ]
+      ]
+    },
+    {
+      "path": "items/elytra.mesh",
+      "sha256": "244c5b65483f1124341712ba00eececbb434738536e3e9953b905d817d9afafa",
+      "bytes": 78232
+    },
+    {
+      "path": "icons/elytra.png",
+      "sha256": "53e5a899bf9e52733b15ef7a7719a045666fb975db77f0e435c411603eb15ded",
+      "bytes": 208,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/item/elytra.png",
+      "size": [
+        16,
+        16
+      ]
+    },
+    {
+      "path": "items/firework_rocket.mesh",
+      "sha256": "8e09477782394eb15954a5e3baec6c4871ac45fb4be2f5bd6a5f29b05b91b1e6",
+      "bytes": 31576
+    },
+    {
+      "path": "icons/firework_rocket.png",
+      "sha256": "fea5f8fdf3a1517edbc7006d327fe09b8567a0e4c2e76f8aeb8aeac68eabf786",
+      "bytes": 165,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/item/firework_rocket.png",
+      "size": [
+        16,
+        16
+      ]
+    },
+    {
+      "path": "world/firework_rocket.mesh",
+      "sha256": "8e09477782394eb15954a5e3baec6c4871ac45fb4be2f5bd6a5f29b05b91b1e6",
+      "bytes": 31576
+    },
+    {
+      "path": "particles/firework.json",
+      "sha256": "17bbca30b209fdeb96bd8e38f38f6e25fee95788f532a4528d757284992164cf",
+      "bytes": 222,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/particles/firework.json"
+    },
+    {
+      "path": "particles/spark_7.png",
+      "sha256": "aaa694f62b5474cf8001692b567270b3a6f860c41acb5242e3e95cab154326c6",
+      "bytes": 118,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_7.png",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "path": "particles/spark_7.mesh",
+      "sha256": "57e9f309c242b91c962de219f13201a6140df52b59c015781215a11cfaa868e1",
+      "bytes": 4120,
+      "vertices": 68,
+      "indices": 204,
+      "operation": "exact-original-rgba-runs-billboard"
+    },
+    {
+      "path": "particles/spark_6.png",
+      "sha256": "e6dd439db2474db73a3d6dc5a1496af033e1058f02b0d8738205c469c505d9b9",
+      "bytes": 115,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_6.png",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "path": "particles/spark_6.mesh",
+      "sha256": "28e1ad0ed1d5c45fd87601d89580ac4d1f02fbaaa70a30789ef52bf03afbfc7c",
+      "bytes": 6040,
+      "vertices": 100,
+      "indices": 300,
+      "operation": "exact-original-rgba-runs-billboard"
+    },
+    {
+      "path": "particles/spark_5.png",
+      "sha256": "aaa694f62b5474cf8001692b567270b3a6f860c41acb5242e3e95cab154326c6",
+      "bytes": 118,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_5.png",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "path": "particles/spark_5.mesh",
+      "sha256": "57e9f309c242b91c962de219f13201a6140df52b59c015781215a11cfaa868e1",
+      "bytes": 4120,
+      "vertices": 68,
+      "indices": 204,
+      "operation": "exact-original-rgba-runs-billboard"
+    },
+    {
+      "path": "particles/spark_4.png",
+      "sha256": "cf9ab0778ff604422b3f6663d66afff001dbf75c453c58bb773a6004af381ff6",
+      "bytes": 121,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_4.png",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "path": "particles/spark_4.mesh",
+      "sha256": "a57b3c18c933b86a3fb0e46ef107194f3c311098444aada559fb96af3d60954d",
+      "bytes": 6040,
+      "vertices": 100,
+      "indices": 300,
+      "operation": "exact-original-rgba-runs-billboard"
+    },
+    {
+      "path": "particles/spark_3.png",
+      "sha256": "336bbd8bf661eb032917113e9dbf0ac04653aef202a5b397d5df15f7feb3b460",
+      "bytes": 112,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_3.png",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "path": "particles/spark_3.mesh",
+      "sha256": "eea3a35f1263056bf249b2135b3bff15c28d69471b51eacec89df1f9366f3c44",
+      "bytes": 3640,
+      "vertices": 60,
+      "indices": 180,
+      "operation": "exact-original-rgba-runs-billboard"
+    },
+    {
+      "path": "particles/spark_2.png",
+      "sha256": "2ebcaa2486b0de8f4fef2caf7400deb5f61e5d6aba430716538d92275f507192",
+      "bytes": 112,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_2.png",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "path": "particles/spark_2.mesh",
+      "sha256": "c4c675abc58b98872dd8cbf9c4391b1ab448c8b4c20ae863c2c7713c0d2c96ad",
+      "bytes": 3160,
+      "vertices": 52,
+      "indices": 156,
+      "operation": "exact-original-rgba-runs-billboard"
+    },
+    {
+      "path": "particles/spark_1.png",
+      "sha256": "b69253471906f5adb443b724d89579d34a46fc2c5dd37c1ad1146e2ae8ca9bb1",
+      "bytes": 104,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_1.png",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "path": "particles/spark_1.mesh",
+      "sha256": "d63d4462ce0b0678a16980e4920aea534680e4cb408937d98c5936e3b5258b7d",
+      "bytes": 2200,
+      "vertices": 36,
+      "indices": 108,
+      "operation": "exact-original-rgba-runs-billboard"
+    },
+    {
+      "path": "particles/spark_0.png",
+      "sha256": "683d658fee68ad73d507efd7018bc87e570e38c6a6ca7f4a7a4e85c432a340de",
+      "bytes": 80,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_0.png",
+      "size": [
+        8,
+        8
+      ]
+    },
+    {
+      "path": "particles/spark_0.mesh",
+      "sha256": "2eb90b947e6bffcf9e8e0a823c0d572ba2fa062838b1551e3e79f862f094ba2a",
+      "bytes": 1240,
+      "vertices": 20,
+      "indices": 60,
+      "operation": "exact-original-rgba-runs-billboard"
+    },
+    {
+      "path": "particles/spark_atlas.png",
+      "sha256": "181c00edbb162421fd55787fa21aaefc73a8d68d0440fb06a7ae154bcdada4cc",
+      "bytes": 3597,
+      "size": [
+        64,
+        256
+      ],
+      "operation": "original-spark-frames-layout-and-quantized-opacity",
+      "sources": [
+        {
+          "path": "particles/spark_7.png",
+          "sha256": "aaa694f62b5474cf8001692b567270b3a6f860c41acb5242e3e95cab154326c6"
+        },
+        {
+          "path": "particles/spark_6.png",
+          "sha256": "e6dd439db2474db73a3d6dc5a1496af033e1058f02b0d8738205c469c505d9b9"
+        },
+        {
+          "path": "particles/spark_5.png",
+          "sha256": "aaa694f62b5474cf8001692b567270b3a6f860c41acb5242e3e95cab154326c6"
+        },
+        {
+          "path": "particles/spark_4.png",
+          "sha256": "cf9ab0778ff604422b3f6663d66afff001dbf75c453c58bb773a6004af381ff6"
+        },
+        {
+          "path": "particles/spark_3.png",
+          "sha256": "336bbd8bf661eb032917113e9dbf0ac04653aef202a5b397d5df15f7feb3b460"
+        },
+        {
+          "path": "particles/spark_2.png",
+          "sha256": "2ebcaa2486b0de8f4fef2caf7400deb5f61e5d6aba430716538d92275f507192"
+        },
+        {
+          "path": "particles/spark_1.png",
+          "sha256": "b69253471906f5adb443b724d89579d34a46fc2c5dd37c1ad1146e2ae8ca9bb1"
+        },
+        {
+          "path": "particles/spark_0.png",
+          "sha256": "683d658fee68ad73d507efd7018bc87e570e38c6a6ca7f4a7a4e85c432a340de"
+        }
+      ]
+    },
+    {
+      "path": "particles/spark-frames.json",
+      "sha256": "748d4557b3a4ff4dce54d71b4dde66751153a29b8fdbc84811d10ef59819f9c8",
+      "bytes": 21852
+    },
+    {
+      "path": "sounds/fireworks_launch1.pcm",
+      "sha256": "2dbae54f54d6577953401b00e8954beab0331cb58fa45560876e73a35b126e31",
+      "bytes": 286652,
+      "operation": "original-ogg-to-s16le-stereo-44100"
+    },
+    {
+      "path": "original/1.21.1/indexed-assets/minecraft/sounds/fireworks/launch1.ogg",
+      "sha256": "1505700bf51d55c1b99505edc3e3d4cd2158376ef88885c9ea4544f36dbc618f",
+      "bytes": 15598,
+      "operation": "byte-copy",
+      "source": "minecraft/sounds/fireworks/launch1.ogg",
+      "source_sha1": "b1715242916d56140486c612056ea4d6dd5a4404"
+    },
+    {
+      "path": "sounds/fireworks_blast1.pcm",
+      "sha256": "78cd0453016bfdec18546f75a3369e10125b4d52873ab60793c0f350db749c10",
+      "bytes": 176400,
+      "operation": "original-ogg-to-s16le-stereo-44100"
+    },
+    {
+      "path": "original/1.21.1/indexed-assets/minecraft/sounds/fireworks/blast1.ogg",
+      "sha256": "9377171cf33d982af07afee8969bbb2211516c287d579bb1ba49ab75c06a9232",
+      "bytes": 11071,
+      "operation": "byte-copy",
+      "source": "minecraft/sounds/fireworks/blast1.ogg",
+      "source_sha1": "d9d7511e8944da0c7ab4ed2d3e3d964f98dd6997"
+    },
+    {
+      "path": "sounds/fireworks_twinkle1.pcm",
+      "sha256": "9665f443426c1e98565a496903e368f2438c255be05af01e55b9cea6c984eaf0",
+      "bytes": 235296,
+      "operation": "original-ogg-to-s16le-stereo-44100"
+    },
+    {
+      "path": "original/1.21.1/indexed-assets/minecraft/sounds/fireworks/twinkle1.ogg",
+      "sha256": "0c2eaff9130e2ed5fec3543e0d7e156b5d4489245fb4a7c591fc6020aed8147d",
+      "bytes": 14328,
+      "operation": "byte-copy",
+      "source": "minecraft/sounds/fireworks/twinkle1.ogg",
+      "source_sha1": "41b9c631e9c1c40800b3b02a0ac5855d6ad4846d"
+    },
+    {
+      "path": "sounds/item_elytra_elytra_loop.pcm",
+      "sha256": "dd44c7914b676f79769012a12d2c4ceb5456a6e5e04d7c9c793adce575948cbd",
+      "bytes": 1802868,
+      "operation": "original-ogg-to-s16le-stereo-44100"
+    },
+    {
+      "path": "original/1.21.1/indexed-assets/minecraft/sounds/item/elytra/elytra_loop.ogg",
+      "sha256": "0f51f0fd6647cf4d5fcabc1184cb5d3858aa49fe677e71991245d8b5b54ec1cd",
+      "bytes": 132727,
+      "operation": "byte-copy",
+      "source": "minecraft/sounds/item/elytra/elytra_loop.ogg",
+      "source_sha1": "90d599a1760137a7c4d7a52c77f5c65c02f137d4"
+    },
+    {
+      "path": "sounds/manifest.json",
+      "sha256": "d9b2a83ea5370474b41d4607e7944a04de52ae8f7b1222b409360f65f7198ee1",
+      "bytes": 4365
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/entity/elytra.png",
+      "sha256": "1f6388d0ff4d871329aa6d0b713cdbfb48781c55da1e055d156f6681d63018f2",
+      "bytes": 276,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/entity/elytra.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/models/item/elytra.json",
+      "sha256": "d2bfd2516388768a786f545311955606aabdd8b94c78a61f7892d0bc2faebe8e",
+      "bytes": 250,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/models/item/elytra.json",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/models/item/generated.json",
+      "sha256": "63190611202e75ad7b812bc9a4b31bd53f3e186895d7b53e5e280b0d1e30a67a",
+      "bytes": 813,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/models/item/generated.json",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/item/elytra.png",
+      "sha256": "53e5a899bf9e52733b15ef7a7719a045666fb975db77f0e435c411603eb15ded",
+      "bytes": 208,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/item/elytra.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/models/item/firework_rocket.json",
+      "sha256": "38b414b5695bff7205e8cb1abfd1f5f48c29e7be54bc3cf98c170c6685e28a34",
+      "bytes": 110,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/models/item/firework_rocket.json",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/item/firework_rocket.png",
+      "sha256": "fea5f8fdf3a1517edbc7006d327fe09b8567a0e4c2e76f8aeb8aeac68eabf786",
+      "bytes": 165,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/item/firework_rocket.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/particles/firework.json",
+      "sha256": "17bbca30b209fdeb96bd8e38f38f6e25fee95788f532a4528d757284992164cf",
+      "bytes": 222,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/particles/firework.json",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/particle/spark_7.png",
+      "sha256": "aaa694f62b5474cf8001692b567270b3a6f860c41acb5242e3e95cab154326c6",
+      "bytes": 118,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_7.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/particle/spark_6.png",
+      "sha256": "e6dd439db2474db73a3d6dc5a1496af033e1058f02b0d8738205c469c505d9b9",
+      "bytes": 115,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_6.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/particle/spark_5.png",
+      "sha256": "aaa694f62b5474cf8001692b567270b3a6f860c41acb5242e3e95cab154326c6",
+      "bytes": 118,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_5.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/particle/spark_4.png",
+      "sha256": "cf9ab0778ff604422b3f6663d66afff001dbf75c453c58bb773a6004af381ff6",
+      "bytes": 121,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_4.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/particle/spark_3.png",
+      "sha256": "336bbd8bf661eb032917113e9dbf0ac04653aef202a5b397d5df15f7feb3b460",
+      "bytes": 112,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_3.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/particle/spark_2.png",
+      "sha256": "2ebcaa2486b0de8f4fef2caf7400deb5f61e5d6aba430716538d92275f507192",
+      "bytes": 112,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_2.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/particle/spark_1.png",
+      "sha256": "b69253471906f5adb443b724d89579d34a46fc2c5dd37c1ad1146e2ae8ca9bb1",
+      "bytes": 104,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_1.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "original/1.21.1/assets/minecraft/textures/particle/spark_0.png",
+      "sha256": "683d658fee68ad73d507efd7018bc87e570e38c6a6ca7f4a7a4e85c432a340de",
+      "bytes": 80,
+      "operation": "byte-copy",
+      "source": "assets/minecraft/textures/particle/spark_0.png",
+      "minecraft_version": "1.21.1"
+    },
+    {
+      "path": "LICENSE-NOTICE.txt",
+      "sha256": "bd691bcb5991f2fda20decb22bf5eeef4beb26d017e810a38d44f8498a720d87",
+      "bytes": 382
+    }
+  ],
+  "shared_manifests_modified": false
+}

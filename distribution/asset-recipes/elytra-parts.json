@@ -1,0 +1,58 @@
+{
+  "left_wing": {
+    "origin": [
+      -10.0,
+      0.0,
+      0.0
+    ],
+    "size": [
+      10.0,
+      20.0,
+      2.0
+    ],
+    "uv": [
+      22,
+      0
+    ],
+    "dilation": 1.0,
+    "mirror": false,
+    "original_pivot_model_pixels": [
+      5.0,
+      0.0,
+      0.0
+    ],
+    "rotation_rest_radians": [
+      0.2617993877991494,
+      0.0,
+      -0.2617993877991494
+    ]
+  },
+  "right_wing": {
+    "origin": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "size": [
+      10.0,
+      20.0,
+      2.0
+    ],
+    "uv": [
+      22,
+      0
+    ],
+    "dilation": 1.0,
+    "mirror": true,
+    "original_pivot_model_pixels": [
+      -5.0,
+      0.0,
+      0.0
+    ],
+    "rotation_rest_radians": [
+      0.2617993877991494,
+      0.0,
+      0.2617993877991494
+    ]
+  }
+}

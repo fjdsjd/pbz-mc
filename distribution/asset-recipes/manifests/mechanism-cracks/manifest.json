@@ -1,0 +1,420 @@
+{
+  "schema": 1,
+  "private_local_assets": true,
+  "minecraft_version": "1.21.1",
+  "namespace": "minecraft",
+  "source_archive": "minecraft-client.jar",
+  "archive_sha256": "499f6897d1837516680f3114072d8106e11c9adcd933fe5cf051b551089b0c99",
+  "stages": [
+    {
+      "stage": 0,
+      "path": "textures/destroy_stage_0.png",
+      "bytes": 102,
+      "sha256": "f499533ea289fe9f34b0917d630129b4805ae39b9491859eba496682cd2fd0c3",
+      "size": [
+        16,
+        16
+      ],
+      "original_alpha_values": [
+        1,
+        255
+      ],
+      "source": "assets/minecraft/textures/block/destroy_stage_0.png",
+      "source_sha256": "f499533ea289fe9f34b0917d630129b4805ae39b9491859eba496682cd2fd0c3",
+      "operation": "byte-copy",
+      "samples": {
+        "path": "samples/destroy_stage_0.gray8",
+        "bytes": 256,
+        "sha256": "c5cf773b14ab77cd1526b8947f92233063797c8a5d133220a7f6f7f8f585a56e",
+        "format": "gray8-row-major-alpha-discard",
+        "values": [
+          0,
+          61,
+          155
+        ],
+        "operation": "source-gray-if-alpha>=26-else-zero"
+      }
+    },
+    {
+      "stage": 1,
+      "path": "textures/destroy_stage_1.png",
+      "bytes": 115,
+      "sha256": "0de13fe3603a953791dc229fbd78ff825845af57bfdb4137eddcc7ef9debce34",
+      "size": [
+        16,
+        16
+      ],
+      "original_alpha_values": [
+        1,
+        255
+      ],
+      "source": "assets/minecraft/textures/block/destroy_stage_1.png",
+      "source_sha256": "0de13fe3603a953791dc229fbd78ff825845af57bfdb4137eddcc7ef9debce34",
+      "operation": "byte-copy",
+      "samples": {
+        "path": "samples/destroy_stage_1.gray8",
+        "bytes": 256,
+        "sha256": "6efc1e698b4e08a34b8ffa3135d437a06b4cac3df6515e81108b1b6400029f05",
+        "format": "gray8-row-major-alpha-discard",
+        "values": [
+          0,
+          61,
+          155
+        ],
+        "operation": "source-gray-if-alpha>=26-else-zero"
+      }
+    },
+    {
+      "stage": 2,
+      "path": "textures/destroy_stage_2.png",
+      "bytes": 123,
+      "sha256": "3dad4672e2cd127105cc113bc7584785ae1d600a993e5e5261661d4805fe9b11",
+      "size": [
+        16,
+        16
+      ],
+      "original_alpha_values": [
+        1,
+        255
+      ],
+      "source": "assets/minecraft/textures/block/destroy_stage_2.png",
+      "source_sha256": "3dad4672e2cd127105cc113bc7584785ae1d600a993e5e5261661d4805fe9b11",
+      "operation": "byte-copy",
+      "samples": {
+        "path": "samples/destroy_stage_2.gray8",
+        "bytes": 256,
+        "sha256": "68b223a0798c735f0eee4646d8916b086460bb271d9203a76fa7c025ac920d95",
+        "format": "gray8-row-major-alpha-discard",
+        "values": [
+          0,
+          61,
+          155
+        ],
+        "operation": "source-gray-if-alpha>=26-else-zero"
+      }
+    },
+    {
+      "stage": 3,
+      "path": "textures/destroy_stage_3.png",
+      "bytes": 140,
+      "sha256": "d7eca4b992e6a5e33b7a9247b28f7ecb5ef7d64ca876cd6fa4239aca4822552b",
+      "size": [
+        16,
+        16
+      ],
+      "original_alpha_values": [
+        1,
+        255
+      ],
+      "source": "assets/minecraft/textures/block/destroy_stage_3.png",
+      "source_sha256": "d7eca4b992e6a5e33b7a9247b28f7ecb5ef7d64ca876cd6fa4239aca4822552b",
+      "operation": "byte-copy",
+      "samples": {
+        "path": "samples/destroy_stage_3.gray8",
+        "bytes": 256,
+        "sha256": "ea94f3f7d03cd2964984daade7ce33fa42b7826d2065a2cfc160027c73836f2a",
+        "format": "gray8-row-major-alpha-discard",
+        "values": [
+          0,
+          61,
+          155
+        ],
+        "operation": "source-gray-if-alpha>=26-else-zero"
+      }
+    },
+    {
+      "stage": 4,
+      "path": "textures/destroy_stage_4.png",
+      "bytes": 143,
+      "sha256": "5d26b667ba1b56164cfa9cc8860a7f603fe0091223249a3c312febd7526c18a3",
+      "size": [
+        16,
+        16
+      ],
+      "original_alpha_values": [
+        1,
+        255
+      ],
+      "source": "assets/minecraft/textures/block/destroy_stage_4.png",
+      "source_sha256": "5d26b667ba1b56164cfa9cc8860a7f603fe0091223249a3c312febd7526c18a3",
+      "operation": "byte-copy",
+      "samples": {
+        "path": "samples/destroy_stage_4.gray8",
+        "bytes": 256,
+        "sha256": "7294ee71a61025e81119d2cd0f4d8ca569853363c989a2afe4e82fe8503b9c58",
+        "format": "gray8-row-major-alpha-discard",
+        "values": [
+          0,
+          61,
+          155
+        ],
+        "operation": "source-gray-if-alpha>=26-else-zero"
+      }
+    },
+    {
+      "stage": 5,
+      "path": "textures/destroy_stage_5.png",
+      "bytes": 159,
+      "sha256": "e66112ebadbed250bf374685e5e8f49ecab78aae6d7c8c3c05f503f5a0e2fb28",
+      "size": [
+        16,
+        16
+      ],
+      "original_alpha_values": [
+        1,
+        255
+      ],
+      "source": "assets/minecraft/textures/block/destroy_stage_5.png",
+      "source_sha256": "e66112ebadbed250bf374685e5e8f49ecab78aae6d7c8c3c05f503f5a0e2fb28",
+      "operation": "byte-copy",
+      "samples": {
+        "path": "samples/destroy_stage_5.gray8",
+        "bytes": 256,
+        "sha256": "1463568b18f79f842201d767a03952a05fddd34c19a97731829f1a01aa75cd73",
+        "format": "gray8-row-major-alpha-discard",
+        "values": [
+          0,
+          61,
+          155
+        ],
+        "operation": "source-gray-if-alpha>=26-else-zero"
+      }
+    },
+    {
+      "stage": 6,
+      "path": "textures/destroy_stage_6.png",
+      "bytes": 160,
+      "sha256": "e2d6371698dff727db1f06f9176033c3f6774671f4c87718c05ac38910b12e21",
+      "size": [
+        16,
+        16
+      ],
+      "original_alpha_values": [
+        1,
+        255
+      ],
+      "source": "assets/minecraft/textures/block/destroy_stage_6.png",
+      "source_sha256": "e2d6371698dff727db1f06f9176033c3f6774671f4c87718c05ac38910b12e21",
+      "operation": "byte-copy",
+      "samples": {
+        "path": "samples/destroy_stage_6.gray8",
+        "bytes": 256,
+        "sha256": "45b1e2a3812f4b9e4430af9405998d8e0c8bb027321af1df6760455ea6f1d77c",
+        "format": "gray8-row-major-alpha-discard",
+        "values": [
+          0,
+          61,
+          155
+        ],
+        "operation": "source-gray-if-alpha>=26-else-zero"
+      }
+    },
+    {
+      "stage": 7,
+      "path": "textures/destroy_stage_7.png",
+      "bytes": 174,
+      "sha256": "e57b32b06a2f1dea079b880bfe6b767d1ee638b07027c82f4abb82ed5330cba7",
+      "size": [
+        16,
+        16
+      ],
+      "original_alpha_values": [
+        1,
+        255
+      ],
+      "source": "assets/minecraft/textures/block/destroy_stage_7.png",
+      "source_sha256": "e57b32b06a2f1dea079b880bfe6b767d1ee638b07027c82f4abb82ed5330cba7",
+      "operation": "byte-copy",
+      "samples": {
+        "path": "samples/destroy_stage_7.gray8",
+        "bytes": 256,
+        "sha256": "fde51c861d91d67556effede0f33bbd03f1c4e3ea641fee9b9efe34684b75946",
+        "format": "gray8-row-major-alpha-discard",
+        "values": [
+          0,
+          61,
+          155
+        ],
+        "operation": "source-gray-if-alpha>=26-else-zero"
+      }
+    },
+    {
+      "stage": 8,
+      "path": "textures/destroy_stage_8.png",
+      "bytes": 180,
+      "sha256": "e1c1d8c8ec097fa8de5d0dd6e8f69972c1afb1504bff4899d1911f245de81cc7",
+      "size": [
+        16,
+        16
+      ],
+      "original_alpha_values": [
+        1,
+        255
+      ],
+      "source": "assets/minecraft/textures/block/destroy_stage_8.png",
+      "source_sha256": "e1c1d8c8ec097fa8de5d0dd6e8f69972c1afb1504bff4899d1911f245de81cc7",
+      "operation": "byte-copy",
+      "samples": {
+        "path": "samples/destroy_stage_8.gray8",
+        "bytes": 256,
+        "sha256": "2c0e4771abf6dfb03d7b19cdf9df2d10a48d8ee4c47d0654cd25103612673ee2",
+        "format": "gray8-row-major-alpha-discard",
+        "values": [
+          0,
+          61,
+          155
+        ],
+        "operation": "source-gray-if-alpha>=26-else-zero"
+      }
+    },
+    {
+      "stage": 9,
+      "path": "textures/destroy_stage_9.png",
+      "bytes": 180,
+      "sha256": "37aff035cb4ba9d7666b4d8b3270caa5427d0d15ff6850d3bd6c105246bd0638",
+      "size": [
+        16,
+        16
+      ],
+      "original_alpha_values": [
+        1,
+        255
+      ],
+      "source": "assets/minecraft/textures/block/destroy_stage_9.png",
+      "source_sha256": "37aff035cb4ba9d7666b4d8b3270caa5427d0d15ff6850d3bd6c105246bd0638",
+      "operation": "byte-copy",
+      "samples": {
+        "path": "samples/destroy_stage_9.gray8",
+        "bytes": 256,
+        "sha256": "28ffa37e51451c8ec2b6a33e9d7fc8cd03aa2b8d4a3ceabc2768b26573faa2f0",
+        "format": "gray8-row-major-alpha-discard",
+        "values": [
+          0,
+          61,
+          155
+        ],
+        "operation": "source-gray-if-alpha>=26-else-zero"
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "path": "textures/destroy_stage_0.png",
+      "bytes": 102,
+      "sha256": "f499533ea289fe9f34b0917d630129b4805ae39b9491859eba496682cd2fd0c3"
+    },
+    {
+      "path": "samples/destroy_stage_0.gray8",
+      "bytes": 256,
+      "sha256": "c5cf773b14ab77cd1526b8947f92233063797c8a5d133220a7f6f7f8f585a56e"
+    },
+    {
+      "path": "textures/destroy_stage_1.png",
+      "bytes": 115,
+      "sha256": "0de13fe3603a953791dc229fbd78ff825845af57bfdb4137eddcc7ef9debce34"
+    },
+    {
+      "path": "samples/destroy_stage_1.gray8",
+      "bytes": 256,
+      "sha256": "6efc1e698b4e08a34b8ffa3135d437a06b4cac3df6515e81108b1b6400029f05"
+    },
+    {
+      "path": "textures/destroy_stage_2.png",
+      "bytes": 123,
+      "sha256": "3dad4672e2cd127105cc113bc7584785ae1d600a993e5e5261661d4805fe9b11"
+    },
+    {
+      "path": "samples/destroy_stage_2.gray8",
+      "bytes": 256,
+      "sha256": "68b223a0798c735f0eee4646d8916b086460bb271d9203a76fa7c025ac920d95"
+    },
+    {
+      "path": "textures/destroy_stage_3.png",
+      "bytes": 140,
+      "sha256": "d7eca4b992e6a5e33b7a9247b28f7ecb5ef7d64ca876cd6fa4239aca4822552b"
+    },
+    {
+      "path": "samples/destroy_stage_3.gray8",
+      "bytes": 256,
+      "sha256": "ea94f3f7d03cd2964984daade7ce33fa42b7826d2065a2cfc160027c73836f2a"
+    },
+    {
+      "path": "textures/destroy_stage_4.png",
+      "bytes": 143,
+      "sha256": "5d26b667ba1b56164cfa9cc8860a7f603fe0091223249a3c312febd7526c18a3"
+    },
+    {
+      "path": "samples/destroy_stage_4.gray8",
+      "bytes": 256,
+      "sha256": "7294ee71a61025e81119d2cd0f4d8ca569853363c989a2afe4e82fe8503b9c58"
+    },
+    {
+      "path": "textures/destroy_stage_5.png",
+      "bytes": 159,
+      "sha256": "e66112ebadbed250bf374685e5e8f49ecab78aae6d7c8c3c05f503f5a0e2fb28"
+    },
+    {
+      "path": "samples/destroy_stage_5.gray8",
+      "bytes": 256,
+      "sha256": "1463568b18f79f842201d767a03952a05fddd34c19a97731829f1a01aa75cd73"
+    },
+    {
+      "path": "textures/destroy_stage_6.png",
+      "bytes": 160,
+      "sha256": "e2d6371698dff727db1f06f9176033c3f6774671f4c87718c05ac38910b12e21"
+    },
+    {
+      "path": "samples/destroy_stage_6.gray8",
+      "bytes": 256,
+      "sha256": "45b1e2a3812f4b9e4430af9405998d8e0c8bb027321af1df6760455ea6f1d77c"
+    },
+    {
+      "path": "textures/destroy_stage_7.png",
+      "bytes": 174,
+      "sha256": "e57b32b06a2f1dea079b880bfe6b767d1ee638b07027c82f4abb82ed5330cba7"
+    },
+    {
+      "path": "samples/destroy_stage_7.gray8",
+      "bytes": 256,
+      "sha256": "fde51c861d91d67556effede0f33bbd03f1c4e3ea641fee9b9efe34684b75946"
+    },
+    {
+      "path": "textures/destroy_stage_8.png",
+      "bytes": 180,
+      "sha256": "e1c1d8c8ec097fa8de5d0dd6e8f69972c1afb1504bff4899d1911f245de81cc7"
+    },
+    {
+      "path": "samples/destroy_stage_8.gray8",
+      "bytes": 256,
+      "sha256": "2c0e4771abf6dfb03d7b19cdf9df2d10a48d8ee4c47d0654cd25103612673ee2"
+    },
+    {
+      "path": "textures/destroy_stage_9.png",
+      "bytes": 180,
+      "sha256": "37aff035cb4ba9d7666b4d8b3270caa5427d0d15ff6850d3bd6c105246bd0638"
+    },
+    {
+      "path": "samples/destroy_stage_9.gray8",
+      "bytes": 256,
+      "sha256": "28ffa37e51451c8ec2b6a33e9d7fc8cd03aa2b8d4a3ceabc2768b26573faa2f0"
+    }
+  ],
+  "recipe_sha256": "de3425bc15f927260841cc5f7fa1c59cab0898bcb9675af7e16a5bb68a18f8b6",
+  "render_contract": {
+    "material": "/Engine/EngineMaterials/DefaultTextMaterialOpaque.DefaultTextMaterialOpaque",
+    "uv_white": [
+      0.8466796875,
+      0.544921875
+    ],
+    "projection": "Original OverlayVertexConsumer dominant facing, 16x16 pixels per100cm, periodic",
+    "rgb": "round(clamp(2 * original_srgb8 * crack_gray8 / 255,0,255)); convert to linear once",
+    "alpha_discard_below": 0.1,
+    "original_png_unchanged": true,
+    "pixel_sampling": "clip source-color quads at original pixel boundaries; no texture filtering",
+    "max_active_overlays": 1,
+    "max_stage_cache": 3,
+    "native_texture_imports": 0,
+    "stage_change": "upload cached pixel geometry; source clipping only when target model changes",
+    "transparent_limit": "Only opaque mechanisms use this overlay. Instant-break slime/honey do not."
+  }
+}

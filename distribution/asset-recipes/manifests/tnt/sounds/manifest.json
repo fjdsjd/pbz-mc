@@ -1,0 +1,193 @@
+{
+  "schema": 1,
+  "version": "1.21.1",
+  "format": "s16le",
+  "channels": 2,
+  "sample_rate": 44100,
+  "event_names": {
+    "fuse": "entity.tnt.primed",
+    "flint": "item.flintandsteel.use",
+    "explosion": "entity.generic.explode",
+    "fire": "block.fire.ambient",
+    "extinguish": "block.fire.extinguish"
+  },
+  "events": {
+    "fuse": [
+      "random_fuse"
+    ],
+    "flint": [
+      "fire_ignite"
+    ],
+    "explosion": [
+      "random_explode1",
+      "random_explode2",
+      "random_explode3",
+      "random_explode4"
+    ],
+    "fire": [
+      "fire_fire"
+    ],
+    "extinguish": [
+      "random_fizz"
+    ]
+  },
+  "variants": {
+    "fuse": [
+      {
+        "clip": "random_fuse",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "flint": [
+      {
+        "clip": "fire_ignite",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "explosion": [
+      {
+        "clip": "random_explode1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "random_explode2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "random_explode3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "random_explode4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "fire": [
+      {
+        "clip": "fire_fire",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "extinguish": [
+      {
+        "clip": "random_fizz",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ]
+  },
+  "clips": [
+    {
+      "name": "random_fuse",
+      "file": "random_fuse.pcm",
+      "bytes": 499348,
+      "sha256": "307bab4c764f2ce0f193ba5d1c29f42f0e34f226c998f21e32b3118196ca0102",
+      "source": "minecraft/sounds/random/fuse.ogg",
+      "source_sha1": "a92ba2b8f6abc41aa8d679ad808a81d0aafa04b2",
+      "source_sha256": "4cf9560e566bcf200f61e460e47cd18f6002304a28d376c6ba2139ec96628828",
+      "source_codec": "vorbis",
+      "duration_seconds": 2.8307709750566894
+    },
+    {
+      "name": "fire_ignite",
+      "file": "fire_ignite.pcm",
+      "bytes": 79104,
+      "sha256": "a7d076907a9f6d02cc458b5c8e966ce7cb26b92f1949dcd48ffb3bf2f1f5d625",
+      "source": "minecraft/sounds/fire/ignite.ogg",
+      "source_sha1": "a0d1fbff7e938e92c10c1576339dda668f40e111",
+      "source_sha256": "6d3cc135c6beefcc097e63785e691063db8598b2ccad8d20374b53b474165171",
+      "source_codec": "vorbis",
+      "duration_seconds": 0.44843537414965984
+    },
+    {
+      "name": "random_explode1",
+      "file": "random_explode1.pcm",
+      "bytes": 441000,
+      "sha256": "bd89956e493067e590bebf09c8a1fbccec28cc9df69b75ff1268e609cf6029fd",
+      "source": "minecraft/sounds/random/explode1.ogg",
+      "source_sha1": "cd46e41023887558b134547e28327de6e7df189a",
+      "source_sha256": "ec6fe52205a861046bc6a45d284fbe8233b05f87bda87a67a7d4c24b74acc997",
+      "source_codec": "vorbis",
+      "duration_seconds": 2.5
+    },
+    {
+      "name": "random_explode2",
+      "file": "random_explode2.pcm",
+      "bytes": 573300,
+      "sha256": "dbfc56d87d02daa80e7effba5ed423ce2798adc3ef1cb1a20066785354a69c99",
+      "source": "minecraft/sounds/random/explode2.ogg",
+      "source_sha1": "a116e396d95a0ee245000dd4cdcc333d38ea9e3b",
+      "source_sha256": "c6438fb756b69367d9c4262def4d0c1836d6ecd4d0b6a831168c2e705253c688",
+      "source_codec": "vorbis",
+      "duration_seconds": 3.25
+    },
+    {
+      "name": "random_explode3",
+      "file": "random_explode3.pcm",
+      "bytes": 573300,
+      "sha256": "1a1a334fb1b7444bd57a5e98087cecd83d61894f1cbd4078765ec0ee2c197c2b",
+      "source": "minecraft/sounds/random/explode3.ogg",
+      "source_sha1": "a94a69e56568f5789cab05382cfd81f601189fd1",
+      "source_sha256": "6178b31e2001591c67a019ed8176d76095f821e9a869f5f2418f41ed09f7adca",
+      "source_codec": "vorbis",
+      "duration_seconds": 3.25
+    },
+    {
+      "name": "random_explode4",
+      "file": "random_explode4.pcm",
+      "bytes": 573300,
+      "sha256": "8a07e45999658e1d5387b23e872f71a1ef6d091806801116772d67731e6c4331",
+      "source": "minecraft/sounds/random/explode4.ogg",
+      "source_sha1": "f259be40364341edcaf88e339bc24ab01e49845a",
+      "source_sha256": "0524d95e0f8d537dcc7b9f585e0f99975a0676162cc722f96c05ab47c45c7a76",
+      "source_codec": "vorbis",
+      "duration_seconds": 3.25
+    },
+    {
+      "name": "fire_fire",
+      "file": "fire_fire.pcm",
+      "bytes": 321152,
+      "sha256": "76a03b267c7c9c24c9d4bf8577fac21305e815c1c9cbd39b8757f3c74d5c1502",
+      "source": "minecraft/sounds/fire/fire.ogg",
+      "source_sha1": "8b260108a73470c16cd244325242d4780cfb7d78",
+      "source_sha256": "d7c0af67c93206baaefe10e1d55968412b1e1367858b2d940366abcee4e794cc",
+      "source_codec": "vorbis",
+      "duration_seconds": 1.8205895691609977
+    },
+    {
+      "name": "random_fizz",
+      "file": "random_fizz.pcm",
+      "bytes": 220200,
+      "sha256": "84be5fd504f31fae43ef469e3004bbd3b331b9a16dba97ee28eb6bfe043ef51c",
+      "source": "minecraft/sounds/random/fizz.ogg",
+      "source_sha1": "c649e60ea9a99c97501a50d2dc4e579343e91ea8",
+      "source_sha256": "32c42c9c46b99b40191ab10dca9096ff7d7fc05f69276b418a4ae244f08e319e",
+      "source_codec": "vorbis",
+      "duration_seconds": 1.248299319727891
+    }
+  ],
+  "sounds_json_sha256": "51b23584d267ba37d3a1bafd4f24d3dda07672ab91672ea6f7a1bc86067a1a6b",
+  "asset_index_sha256": "9edfa2ad3a1850ce1c152052c5f17a8772d9b4f8f5a478b0ca4f66556816347f",
+  "asset_index": "1.21.1-17.json",
+  "recipe_sha256": "7447104b251876c3f3a64a28bdde221992e56719166a18d91253e9e3d1556d33",
+  "encoder": {
+    "path": "ffmpeg.exe",
+    "sha256": "02bf91bdadca0a6b401ee36dce0e916df882df74eb3651e02ca5c5ad00386d8a"
+  },
+  "native_audio_modified": false
+}

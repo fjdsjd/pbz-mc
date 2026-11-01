@@ -1,0 +1,2209 @@
+{
+  "schema": 1,
+  "version": "1.21.1",
+  "format": "s16le",
+  "channels": 2,
+  "sample_rate": 44100,
+  "event_names": {
+    "oak_door_open": "block.wooden_door.open",
+    "oak_door_close": "block.wooden_door.close",
+    "iron_door_open": "block.iron_door.open",
+    "iron_door_close": "block.iron_door.close",
+    "lever": "block.lever.click",
+    "button_on": "block.stone_button.click_on",
+    "button_off": "block.stone_button.click_off",
+    "comparator": "block.comparator.click",
+    "piston_extend": "block.piston.extend",
+    "piston_contract": "block.piston.contract",
+    "water_ambient": "block.water.ambient",
+    "lava_ambient": "block.lava.ambient",
+    "lava_pop": "block.lava.pop",
+    "extinguish": "block.fire.extinguish",
+    "bucket_fill": "item.bucket.fill",
+    "bucket_empty": "item.bucket.empty",
+    "bucket_fill_lava": "item.bucket.fill_lava",
+    "bucket_empty_lava": "item.bucket.empty_lava",
+    "stone_place": "block.stone.place",
+    "stone_break": "block.stone.break",
+    "stone_hit": "block.stone.hit",
+    "wood_place": "block.wood.place",
+    "wood_break": "block.wood.break",
+    "wood_hit": "block.wood.hit",
+    "metal_place": "block.metal.place",
+    "metal_break": "block.metal.break",
+    "metal_hit": "block.metal.hit",
+    "slime_place": "block.slime_block.place",
+    "slime_break": "block.slime_block.break",
+    "slime_hit": "block.slime_block.hit",
+    "slime_step": "block.slime_block.step",
+    "slime_fall": "block.slime_block.fall",
+    "honey_place": "block.honey_block.place",
+    "honey_break": "block.honey_block.break",
+    "honey_hit": "block.honey_block.hit",
+    "honey_step": "block.honey_block.step",
+    "honey_fall": "block.honey_block.fall",
+    "honey_slide": "block.honey_block.slide"
+  },
+  "events": {
+    "oak_door_open": [
+      "block_wooden_door_open1",
+      "block_wooden_door_open2"
+    ],
+    "oak_door_close": [
+      "block_wooden_door_close1",
+      "block_wooden_door_close2",
+      "block_wooden_door_close3"
+    ],
+    "iron_door_open": [
+      "block_iron_door_open1",
+      "block_iron_door_open2",
+      "block_iron_door_open3",
+      "block_iron_door_open4"
+    ],
+    "iron_door_close": [
+      "block_iron_door_close1",
+      "block_iron_door_close2",
+      "block_iron_door_close3",
+      "block_iron_door_close4"
+    ],
+    "lever": [
+      "random_click"
+    ],
+    "button_on": [
+      "random_click"
+    ],
+    "button_off": [
+      "random_click"
+    ],
+    "comparator": [
+      "random_click"
+    ],
+    "piston_extend": [
+      "tile_piston_out"
+    ],
+    "piston_contract": [
+      "tile_piston_in"
+    ],
+    "water_ambient": [
+      "liquid_water"
+    ],
+    "lava_ambient": [
+      "liquid_lava"
+    ],
+    "lava_pop": [
+      "liquid_lavapop"
+    ],
+    "extinguish": [
+      "random_fizz"
+    ],
+    "bucket_fill": [
+      "item_bucket_fill1",
+      "item_bucket_fill2",
+      "item_bucket_fill3"
+    ],
+    "bucket_empty": [
+      "item_bucket_empty1",
+      "item_bucket_empty1",
+      "item_bucket_empty2",
+      "item_bucket_empty3"
+    ],
+    "bucket_fill_lava": [
+      "item_bucket_fill_lava1",
+      "item_bucket_fill_lava2",
+      "item_bucket_fill_lava3"
+    ],
+    "bucket_empty_lava": [
+      "item_bucket_empty_lava1",
+      "item_bucket_empty_lava2",
+      "item_bucket_empty_lava3"
+    ],
+    "stone_place": [
+      "dig_stone1",
+      "dig_stone2",
+      "dig_stone3",
+      "dig_stone4"
+    ],
+    "stone_break": [
+      "dig_stone1",
+      "dig_stone2",
+      "dig_stone3",
+      "dig_stone4"
+    ],
+    "stone_hit": [
+      "step_stone1",
+      "step_stone2",
+      "step_stone3",
+      "step_stone4",
+      "step_stone5",
+      "step_stone6"
+    ],
+    "wood_place": [
+      "dig_wood1",
+      "dig_wood2",
+      "dig_wood3",
+      "dig_wood4"
+    ],
+    "wood_break": [
+      "dig_wood1",
+      "dig_wood2",
+      "dig_wood3",
+      "dig_wood4"
+    ],
+    "wood_hit": [
+      "step_wood1",
+      "step_wood2",
+      "step_wood3",
+      "step_wood4",
+      "step_wood5",
+      "step_wood6"
+    ],
+    "metal_place": [
+      "dig_stone1",
+      "dig_stone2",
+      "dig_stone3",
+      "dig_stone4"
+    ],
+    "metal_break": [
+      "dig_stone1",
+      "dig_stone2",
+      "dig_stone3",
+      "dig_stone4"
+    ],
+    "metal_hit": [
+      "step_stone1",
+      "step_stone2",
+      "step_stone3",
+      "step_stone4",
+      "step_stone5",
+      "step_stone6"
+    ],
+    "slime_place": [
+      "mob_slime_big1",
+      "mob_slime_big2",
+      "mob_slime_big3",
+      "mob_slime_big4"
+    ],
+    "slime_break": [
+      "mob_slime_big1",
+      "mob_slime_big2",
+      "mob_slime_big3",
+      "mob_slime_big4"
+    ],
+    "slime_hit": [
+      "mob_slime_small1",
+      "mob_slime_small2",
+      "mob_slime_small3",
+      "mob_slime_small4",
+      "mob_slime_small5"
+    ],
+    "slime_step": [
+      "mob_slime_small1",
+      "mob_slime_small2",
+      "mob_slime_small3",
+      "mob_slime_small4",
+      "mob_slime_small5"
+    ],
+    "slime_fall": [
+      "mob_slime_small1",
+      "mob_slime_small2",
+      "mob_slime_small3",
+      "mob_slime_small4",
+      "mob_slime_small5"
+    ],
+    "honey_place": [
+      "block_honeyblock_break1",
+      "block_honeyblock_break2",
+      "block_honeyblock_break3",
+      "block_honeyblock_break4",
+      "block_honeyblock_break5"
+    ],
+    "honey_break": [
+      "block_honeyblock_break1",
+      "block_honeyblock_break2",
+      "block_honeyblock_break3",
+      "block_honeyblock_break4",
+      "block_honeyblock_break5"
+    ],
+    "honey_hit": [
+      "block_honeyblock_step1",
+      "block_honeyblock_step2",
+      "block_honeyblock_step3",
+      "block_honeyblock_step4",
+      "block_honeyblock_step5"
+    ],
+    "honey_step": [
+      "block_honeyblock_step1",
+      "block_honeyblock_step2",
+      "block_honeyblock_step3",
+      "block_honeyblock_step4",
+      "block_honeyblock_step5"
+    ],
+    "honey_fall": [
+      "block_honeyblock_step1",
+      "block_honeyblock_step2",
+      "block_honeyblock_step3",
+      "block_honeyblock_step4",
+      "block_honeyblock_step5"
+    ],
+    "honey_slide": [
+      "block_honeyblock_slide1",
+      "block_honeyblock_slide1",
+      "block_honeyblock_slide2",
+      "block_honeyblock_slide2",
+      "block_honeyblock_slide3",
+      "block_honeyblock_slide3",
+      "block_honeyblock_slide4",
+      "block_honeyblock_slide4"
+    ]
+  },
+  "variants": {
+    "oak_door_open": [
+      {
+        "clip": "block_wooden_door_open1",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_wooden_door_open2",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "oak_door_close": [
+      {
+        "clip": "block_wooden_door_close1",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_wooden_door_close2",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_wooden_door_close3",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "iron_door_open": [
+      {
+        "clip": "block_iron_door_open1",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_iron_door_open2",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_iron_door_open3",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_iron_door_open4",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "iron_door_close": [
+      {
+        "clip": "block_iron_door_close1",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_iron_door_close2",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_iron_door_close3",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_iron_door_close4",
+        "volume": 0.9,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "lever": [
+      {
+        "clip": "random_click",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "button_on": [
+      {
+        "clip": "random_click",
+        "volume": 0.3,
+        "pitch": 0.6,
+        "weight": 1
+      }
+    ],
+    "button_off": [
+      {
+        "clip": "random_click",
+        "volume": 0.3,
+        "pitch": 0.5,
+        "weight": 1
+      }
+    ],
+    "comparator": [
+      {
+        "clip": "random_click",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "piston_extend": [
+      {
+        "clip": "tile_piston_out",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "piston_contract": [
+      {
+        "clip": "tile_piston_in",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "water_ambient": [
+      {
+        "clip": "liquid_water",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "lava_ambient": [
+      {
+        "clip": "liquid_lava",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "lava_pop": [
+      {
+        "clip": "liquid_lavapop",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "extinguish": [
+      {
+        "clip": "random_fizz",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "bucket_fill": [
+      {
+        "clip": "item_bucket_fill1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_bucket_fill2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_bucket_fill3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "bucket_empty": [
+      {
+        "clip": "item_bucket_empty1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_bucket_empty1",
+        "volume": 1,
+        "pitch": 0.9,
+        "weight": 1
+      },
+      {
+        "clip": "item_bucket_empty2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_bucket_empty3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "bucket_fill_lava": [
+      {
+        "clip": "item_bucket_fill_lava1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_bucket_fill_lava2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_bucket_fill_lava3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "bucket_empty_lava": [
+      {
+        "clip": "item_bucket_empty_lava1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_bucket_empty_lava2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_bucket_empty_lava3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "stone_place": [
+      {
+        "clip": "dig_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "stone_break": [
+      {
+        "clip": "dig_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "stone_hit": [
+      {
+        "clip": "step_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone6",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "wood_place": [
+      {
+        "clip": "dig_wood1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "wood_break": [
+      {
+        "clip": "dig_wood1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "wood_hit": [
+      {
+        "clip": "step_wood1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_wood2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_wood3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_wood4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_wood5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_wood6",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "metal_place": [
+      {
+        "clip": "dig_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "metal_break": [
+      {
+        "clip": "dig_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "metal_hit": [
+      {
+        "clip": "step_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone6",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "slime_place": [
+      {
+        "clip": "mob_slime_big1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_big2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_big3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_big4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "slime_break": [
+      {
+        "clip": "mob_slime_big1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_big2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_big3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_big4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "slime_hit": [
+      {
+        "clip": "mob_slime_small1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "slime_step": [
+      {
+        "clip": "mob_slime_small1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "slime_fall": [
+      {
+        "clip": "mob_slime_small1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_slime_small5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "honey_place": [
+      {
+        "clip": "block_honeyblock_break1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_break2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_break3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_break4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_break5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "honey_break": [
+      {
+        "clip": "block_honeyblock_break1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_break2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_break3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_break4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_break5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "honey_hit": [
+      {
+        "clip": "block_honeyblock_step1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "honey_step": [
+      {
+        "clip": "block_honeyblock_step1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "honey_fall": [
+      {
+        "clip": "block_honeyblock_step1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_step5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "honey_slide": [
+      {
+        "clip": "block_honeyblock_slide1",
+        "volume": 0.8,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_slide1",
+        "volume": 0.8,
+        "pitch": 0.9,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_slide2",
+        "volume": 0.8,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_slide2",
+        "volume": 0.8,
+        "pitch": 0.8,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_slide3",
+        "volume": 0.8,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_slide3",
+        "volume": 0.8,
+        "pitch": 0.8,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_slide4",
+        "volume": 0.8,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "block_honeyblock_slide4",
+        "volume": 0.8,
+        "pitch": 0.8,
+        "weight": 1
+      }
+    ]
+  },
+  "clips": [
+    {
+      "path": "sounds/block_wooden_door_open1.pcm",
+      "sha256": "c1909a0e7e74c6e975c5bfd1c63ddc714c3a83686ea0b870e2f06662b57c4438",
+      "bytes": 60920,
+      "name": "block_wooden_door_open1",
+      "file": "block_wooden_door_open1.pcm",
+      "source": "minecraft/sounds/block/wooden_door/open1.ogg",
+      "source_sha1": "d2ba0797ca24fcf15d105c88899089e4af5cb9f4",
+      "source_sha256": "0f6799c9b410bfd11a44d185cc617e47316d885d6615b0882297af995c62959d",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.3453514739229025
+    },
+    {
+      "path": "sounds/block_wooden_door_open2.pcm",
+      "sha256": "f0523893fc6843a5b7bffc1e8b5f089d8f0c6e60f1f9634013634c7ed4866b64",
+      "bytes": 78324,
+      "name": "block_wooden_door_open2",
+      "file": "block_wooden_door_open2.pcm",
+      "source": "minecraft/sounds/block/wooden_door/open2.ogg",
+      "source_sha1": "21464f4cfb0163f9071d2a84d818bd5ac5b6eee6",
+      "source_sha256": "d051a29e4469c1433744825b63185dbfb59d62b89151a38ab96bfd3aa5125432",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.4440136054421769
+    },
+    {
+      "path": "sounds/block_wooden_door_close1.pcm",
+      "sha256": "34d92ecbc594474bd3f8aab811f781a168438fd47ca4515f5a1a28f486e9524f",
+      "bytes": 59036,
+      "name": "block_wooden_door_close1",
+      "file": "block_wooden_door_close1.pcm",
+      "source": "minecraft/sounds/block/wooden_door/close1.ogg",
+      "source_sha1": "6e0d43b064fb69f7b63e0704d99a38bb2ebc19e0",
+      "source_sha256": "d77a889b0881364f6705558b82b3cd70c30f64350ac58c32606633ca88854313",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.33467120181405896
+    },
+    {
+      "path": "sounds/block_wooden_door_close2.pcm",
+      "sha256": "5a35e34b4032f2e30f5078b32b06047606ff060fc263ceac765eb943cb2c9142",
+      "bytes": 69180,
+      "name": "block_wooden_door_close2",
+      "file": "block_wooden_door_close2.pcm",
+      "source": "minecraft/sounds/block/wooden_door/close2.ogg",
+      "source_sha1": "4cf6992a99518dfac836228cffbbc7e8344d969b",
+      "source_sha256": "25122bcbf8511498fa0608f54618f6f78383fa4a924f1376df81f0a5ea83d730",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.3921768707482993
+    },
+    {
+      "path": "sounds/block_wooden_door_close3.pcm",
+      "sha256": "9736b1aa854aabde07e34a513af07e4a70eaa14f5a837d2973c7139db513730f",
+      "bytes": 77852,
+      "name": "block_wooden_door_close3",
+      "file": "block_wooden_door_close3.pcm",
+      "source": "minecraft/sounds/block/wooden_door/close3.ogg",
+      "source_sha1": "73a3bfcb37099c49ac22e6fa308ca14a6e4f8347",
+      "source_sha256": "4a84b8d55149c234a863f56db413458351e7d4c2ccc8cddf7c2e8c8412a278f8",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.44133786848072565
+    },
+    {
+      "path": "sounds/block_iron_door_open1.pcm",
+      "sha256": "b4335c61aea06a785789f937960b93b7ace5f753bee7e47cbbc69468790b3454",
+      "bytes": 73736,
+      "name": "block_iron_door_open1",
+      "file": "block_iron_door_open1.pcm",
+      "source": "minecraft/sounds/block/iron_door/open1.ogg",
+      "source_sha1": "a8756192499be8204a5e195b9873b6b48c0d1d25",
+      "source_sha256": "75ba30a85f82b768d5e0e89f75b7d798c17a9b8774a89d87d75e92f5654d9b45",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.4180045351473923
+    },
+    {
+      "path": "sounds/block_iron_door_open2.pcm",
+      "sha256": "38a2ddbc82f7975388bac00b1cecaca1fb4c3e2dfaffa8746013f17a5903e414",
+      "bytes": 73268,
+      "name": "block_iron_door_open2",
+      "file": "block_iron_door_open2.pcm",
+      "source": "minecraft/sounds/block/iron_door/open2.ogg",
+      "source_sha1": "0208597870daf05e8bde08d4aac04989c9ebedf2",
+      "source_sha256": "0db131ff98c30aed8a4207a4c371218648aa234749f79769c9f09e7acbe94eac",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.4153514739229025
+    },
+    {
+      "path": "sounds/block_iron_door_open3.pcm",
+      "sha256": "e4a9bed3b292a796fde1e8b762883abf8f5e95423e4fb3f03b5fca01808f638c",
+      "bytes": 60920,
+      "name": "block_iron_door_open3",
+      "file": "block_iron_door_open3.pcm",
+      "source": "minecraft/sounds/block/iron_door/open3.ogg",
+      "source_sha1": "e700e2c9abdfc27a32ac3b7f759d6c48a0846992",
+      "source_sha256": "e31be17850d27c622a4e20f1ddc5ec67ef90198ee5d81d27bfe945a18abb059d",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.3453514739229025
+    },
+    {
+      "path": "sounds/block_iron_door_open4.pcm",
+      "sha256": "1550dafa58e723cc95107fa0847ae099786922bd10d8883920fff063dd7fdb02",
+      "bytes": 69384,
+      "name": "block_iron_door_open4",
+      "file": "block_iron_door_open4.pcm",
+      "source": "minecraft/sounds/block/iron_door/open4.ogg",
+      "source_sha1": "ae6914ce7180755e98ee2d169e1757bc624bbade",
+      "source_sha256": "d9adce852ca5aa8d27ead4adcfbcbff1f0cc0d8f25da47d8618014a7a23c878b",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.3933333333333333
+    },
+    {
+      "path": "sounds/block_iron_door_close1.pcm",
+      "sha256": "a4c15a4c7b20f2b9c101ac7761437d4f0f88b377ed779f656b6d5d4e90adbae0",
+      "bytes": 63272,
+      "name": "block_iron_door_close1",
+      "file": "block_iron_door_close1.pcm",
+      "source": "minecraft/sounds/block/iron_door/close1.ogg",
+      "source_sha1": "108c61bfecd4f969778173578984503e08dd7898",
+      "source_sha256": "2ae8ad578be190ca98e322351a464ce1b08e3064ac9f2404d2267d3320db8ad2",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.3586848072562358
+    },
+    {
+      "path": "sounds/block_iron_door_close2.pcm",
+      "sha256": "8bf5a461ede849a84d705d54c944be054c8bd13d01dbbbe3200f03847aa12743",
+      "bytes": 56804,
+      "name": "block_iron_door_close2",
+      "file": "block_iron_door_close2.pcm",
+      "source": "minecraft/sounds/block/iron_door/close2.ogg",
+      "source_sha1": "aec962400204953cc7eefef2c0cc1942bbeaff38",
+      "source_sha256": "676dd74aca9e8757fdb32e951e00b09f7dc96138485b3bc4498386b2b69cd479",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.3220181405895692
+    },
+    {
+      "path": "sounds/block_iron_door_close3.pcm",
+      "sha256": "aa14cb8c1f35b9b04a0e743e3e9ca1362eb1cf6d67701c145ee79ec46b9c2968",
+      "bytes": 55596,
+      "name": "block_iron_door_close3",
+      "file": "block_iron_door_close3.pcm",
+      "source": "minecraft/sounds/block/iron_door/close3.ogg",
+      "source_sha1": "278ae35982e186ab9f4a9ef5728b18793c939e98",
+      "source_sha256": "2bedf48335359deda2216036b3e9a85071ef25408b7e96f07a003c3384f2b84f",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.31517006802721087
+    },
+    {
+      "path": "sounds/block_iron_door_close4.pcm",
+      "sha256": "ba3fac148a6fab51d529dedf9196547a3d09ead2c1cae576eacd989f0ca7cf29",
+      "bytes": 58780,
+      "name": "block_iron_door_close4",
+      "file": "block_iron_door_close4.pcm",
+      "source": "minecraft/sounds/block/iron_door/close4.ogg",
+      "source_sha1": "4710afcb488c6ee3881e3b896dfcd5cc2069049a",
+      "source_sha256": "3641524e34026b6225d038c6500c9dafc9772dd47159feee71c4b87572b93e7e",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.33321995464852605
+    },
+    {
+      "path": "sounds/random_click.pcm",
+      "sha256": "1c8f8fc5de2f732f88a9b69a415719d0c7c75f2a483b14e6fbcbd3d033e0d95b",
+      "bytes": 49332,
+      "name": "random_click",
+      "file": "random_click.pcm",
+      "source": "minecraft/sounds/random/click.ogg",
+      "source_sha1": "ec4f4d122ab7c5d44e48419de0e3de1b0922514d",
+      "source_sha256": "c8e78aea3a020d743189fd4d5b0636b791b557b608c62f6474d0f16abcfcc0d8",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.27965986394557824
+    },
+    {
+      "path": "sounds/tile_piston_out.pcm",
+      "sha256": "c8524191c6631fe5a2d607c12f5a3efbecdbee08f329e1e193919c5157f3a216",
+      "bytes": 97368,
+      "name": "tile_piston_out",
+      "file": "tile_piston_out.pcm",
+      "source": "minecraft/sounds/tile/piston/out.ogg",
+      "source_sha1": "58fc87d6d9ea1b8967ad1ec6976864c802fe1519",
+      "source_sha256": "dc7baf976c94ee4959f8c2acdedf86ce1390b32db99d4a5bebf06ffb7fa63170",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5519727891156463
+    },
+    {
+      "path": "sounds/tile_piston_in.pcm",
+      "sha256": "c751effafb12f0f992b893f38409b93a0bf3706528a5d50af22e80394b61a9d5",
+      "bytes": 97368,
+      "name": "tile_piston_in",
+      "file": "tile_piston_in.pcm",
+      "source": "minecraft/sounds/tile/piston/in.ogg",
+      "source_sha1": "c83734c663e77e44a34e5779b3fb0bb0e50aad21",
+      "source_sha256": "f926bea8a67bc06789f4b7ef81db0237aa49bd95bcdb5e129c3a0f66527804e0",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5519727891156463
+    },
+    {
+      "path": "sounds/liquid_water.pcm",
+      "sha256": "25c8db2fedbd0c1a9959653e3a1f0ca4b7408d2681d0b6a904c9493a11af2a9e",
+      "bytes": 454836,
+      "name": "liquid_water",
+      "file": "liquid_water.pcm",
+      "source": "minecraft/sounds/liquid/water.ogg",
+      "source_sha1": "3483650440deb3934255e044ddabff5b01a65356",
+      "source_sha256": "80903e62e3081674799acb05f34991042ef4a053822075f720870b76bc3a306a",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 2.57843537414966
+    },
+    {
+      "path": "sounds/liquid_lava.pcm",
+      "sha256": "f0c188795e3ca703b08aa28d0843a3225f9095d9ba63152c1a45e8dd591a6a30",
+      "bytes": 1443276,
+      "name": "liquid_lava",
+      "file": "liquid_lava.pcm",
+      "source": "minecraft/sounds/liquid/lava.ogg",
+      "source_sha1": "9272aef9f27dfcc10b6e3879b7a2a67f8faa1a83",
+      "source_sha256": "bd2024d6210d36d8d05b2d90d6ad28d69f80c4874772e2bf85d856675c7eff6e",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 8.181836734693878
+    },
+    {
+      "path": "sounds/liquid_lavapop.pcm",
+      "sha256": "65d1afbc8f1d5ced4c165e697f0be6bc30e7506dced07f82a0086a5b055a2c2d",
+      "bytes": 22684,
+      "name": "liquid_lavapop",
+      "file": "liquid_lavapop.pcm",
+      "source": "minecraft/sounds/liquid/lavapop.ogg",
+      "source_sha1": "19a5aae31c3e0018a960b709a9f0240d8d47dda7",
+      "source_sha256": "36ea4ed27e7ccee174e560e89bb5b1686d49f98136463b9ca1bccfa0d6c37f71",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.12859410430839002
+    },
+    {
+      "path": "sounds/random_fizz.pcm",
+      "sha256": "84be5fd504f31fae43ef469e3004bbd3b331b9a16dba97ee28eb6bfe043ef51c",
+      "bytes": 220200,
+      "name": "random_fizz",
+      "file": "random_fizz.pcm",
+      "source": "minecraft/sounds/random/fizz.ogg",
+      "source_sha1": "c649e60ea9a99c97501a50d2dc4e579343e91ea8",
+      "source_sha256": "32c42c9c46b99b40191ab10dca9096ff7d7fc05f69276b418a4ae244f08e319e",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 1.248299319727891
+    },
+    {
+      "path": "sounds/item_bucket_fill1.pcm",
+      "sha256": "2c751c7a29f3257f52c48e220f34be42ad15b501420d60d615151b192ddcd0d5",
+      "bytes": 127784,
+      "name": "item_bucket_fill1",
+      "file": "item_bucket_fill1.pcm",
+      "source": "minecraft/sounds/item/bucket/fill1.ogg",
+      "source_sha1": "e28ff6368461f0a0308ced79016ea98d5feb645f",
+      "source_sha256": "0362efd821a7d9ae41e378b0cd10ccae5e49fd2c9d90de50964961051037457d",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.7243990929705215
+    },
+    {
+      "path": "sounds/item_bucket_fill2.pcm",
+      "sha256": "5ce8fcd65a1b95de27d7e1efc29e3238707f092329f49dfd5ce0864e37609e73",
+      "bytes": 116924,
+      "name": "item_bucket_fill2",
+      "file": "item_bucket_fill2.pcm",
+      "source": "minecraft/sounds/item/bucket/fill2.ogg",
+      "source_sha1": "1d69d04c669d82a75da8ea2f8a1a63ebf5fefd0f",
+      "source_sha256": "8ea716c9f510926fbeed16f0f67f7da2fdab5b026f9f4444c474ecd8c954f007",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.6628344671201815
+    },
+    {
+      "path": "sounds/item_bucket_fill3.pcm",
+      "sha256": "045134218d0196e29bddc0a8c8a5530226e9e560f9e7d4f8f1d1a2b1650d1ea7",
+      "bytes": 122684,
+      "name": "item_bucket_fill3",
+      "file": "item_bucket_fill3.pcm",
+      "source": "minecraft/sounds/item/bucket/fill3.ogg",
+      "source_sha1": "556a88f3a8e8f407a94ad37b131dc8d5c3f236c0",
+      "source_sha256": "025e369f22621e1f0ff0b16aaea02ed94a40580da26516a8f9dade42f8611737",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.6954875283446712
+    },
+    {
+      "path": "sounds/item_bucket_empty1.pcm",
+      "sha256": "71f75c05a29e742ab13a9748cf56d57747b4c26db0548b924496779d669fd66d",
+      "bytes": 141120,
+      "name": "item_bucket_empty1",
+      "file": "item_bucket_empty1.pcm",
+      "source": "minecraft/sounds/item/bucket/empty1.ogg",
+      "source_sha1": "27987b7065ef4a27106246f9d32382a0514f87b2",
+      "source_sha256": "cc8edd6bf685ab466cdb19aacfedc84914aac83f043db7d5d7308aa3c28ef138",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.8
+    },
+    {
+      "path": "sounds/item_bucket_empty2.pcm",
+      "sha256": "dd04d9916e8a115162cbc83646e486662d8d46d8a2b46c6a96b7013a16f26c41",
+      "bytes": 137360,
+      "name": "item_bucket_empty2",
+      "file": "item_bucket_empty2.pcm",
+      "source": "minecraft/sounds/item/bucket/empty2.ogg",
+      "source_sha1": "a796e8907874e6ae174c30da28ff000f1cf566c3",
+      "source_sha256": "f1faefdf9ceab385a441ae3993f12f7b3feb3b995c6d148d56616fbabdfab67f",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.7786848072562358
+    },
+    {
+      "path": "sounds/item_bucket_empty3.pcm",
+      "sha256": "7cc0b4518d9f2664cf82ae71cbb14fd7a274b5d803ffbcf9c54ab53ff3b9470b",
+      "bytes": 135476,
+      "name": "item_bucket_empty3",
+      "file": "item_bucket_empty3.pcm",
+      "source": "minecraft/sounds/item/bucket/empty3.ogg",
+      "source_sha1": "8dec8307dff359b0279e3e49798692309204d55e",
+      "source_sha256": "713d54d7a1478163cabef813473f50b9ead6f41d1af4fb7ce3b41d8dd831f62d",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.7680045351473923
+    },
+    {
+      "path": "sounds/item_bucket_fill_lava1.pcm",
+      "sha256": "dba62f1dd603764b4c7870e0c7ce703fcffee8dc62fa5dd44779356ad9f6099b",
+      "bytes": 108660,
+      "name": "item_bucket_fill_lava1",
+      "file": "item_bucket_fill_lava1.pcm",
+      "source": "minecraft/sounds/item/bucket/fill_lava1.ogg",
+      "source_sha1": "840d3f489b866d6ec63e8d885469105ff65c591e",
+      "source_sha256": "b926dee631b2e7efc8314cea7aac7b6eaf8d28a25abde2748e2e9275a03cb6ea",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.6159863945578231
+    },
+    {
+      "path": "sounds/item_bucket_fill_lava2.pcm",
+      "sha256": "dba62f1dd603764b4c7870e0c7ce703fcffee8dc62fa5dd44779356ad9f6099b",
+      "bytes": 108660,
+      "name": "item_bucket_fill_lava2",
+      "file": "item_bucket_fill_lava2.pcm",
+      "source": "minecraft/sounds/item/bucket/fill_lava2.ogg",
+      "source_sha1": "54290ce87fb0ebac606f497ac8a12c107b74a586",
+      "source_sha256": "54b04401fb2dd0e4f65eeadf0f470024b9f7519339c10dc8ac209b2ecd41f6e7",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.6159863945578231
+    },
+    {
+      "path": "sounds/item_bucket_fill_lava3.pcm",
+      "sha256": "cab2ed715da41887d8d5325e72b4b8e26cab05d29bd4355a0a6aeacfd9ff4064",
+      "bytes": 128892,
+      "name": "item_bucket_fill_lava3",
+      "file": "item_bucket_fill_lava3.pcm",
+      "source": "minecraft/sounds/item/bucket/fill_lava3.ogg",
+      "source_sha1": "99125d80da85a6055d5757fe9194bee680ac9a63",
+      "source_sha256": "7c6bd78500fa4ed63dcd27b4a3863e5c0b967fa55965ac8aa48b05763c086a6c",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.7306802721088436
+    },
+    {
+      "path": "sounds/item_bucket_empty_lava1.pcm",
+      "sha256": "c8357e98bfa89e0079c91453090debeff2ef014f9d20d31cb6f39ffb44c21700",
+      "bytes": 146292,
+      "name": "item_bucket_empty_lava1",
+      "file": "item_bucket_empty_lava1.pcm",
+      "source": "minecraft/sounds/item/bucket/empty_lava1.ogg",
+      "source_sha1": "3612c93dfebcedbeb22bc8283e0b85de033d081a",
+      "source_sha256": "b54c0f7f48af47acbf6f757fe7d755fe6a72efce87308bfa845f3c47cdd7e9d5",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.8293197278911565
+    },
+    {
+      "path": "sounds/item_bucket_empty_lava2.pcm",
+      "sha256": "b3369411782935a2bdb0be0954cf2ae98ff0a1282225f8a136a21fe4eed43f3b",
+      "bytes": 188160,
+      "name": "item_bucket_empty_lava2",
+      "file": "item_bucket_empty_lava2.pcm",
+      "source": "minecraft/sounds/item/bucket/empty_lava2.ogg",
+      "source_sha1": "b98e76594736052ac7ab8851d95a96b5ad7d2ce2",
+      "source_sha256": "06373f3cf511c850f7e67e34b644f8e03db5fa36fca0c7325e023a8d3eb33b03",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 1.0666666666666667
+    },
+    {
+      "path": "sounds/item_bucket_empty_lava3.pcm",
+      "sha256": "689e0bfddb78abfa50ec630b96bc4bb36e39788e7d809158d0a3b86747f00102",
+      "bytes": 181572,
+      "name": "item_bucket_empty_lava3",
+      "file": "item_bucket_empty_lava3.pcm",
+      "source": "minecraft/sounds/item/bucket/empty_lava3.ogg",
+      "source_sha1": "d62e50329337eee968b1e93cce04a65aeecad27d",
+      "source_sha256": "2cdb763b336e146190540ffb21a0db2395b08bac3ea77f0c4d1e627dce93d84d",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 1.0293197278911566
+    },
+    {
+      "path": "sounds/dig_stone1.pcm",
+      "sha256": "f08866e37e9931cb7b7f8a5cc1404c8a7c1d1b5c9c967848401fde4dc32b09e9",
+      "bytes": 87688,
+      "name": "dig_stone1",
+      "file": "dig_stone1.pcm",
+      "source": "minecraft/sounds/dig/stone1.ogg",
+      "source_sha1": "4e094ed8dfa98656d8fec52a7d20c5ee6098b6ad",
+      "source_sha256": "97f2a8a73b6f577b85c1a162c31810c7aff1ad1f34564dfdacebb64b26d1c7c6",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "path": "sounds/dig_stone2.pcm",
+      "sha256": "552d40f63ae7d93bda8575375b914a2d87e49e805a33d08d6b14b8a26e76458b",
+      "bytes": 87688,
+      "name": "dig_stone2",
+      "file": "dig_stone2.pcm",
+      "source": "minecraft/sounds/dig/stone2.ogg",
+      "source_sha1": "9c92f697142ae320584bf64c0d54381d59703528",
+      "source_sha256": "98a5c3197845526e6ca9e8a669ffda843cfae3f5c7ac842ee6aac8896bae03b2",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "path": "sounds/dig_stone3.pcm",
+      "sha256": "8d36d615f2c58c8ec453c49bad8c8bc0b9242cd7b66f54ed073321d41453c834",
+      "bytes": 87688,
+      "name": "dig_stone3",
+      "file": "dig_stone3.pcm",
+      "source": "minecraft/sounds/dig/stone3.ogg",
+      "source_sha1": "8f23c02475d388b23e5faa680eafe6b991d7a9d4",
+      "source_sha256": "19273f0e7e25b459ea29511dcbc4f7f209c04cea2fd1c34a16250737469ca51c",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "path": "sounds/dig_stone4.pcm",
+      "sha256": "488ad9e5b4c30ef2698b23b277041bba47084fba709abcd4db943975a5d6695b",
+      "bytes": 87688,
+      "name": "dig_stone4",
+      "file": "dig_stone4.pcm",
+      "source": "minecraft/sounds/dig/stone4.ogg",
+      "source_sha1": "363545a76277e5e47538b2dd3a0d6aa4f7a87d34",
+      "source_sha256": "b164e7324510480abac9518090e48439123ea05ebc48970e48fc59406729a197",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "path": "sounds/step_stone1.pcm",
+      "sha256": "3a0c5aa0ab148b10e7668a39becb797983d4751c403a27d26ec3f42e2c34922b",
+      "bytes": 107496,
+      "name": "step_stone1",
+      "file": "step_stone1.pcm",
+      "source": "minecraft/sounds/step/stone1.ogg",
+      "source_sha1": "4a2e3795ffd4d3aab0834b7e41903af3a8f7d197",
+      "source_sha256": "e94a295a876421dd8a2fa5b211210f66668c31deaff43fc036f7fb6abc98ecae",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.6093877551020408
+    },
+    {
+      "path": "sounds/step_stone2.pcm",
+      "sha256": "fce029ded70d3384fca441a1a3c48cb59e279d87cfc49e0538447e0863ee5484",
+      "bytes": 84932,
+      "name": "step_stone2",
+      "file": "step_stone2.pcm",
+      "source": "minecraft/sounds/step/stone2.ogg",
+      "source_sha1": "22a383d9c22342305a4f16fec0bb479a885f8da2",
+      "source_sha256": "2cfbf878743612960d8d7eecacc1644b1558a547d8533e22ed7ebd2c9a9625c7",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.48147392290249436
+    },
+    {
+      "path": "sounds/step_stone3.pcm",
+      "sha256": "3dfc7cda9eabbf0a27d519276b712417ede84c21a4fa3881d24af50ce244dd3a",
+      "bytes": 73908,
+      "name": "step_stone3",
+      "file": "step_stone3.pcm",
+      "source": "minecraft/sounds/step/stone3.ogg",
+      "source_sha1": "a533e7ae975e62592de868e0d0572778614bd587",
+      "source_sha256": "c5d71e8d3251f6c7087e1a45bb6ff244ad5af307c90e1e29a08666f3531842ac",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.4189795918367347
+    },
+    {
+      "path": "sounds/step_stone4.pcm",
+      "sha256": "b46dda2f2a0241e92e87562df06386e507e56d9e9cc8dc840c32605efdbef36a",
+      "bytes": 96472,
+      "name": "step_stone4",
+      "file": "step_stone4.pcm",
+      "source": "minecraft/sounds/step/stone4.ogg",
+      "source_sha1": "d5218034051a13322d7b5efc0b5a9af739615f04",
+      "source_sha256": "95820d0b75e8d223bb5ed1af93125beb30270e36a2f39d9bb36ae179e6bedf36",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5468934240362812
+    },
+    {
+      "path": "sounds/step_stone5.pcm",
+      "sha256": "49ab522d76f8140710976da04fe6df531749588e6bcc5772a4703e66801c7638",
+      "bytes": 99228,
+      "name": "step_stone5",
+      "file": "step_stone5.pcm",
+      "source": "minecraft/sounds/step/stone5.ogg",
+      "source_sha1": "48dd05ab2e4626d74206c2b09a628a3d59ce15e9",
+      "source_sha256": "67b1e50426b2c94cdc46308cead018caf9844e36dd5ef4e111e324adcd232113",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5625170068027211
+    },
+    {
+      "path": "sounds/step_stone6.pcm",
+      "sha256": "ef9102c852593a8cde86c25754c39ca8a7a1aaba1db1185dfba6a6b64c83f2bf",
+      "bytes": 107496,
+      "name": "step_stone6",
+      "file": "step_stone6.pcm",
+      "source": "minecraft/sounds/step/stone6.ogg",
+      "source_sha1": "c4810a3de80cb57f9cdf8deaacfd36cb619cdf0b",
+      "source_sha256": "2b65e1bdb942e083d282742e8a832fd5c606caf83a3dad4fb9446f2f246354da",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.6093877551020408
+    },
+    {
+      "path": "sounds/dig_wood1.pcm",
+      "sha256": "e85e96a9ca22141cc7d5215d2edcd3c564f7fe5fafbca5d40fce3600af561aee",
+      "bytes": 87688,
+      "name": "dig_wood1",
+      "file": "dig_wood1.pcm",
+      "source": "minecraft/sounds/dig/wood1.ogg",
+      "source_sha1": "9bc2a84d0aa98113fc52609976fae8fc88ea6333",
+      "source_sha256": "cb6071c83a7f19ee555e9d661dc9e564c77ad9fcf2d1a6848aab21bc3b1c0289",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "path": "sounds/dig_wood2.pcm",
+      "sha256": "1df181214a9dab0dba7f44d09310ccdc35332f35263253ca2a1ca6e2ce9fcfef",
+      "bytes": 87688,
+      "name": "dig_wood2",
+      "file": "dig_wood2.pcm",
+      "source": "minecraft/sounds/dig/wood2.ogg",
+      "source_sha1": "98102533e6085617a2962157b4f3658f59aea018",
+      "source_sha256": "59edca84840951f2d6f0ad9ff5fd439a6dc916b2cc50164569b94ee107b4bc3f",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "path": "sounds/dig_wood3.pcm",
+      "sha256": "b778667a1f3f24cc0530e11157be0f3fdf6453561d9520c53fcfb58ec4ffe5f9",
+      "bytes": 87688,
+      "name": "dig_wood3",
+      "file": "dig_wood3.pcm",
+      "source": "minecraft/sounds/dig/wood3.ogg",
+      "source_sha1": "45b2aef7b5049e81b39b58f8d631563fadcc778b",
+      "source_sha256": "cf6be2314c08ea3fd311bdaebe14d0c73ca189bbbda09f96d26a3dea7e711cf6",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "path": "sounds/dig_wood4.pcm",
+      "sha256": "360ceb331349bf9ff484af76f8476e4c9dd39d54ddc3f82c7496148d6b576be6",
+      "bytes": 87688,
+      "name": "dig_wood4",
+      "file": "dig_wood4.pcm",
+      "source": "minecraft/sounds/dig/wood4.ogg",
+      "source_sha1": "dc66978374a46ab2b87db6472804185824868095",
+      "source_sha256": "de868b3119b03ad42cbe502805e895a5fd8565f059f991f542b4ee68d6556bfe",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "path": "sounds/step_wood1.pcm",
+      "sha256": "b6664ba569f6369123427f93ffab2b913ce3cc0f3219c43519c19fa48a4effe6",
+      "bytes": 86828,
+      "name": "step_wood1",
+      "file": "step_wood1.pcm",
+      "source": "minecraft/sounds/step/wood1.ogg",
+      "source_sha1": "0a417ba6a01b0552e7d15f5ef175ee9037405e58",
+      "source_sha256": "9f6425b71baa08434a5ce20320b0cd3e4fb0648ca16a7c18a59f487e54a358fc",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.4922222222222222
+    },
+    {
+      "path": "sounds/step_wood2.pcm",
+      "sha256": "0e61d171679050d930b6d36ef3c79eb462c8ecc51691ca888c223ce7aa4f6daa",
+      "bytes": 99232,
+      "name": "step_wood2",
+      "file": "step_wood2.pcm",
+      "source": "minecraft/sounds/step/wood2.ogg",
+      "source_sha1": "de199b6c6f0f5ce2f653273d43f57979ee31c395",
+      "source_sha256": "5da109e455b3be43651167942c4d46a779e17a0500051f945b1daf8d1121380e",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5625396825396826
+    },
+    {
+      "path": "sounds/step_wood3.pcm",
+      "sha256": "aad7b6e10cca1db7e5da2ab6b707baedd2d776733ca8c95fb1b74ae376d4923f",
+      "bytes": 99232,
+      "name": "step_wood3",
+      "file": "step_wood3.pcm",
+      "source": "minecraft/sounds/step/wood3.ogg",
+      "source_sha1": "20c0daaed4cc2a8b4dee028c8c85185e1322b003",
+      "source_sha256": "dc6f1450bd37803208e5be17e9f00ab7c3438c37e0f51d13952ce5f94b192c30",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5625396825396826
+    },
+    {
+      "path": "sounds/step_wood4.pcm",
+      "sha256": "e2e9bf8c54f18c7c19ba4c6f7dc50beccbd89e7fa24a60f08464e234e23bfb5a",
+      "bytes": 96128,
+      "name": "step_wood4",
+      "file": "step_wood4.pcm",
+      "source": "minecraft/sounds/step/wood4.ogg",
+      "source_sha1": "8989609f97122d2624e7db821e45e8da2352b025",
+      "source_sha256": "58375f561a2efaafb72bcfc371d62c5b9bb6fcd22449b412e7861fcc6e5a4b67",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5449433106575964
+    },
+    {
+      "path": "sounds/step_wood5.pcm",
+      "sha256": "157a407726b464d36ac41c298dc8e10f16e7e18dc750d96c01e02c7f66a24daf",
+      "bytes": 121712,
+      "name": "step_wood5",
+      "file": "step_wood5.pcm",
+      "source": "minecraft/sounds/step/wood5.ogg",
+      "source_sha1": "3c7e76b2eabe4f1199b94d308f1c763ccceac76c",
+      "source_sha256": "f950e9c5638398ea3119b9fe80b7a91d5e262099a54857b711396240ef23d417",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.6899773242630386
+    },
+    {
+      "path": "sounds/step_wood6.pcm",
+      "sha256": "5da8a87eab8f1ead20768b7f1a5dad6498945528d23162e788a5e2a0842a832c",
+      "bytes": 91472,
+      "name": "step_wood6",
+      "file": "step_wood6.pcm",
+      "source": "minecraft/sounds/step/wood6.ogg",
+      "source_sha1": "7f9bcd1e3a182da70b32881a7fe92dc17d531824",
+      "source_sha256": "38ad366819ad0533ff883b16fa17df64dbc1ed5e65f440a227bb0bb18782cde2",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5185487528344671
+    },
+    {
+      "path": "sounds/mob_slime_big1.pcm",
+      "sha256": "e1988940c3050f27c290c029c4c21a29efa4e9a85586064b6746f8eb6ef2f40b",
+      "bytes": 133340,
+      "name": "mob_slime_big1",
+      "file": "mob_slime_big1.pcm",
+      "source": "minecraft/sounds/mob/slime/big1.ogg",
+      "source_sha1": "b5eca1979e69271b2065ac67ba2c37b5afac0f98",
+      "source_sha256": "cbb259fba6ec5032bc3707bcf556c248f3878772097ea311202ea10cc896040c",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.7558956916099773
+    },
+    {
+      "path": "sounds/mob_slime_big2.pcm",
+      "sha256": "2107a991e83456c69ee0d34d87fe576621811ba5fe73ce1d2f63cac84301f489",
+      "bytes": 87916,
+      "name": "mob_slime_big2",
+      "file": "mob_slime_big2.pcm",
+      "source": "minecraft/sounds/mob/slime/big2.ogg",
+      "source_sha1": "00e06362a31ad7094e452c5bcea837b061825cb0",
+      "source_sha256": "79196d31b6d4fff4b8cf981ecde1d906aef60e229e7d7157aec7f96bbe246697",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49839002267573695
+    },
+    {
+      "path": "sounds/mob_slime_big3.pcm",
+      "sha256": "49840da28b9addf46287747a0a7b1aab05b39f86adb133edbead5dbb8db4dc0a",
+      "bytes": 121276,
+      "name": "mob_slime_big3",
+      "file": "mob_slime_big3.pcm",
+      "source": "minecraft/sounds/mob/slime/big3.ogg",
+      "source_sha1": "2c20816632caecf75f00bb968f51847e3a982e75",
+      "source_sha256": "980752f0ae5cb9007259e859278815b71a033ded9cae34b08e2587740a548045",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.6875056689342404
+    },
+    {
+      "path": "sounds/mob_slime_big4.pcm",
+      "sha256": "d2a095e97d36be55f26b98a5ab4679124a622a714185e3e14950f51d04612076",
+      "bytes": 114008,
+      "name": "mob_slime_big4",
+      "file": "mob_slime_big4.pcm",
+      "source": "minecraft/sounds/mob/slime/big4.ogg",
+      "source_sha1": "c906c18d26550ae15c75e23f2c5066e4fc678c89",
+      "source_sha256": "2e3a5b5da98a39be781e8b33a517574b507477ff25f6c37c298eb6921252f2f8",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.6463038548752834
+    },
+    {
+      "path": "sounds/mob_slime_small1.pcm",
+      "sha256": "3b3219d8bdfe03cdaca100bbca4d2c411002865e446f2975de7f5ad0d2ec7c68",
+      "bytes": 65640,
+      "name": "mob_slime_small1",
+      "file": "mob_slime_small1.pcm",
+      "source": "minecraft/sounds/mob/slime/small1.ogg",
+      "source_sha1": "5cde2500773323f7997d75062f8a26afcdf62b2e",
+      "source_sha256": "b8e870bb9d5416191ac0e90ca494c8e35bfcc2ad4181518c30184666495aa5e1",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.37210884353741497
+    },
+    {
+      "path": "sounds/mob_slime_small2.pcm",
+      "sha256": "b2539e591091b85254e4bc4b3c94fed26c8716b309a0f16ecdc27aec5e642be7",
+      "bytes": 46348,
+      "name": "mob_slime_small2",
+      "file": "mob_slime_small2.pcm",
+      "source": "minecraft/sounds/mob/slime/small2.ogg",
+      "source_sha1": "5e2ef521293719bbe22bbb515bbcacf4c233a075",
+      "source_sha256": "5e715b90d8ea3b7b76c9f9e225b36da10a14c989b7a7a0b13ce204506c2d9aee",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.2627437641723356
+    },
+    {
+      "path": "sounds/mob_slime_small3.pcm",
+      "sha256": "a2f359f0b67c1c311e700a15aca23e13d4121b6f0c1e1b67eba34a3349b84478",
+      "bytes": 43588,
+      "name": "mob_slime_small3",
+      "file": "mob_slime_small3.pcm",
+      "source": "minecraft/sounds/mob/slime/small3.ogg",
+      "source_sha1": "3bc8225914b1be20db68fcdae202d5acee3234c2",
+      "source_sha256": "6b450a567cf7556e7ed9c21854a5ceec3ad3db45b28ce3255962b7ba35021c54",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.24709750566893424
+    },
+    {
+      "path": "sounds/mob_slime_small4.pcm",
+      "sha256": "0e7e633009d5d601c39d978c624c2cfed7814cfd8834a77b91b23283da407891",
+      "bytes": 43588,
+      "name": "mob_slime_small4",
+      "file": "mob_slime_small4.pcm",
+      "source": "minecraft/sounds/mob/slime/small4.ogg",
+      "source_sha1": "4dfe0b607c5de2e47f3b7950c56bbebbf3115957",
+      "source_sha256": "8b4d703ebb6d41ec9249d0247316a43f20cca82f515a7a069341dadde0d14cf2",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.24709750566893424
+    },
+    {
+      "path": "sounds/mob_slime_small5.pcm",
+      "sha256": "f9e0511d24d05c2272edc5fb8ca0d311a7d3f59d2cbdb1cd6eaa5c0f35282be9",
+      "bytes": 35584,
+      "name": "mob_slime_small5",
+      "file": "mob_slime_small5.pcm",
+      "source": "minecraft/sounds/mob/slime/small5.ogg",
+      "source_sha1": "35f0b3c9c462a6c21ec213fbda2437a0e6427883",
+      "source_sha256": "dc0551c4d6b5eed7065c22ad944e0f056d7ba2d847d22d01d8fb876a7f18c841",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.2017233560090703
+    },
+    {
+      "path": "sounds/block_honeyblock_break1.pcm",
+      "sha256": "2bf339f26c9712cbf5ab54dfafe7ff5485870a850d4963dbd849e9402a25f169",
+      "bytes": 177244,
+      "name": "block_honeyblock_break1",
+      "file": "block_honeyblock_break1.pcm",
+      "source": "minecraft/sounds/block/honeyblock/break1.ogg",
+      "source_sha1": "5b16028a58fbd888b1ccc5062e2592b2995a159a",
+      "source_sha256": "63cc186a935be10918f53cde3a0a5965f9a6b3dc323982dee98f44b80174d42c",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 1.0047845804988662
+    },
+    {
+      "path": "sounds/block_honeyblock_break2.pcm",
+      "sha256": "f04940b9c658473e35546adca1a1bcbe2d0cf7bad0af637178190f9a11c0f184",
+      "bytes": 127984,
+      "name": "block_honeyblock_break2",
+      "file": "block_honeyblock_break2.pcm",
+      "source": "minecraft/sounds/block/honeyblock/break2.ogg",
+      "source_sha1": "a99000d5d82b75a4c18b44c8579ed1da123fa782",
+      "source_sha256": "bdbf6721e2864c77145db8e9692624e152046f680188a134a4e0579ba15d3c91",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.7255328798185942
+    },
+    {
+      "path": "sounds/block_honeyblock_break3.pcm",
+      "sha256": "594fcd56415aecfd36a730373a59c581bc61d7b908c60ae0804497b4c8e86955",
+      "bytes": 100132,
+      "name": "block_honeyblock_break3",
+      "file": "block_honeyblock_break3.pcm",
+      "source": "minecraft/sounds/block/honeyblock/break3.ogg",
+      "source_sha1": "b2f3ee9fbe0bdef433cf03fe759f23e04fd46e29",
+      "source_sha256": "b865e8cac9a987acbee241aecd91879cd16d1a2af8575e77dbf7d9d170786038",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.567641723356009
+    },
+    {
+      "path": "sounds/block_honeyblock_break4.pcm",
+      "sha256": "bcf93e8ccb3e828b29eb257740495af47ee63e101da41350c7c7c116cc784d24",
+      "bytes": 105052,
+      "name": "block_honeyblock_break4",
+      "file": "block_honeyblock_break4.pcm",
+      "source": "minecraft/sounds/block/honeyblock/break4.ogg",
+      "source_sha1": "f577d81300052c0ee8d5c090384a166a775bfc98",
+      "source_sha256": "389d9c5b8000993934032e71274f8b0bcd9fe1b7d4629f5d754fd0f44675c054",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5955328798185942
+    },
+    {
+      "path": "sounds/block_honeyblock_break5.pcm",
+      "sha256": "72c491636931a945142cdcb55435f07e13baeffff814c863061bc4fa366e9d74",
+      "bytes": 103256,
+      "name": "block_honeyblock_break5",
+      "file": "block_honeyblock_break5.pcm",
+      "source": "minecraft/sounds/block/honeyblock/break5.ogg",
+      "source_sha1": "7e5e2978d628f7fc22ddb0fee1e108228c4aaf65",
+      "source_sha256": "d1b72932710ee7e563c612b23881f3e06d03debc773c981c221a3982be4d2ed3",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5853514739229025
+    },
+    {
+      "path": "sounds/block_honeyblock_step1.pcm",
+      "sha256": "91bc6013ec98b313c9899b4ff7e69b9c553dd432f6406f3becbdc0234bd7690d",
+      "bytes": 204244,
+      "name": "block_honeyblock_step1",
+      "file": "block_honeyblock_step1.pcm",
+      "source": "minecraft/sounds/block/honeyblock/step1.ogg",
+      "source_sha1": "ec34853a3a7def9e2ed0c530fd79035c1b41d16d",
+      "source_sha256": "2cf7693e5bdfb6ade4507b6251c17af869a25f4688ca79882a9981954a543a33",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 1.1578458049886622
+    },
+    {
+      "path": "sounds/block_honeyblock_step2.pcm",
+      "sha256": "e0a4e99b5cc3d253c7af302c46146ac895c1ba1e4bb8f9ddeb6868e079645eea",
+      "bytes": 207336,
+      "name": "block_honeyblock_step2",
+      "file": "block_honeyblock_step2.pcm",
+      "source": "minecraft/sounds/block/honeyblock/step2.ogg",
+      "source_sha1": "67dd095ff29dea6092530dbf8bcf9cc77efdb49a",
+      "source_sha256": "f5c11e6bce3e76bd30896618133e285b6e128a54827fa020f0b6dec18831c6f3",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 1.175374149659864
+    },
+    {
+      "path": "sounds/block_honeyblock_step3.pcm",
+      "sha256": "9929e3ca18ecf48fb088c34e50e07482cf84e0c2a8536560708f8a2ae39445a9",
+      "bytes": 142428,
+      "name": "block_honeyblock_step3",
+      "file": "block_honeyblock_step3.pcm",
+      "source": "minecraft/sounds/block/honeyblock/step3.ogg",
+      "source_sha1": "d5d7e396f52574ac18b6cedbd713144c887a7931",
+      "source_sha256": "76e587416db8562abe4833454074be2060eef0ed0c6170ef27e688c4c9000932",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.8074149659863945
+    },
+    {
+      "path": "sounds/block_honeyblock_step4.pcm",
+      "sha256": "4cbf63ab1c26f31d759353c9aa08c0256cb7945182072ec8529db4423bba886a",
+      "bytes": 181020,
+      "name": "block_honeyblock_step4",
+      "file": "block_honeyblock_step4.pcm",
+      "source": "minecraft/sounds/block/honeyblock/step4.ogg",
+      "source_sha1": "1ec3dff91a5db985385bf08d47749872cecc08d9",
+      "source_sha256": "27e89607430f0298dc2336e5312bad83cc30d85c05f924e0d2244ba0089e623a",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 1.026190476190476
+    },
+    {
+      "path": "sounds/block_honeyblock_step5.pcm",
+      "sha256": "20a3b7bf63b3b7e48142e306a26f60a7fbb8b68f9418f264fc0e3b95c0335a63",
+      "bytes": 126700,
+      "name": "block_honeyblock_step5",
+      "file": "block_honeyblock_step5.pcm",
+      "source": "minecraft/sounds/block/honeyblock/step5.ogg",
+      "source_sha1": "5dac0e85e722c9238e95439970693f1838106acd",
+      "source_sha256": "d23fa8d30526973a81153f26eac5c9f7a206b2b386791b4407473940c0acfe67",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.7182539682539683
+    },
+    {
+      "path": "sounds/block_honeyblock_slide1.pcm",
+      "sha256": "75b215b6a08491e96e35c53325f9ffd71643c31f8709ac3b5d4598f8833153af",
+      "bytes": 104020,
+      "name": "block_honeyblock_slide1",
+      "file": "block_honeyblock_slide1.pcm",
+      "source": "minecraft/sounds/block/honeyblock/slide1.ogg",
+      "source_sha1": "8245b9f22fa32f4e74e150fd225fff00362e74cc",
+      "source_sha256": "ec89a08b74ceb70e7804606bbd2c2d69a6b3f0d0d8a0faa38ee2f70687fbd4fd",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5896825396825397
+    },
+    {
+      "path": "sounds/block_honeyblock_slide2.pcm",
+      "sha256": "d78b5ac1e4225dd2d5b3d99785a54210dbce0d2a88263097c5ff85dc0d2798ab",
+      "bytes": 107704,
+      "name": "block_honeyblock_slide2",
+      "file": "block_honeyblock_slide2.pcm",
+      "source": "minecraft/sounds/block/honeyblock/slide2.ogg",
+      "source_sha1": "013b1518d41176f1884ef17944104a8473d408ce",
+      "source_sha256": "4c9812fba4adc64d6f03d025fcbfca23c8d4a484d533d3d644b375d4df64a62f",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.6105668934240362
+    },
+    {
+      "path": "sounds/block_honeyblock_slide3.pcm",
+      "sha256": "9d810787e4d7097b43090aa88e24b3ab90646c5218fb5b36fd174ee728e666fd",
+      "bytes": 120260,
+      "name": "block_honeyblock_slide3",
+      "file": "block_honeyblock_slide3.pcm",
+      "source": "minecraft/sounds/block/honeyblock/slide3.ogg",
+      "source_sha1": "d4ad02bc3a9c3bd5eac9774d1130bac5cd73ba94",
+      "source_sha256": "b943dfd661d519870ba12651ba58959a0df0b43781fc8cdffbac7f8dc6304e4d",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.6817460317460318
+    },
+    {
+      "path": "sounds/block_honeyblock_slide4.pcm",
+      "sha256": "a1446695569774a0a4c0997f37ae205afa20e48923ca74628aee8c24d1918f4a",
+      "bytes": 86476,
+      "name": "block_honeyblock_slide4",
+      "file": "block_honeyblock_slide4.pcm",
+      "source": "minecraft/sounds/block/honeyblock/slide4.ogg",
+      "source_sha1": "102613b04262cd0f94702afd14063fa0187bc158",
+      "source_sha256": "d8f96a0c3ab39b21e5927e705eb09a73ee357624a629225112021eb604514a70",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.4902267573696145
+    }
+  ],
+  "asset_index": "1.21.1-17.json",
+  "asset_index_sha256": "9edfa2ad3a1850ce1c152052c5f17a8772d9b4f8f5a478b0ca4f66556816347f",
+  "sounds_json_sha256": "51b23584d267ba37d3a1bafd4f24d3dda07672ab91672ea6f7a1bc86067a1a6b",
+  "encoder": {
+    "path": "ffmpeg.exe",
+    "sha256": "02bf91bdadca0a6b401ee36dce0e916df882df74eb3651e02ca5c5ad00386d8a"
+  },
+  "recipe_sha256": "c0c183ce9269bd606eaf5c2e704d260345e31c35a3c72a0884f1baaf2dd902fb",
+  "native_audio_modified": false,
+  "pcm_install_directory": "pbzmc-assets/sounds",
+  "native_integration": "Merge name/hash/bytes into block_audio_catalogue.hpp and rebuild; prepare() preloads all allowlisted PCM, no impact-time file IO.",
+  "original_silent_actions": [
+    "repeater delay change"
+  ],
+  "original_silent_action_source": "conversion-reference/redstone-reference/decompiled/RepeaterBlock.java#useWithoutItem",
+  "playback_notes": "Use event-specific game volume/pitch and bounded ambient voice coalescing; sample metadata is not an instruction to loop every active fluid cell."
+}

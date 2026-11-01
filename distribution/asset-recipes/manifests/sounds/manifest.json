@@ -1,0 +1,902 @@
+{
+  "schema": 1,
+  "version": "1.21.1",
+  "format": "s16le",
+  "channels": 2,
+  "sample_rate": 44100,
+  "events": {
+    "place": [
+      "dig_grass1",
+      "dig_grass2",
+      "dig_grass3",
+      "dig_grass4"
+    ],
+    "hit": [
+      "step_grass1",
+      "step_grass2",
+      "step_grass3",
+      "step_grass4",
+      "step_grass5",
+      "step_grass6"
+    ],
+    "break": [
+      "dig_grass1",
+      "dig_grass2",
+      "dig_grass3",
+      "dig_grass4"
+    ],
+    "sword_strong": [
+      "entity_player_attack_strong1",
+      "entity_player_attack_strong2",
+      "entity_player_attack_strong3",
+      "entity_player_attack_strong4",
+      "entity_player_attack_strong5",
+      "entity_player_attack_strong6"
+    ],
+    "sword_weak": [
+      "entity_player_attack_weak1",
+      "entity_player_attack_weak2",
+      "entity_player_attack_weak3",
+      "entity_player_attack_weak4"
+    ],
+    "sword_miss": [
+      "entity_player_attack_weak1",
+      "entity_player_attack_weak2",
+      "entity_player_attack_weak3",
+      "entity_player_attack_weak4"
+    ],
+    "bow_shoot": [
+      "random_bow"
+    ],
+    "arrow_hit": [
+      "random_bowhit1",
+      "random_bowhit2",
+      "random_bowhit3",
+      "random_bowhit4"
+    ],
+    "shield_block": [
+      "item_shield_block1",
+      "item_shield_block2",
+      "item_shield_block3",
+      "item_shield_block4",
+      "item_shield_block5"
+    ],
+    "eat": [
+      "random_eat1",
+      "random_eat2",
+      "random_eat3"
+    ],
+    "burp": [
+      "random_burp"
+    ],
+    "totem": [
+      "item_totem_use_totem"
+    ],
+    "pearl_throw": [
+      "random_bow"
+    ],
+    "pearl_teleport": [
+      "mob_endermen_portal",
+      "mob_endermen_portal2"
+    ],
+    "firework_launch": [
+      "fireworks_launch1"
+    ],
+    "firework_blast": [
+      "fireworks_blast1"
+    ],
+    "firework_twinkle": [
+      "fireworks_twinkle1"
+    ],
+    "elytra_flying": [
+      "item_elytra_elytra_loop"
+    ]
+  },
+  "event_names": {
+    "place": "block.grass.place",
+    "hit": "block.grass.hit",
+    "break": "block.grass.break",
+    "sword_strong": "entity.player.attack.strong",
+    "sword_weak": "entity.player.attack.weak",
+    "sword_miss": "entity.player.attack.nodamage",
+    "bow_shoot": "entity.arrow.shoot",
+    "arrow_hit": "entity.arrow.hit",
+    "shield_block": "item.shield.block",
+    "eat": "entity.generic.eat",
+    "burp": "entity.player.burp",
+    "totem": "item.totem.use",
+    "pearl_throw": "entity.ender_pearl.throw",
+    "pearl_teleport": "entity.player.teleport",
+    "firework_launch": "entity.firework_rocket.launch",
+    "firework_blast": "entity.firework_rocket.blast",
+    "firework_twinkle": "entity.firework_rocket.twinkle",
+    "elytra_flying": "item.elytra.flying"
+  },
+  "variants": {
+    "place": [
+      {
+        "clip": "dig_grass1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "hit": [
+      {
+        "clip": "step_grass1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_grass2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_grass3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_grass4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_grass5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_grass6",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "break": [
+      {
+        "clip": "dig_grass1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "sword_strong": [
+      {
+        "clip": "entity_player_attack_strong1",
+        "volume": 0.6,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_strong2",
+        "volume": 0.6,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_strong3",
+        "volume": 0.6,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_strong4",
+        "volume": 0.6,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_strong5",
+        "volume": 0.7,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_strong6",
+        "volume": 0.7,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "sword_weak": [
+      {
+        "clip": "entity_player_attack_weak1",
+        "volume": 0.7,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_weak2",
+        "volume": 0.7,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_weak3",
+        "volume": 0.7,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_weak4",
+        "volume": 0.7,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "sword_miss": [
+      {
+        "clip": "entity_player_attack_weak1",
+        "volume": 0.7,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_weak2",
+        "volume": 0.7,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_weak3",
+        "volume": 0.7,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "entity_player_attack_weak4",
+        "volume": 0.7,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "bow_shoot": [
+      {
+        "clip": "random_bow",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "arrow_hit": [
+      {
+        "clip": "random_bowhit1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "random_bowhit2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "random_bowhit3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "random_bowhit4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "shield_block": [
+      {
+        "clip": "item_shield_block1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_shield_block2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_shield_block3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_shield_block4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_shield_block5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "eat": [
+      {
+        "clip": "random_eat1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "random_eat2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "random_eat3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "burp": [
+      {
+        "clip": "random_burp",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "totem": [
+      {
+        "clip": "item_totem_use_totem",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "pearl_throw": [
+      {
+        "clip": "random_bow",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "pearl_teleport": [
+      {
+        "clip": "mob_endermen_portal",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "mob_endermen_portal2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "firework_launch": [
+      {
+        "clip": "fireworks_launch1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "firework_blast": [
+      {
+        "clip": "fireworks_blast1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "firework_twinkle": [
+      {
+        "clip": "fireworks_twinkle1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "elytra_flying": [
+      {
+        "clip": "item_elytra_elytra_loop",
+        "volume": 0.6,
+        "pitch": 1,
+        "weight": 1
+      }
+    ]
+  },
+  "sounds_json_sha256": "51b23584d267ba37d3a1bafd4f24d3dda07672ab91672ea6f7a1bc86067a1a6b",
+  "asset_index_sha256": "9edfa2ad3a1850ce1c152052c5f17a8772d9b4f8f5a478b0ca4f66556816347f",
+  "clips": [
+    {
+      "name": "dig_grass1",
+      "file": "dig_grass1.pcm",
+      "bytes": 88200,
+      "sha256": "a318f2fc6ebc62cfefe1615c4cb2072407b9b1c2762fd99a918680b27b6c9203",
+      "source": "minecraft/sounds/dig/grass1.ogg",
+      "source_sha1": "41cbf5dd08e951ad65883854e74d2e034929f572",
+      "source_sha256": "3619fdb8f8aad57a48d45e02a3e8be90a9ca5d0ab8c8802961c78fd59c1f84fa",
+      "duration_seconds": 0.5
+    },
+    {
+      "name": "dig_grass2",
+      "file": "dig_grass2.pcm",
+      "bytes": 88200,
+      "sha256": "e0f6b0174c289fdacdeafd2e210d67b5dc10adf92f04ab4139195806cc049cf8",
+      "source": "minecraft/sounds/dig/grass2.ogg",
+      "source_sha1": "86cb1bb0c45625b18e00a64098cd425a38f6d3f2",
+      "source_sha256": "b0763cf2c5b4d49602cb143e457b6206b6b101113a525795ef9c622ae31149df",
+      "duration_seconds": 0.5
+    },
+    {
+      "name": "dig_grass3",
+      "file": "dig_grass3.pcm",
+      "bytes": 87688,
+      "sha256": "ae3ae33f76be336e563451da90de5fc634f6f6e8cd0acacb961b21f74461b2e0",
+      "source": "minecraft/sounds/dig/grass3.ogg",
+      "source_sha1": "f7d7e5c7089c9b45fa5d1b31542eb455fad995db",
+      "source_sha256": "9ac02803710f8556be3501d021ca2120d121339fa07f0a18a0b63ba5547508fd",
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "dig_grass4",
+      "file": "dig_grass4.pcm",
+      "bytes": 87688,
+      "sha256": "d9809a3866fce6dd29ee3cab3214efeef8c6ef3d35825b047d422c74c6422045",
+      "source": "minecraft/sounds/dig/grass4.ogg",
+      "source_sha1": "c7b1005d4926f6a2e2387a41ab1fb48a72f18e98",
+      "source_sha256": "dd73335714e52237ef6ebc05035418367b4785cfef749b5ea1cd9b6b1c523b93",
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "step_grass1",
+      "file": "step_grass1.pcm",
+      "bytes": 87688,
+      "sha256": "55bb1d35c41750a463a884efc88db003a42fae81b2cb886fd2188b70f05e545c",
+      "source": "minecraft/sounds/step/grass1.ogg",
+      "source_sha1": "227ab99bf7c6cf0b2002e0f7957d0ff7e5cb0c96",
+      "source_sha256": "2959b1742d6f62692eab8b39e6f715520e639e8a6ee24f22975df93c00b4792c",
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "step_grass2",
+      "file": "step_grass2.pcm",
+      "bytes": 107496,
+      "sha256": "f935920927cfebecb19662392d1b2a39796269dae092adf7baeba0d580b8a893",
+      "source": "minecraft/sounds/step/grass2.ogg",
+      "source_sha1": "5c971029d9284676dce1dda2c9d202f8c47163b2",
+      "source_sha256": "226e6e9270b4c64481a1ad9838523707bffc34017d6e0d95ffbf335e903dfe2d",
+      "duration_seconds": 0.6093877551020408
+    },
+    {
+      "name": "step_grass3",
+      "file": "step_grass3.pcm",
+      "bytes": 84932,
+      "sha256": "b6e0471040f02eb4e1476c3583debf69798364e164d308bdae770f391abb47be",
+      "source": "minecraft/sounds/step/grass3.ogg",
+      "source_sha1": "76de0a736928eac5003691d73bdc2eda92116198",
+      "source_sha256": "6e06a73583c8f09c6fb444c06213c02cd5e2d60ff24b21b4e8cef2e5257b706d",
+      "duration_seconds": 0.48147392290249436
+    },
+    {
+      "name": "step_grass4",
+      "file": "step_grass4.pcm",
+      "bytes": 93204,
+      "sha256": "3893fb9612fa580ae403b87126ddcc6d034a6cdf98fdef230d44563075791152",
+      "source": "minecraft/sounds/step/grass4.ogg",
+      "source_sha1": "bc28801224a0aa77fdc93bb7c6c94beacdf77331",
+      "source_sha256": "ba77cb905a8470c616e98a7f7745823d362278e1113bb2bd0c96dcf25f3298ea",
+      "duration_seconds": 0.5283673469387755
+    },
+    {
+      "name": "step_grass5",
+      "file": "step_grass5.pcm",
+      "bytes": 99228,
+      "sha256": "125f85fd1975c4bd416102c0635ec6453d4a203a2ad1df0187fd017b2cf5b893",
+      "source": "minecraft/sounds/step/grass5.ogg",
+      "source_sha1": "813ebd91b9c3fe1ac8f89f13c85d0755678f2165",
+      "source_sha256": "21bd69b639eb2cddd3cd39f381007b92938c1dec57dad241872bd42f07d36e00",
+      "duration_seconds": 0.5625170068027211
+    },
+    {
+      "name": "step_grass6",
+      "file": "step_grass6.pcm",
+      "bytes": 96472,
+      "sha256": "b23da551259d5ae3e3e5578a57fb8d29ad3b18f99818b2dadddbc5a15530580f",
+      "source": "minecraft/sounds/step/grass6.ogg",
+      "source_sha1": "b88cafe403394cdcd4de0e3aeb7b76f24170c6fe",
+      "source_sha256": "e7078d68311e58aa4648248cd2fdd4830de841df5b46d2951b1b4843f50e1acf",
+      "duration_seconds": 0.5468934240362812
+    },
+    {
+      "name": "entity_player_attack_strong1",
+      "file": "entity_player_attack_strong1.pcm",
+      "bytes": 31752,
+      "sha256": "b8dbfce2b97251a5906d0f0f8b88d86a8d14cf8088dc9a44d300c7db8cd7ebc9",
+      "source": "minecraft/sounds/entity/player/attack/strong1.ogg",
+      "source_sha1": "d7067e204913cf9631bfbb7340102f6de75c2dfc",
+      "source_sha256": "4b5d655f7b74aec8c701acd02e9f65bba47f06246d6c0a2fe31c12915296b840",
+      "duration_seconds": 0.18
+    },
+    {
+      "name": "entity_player_attack_strong2",
+      "file": "entity_player_attack_strong2.pcm",
+      "bytes": 39516,
+      "sha256": "1e8253fd3e0bc6d6fe80f7699ad1a3e93ef2ca7b816145a83a02cac36a4d1a2f",
+      "source": "minecraft/sounds/entity/player/attack/strong2.ogg",
+      "source_sha1": "56afe99ff911f7c56fb923cd85427a719c2a1424",
+      "source_sha256": "f814be39a28569686d67685a98e5bf6696c9962d5a477bc21f24021ddcdd7df9",
+      "duration_seconds": 0.22401360544217688
+    },
+    {
+      "name": "entity_player_attack_strong3",
+      "file": "entity_player_attack_strong3.pcm",
+      "bytes": 35516,
+      "sha256": "fecfa482aee23e4c1777eac95f936e825dbadda8b356039798308bccc8ba1e0a",
+      "source": "minecraft/sounds/entity/player/attack/strong3.ogg",
+      "source_sha1": "780917a341ca4e6a5a8f4e744142a94069189fb0",
+      "source_sha256": "829d8d2db7571350e71ae57aa138d58ba8e74ac22dcea8a4c644f47444293c68",
+      "duration_seconds": 0.20133786848072563
+    },
+    {
+      "name": "entity_player_attack_strong4",
+      "file": "entity_player_attack_strong4.pcm",
+      "bytes": 33636,
+      "sha256": "7e133454483d1f099cfb5a38bfffc98e6148324a7114fab6367d1459d5928bd4",
+      "source": "minecraft/sounds/entity/player/attack/strong4.ogg",
+      "source_sha1": "a272af870850e4d5905f476ac23bcb28543a543a",
+      "source_sha256": "d422289de1b17eec7222d87c1429c0f3dc5e20d82dac782ffc7b8c3731983365",
+      "duration_seconds": 0.19068027210884353
+    },
+    {
+      "name": "entity_player_attack_strong5",
+      "file": "entity_player_attack_strong5.pcm",
+      "bytes": 39516,
+      "sha256": "91e1b710b845edac033a0a92c530c491005a7c2c7b11d14a4938f571fb751c7e",
+      "source": "minecraft/sounds/entity/player/attack/strong5.ogg",
+      "source_sha1": "c3dcdf6dff63fcf4d35b2742b62018591de0e156",
+      "source_sha256": "9734330f6a2c3e2342537922293ed249fdd241822920e136176fcc7126aec000",
+      "duration_seconds": 0.22401360544217688
+    },
+    {
+      "name": "entity_player_attack_strong6",
+      "file": "entity_player_attack_strong6.pcm",
+      "bytes": 31520,
+      "sha256": "b8f2f2dd13050ec3c8c7bdeed9365188dd4bf59247f58ddbd53a431f602cd3d6",
+      "source": "minecraft/sounds/entity/player/attack/strong6.ogg",
+      "source_sha1": "ed76364b90ade21c5d25bf09a4a67475801bce66",
+      "source_sha256": "4f4febd8ecb5c4fc500cc049bd6fa372587efa7ab33a4b770d1268262be0af92",
+      "duration_seconds": 0.17868480725623584
+    },
+    {
+      "name": "entity_player_attack_weak1",
+      "file": "entity_player_attack_weak1.pcm",
+      "bytes": 16464,
+      "sha256": "ecb36393a834191d38ed1939d87f8782e334ce8c9e95259fbd85bc58ba6b589d",
+      "source": "minecraft/sounds/entity/player/attack/weak1.ogg",
+      "source_sha1": "f26ab58dc70ce7a3f4d16b5bb31620894b0b8812",
+      "source_sha256": "efbcbfa5d3956a3a987de893c5b4c256a72e1fe46b121ba7babdafd0212a6cdd",
+      "duration_seconds": 0.09333333333333334
+    },
+    {
+      "name": "entity_player_attack_weak2",
+      "file": "entity_player_attack_weak2.pcm",
+      "bytes": 13880,
+      "sha256": "a539def0675df13f8e1e29652cc96d5f4003d69156f97a3b0205705b08fd6bf4",
+      "source": "minecraft/sounds/entity/player/attack/weak2.ogg",
+      "source_sha1": "8d56863e83e0e114937522d3a4a7e124528c65b4",
+      "source_sha256": "0eff3fcf7c17b793f230f57bb7e997f87746b8809c64c369c81e3cb688be24a0",
+      "duration_seconds": 0.07868480725623583
+    },
+    {
+      "name": "entity_player_attack_weak3",
+      "file": "entity_player_attack_weak3.pcm",
+      "bytes": 18348,
+      "sha256": "73e551fa9dacde8b0e3aa85b38fd078051541649d32d5335667a9918455c2508",
+      "source": "minecraft/sounds/entity/player/attack/weak3.ogg",
+      "source_sha1": "5d78e883f8bf8123261a5b05cf90cb5cc020fa6e",
+      "source_sha256": "3348fdc39a687a6a45802668814472dd3dc58e87c49cd4600d7d93658ad02e71",
+      "duration_seconds": 0.10401360544217687
+    },
+    {
+      "name": "entity_player_attack_weak4",
+      "file": "entity_player_attack_weak4.pcm",
+      "bytes": 16112,
+      "sha256": "c17518f429c50c1487d98bb16c5ff025ab957a9980fecfe7efbea57085ff85b1",
+      "source": "minecraft/sounds/entity/player/attack/weak4.ogg",
+      "source_sha1": "5fa52f2e49e446e466b721937cc168bba734ef33",
+      "source_sha256": "7a14200bb702716f28a404a886f5138a6526467ee75b699f377797bc2270d797",
+      "duration_seconds": 0.09133786848072563
+    },
+    {
+      "name": "random_bow",
+      "file": "random_bow.pcm",
+      "bytes": 84224,
+      "sha256": "dd5fe2847aa3c93ce332fe2ece76dc545303eef706551152f5c907eace254d07",
+      "source": "minecraft/sounds/random/bow.ogg",
+      "source_sha1": "87edc11141fb5a045f2ed830b545aaa73f96ee99",
+      "source_sha256": "9492b523393851444789a0befcb1c0c5f382638b9b87e56dfa4da6dcb61dd3f3",
+      "duration_seconds": 0.4774603174603175
+    },
+    {
+      "name": "random_bowhit1",
+      "file": "random_bowhit1.pcm",
+      "bytes": 129544,
+      "sha256": "f71da07c2fda9b2fe284d801528f5587b4ab01860deb629f9a910cd062669332",
+      "source": "minecraft/sounds/random/bowhit1.ogg",
+      "source_sha1": "78f034d58779fb4d22b00ea249015a0dbf4e7b3f",
+      "source_sha256": "31e05e73edb52ff6871f60d60ce1ed8912cf1f6c85ba68a571808efba3d9890e",
+      "duration_seconds": 0.7343764172335601
+    },
+    {
+      "name": "random_bowhit2",
+      "file": "random_bowhit2.pcm",
+      "bytes": 132300,
+      "sha256": "418a3745b6fec46c12a1d4a771d8f59f89d02060e089615cf9862a718bbec05a",
+      "source": "minecraft/sounds/random/bowhit2.ogg",
+      "source_sha1": "c3cd0db760c980287b26ef9c0894f66c4250724e",
+      "source_sha256": "fa7acce9893cd8ae274bf57453d782d825915e31999a21f0c38713116a100b45",
+      "duration_seconds": 0.75
+    },
+    {
+      "name": "random_bowhit3",
+      "file": "random_bowhit3.pcm",
+      "bytes": 157108,
+      "sha256": "00a9bbc85352ce0c065f2f907ac667d8d041cf1cf041ffdc3b27704925b55c63",
+      "source": "minecraft/sounds/random/bowhit3.ogg",
+      "source_sha1": "0369a1236a4b9ca219fd3ad7d19d0b5237510b1e",
+      "source_sha256": "5904f027d0db3f29434fc5840ab25b5115abfb11dfc858ddc339380554f24713",
+      "duration_seconds": 0.8906349206349207
+    },
+    {
+      "name": "random_bowhit4",
+      "file": "random_bowhit4.pcm",
+      "bytes": 176400,
+      "sha256": "ed57467766f4506384ba5ea8ee7e26319773e6096c0587e1ffe79eb19a5b5105",
+      "source": "minecraft/sounds/random/bowhit4.ogg",
+      "source_sha1": "9e5e2369fc354a082c861494cfe8767d327813d4",
+      "source_sha256": "1f5dfd0b9a203ea49c1f90a91bd8da23839748bc7fbe00424dae703046684b59",
+      "duration_seconds": 1.0
+    },
+    {
+      "name": "item_shield_block1",
+      "file": "item_shield_block1.pcm",
+      "bytes": 53840,
+      "sha256": "72ead44d596e31330fc637db1373665809fa48d0027a50564171a634d3690d23",
+      "source": "minecraft/sounds/item/shield/block1.ogg",
+      "source_sha1": "d9a379040a1b2f288664f303e99147dabb1afdf6",
+      "source_sha256": "64e4be9d2ca8c2cab11a05414117bd01de392744210c7e2be5b0902f53606639",
+      "duration_seconds": 0.3052154195011338
+    },
+    {
+      "name": "item_shield_block2",
+      "file": "item_shield_block2.pcm",
+      "bytes": 40136,
+      "sha256": "aa8afd883eb346310aeb439f764598a80e54c4de12cdc38ebe8d6fb15a3d5576",
+      "source": "minecraft/sounds/item/shield/block2.ogg",
+      "source_sha1": "fe54cc09b73e7910090edfbb93854746f816e0fa",
+      "source_sha256": "9e7809d4ec870aad58bcd0e451d6ffeec7b01dd3b14154c4e110cf02c9c871c4",
+      "duration_seconds": 0.2275283446712018
+    },
+    {
+      "name": "item_shield_block3",
+      "file": "item_shield_block3.pcm",
+      "bytes": 50872,
+      "sha256": "5b17d66a74aaf7799919fcc6777ac3f217f1b040541ad9a3f970324ddcd50a51",
+      "source": "minecraft/sounds/item/shield/block3.ogg",
+      "source_sha1": "e0b2b3e082199d91b1e1ee93c714d5aad124e28a",
+      "source_sha256": "39d7721509f321fb227980a22bb49ba3ac5fb5989f435f8bcf42f96d06cc8355",
+      "duration_seconds": 0.28839002267573693
+    },
+    {
+      "name": "item_shield_block4",
+      "file": "item_shield_block4.pcm",
+      "bytes": 46764,
+      "sha256": "20fc9046b487975169dd4bbcbb1b61652fd7d503a5a6bac86c3c8480642838de",
+      "source": "minecraft/sounds/item/shield/block4.ogg",
+      "source_sha1": "a33fba87abfde6b5bb2acc4f116c2cbe7c8c3eb6",
+      "source_sha256": "69cbcfba412e44a995f32e5d989cf73b0bd7a42c176c97984353cb245d8e9ec1",
+      "duration_seconds": 0.26510204081632655
+    },
+    {
+      "name": "item_shield_block5",
+      "file": "item_shield_block5.pcm",
+      "bytes": 50176,
+      "sha256": "d1481dbdeb1a0ee02064ccd0b2d5b56df81fe353d51b0cd45d2b79fe890e19ce",
+      "source": "minecraft/sounds/item/shield/block5.ogg",
+      "source_sha1": "0161e1249adc4244fe3a83675d2b9533209948f7",
+      "source_sha256": "a1b7b8293a2c0ce32a31e6a005bd95520b95545db60b44b476f7fab40e3b2e38",
+      "duration_seconds": 0.28444444444444444
+    },
+    {
+      "name": "random_eat1",
+      "file": "random_eat1.pcm",
+      "bytes": 52992,
+      "sha256": "0746652526f610ec21a85b6050ba9f81a6a7316fbc663fecc6e319c5e05e6755",
+      "source": "minecraft/sounds/random/eat1.ogg",
+      "source_sha1": "dfee39084c771182f6b9e7cfb8c8bc4e255747bc",
+      "source_sha256": "b2c679f3a7c177a94134cbaa11dfe08ddefee439c1cffc448d7621f3e4229e82",
+      "duration_seconds": 0.3004081632653061
+    },
+    {
+      "name": "random_eat2",
+      "file": "random_eat2.pcm",
+      "bytes": 52992,
+      "sha256": "6132df40e46544a2d3af967d9c0802442c29db25bce1913605c116783262eabc",
+      "source": "minecraft/sounds/random/eat2.ogg",
+      "source_sha1": "d26bde554d88f0ca156baf471c44ce2c0e68176c",
+      "source_sha256": "71a4b8035a72e7c881219b6419bb7de66ffd128c10743448fc1c69cdfb3b8a35",
+      "duration_seconds": 0.3004081632653061
+    },
+    {
+      "name": "random_eat3",
+      "file": "random_eat3.pcm",
+      "bytes": 48532,
+      "sha256": "0e06f6799d90b553cedda05cc53bd727fa4dd09b843915845bada3f14b1d1e45",
+      "source": "minecraft/sounds/random/eat3.ogg",
+      "source_sha1": "9f2c4bab5ed55f1714fffa223985c81babc8f6c0",
+      "source_sha256": "3c6f012d2ceb63062d2705c4892a53970ed504c20b08d82e113fa876e734c5f0",
+      "duration_seconds": 0.27512471655328796
+    },
+    {
+      "name": "random_burp",
+      "file": "random_burp.pcm",
+      "bytes": 57816,
+      "sha256": "657ca834b983f6b301044a6eba3bb6ee45765f40d4b1f6715be9eef666408337",
+      "source": "minecraft/sounds/random/burp.ogg",
+      "source_sha1": "bdc648e04933df8ddcccc84b375d6556776d4331",
+      "source_sha256": "e49f343cf4289dc1c25f9932075a6b07a89bb13c885fea4ebc2634f43ba35c8d",
+      "duration_seconds": 0.3277551020408163
+    },
+    {
+      "name": "item_totem_use_totem",
+      "file": "item_totem_use_totem.pcm",
+      "bytes": 603756,
+      "sha256": "da6ebf1f263ee0e41dfcc8a776428282006fa002adc9f5a5d1cbd36c0fe54da5",
+      "source": "minecraft/sounds/item/totem/use_totem.ogg",
+      "source_sha1": "e7f0337931cdb05c4234d2a9bc1f38ead675db26",
+      "source_sha256": "9d3a53dd9c6098021e87707a7942502ff35bb529efaed87b602030c201372674",
+      "duration_seconds": 3.42265306122449
+    },
+    {
+      "name": "mob_endermen_portal",
+      "file": "mob_endermen_portal.pcm",
+      "bytes": 161532,
+      "sha256": "9278b40d6af763a04f8d4ee4b83b50229cbe7852299dcf3a85f4bff95edbe90e",
+      "source": "minecraft/sounds/mob/endermen/portal.ogg",
+      "source_sha1": "7b4b5323ef066caa1ae43cbe66fffd9dfce4ed32",
+      "source_sha256": "22ea617abb6797d10040baaa64bc4d6e7debc7f08840f1f21e55b5b69c555bbb",
+      "duration_seconds": 0.9157142857142857
+    },
+    {
+      "name": "mob_endermen_portal2",
+      "file": "mob_endermen_portal2.pcm",
+      "bytes": 91792,
+      "sha256": "70cf11bab690c88db3ccc1263520e2c5928b043ac7d6eb13c81b0f47d5144d75",
+      "source": "minecraft/sounds/mob/endermen/portal2.ogg",
+      "source_sha1": "35461b6a4253db40973549e82d91f267c686be85",
+      "source_sha256": "af6d05f3202d0ae1292b8c12600244a4b1da07ae6f757ab719ed6a8f1bed9244",
+      "duration_seconds": 0.5203628117913832
+    },
+    {
+      "name": "fireworks_launch1",
+      "file": "fireworks_launch1.pcm",
+      "bytes": 286652,
+      "sha256": "2dbae54f54d6577953401b00e8954beab0331cb58fa45560876e73a35b126e31",
+      "source": "minecraft/sounds/fireworks/launch1.ogg",
+      "source_sha1": "b1715242916d56140486c612056ea4d6dd5a4404",
+      "source_sha256": "1505700bf51d55c1b99505edc3e3d4cd2158376ef88885c9ea4544f36dbc618f",
+      "original": "assets/private/elytra-firework/original/1.21.1/indexed-assets/minecraft/sounds/fireworks/launch1.ogg",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 1.6250113378684807,
+      "bundle": "assets/private/elytra-firework"
+    },
+    {
+      "name": "fireworks_blast1",
+      "file": "fireworks_blast1.pcm",
+      "bytes": 176400,
+      "sha256": "78cd0453016bfdec18546f75a3369e10125b4d52873ab60793c0f350db749c10",
+      "source": "minecraft/sounds/fireworks/blast1.ogg",
+      "source_sha1": "d9d7511e8944da0c7ab4ed2d3e3d964f98dd6997",
+      "source_sha256": "9377171cf33d982af07afee8969bbb2211516c287d579bb1ba49ab75c06a9232",
+      "original": "assets/private/elytra-firework/original/1.21.1/indexed-assets/minecraft/sounds/fireworks/blast1.ogg",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 1.0,
+      "bundle": "assets/private/elytra-firework"
+    },
+    {
+      "name": "fireworks_twinkle1",
+      "file": "fireworks_twinkle1.pcm",
+      "bytes": 235296,
+      "sha256": "9665f443426c1e98565a496903e368f2438c255be05af01e55b9cea6c984eaf0",
+      "source": "minecraft/sounds/fireworks/twinkle1.ogg",
+      "source_sha1": "41b9c631e9c1c40800b3b02a0ac5855d6ad4846d",
+      "source_sha256": "0c2eaff9130e2ed5fec3543e0d7e156b5d4489245fb4a7c591fc6020aed8147d",
+      "original": "assets/private/elytra-firework/original/1.21.1/indexed-assets/minecraft/sounds/fireworks/twinkle1.ogg",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 1.3338775510204082,
+      "bundle": "assets/private/elytra-firework"
+    },
+    {
+      "name": "item_elytra_elytra_loop",
+      "file": "item_elytra_elytra_loop.pcm",
+      "bytes": 1802868,
+      "sha256": "dd44c7914b676f79769012a12d2c4ceb5456a6e5e04d7c9c793adce575948cbd",
+      "source": "minecraft/sounds/item/elytra/elytra_loop.ogg",
+      "source_sha1": "90d599a1760137a7c4d7a52c77f5c65c02f137d4",
+      "source_sha256": "0f51f0fd6647cf4d5fcabc1184cb5d3858aa49fe677e71991245d8b5b54ec1cd",
+      "original": "assets/private/elytra-firework/original/1.21.1/indexed-assets/minecraft/sounds/item/elytra/elytra_loop.ogg",
+      "source_codec": "vorbis",
+      "source_channels": 2,
+      "source_sample_rate": 48000,
+      "duration_seconds": 10.220340136054421,
+      "bundle": "assets/private/elytra-firework"
+    }
+  ],
+  "extensions": {
+    "elytra_firework": {
+      "source_manifest": "assets/private/elytra-firework/sounds/manifest.json",
+      "source_manifest_sha256": "d9b2a83ea5370474b41d4607e7944a04de52ae8f7b1222b409360f65f7198ee1",
+      "events": {
+        "launch": "firework_launch",
+        "blast": "firework_blast",
+        "twinkle": "firework_twinkle",
+        "flying": "elytra_flying"
+      },
+      "recipe": "tools/integrate_elytra_firework_audio.py",
+      "recipe_sha256": "29e24d4bdb807dbd8c108707a9794efbd609125e7a4d03fc25f9b3919a389b02",
+      "event_policy": "No-star rocket uses launch only; blast/twinkle are retained original events for explicitly configured explosion components. Flying is an original loop."
+    }
+  }
+}

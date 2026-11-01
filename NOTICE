@@ -1,0 +1,33 @@
+PBZMC contributors. Mod source: PolyForm Noncommercial 1.0.0.
+
+Required Notice: Copyright (c) 2026 桃天帝不差
+Required Notice: 黑神话：史蒂夫 — 作者 / B站：桃天帝不差
+
+The original project code is licensed under PolyForm Noncommercial 1.0.0.
+Retain these notices when distributing the software or permitted modifications.
+Third-party game content, dependencies and trademarks remain subject to their own terms.
+
+B1CSharpLoader 0.0.8 by czastack:
+https://github.com/czastack/B1CSharpLoader/releases/tag/v0.0.8
+
+Minecraft Java Edition 1.21.1 and 1.21.11 assets: Mojang / Microsoft.
+Terraria Life Crystal sprite: Re-Logic.
+Hearthstone Chinese quality announcement audio: Blizzard Entertainment.
+These original game assets remain subject to their owners' terms.
+Black Myth: Wukong: Game Science.
+This is an unofficial community mod, not an official product of these companies.
+
+NAudio 1.10.0: Copyright (c) Mark Heath 2020 and Contributors.
+NAudio is obtained separately through NuGet and is governed by the Microsoft Public License (Ms-PL).
+The project noncommercial license does not replace or restrict that third-party license.
+
+Dependencies distributed with this mod:
+- UE4SS: MIT, see third_party/UE4SS-LICENSE.
+- dkjson: MIT, notice embedded in third_party/dkjson/dkjson.lua.
+- nlohmann/json 3.11.3: MIT, see third_party/nlohmann-json-3.11.3/LICENSE.MIT.
+- MinHook 1.3.4: BSD-2-Clause, see third_party/minhook-1.3.4/LICENSE.txt; local narrow trampoline adaptation retained in source.
+- fmt 11.2.0: MIT, see third_party/fmt-LICENSE.
+
+The upstream NOTICE above describes its original project; third-party game assets listed there are not redistributed in this project.
+Minecraft resources are prepared locally from pinned original sources and are not relicensed.
+PBZ is required separately. No game executable, save, decompiled game source or account configuration is distributed.

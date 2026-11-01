@@ -1,0 +1,454 @@
+{
+  "format": "STEVEM01",
+  "minecraft_version": "1.21.1",
+  "namespace": "minecraft",
+  "resource": "minecraft:oak_boat",
+  "units": {
+    "scale_for_mesh_bundle": 6.25,
+    "block_cm": 100,
+    "pixel_cm": 6.25
+  },
+  "axes": "UE +X bow/forward, +Y starboard/right, +Z up; hull bottom plane is local Z=0",
+  "coordinate_recipe": "Model(x,y,z) -> recipe(z,y-6,-x) -> UE(x,-z,6-y)*6.25; paddle local vertices omit -6",
+  "paddle_contract": "Load left/right local mesh at its decoded pivot; rotate local vertices with P R P^-1, where P(x,y,z)=(x,-z,-y), R=Rz(roll)Ry(yaw)Rx(pitch). Do not add pivot twice.",
+  "paddle_animation": {
+    "roll": 0.19634954084936207,
+    "phase_per_tick": 0.39269908169872414,
+    "tick_rate": 20,
+    "rest_angles_left": [
+      -0.6544984694978735,
+      0.6608897660203641,
+      0.19634954084936207
+    ],
+    "rest_angles_right": [
+      -0.6544984694978735,
+      2.480702887569429,
+      0.19634954084936207
+    ]
+  },
+  "entity_dimensions_cm": [
+    137.5,
+    137.5,
+    56.25
+  ],
+  "seat_height_cm": 18.75,
+  "seat_forward_cm": {
+    "single": [
+      0
+    ],
+    "double": [
+      20,
+      -60
+    ]
+  },
+  "water_patch": "Excluded: original hidden water-mask pass is not wooden geometry.",
+  "optimization": "Exact RGBA greedy rectangles within each original cuboid face; no texture resampling or color reduction.",
+  "original_parts": [
+    {
+      "name": "bottom",
+      "cubes": [
+        {
+          "origin": [
+            -14.0,
+            -9.0,
+            -3.0
+          ],
+          "size": [
+            28.0,
+            16.0,
+            3.0
+          ],
+          "uv": [
+            0,
+            0
+          ]
+        }
+      ],
+      "pivot": [
+        0.0,
+        3.0,
+        1.0
+      ],
+      "rotation": [
+        1.5707963267948966,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "back",
+      "cubes": [
+        {
+          "origin": [
+            -13.0,
+            -7.0,
+            -1.0
+          ],
+          "size": [
+            18.0,
+            6.0,
+            2.0
+          ],
+          "uv": [
+            0,
+            19
+          ]
+        }
+      ],
+      "pivot": [
+        -15.0,
+        4.0,
+        4.0
+      ],
+      "rotation": [
+        0.0,
+        4.71238898038469,
+        0.0
+      ]
+    },
+    {
+      "name": "front",
+      "cubes": [
+        {
+          "origin": [
+            -8.0,
+            -7.0,
+            -1.0
+          ],
+          "size": [
+            16.0,
+            6.0,
+            2.0
+          ],
+          "uv": [
+            0,
+            27
+          ]
+        }
+      ],
+      "pivot": [
+        15.0,
+        4.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        1.5707963267948966,
+        0.0
+      ]
+    },
+    {
+      "name": "right",
+      "cubes": [
+        {
+          "origin": [
+            -14.0,
+            -7.0,
+            -1.0
+          ],
+          "size": [
+            28.0,
+            6.0,
+            2.0
+          ],
+          "uv": [
+            0,
+            35
+          ]
+        }
+      ],
+      "pivot": [
+        0.0,
+        4.0,
+        -9.0
+      ],
+      "rotation": [
+        0.0,
+        3.141592653589793,
+        0.0
+      ]
+    },
+    {
+      "name": "left",
+      "cubes": [
+        {
+          "origin": [
+            -14.0,
+            -7.0,
+            -1.0
+          ],
+          "size": [
+            28.0,
+            6.0,
+            2.0
+          ],
+          "uv": [
+            0,
+            43
+          ]
+        }
+      ],
+      "pivot": [
+        0.0,
+        4.0,
+        9.0
+      ],
+      "rotation": [
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "name": "left_paddle",
+      "cubes": [
+        {
+          "origin": [
+            -1.0,
+            0.0,
+            -5.0
+          ],
+          "size": [
+            2.0,
+            2.0,
+            18.0
+          ],
+          "uv": [
+            62,
+            0
+          ]
+        },
+        {
+          "origin": [
+            -1.001,
+            -3.0,
+            8.0
+          ],
+          "size": [
+            1.0,
+            6.0,
+            7.0
+          ],
+          "uv": [
+            62,
+            0
+          ]
+        }
+      ],
+      "pivot": [
+        3.0,
+        -5.0,
+        9.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.19634954084936207
+      ]
+    },
+    {
+      "name": "right_paddle",
+      "cubes": [
+        {
+          "origin": [
+            -1.0,
+            0.0,
+            -5.0
+          ],
+          "size": [
+            2.0,
+            2.0,
+            18.0
+          ],
+          "uv": [
+            62,
+            20
+          ]
+        },
+        {
+          "origin": [
+            0.001,
+            -3.0,
+            8.0
+          ],
+          "size": [
+            1.0,
+            6.0,
+            7.0
+          ],
+          "uv": [
+            62,
+            20
+          ]
+        }
+      ],
+      "pivot": [
+        3.0,
+        -5.0,
+        -9.0
+      ],
+      "rotation": [
+        0.0,
+        3.141592653589793,
+        0.19634954084936207
+      ]
+    },
+    {
+      "name": "water_patch",
+      "cubes": [
+        {
+          "origin": [
+            -14.0,
+            -9.0,
+            -3.0
+          ],
+          "size": [
+            28.0,
+            16.0,
+            3.0
+          ],
+          "uv": [
+            0,
+            0
+          ]
+        }
+      ],
+      "pivot": [
+        0.0,
+        -3.0,
+        1.0
+      ],
+      "rotation": [
+        1.5707963267948966,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "path": "assets/minecraft/textures/entity/boat/oak.png",
+      "sha256": "5a6376463476293f06cea363b37864cade05d62b84403a75624b4206f70c9c70",
+      "retained": "oak.png",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "research\\evidence\\mc-boat-reference-collection.json",
+      "sha256": "6d5611fe9ca1bb810b84b290395513e07acb7944294fe2f3518eab41dc65e17a"
+    },
+    {
+      "path": "research\\upstream\\wukong-steve\\tools\\ExtractMinecraft.py",
+      "sha256": "ecf5ab572145ee5af78e8b854a7dd5f10ae5e46af76cf802a45d1c780054d678",
+      "commit": "9f213556519dca4498fd46f02af6236ae121ecae",
+      "license": "PolyForm Noncommercial 1.0.0",
+      "notice": "third_party/wukong-steve/NOTICE"
+    }
+  ],
+  "recipe_sha256": "d53aeef3d6948ac395b8163d6d3f11404f33c5c9e4fecf70550e3d2dc4b751ce",
+  "outputs": [
+    {
+      "path": "hull.mesh",
+      "sha256": "45e558582f01d46163814c720804767814815821ed98ab21e5ac154068f592e6",
+      "bytes": 252976,
+      "vertices": 4684,
+      "indices": 7026,
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_bounds_cm": [
+        [
+          -100.0,
+          100.0
+        ],
+        [
+          -62.5,
+          62.500000000000014
+        ],
+        [
+          -0.0,
+          56.25
+        ]
+      ]
+    },
+    {
+      "path": "left_paddle.mesh",
+      "sha256": "cab95c0c7bf667c5acd732b02387bec1ea5635bcdd46577cf4ef436cb6b31712",
+      "bytes": 32447,
+      "vertices": 600,
+      "indices": 900,
+      "pivot_cm": [
+        18.75,
+        -56.25,
+        68.75
+      ],
+      "local_bounds_cm": [
+        [
+          -6.25625,
+          6.25
+        ],
+        [
+          -93.75,
+          31.25
+        ],
+        [
+          -18.75,
+          18.75
+        ]
+      ]
+    },
+    {
+      "path": "right_paddle.mesh",
+      "sha256": "d0961df5f1691517d329403555984866c3d17ffc93190658304dd8566b8bc42c",
+      "bytes": 32448,
+      "vertices": 600,
+      "indices": 900,
+      "pivot_cm": [
+        18.75,
+        56.25,
+        68.75
+      ],
+      "local_bounds_cm": [
+        [
+          -6.25,
+          6.25625
+        ],
+        [
+          -93.75,
+          31.25
+        ],
+        [
+          -18.75,
+          18.75
+        ]
+      ]
+    },
+    {
+      "path": "complete_rest.mesh",
+      "sha256": "2748c28fc159b125b232d9861b15a4c0f1ec8464592d187c1495b06217cbe536",
+      "bytes": 317785,
+      "vertices": 5884,
+      "indices": 8826,
+      "pivot_cm": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "local_bounds_cm": [
+        [
+          -100.0,
+          100.0
+        ],
+        [
+          -127.81772380404107,
+          127.81772380404104
+        ],
+        [
+          -9.353146499454468,
+          91.33972429934404
+        ]
+      ]
+    }
+  ]
+}

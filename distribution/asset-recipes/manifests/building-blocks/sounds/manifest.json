@@ -1,0 +1,1656 @@
+{
+  "schema": 1,
+  "profile": "minecraft-block-sound-groups-v1",
+  "version": "1.21.1",
+  "format": "s16le",
+  "channels": 2,
+  "sample_rate": 44100,
+  "actions": {
+    "hit": {
+      "volume_add": 1,
+      "volume_divisor": 8,
+      "pitch_multiplier": 0.5
+    },
+    "place": {
+      "volume_add": 1,
+      "volume_divisor": 2,
+      "pitch_multiplier": 0.8
+    },
+    "break": {
+      "volume_add": 1,
+      "volume_divisor": 2,
+      "pitch_multiplier": 0.8
+    }
+  },
+  "groups": {
+    "grass": {
+      "sound_type": "GRASS",
+      "volume": 1,
+      "pitch": 1,
+      "events": {
+        "hit": {
+          "event": "block.grass.hit",
+          "variants": [
+            {
+              "clip": "step_grass1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_grass2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_grass3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_grass4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_grass5",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_grass6",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        },
+        "place": {
+          "event": "block.grass.place",
+          "variants": [
+            {
+              "clip": "dig_grass1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_grass2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_grass3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_grass4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        },
+        "break": {
+          "event": "block.grass.break",
+          "variants": [
+            {
+              "clip": "dig_grass1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_grass2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_grass3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_grass4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "gravel": {
+      "sound_type": "GRAVEL",
+      "volume": 1,
+      "pitch": 1,
+      "events": {
+        "hit": {
+          "event": "block.gravel.hit",
+          "variants": [
+            {
+              "clip": "step_gravel1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_gravel2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_gravel3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_gravel4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        },
+        "place": {
+          "event": "block.gravel.place",
+          "variants": [
+            {
+              "clip": "dig_gravel1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_gravel2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_gravel3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_gravel4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        },
+        "break": {
+          "event": "block.gravel.break",
+          "variants": [
+            {
+              "clip": "dig_gravel1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_gravel2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_gravel3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_gravel4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "stone": {
+      "sound_type": "STONE",
+      "volume": 1,
+      "pitch": 1,
+      "events": {
+        "hit": {
+          "event": "block.stone.hit",
+          "variants": [
+            {
+              "clip": "step_stone1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_stone2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_stone3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_stone4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_stone5",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_stone6",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        },
+        "place": {
+          "event": "block.stone.place",
+          "variants": [
+            {
+              "clip": "dig_stone1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_stone2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_stone3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_stone4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        },
+        "break": {
+          "event": "block.stone.break",
+          "variants": [
+            {
+              "clip": "dig_stone1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_stone2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_stone3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_stone4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "wood": {
+      "sound_type": "WOOD",
+      "volume": 1,
+      "pitch": 1,
+      "events": {
+        "hit": {
+          "event": "block.wood.hit",
+          "variants": [
+            {
+              "clip": "step_wood1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_wood2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_wood3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_wood4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_wood5",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_wood6",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        },
+        "place": {
+          "event": "block.wood.place",
+          "variants": [
+            {
+              "clip": "dig_wood1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_wood2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_wood3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_wood4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        },
+        "break": {
+          "event": "block.wood.break",
+          "variants": [
+            {
+              "clip": "dig_wood1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_wood2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_wood3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_wood4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    },
+    "glass": {
+      "sound_type": "GLASS",
+      "volume": 1,
+      "pitch": 1,
+      "events": {
+        "hit": {
+          "event": "block.glass.hit",
+          "variants": [
+            {
+              "clip": "step_stone1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_stone2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_stone3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_stone4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_stone5",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "step_stone6",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        },
+        "place": {
+          "event": "block.glass.place",
+          "variants": [
+            {
+              "clip": "dig_stone1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_stone2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_stone3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "dig_stone4",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        },
+        "break": {
+          "event": "block.glass.break",
+          "variants": [
+            {
+              "clip": "random_glass1",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "random_glass2",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            },
+            {
+              "clip": "random_glass3",
+              "volume": 1,
+              "pitch": 1,
+              "weight": 1
+            }
+          ]
+        }
+      }
+    }
+  },
+  "events": {
+    "grass_hit": [
+      "step_grass1",
+      "step_grass2",
+      "step_grass3",
+      "step_grass4",
+      "step_grass5",
+      "step_grass6"
+    ],
+    "grass_place": [
+      "dig_grass1",
+      "dig_grass2",
+      "dig_grass3",
+      "dig_grass4"
+    ],
+    "grass_break": [
+      "dig_grass1",
+      "dig_grass2",
+      "dig_grass3",
+      "dig_grass4"
+    ],
+    "gravel_hit": [
+      "step_gravel1",
+      "step_gravel2",
+      "step_gravel3",
+      "step_gravel4"
+    ],
+    "gravel_place": [
+      "dig_gravel1",
+      "dig_gravel2",
+      "dig_gravel3",
+      "dig_gravel4"
+    ],
+    "gravel_break": [
+      "dig_gravel1",
+      "dig_gravel2",
+      "dig_gravel3",
+      "dig_gravel4"
+    ],
+    "stone_hit": [
+      "step_stone1",
+      "step_stone2",
+      "step_stone3",
+      "step_stone4",
+      "step_stone5",
+      "step_stone6"
+    ],
+    "stone_place": [
+      "dig_stone1",
+      "dig_stone2",
+      "dig_stone3",
+      "dig_stone4"
+    ],
+    "stone_break": [
+      "dig_stone1",
+      "dig_stone2",
+      "dig_stone3",
+      "dig_stone4"
+    ],
+    "wood_hit": [
+      "step_wood1",
+      "step_wood2",
+      "step_wood3",
+      "step_wood4",
+      "step_wood5",
+      "step_wood6"
+    ],
+    "wood_place": [
+      "dig_wood1",
+      "dig_wood2",
+      "dig_wood3",
+      "dig_wood4"
+    ],
+    "wood_break": [
+      "dig_wood1",
+      "dig_wood2",
+      "dig_wood3",
+      "dig_wood4"
+    ],
+    "glass_hit": [
+      "step_stone1",
+      "step_stone2",
+      "step_stone3",
+      "step_stone4",
+      "step_stone5",
+      "step_stone6"
+    ],
+    "glass_place": [
+      "dig_stone1",
+      "dig_stone2",
+      "dig_stone3",
+      "dig_stone4"
+    ],
+    "glass_break": [
+      "random_glass1",
+      "random_glass2",
+      "random_glass3"
+    ]
+  },
+  "variants": {
+    "grass_hit": [
+      {
+        "clip": "step_grass1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_grass2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_grass3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_grass4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_grass5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_grass6",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "grass_place": [
+      {
+        "clip": "dig_grass1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "grass_break": [
+      {
+        "clip": "dig_grass1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_grass4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "gravel_hit": [
+      {
+        "clip": "step_gravel1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_gravel2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_gravel3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_gravel4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "gravel_place": [
+      {
+        "clip": "dig_gravel1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_gravel2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_gravel3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_gravel4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "gravel_break": [
+      {
+        "clip": "dig_gravel1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_gravel2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_gravel3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_gravel4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "stone_hit": [
+      {
+        "clip": "step_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone6",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "stone_place": [
+      {
+        "clip": "dig_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "stone_break": [
+      {
+        "clip": "dig_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "wood_hit": [
+      {
+        "clip": "step_wood1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_wood2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_wood3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_wood4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_wood5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_wood6",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "wood_place": [
+      {
+        "clip": "dig_wood1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "wood_break": [
+      {
+        "clip": "dig_wood1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_wood4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "glass_hit": [
+      {
+        "clip": "step_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone5",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "step_stone6",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "glass_place": [
+      {
+        "clip": "dig_stone1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "dig_stone4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "glass_break": [
+      {
+        "clip": "random_glass1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "random_glass2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "random_glass3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ]
+  },
+  "event_names": {
+    "grass_hit": "block.grass.hit",
+    "grass_place": "block.grass.place",
+    "grass_break": "block.grass.break",
+    "gravel_hit": "block.gravel.hit",
+    "gravel_place": "block.gravel.place",
+    "gravel_break": "block.gravel.break",
+    "stone_hit": "block.stone.hit",
+    "stone_place": "block.stone.place",
+    "stone_break": "block.stone.break",
+    "wood_hit": "block.wood.hit",
+    "wood_place": "block.wood.place",
+    "wood_break": "block.wood.break",
+    "glass_hit": "block.glass.hit",
+    "glass_place": "block.glass.place",
+    "glass_break": "block.glass.break"
+  },
+  "clips": [
+    {
+      "name": "step_grass1",
+      "file": "step_grass1.pcm",
+      "bytes": 87688,
+      "sha256": "55bb1d35c41750a463a884efc88db003a42fae81b2cb886fd2188b70f05e545c",
+      "source": "minecraft/sounds/step/grass1.ogg",
+      "source_sha1": "227ab99bf7c6cf0b2002e0f7957d0ff7e5cb0c96",
+      "source_sha256": "2959b1742d6f62692eab8b39e6f715520e639e8a6ee24f22975df93c00b4792c",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "step_grass2",
+      "file": "step_grass2.pcm",
+      "bytes": 107496,
+      "sha256": "f935920927cfebecb19662392d1b2a39796269dae092adf7baeba0d580b8a893",
+      "source": "minecraft/sounds/step/grass2.ogg",
+      "source_sha1": "5c971029d9284676dce1dda2c9d202f8c47163b2",
+      "source_sha256": "226e6e9270b4c64481a1ad9838523707bffc34017d6e0d95ffbf335e903dfe2d",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.6093877551020408
+    },
+    {
+      "name": "step_grass3",
+      "file": "step_grass3.pcm",
+      "bytes": 84932,
+      "sha256": "b6e0471040f02eb4e1476c3583debf69798364e164d308bdae770f391abb47be",
+      "source": "minecraft/sounds/step/grass3.ogg",
+      "source_sha1": "76de0a736928eac5003691d73bdc2eda92116198",
+      "source_sha256": "6e06a73583c8f09c6fb444c06213c02cd5e2d60ff24b21b4e8cef2e5257b706d",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.48147392290249436
+    },
+    {
+      "name": "step_grass4",
+      "file": "step_grass4.pcm",
+      "bytes": 93204,
+      "sha256": "3893fb9612fa580ae403b87126ddcc6d034a6cdf98fdef230d44563075791152",
+      "source": "minecraft/sounds/step/grass4.ogg",
+      "source_sha1": "bc28801224a0aa77fdc93bb7c6c94beacdf77331",
+      "source_sha256": "ba77cb905a8470c616e98a7f7745823d362278e1113bb2bd0c96dcf25f3298ea",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5283673469387755
+    },
+    {
+      "name": "step_grass5",
+      "file": "step_grass5.pcm",
+      "bytes": 99228,
+      "sha256": "125f85fd1975c4bd416102c0635ec6453d4a203a2ad1df0187fd017b2cf5b893",
+      "source": "minecraft/sounds/step/grass5.ogg",
+      "source_sha1": "813ebd91b9c3fe1ac8f89f13c85d0755678f2165",
+      "source_sha256": "21bd69b639eb2cddd3cd39f381007b92938c1dec57dad241872bd42f07d36e00",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5625170068027211
+    },
+    {
+      "name": "step_grass6",
+      "file": "step_grass6.pcm",
+      "bytes": 96472,
+      "sha256": "b23da551259d5ae3e3e5578a57fb8d29ad3b18f99818b2dadddbc5a15530580f",
+      "source": "minecraft/sounds/step/grass6.ogg",
+      "source_sha1": "b88cafe403394cdcd4de0e3aeb7b76f24170c6fe",
+      "source_sha256": "e7078d68311e58aa4648248cd2fdd4830de841df5b46d2951b1b4843f50e1acf",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5468934240362812
+    },
+    {
+      "name": "dig_grass1",
+      "file": "dig_grass1.pcm",
+      "bytes": 88200,
+      "sha256": "a318f2fc6ebc62cfefe1615c4cb2072407b9b1c2762fd99a918680b27b6c9203",
+      "source": "minecraft/sounds/dig/grass1.ogg",
+      "source_sha1": "41cbf5dd08e951ad65883854e74d2e034929f572",
+      "source_sha256": "3619fdb8f8aad57a48d45e02a3e8be90a9ca5d0ab8c8802961c78fd59c1f84fa",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5
+    },
+    {
+      "name": "dig_grass2",
+      "file": "dig_grass2.pcm",
+      "bytes": 88200,
+      "sha256": "e0f6b0174c289fdacdeafd2e210d67b5dc10adf92f04ab4139195806cc049cf8",
+      "source": "minecraft/sounds/dig/grass2.ogg",
+      "source_sha1": "86cb1bb0c45625b18e00a64098cd425a38f6d3f2",
+      "source_sha256": "b0763cf2c5b4d49602cb143e457b6206b6b101113a525795ef9c622ae31149df",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5
+    },
+    {
+      "name": "dig_grass3",
+      "file": "dig_grass3.pcm",
+      "bytes": 87688,
+      "sha256": "ae3ae33f76be336e563451da90de5fc634f6f6e8cd0acacb961b21f74461b2e0",
+      "source": "minecraft/sounds/dig/grass3.ogg",
+      "source_sha1": "f7d7e5c7089c9b45fa5d1b31542eb455fad995db",
+      "source_sha256": "9ac02803710f8556be3501d021ca2120d121339fa07f0a18a0b63ba5547508fd",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "dig_grass4",
+      "file": "dig_grass4.pcm",
+      "bytes": 87688,
+      "sha256": "d9809a3866fce6dd29ee3cab3214efeef8c6ef3d35825b047d422c74c6422045",
+      "source": "minecraft/sounds/dig/grass4.ogg",
+      "source_sha1": "c7b1005d4926f6a2e2387a41ab1fb48a72f18e98",
+      "source_sha256": "dd73335714e52237ef6ebc05035418367b4785cfef749b5ea1cd9b6b1c523b93",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "step_gravel1",
+      "file": "step_gravel1.pcm",
+      "bytes": 92252,
+      "sha256": "d61bbbb5091ca1ab3531b6c45ca72c1f0e8aa6f860150c95cea7da9ad8026699",
+      "source": "minecraft/sounds/step/gravel1.ogg",
+      "source_sha1": "1d761cb3bcb45498719e4fba0751e1630e134f1a",
+      "source_sha256": "0ab687ad74071c1ee9e836b7538222528ebee3a1d41c3550f60d2ced7cbaa2e3",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5229705215419501
+    },
+    {
+      "name": "step_gravel2",
+      "file": "step_gravel2.pcm",
+      "bytes": 92252,
+      "sha256": "479482b79627cf5e30a38b619c0b99e379ec1a8346336ec8ba3dfb53514c42b3",
+      "source": "minecraft/sounds/step/gravel2.ogg",
+      "source_sha1": "ac7a7c8d106e26abc775b1b46150c083825d8ddc",
+      "source_sha256": "f3d5531fe16ff4d1ef36c1e9468d504cee699d9932c8b5213d615f378e4f74dc",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5229705215419501
+    },
+    {
+      "name": "step_gravel3",
+      "file": "step_gravel3.pcm",
+      "bytes": 92252,
+      "sha256": "6a34a310bff83381c7fc39144aa8cf77c94db8b78a7e1be3f06d9f324d8fbcae",
+      "source": "minecraft/sounds/step/gravel3.ogg",
+      "source_sha1": "c109b985a7e6d5d3828c92e00aefa49deca0eb8c",
+      "source_sha256": "cffef11c1c93b087b355a2e486675f3b22d8be837b3151bf1761384a299824e0",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5229705215419501
+    },
+    {
+      "name": "step_gravel4",
+      "file": "step_gravel4.pcm",
+      "bytes": 92252,
+      "sha256": "323ced8beb8007abb6bb57a4447f8bcfefc33da947663ab241db22b93d86bdee",
+      "source": "minecraft/sounds/step/gravel4.ogg",
+      "source_sha1": "a47adece748059294c5f563c0fcac02fa0e4bab4",
+      "source_sha256": "ec03b8fedb57670eb6762f10c415300f947281205c1412cbedd8f0bc094f400a",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5229705215419501
+    },
+    {
+      "name": "dig_gravel1",
+      "file": "dig_gravel1.pcm",
+      "bytes": 87688,
+      "sha256": "724fd44df9730859abb5863a43dfd026d7cefa62ff1806f0882e7a7edbc6f693",
+      "source": "minecraft/sounds/dig/gravel1.ogg",
+      "source_sha1": "e8b89f316f3e9989a87f6e6ff12db9abe0f8b09f",
+      "source_sha256": "55a610c8739c045a65343b8447c6b95c1e54465939aab666001af2d4869c1e83",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "dig_gravel2",
+      "file": "dig_gravel2.pcm",
+      "bytes": 88200,
+      "sha256": "8c5b9d21d1a8d07e7e50697be00078acc36a56c5cc6f6ba5c029bdb9133b5220",
+      "source": "minecraft/sounds/dig/gravel2.ogg",
+      "source_sha1": "c3b3797d04cb9640e1d3a72d5e96edb410388fa3",
+      "source_sha256": "60ebf0ed49f258a62adb9849386b2795f7e409d21ff958a803eb0727d7e98913",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5
+    },
+    {
+      "name": "dig_gravel3",
+      "file": "dig_gravel3.pcm",
+      "bytes": 87688,
+      "sha256": "e7f01088d11aa4941cb6d97a624306dafe7238a800a2f37c3de7f874d8165026",
+      "source": "minecraft/sounds/dig/gravel3.ogg",
+      "source_sha1": "48f7e1bb098abd36b9760cca27b9d4391a23de26",
+      "source_sha256": "ab5e4b408d1eca44546e86c11f5fcc66d3a4c035910ab14736f952d1e8ce98fd",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "dig_gravel4",
+      "file": "dig_gravel4.pcm",
+      "bytes": 87688,
+      "sha256": "0f5f55b678a6aaaf58ebcb58ab1c6c88765932c65ee28939b9df8f331ad075a8",
+      "source": "minecraft/sounds/dig/gravel4.ogg",
+      "source_sha1": "7bf3553a4fe41a0078f4988a13d6e1ed8663ef4c",
+      "source_sha256": "fd4aa7553a4f99fe435b2df57bf9ec1040ee2409d09fbd15dbc7049f0e261ddb",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "step_stone1",
+      "file": "step_stone1.pcm",
+      "bytes": 107496,
+      "sha256": "3a0c5aa0ab148b10e7668a39becb797983d4751c403a27d26ec3f42e2c34922b",
+      "source": "minecraft/sounds/step/stone1.ogg",
+      "source_sha1": "4a2e3795ffd4d3aab0834b7e41903af3a8f7d197",
+      "source_sha256": "e94a295a876421dd8a2fa5b211210f66668c31deaff43fc036f7fb6abc98ecae",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.6093877551020408
+    },
+    {
+      "name": "step_stone2",
+      "file": "step_stone2.pcm",
+      "bytes": 84932,
+      "sha256": "fce029ded70d3384fca441a1a3c48cb59e279d87cfc49e0538447e0863ee5484",
+      "source": "minecraft/sounds/step/stone2.ogg",
+      "source_sha1": "22a383d9c22342305a4f16fec0bb479a885f8da2",
+      "source_sha256": "2cfbf878743612960d8d7eecacc1644b1558a547d8533e22ed7ebd2c9a9625c7",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.48147392290249436
+    },
+    {
+      "name": "step_stone3",
+      "file": "step_stone3.pcm",
+      "bytes": 73908,
+      "sha256": "3dfc7cda9eabbf0a27d519276b712417ede84c21a4fa3881d24af50ce244dd3a",
+      "source": "minecraft/sounds/step/stone3.ogg",
+      "source_sha1": "a533e7ae975e62592de868e0d0572778614bd587",
+      "source_sha256": "c5d71e8d3251f6c7087e1a45bb6ff244ad5af307c90e1e29a08666f3531842ac",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.4189795918367347
+    },
+    {
+      "name": "step_stone4",
+      "file": "step_stone4.pcm",
+      "bytes": 96472,
+      "sha256": "b46dda2f2a0241e92e87562df06386e507e56d9e9cc8dc840c32605efdbef36a",
+      "source": "minecraft/sounds/step/stone4.ogg",
+      "source_sha1": "d5218034051a13322d7b5efc0b5a9af739615f04",
+      "source_sha256": "95820d0b75e8d223bb5ed1af93125beb30270e36a2f39d9bb36ae179e6bedf36",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5468934240362812
+    },
+    {
+      "name": "step_stone5",
+      "file": "step_stone5.pcm",
+      "bytes": 99228,
+      "sha256": "49ab522d76f8140710976da04fe6df531749588e6bcc5772a4703e66801c7638",
+      "source": "minecraft/sounds/step/stone5.ogg",
+      "source_sha1": "48dd05ab2e4626d74206c2b09a628a3d59ce15e9",
+      "source_sha256": "67b1e50426b2c94cdc46308cead018caf9844e36dd5ef4e111e324adcd232113",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.5625170068027211
+    },
+    {
+      "name": "step_stone6",
+      "file": "step_stone6.pcm",
+      "bytes": 107496,
+      "sha256": "ef9102c852593a8cde86c25754c39ca8a7a1aaba1db1185dfba6a6b64c83f2bf",
+      "source": "minecraft/sounds/step/stone6.ogg",
+      "source_sha1": "c4810a3de80cb57f9cdf8deaacfd36cb619cdf0b",
+      "source_sha256": "2b65e1bdb942e083d282742e8a832fd5c606caf83a3dad4fb9446f2f246354da",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.6093877551020408
+    },
+    {
+      "name": "dig_stone1",
+      "file": "dig_stone1.pcm",
+      "bytes": 87688,
+      "sha256": "f08866e37e9931cb7b7f8a5cc1404c8a7c1d1b5c9c967848401fde4dc32b09e9",
+      "source": "minecraft/sounds/dig/stone1.ogg",
+      "source_sha1": "4e094ed8dfa98656d8fec52a7d20c5ee6098b6ad",
+      "source_sha256": "97f2a8a73b6f577b85c1a162c31810c7aff1ad1f34564dfdacebb64b26d1c7c6",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "dig_stone2",
+      "file": "dig_stone2.pcm",
+      "bytes": 87688,
+      "sha256": "552d40f63ae7d93bda8575375b914a2d87e49e805a33d08d6b14b8a26e76458b",
+      "source": "minecraft/sounds/dig/stone2.ogg",
+      "source_sha1": "9c92f697142ae320584bf64c0d54381d59703528",
+      "source_sha256": "98a5c3197845526e6ca9e8a669ffda843cfae3f5c7ac842ee6aac8896bae03b2",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "dig_stone3",
+      "file": "dig_stone3.pcm",
+      "bytes": 87688,
+      "sha256": "8d36d615f2c58c8ec453c49bad8c8bc0b9242cd7b66f54ed073321d41453c834",
+      "source": "minecraft/sounds/dig/stone3.ogg",
+      "source_sha1": "8f23c02475d388b23e5faa680eafe6b991d7a9d4",
+      "source_sha256": "19273f0e7e25b459ea29511dcbc4f7f209c04cea2fd1c34a16250737469ca51c",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "dig_stone4",
+      "file": "dig_stone4.pcm",
+      "bytes": 87688,
+      "sha256": "488ad9e5b4c30ef2698b23b277041bba47084fba709abcd4db943975a5d6695b",
+      "source": "minecraft/sounds/dig/stone4.ogg",
+      "source_sha1": "363545a76277e5e47538b2dd3a0d6aa4f7a87d34",
+      "source_sha256": "b164e7324510480abac9518090e48439123ea05ebc48970e48fc59406729a197",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "step_wood1",
+      "file": "step_wood1.pcm",
+      "bytes": 86828,
+      "sha256": "b6664ba569f6369123427f93ffab2b913ce3cc0f3219c43519c19fa48a4effe6",
+      "source": "minecraft/sounds/step/wood1.ogg",
+      "source_sha1": "0a417ba6a01b0552e7d15f5ef175ee9037405e58",
+      "source_sha256": "9f6425b71baa08434a5ce20320b0cd3e4fb0648ca16a7c18a59f487e54a358fc",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.4922222222222222
+    },
+    {
+      "name": "step_wood2",
+      "file": "step_wood2.pcm",
+      "bytes": 99232,
+      "sha256": "0e61d171679050d930b6d36ef3c79eb462c8ecc51691ca888c223ce7aa4f6daa",
+      "source": "minecraft/sounds/step/wood2.ogg",
+      "source_sha1": "de199b6c6f0f5ce2f653273d43f57979ee31c395",
+      "source_sha256": "5da109e455b3be43651167942c4d46a779e17a0500051f945b1daf8d1121380e",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5625396825396826
+    },
+    {
+      "name": "step_wood3",
+      "file": "step_wood3.pcm",
+      "bytes": 99232,
+      "sha256": "aad7b6e10cca1db7e5da2ab6b707baedd2d776733ca8c95fb1b74ae376d4923f",
+      "source": "minecraft/sounds/step/wood3.ogg",
+      "source_sha1": "20c0daaed4cc2a8b4dee028c8c85185e1322b003",
+      "source_sha256": "dc6f1450bd37803208e5be17e9f00ab7c3438c37e0f51d13952ce5f94b192c30",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5625396825396826
+    },
+    {
+      "name": "step_wood4",
+      "file": "step_wood4.pcm",
+      "bytes": 96128,
+      "sha256": "e2e9bf8c54f18c7c19ba4c6f7dc50beccbd89e7fa24a60f08464e234e23bfb5a",
+      "source": "minecraft/sounds/step/wood4.ogg",
+      "source_sha1": "8989609f97122d2624e7db821e45e8da2352b025",
+      "source_sha256": "58375f561a2efaafb72bcfc371d62c5b9bb6fcd22449b412e7861fcc6e5a4b67",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5449433106575964
+    },
+    {
+      "name": "step_wood5",
+      "file": "step_wood5.pcm",
+      "bytes": 121712,
+      "sha256": "157a407726b464d36ac41c298dc8e10f16e7e18dc750d96c01e02c7f66a24daf",
+      "source": "minecraft/sounds/step/wood5.ogg",
+      "source_sha1": "3c7e76b2eabe4f1199b94d308f1c763ccceac76c",
+      "source_sha256": "f950e9c5638398ea3119b9fe80b7a91d5e262099a54857b711396240ef23d417",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.6899773242630386
+    },
+    {
+      "name": "step_wood6",
+      "file": "step_wood6.pcm",
+      "bytes": 91472,
+      "sha256": "5da8a87eab8f1ead20768b7f1a5dad6498945528d23162e788a5e2a0842a832c",
+      "source": "minecraft/sounds/step/wood6.ogg",
+      "source_sha1": "7f9bcd1e3a182da70b32881a7fe92dc17d531824",
+      "source_sha256": "38ad366819ad0533ff883b16fa17df64dbc1ed5e65f440a227bb0bb18782cde2",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 48000,
+      "duration_seconds": 0.5185487528344671
+    },
+    {
+      "name": "dig_wood1",
+      "file": "dig_wood1.pcm",
+      "bytes": 87688,
+      "sha256": "e85e96a9ca22141cc7d5215d2edcd3c564f7fe5fafbca5d40fce3600af561aee",
+      "source": "minecraft/sounds/dig/wood1.ogg",
+      "source_sha1": "9bc2a84d0aa98113fc52609976fae8fc88ea6333",
+      "source_sha256": "cb6071c83a7f19ee555e9d661dc9e564c77ad9fcf2d1a6848aab21bc3b1c0289",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "dig_wood2",
+      "file": "dig_wood2.pcm",
+      "bytes": 87688,
+      "sha256": "1df181214a9dab0dba7f44d09310ccdc35332f35263253ca2a1ca6e2ce9fcfef",
+      "source": "minecraft/sounds/dig/wood2.ogg",
+      "source_sha1": "98102533e6085617a2962157b4f3658f59aea018",
+      "source_sha256": "59edca84840951f2d6f0ad9ff5fd439a6dc916b2cc50164569b94ee107b4bc3f",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "dig_wood3",
+      "file": "dig_wood3.pcm",
+      "bytes": 87688,
+      "sha256": "b778667a1f3f24cc0530e11157be0f3fdf6453561d9520c53fcfb58ec4ffe5f9",
+      "source": "minecraft/sounds/dig/wood3.ogg",
+      "source_sha1": "45b2aef7b5049e81b39b58f8d631563fadcc778b",
+      "source_sha256": "cf6be2314c08ea3fd311bdaebe14d0c73ca189bbbda09f96d26a3dea7e711cf6",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "dig_wood4",
+      "file": "dig_wood4.pcm",
+      "bytes": 87688,
+      "sha256": "360ceb331349bf9ff484af76f8476e4c9dd39d54ddc3f82c7496148d6b576be6",
+      "source": "minecraft/sounds/dig/wood4.ogg",
+      "source_sha1": "dc66978374a46ab2b87db6472804185824868095",
+      "source_sha256": "de868b3119b03ad42cbe502805e895a5fd8565f059f991f542b4ee68d6556bfe",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.49709750566893424
+    },
+    {
+      "name": "random_glass1",
+      "file": "random_glass1.pcm",
+      "bytes": 121468,
+      "sha256": "626757e9a37763bed7f0ccea644848d97fefb881d99e5094853c3fd672f468cd",
+      "source": "minecraft/sounds/random/glass1.ogg",
+      "source_sha1": "7274a2231ed4544a37e599b7b014e589e5377094",
+      "source_sha256": "ac96668c1b15115e362b2d7d033c46df1575535da06cbcb8bed2fa3b740ab446",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.6885941043083901
+    },
+    {
+      "name": "random_glass2",
+      "file": "random_glass2.pcm",
+      "bytes": 121468,
+      "sha256": "ebb94916ee14801e12fc499cd45a8514b48658f71242535d5641d7ffc2746d57",
+      "source": "minecraft/sounds/random/glass2.ogg",
+      "source_sha1": "87c47bda3645c68f18a49e83cbf06e5302d087ff",
+      "source_sha256": "7288bb874add42719964c87a232c2897f3e965e33ca55652b4744b4fad87fcea",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.6885941043083901
+    },
+    {
+      "name": "random_glass3",
+      "file": "random_glass3.pcm",
+      "bytes": 121468,
+      "sha256": "77fb8bae4e16191f70c6a91c9e9db1f1bb19d92bf69ee093fa8beb861d269279",
+      "source": "minecraft/sounds/random/glass3.ogg",
+      "source_sha1": "ad7d770b7fff3b64121f75bd60cecfc4866d1cd6",
+      "source_sha256": "062c3175b3ab2b7e44b52a10bb9ff60eb6c01f5b19f165e90df0ab0c215b07d6",
+      "source_codec": "vorbis",
+      "source_channels": 1,
+      "source_sample_rate": 44100,
+      "duration_seconds": 0.6885941043083901
+    }
+  ],
+  "sounds_json_sha256": "51b23584d267ba37d3a1bafd4f24d3dda07672ab91672ea6f7a1bc86067a1a6b",
+  "asset_index_sha256": "9edfa2ad3a1850ce1c152052c5f17a8772d9b4f8f5a478b0ca4f66556816347f",
+  "asset_index": "1.21.1-17.json",
+  "recipe_sha256": "3708c280d9c34315e28d5e2b6aa42570b227c982bd15d7a159caf3d650a571be",
+  "encoder": {
+    "path": "ffmpeg.exe",
+    "sha256": "02bf91bdadca0a6b401ee36dce0e916df882df74eb3651e02ca5c5ad00386d8a"
+  },
+  "pcm_install_directory": "pbzmc-assets/sounds",
+  "manifest_install_path": "pbzmc-assets/building-blocks/sounds/manifest.json",
+  "rule_sources": {
+    "hit": {
+      "path": "conversion-reference/mc-shield-reference/1.21.1/decompiled/ClientPlayerInteractionManager.java",
+      "sha256": "91e57ca6b9e6f6c38580fc2be1c622697a457a4bcb9b7573da9a30d622ae42cf"
+    },
+    "place": {
+      "path": "conversion-reference/mc-shield-reference/1.21.1/decompiled/BlockItem.java",
+      "sha256": "4dab35ad7936cd9b629d536f74931cbcbe03e46c2c65b23f18bf64691cf8c605"
+    },
+    "break": {
+      "path": "conversion-reference/block-mining/26.3/decompiled/LevelEventHandler.java",
+      "sha256": "c185fab9947c932be03ccc7f5fce59e81cf99037c892e1eb70388e8c19dbd0d0"
+    },
+    "sound_type": {
+      "path": "conversion-reference/block-mining/26.3/decompiled/SoundType.java",
+      "sha256": "77af5023ab196db09195a43364e0f7009ebbea133ad5d6c66cb340fbf2e9f73d"
+    },
+    "block_mapping": {
+      "path": "conversion-reference/block-mining/26.3/decompiled/Blocks.java",
+      "sha256": "227ef2cd530bdb2d9f8d859cecc4d7ea807785f41d41d57db2775c5a1b580337"
+    }
+  }
+}

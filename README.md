@@ -11,7 +11,7 @@
 ## 安装
 
 1. **退出游戏并备份存档。** 原生存档和模组数据需要一起保存，具体位置见[备份说明](docs/INSTALLATION.md#备份与恢复)。
-2. 在 Releases 下载 `PBZMC-0.1.0-alpha.3-win64.zip`，不要下载 GitHub 自动生成的 Source code 压缩包作为模组。GitHub 下载困难时可使用[大陆网络备用下载](https://ghfast.top/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.3/PBZMC-0.1.0-alpha.3-win64.zip)。
+2. 在 Releases 下载 `PBZMC-0.1.0-alpha.3-win64.zip`，不要下载 GitHub 自动生成的 Source code 压缩包作为模组。GitHub 下载困难时可使用[大陆网络备用下载](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.3/PBZMC-0.1.0-alpha.3-win64.zip)，或[第二备用入口](https://ghfast.top/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.3/PBZMC-0.1.0-alpha.3-win64.zip)。
 3. 将压缩包内容解压到 PBZ 游戏根目录，也就是包含 `platform/steam/PBZ.exe` 的目录。解压后 `Launch-PBZMC.cmd` 应与 `platform` 文件夹并列。
 4. 双击 **`Launch-PBZMC.cmd`**。首次运行会备份存档、校验游戏版本、下载并在本机转换资源，然后安装模组并通过 Steam 启动。以后使用同一脚本直接启动。
 

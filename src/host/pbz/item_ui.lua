@@ -24,6 +24,7 @@ function M.attach_visibility(self)
     if self.canvas:GetVisibility()~=wanted then self.canvas:SetVisibility(wanted)end
     if self.health_hud then self.health_hud:set_enabled(visible)end
     if self.preview then self.preview:set_active(visible and self.visibility_preview_requested)end
+    if self.quick_help then self.quick_help:update(binding,now,visible)end
   end
   self.visibility_gate.on_change=function()self:sync_visibility()end
   local original_render,original_visible,original_close=self.render,self.set_visible,self.close
@@ -227,6 +228,7 @@ function M.new(asset_path,log)
         #draw,size.X,size.Y,dpi,layout.scale,self.root:GetChildrenCount()))
     end
     self.layout,self.dpi,self.viewport=layout,dpi,{width=size.X,height=size.Y}
+    if self.quick_help then self.quick_help:bind(draw,options.inventory)end
     if not self.health_hud then
       local success,hud=pcall(require('host.pbz.health_hud').new,self)
       if success then self.health_hud=hud else self.log('health HUD creation failed: '..tostring(hud)) end
@@ -242,6 +244,7 @@ function M.new(asset_path,log)
     if not visible and self.preview then self.preview:set_active(false) end
   end
   function self:close()
+    if self.quick_help then self.quick_help:close();self.quick_help=nil end
     if self.health_hud then self.health_hud:close();self.health_hud=nil end
     if self.native_reader then self.native_reader:close();self.native_reader=nil end
     if self.preview then self.preview:close();self.preview=nil end
@@ -251,6 +254,7 @@ function M.new(asset_path,log)
       self.log('item ui removed children-after='..self.root:GetChildrenCount()..' original='..self.original_children)
     end
   end
+  self.quick_help=require('host.pbz.quick_help').new(self)
   M.attach_visibility(self)
   return self
 end

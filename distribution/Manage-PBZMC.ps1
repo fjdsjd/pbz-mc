@@ -96,7 +96,12 @@ function Prepare-Resources {
     $ready=Join-Path $result 'ready.json'
     if (Test-Path -LiteralPath $ready) {
         $record=Get-Content -LiteralPath $ready -Raw | ConvertFrom-Json
-        if ($record.release -eq $manifest.version -and $record.recipe -eq $manifest.asset_recipe_sha256) { return $result }
+        if ($record.recipe -eq $manifest.asset_recipe_sha256) {
+            # Code-only updates reuse identical resources. Install still checks
+            # every resource hash before copying; a new recipe must be rebuilt.
+            if ($record.release -ne $manifest.version) { $record.release=$manifest.version;Save-Json $ready $record }
+            return $result
+        }
     }
     Write-Host 'First launch: preparing original resources locally. Keep this window open; subsequent launches reuse the result.'
     $cache=Join-Path $PSScriptRoot 'cache/downloads'

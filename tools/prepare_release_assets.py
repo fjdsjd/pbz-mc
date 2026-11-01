@@ -220,7 +220,7 @@ def main():
     ap.add_argument('--resume',action='store_true')
     ap.add_argument('--skip-inputs',action='store_true')
     ap.add_argument('--output',type=Path)
-    ap.add_argument('--release',default='0.1.0-alpha.1')
+    ap.add_argument('--release',default='0.1.0-alpha.2')
     args=ap.parse_args();work=args.work.resolve();cache=args.cache.resolve()
     work.mkdir(parents=True,exist_ok=True);cache.mkdir(parents=True,exist_ok=True)
     if not args.skip_inputs:inputs(work,cache,args.local_cache)

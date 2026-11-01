@@ -76,6 +76,12 @@ def installer_test(stage):
     assert (root/relative/'pbzmc-data/player-store').is_dir()
     count=len(list((package/'backups').iterdir()));run('Install')
     assert len(list((package/'backups').iterdir()))==count,'idempotent install made a backup'
+    # A Lua-only upgrade must reuse the resource recipe without bootstrapping
+    # tools (this fixture has neither a downloader lock nor converter scripts).
+    manifest['version']='test.2';write(package/'release.json',manifest)
+    run('Install');run('Verify')
+    assert json.loads((resources/'ready.json').read_text('utf-8'))['release']=='test.2'
+    assert json.loads((package/'installed-files.json').read_text('utf-8'))['version']=='test.2'
     run('Uninstall');run('Verify',False);run('Install');run('Verify')
     script=root/critical[-1];text(script,'user modification')
     run('Verify',False);run('Uninstall');assert script.read_text()=='user modification'
@@ -88,10 +94,10 @@ def installer_test(stage):
     assert not proxy.exists() and proxy.with_name('dwmapi.dll.pbzmc-disabled').exists()
     text(exe,'installer fixture, not executable');run('Install');run('Verify')
     # Upgrade preflight must reject path traversal before replacing anything.
-    malicious={**manifest,'version':'test.2','files':[dict(path='../outside.txt',sha256='0'*64)]}
+    malicious={**manifest,'version':'test.3','files':[dict(path='../outside.txt',sha256='0'*64)]}
     write(package/'release.json',malicious);run('Install',False)
     assert not (root.parent/'outside.txt').exists()
-    print('PASS: fresh install, backup hashes, idempotence, uninstall/reinstall, modified-file preservation, proxy conflict, unsupported-build disable and unsafe paths')
+    print('PASS: fresh install, backup hashes, idempotence, code-only upgrade, uninstall/reinstall, modified-file preservation, proxy conflict, unsupported-build disable and unsafe paths')
     print('Fixture retained at '+str(root))
 
 def main():

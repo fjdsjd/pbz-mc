@@ -19,8 +19,8 @@ powershell -NoProfile -ExecutionPolicy Bypass -File native/json_bridge/build-por
 ## 打包
 
 ```powershell
-python tools/package_release.py --loader build/loader --output build/package-0.1.0-alpha.1
-python tools/check_release.py build/package-0.1.0-alpha.1/stage
+python tools/package_release.py --loader build/loader --output build/package-0.1.0-alpha.2
+python tools/check_release.py build/package-0.1.0-alpha.2/stage
 ```
 
 输出目录必须为空。打包脚本使用明确的文件列表，输出可解压到游戏根目录的 ZIP 与 SHA256SUMS。不会复制本机存档、日志、原游戏文件、私有资源缓存或开发命令入口。

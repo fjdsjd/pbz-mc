@@ -221,8 +221,6 @@ function M.draw(data,assets,width,height,options)
   else
     local left=math.floor((width-182*scale)/2)
     local top=height-30*scale
-    text('[B] 打开背包',8*scale,22*scale,false)
-    text('[F5] 切换视角',8*scale,34*scale,false)
     image(gui..'sprites/hud/hotbar.png',left,top,182*scale,22*scale)
     image(gui..'sprites/hud/hotbar_selection.png',left+(data.player.selected-1)*20*scale-scale,top-scale,24*scale,23*scale)
     if data.player.offhand then
@@ -240,6 +238,11 @@ function M.draw(data,assets,width,height,options)
       for _,command in ipairs(commands) do draw[#draw+1]=command end
       layout.player_status=status
     end
+    local first=#draw+1
+    for line,value in ipairs(require('presentation.quick_help').lines)do
+      text(value,8*scale,(22+(line-1)*12)*scale,false)
+    end
+    for i=first,#draw do draw[i].quick_help=true end
   end
   if options.inventory and (not visible.cursor or feedback.hovered=='trash') then
     local id=feedback.hovered and feedback.hovered:match('^catalogue:(.+)$')

@@ -1,11 +1,14 @@
 [CmdletBinding()]
 param(
     [ValidateSet('Launch','Install','Verify','Backup','Uninstall')][string]$Action='Launch',
-    [string]$GameRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..'))
+    [string]$GameRoot
 )
 $ErrorActionPreference='Stop'
 $ProgressPreference='SilentlyContinue'
 [Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12
+# Windows PowerShell 5.1 may evaluate parameter defaults before PSScriptRoot
+# is available when launched via a .cmd. Resolve the portable root in the body.
+if ([string]::IsNullOrWhiteSpace($GameRoot)) { $GameRoot=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '..')) }
 $root=[IO.Path]::GetFullPath($GameRoot).TrimEnd('\','/')
 $exe=Join-Path $root 'platform/steam/PBZ.exe'
 $receiptPath=Join-Path $PSScriptRoot 'installed-files.json'

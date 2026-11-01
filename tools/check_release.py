@@ -64,12 +64,14 @@ def installer_test(stage):
     saves=['ProjectPBZ/Saved/SaveGames/slot.sav','ProjectPBZ/Saved/PBZSharedSetting.sav',relative+'/pbzmc-data/player-store/state.json']
     for name in saves:text(root/name,'preserve:'+name)
     saved={name:sha(root/name)for name in saves}
-    def run(action,ok=True):
-        result=subprocess.run(['powershell.exe','-NoProfile','-ExecutionPolicy','Bypass','-File',str(package/'Manage-PBZMC.ps1'),'-GameRoot',str(root),'-Action',action],capture_output=True,text=True,encoding='utf-8',errors='replace')
+    def run(action,ok=True,explicit_root=True):
+        command=['powershell.exe','-NoProfile','-ExecutionPolicy','Bypass','-File',str(package/'Manage-PBZMC.ps1'),'-Action',action]
+        if explicit_root:command+=['-GameRoot',str(root)]
+        result=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',errors='replace')
         assert (result.returncode==0)==ok,(action,result.stdout,result.stderr)
         for name,h in saved.items():assert sha(root/name)==h,('save changed',name)
         return result
-    run('Install');run('Verify')
+    run('Install',explicit_root=False);run('Verify',explicit_root=False)
     receipt=json.loads((package/'installed-files.json').read_text('utf-8'))
     backup=Path(receipt['backup'])
     for name,h in saved.items():assert sha(backup/name)==h

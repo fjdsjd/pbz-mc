@@ -39,6 +39,7 @@
 !/tools/resource_download.py
 !/tools/check_downloads.py
 !/tools/package_release.py
+!/tools/package_offline.py
 !/tools/check_release.py
 !/tools/check_starter_loadout.py
 !/docs/

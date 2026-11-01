@@ -87,6 +87,17 @@ function Expand-Safe([string]$Archive,[string]$Destination) {
 function Prepare-Resources {
     $result=Join-Path $PSScriptRoot 'cache/runtime-assets'
     $ready=Join-Path $result 'ready.json'
+    if ($manifest.package_kind -eq 'offline') {
+        if (-not (Test-Path -LiteralPath $ready) -or (Hash $ready) -ne $manifest.resource_receipt_sha256) {
+            throw 'Offline resource manifest is missing or damaged. Extract the complete offline archive again; no download will be attempted.'
+        }
+        $record=Get-Content -LiteralPath $ready -Raw | ConvertFrom-Json
+        if ($record.recipe -ne $manifest.asset_recipe_sha256 -or $record.release -ne $manifest.version) {
+            throw 'Offline resources do not match this release. Extract the matching offline archive again.'
+        }
+        Write-Host "Using bundled offline resources ($($record.files.Count) files); no downloads or conversion required."
+        return $result
+    }
     if (Test-Path -LiteralPath $ready) {
         $record=Get-Content -LiteralPath $ready -Raw | ConvertFrom-Json
         if ($record.recipe -eq $manifest.asset_recipe_sha256) {

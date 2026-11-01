@@ -19,6 +19,28 @@ def text(path,value):
 
 def audit(stage):
     package=stage/'PBZMC';manifest=json.loads((package/'release.json').read_text('utf-8'))
+    offline=manifest.get('package_kind')=='offline'
+    resources=package/'cache/runtime-assets'
+    bundled=set()
+    if offline:
+        ready_path=resources/'ready.json'
+        assert sha(ready_path)==manifest['resource_receipt_sha256'],'damaged offline resource receipt'
+        ready=json.loads(ready_path.read_text('utf-8'))
+        recipe_file=Path(__file__).resolve().parents[1]/'distribution/asset-recipes/runtime-files.json'
+        recipe=json.loads(recipe_file.read_text('utf-8'))
+        assert sha(recipe_file)==manifest['asset_recipe_sha256']==ready['recipe']
+        assert ready['release']==manifest['version']
+        expected={name:row['sha256']for name,row in recipe.items()}
+        actual={row['path']:row['sha256']for row in ready['files']}
+        assert actual==expected and len(actual)==len(ready['files']),'offline resource list differs'
+        assert {p.relative_to(resources).as_posix()for p in resources.rglob('*')if p.is_file()}==set(expected)|{'ready.json'},'extra or missing offline files'
+        for relative,digest in expected.items():
+            path=(resources/relative).resolve()
+            assert path.is_relative_to(resources.resolve()),'unsafe resource path'
+            assert sha(path)==digest,relative
+            if 'bytes'in recipe[relative]:assert path.stat().st_size==recipe[relative]['bytes'],relative
+        bundled={p.resolve()for p in resources.rglob('*')if p.is_file()}
+        assert not any((package/name).exists()for name in ('source','Download-PBZMC.ps1','toolchain.lock.json')),'offline bundle includes download/conversion tools'
     for row in manifest['files']:
         path=(package/'payload'/row['path']).resolve()
         assert path.is_relative_to((package/'payload').resolve()),'unsafe runtime path'
@@ -28,9 +50,10 @@ def audit(stage):
     for path in stage.rglob('*'):
         if not path.is_file():continue
         rel=path.relative_to(stage).as_posix()
-        assert path.name.lower()not in forbidden,rel
+        is_resource=path.resolve()in bundled
+        assert path.name.lower()not in forbidden or (is_resource and path==resources/'ready.json'),rel
         assert not any(s in rel.lower().split('/')for s in ('research','pbzmc-data','pbzmc-assets','__pycache__','.git')),rel
-        assert path.suffix.lower()not in {'.sav','.dmp','.pdb','.jar','.class','.ogg','.wav','.pcm','.uasset','.pak','.ucas'},rel
+        assert is_resource or path.suffix.lower()not in {'.sav','.dmp','.pdb','.jar','.class','.ogg','.wav','.pcm','.uasset','.pak','.ucas'},rel
         if path.suffix.lower()in text_types:
             value=path.read_text('utf-8-sig')
             assert not re.search(r'[A-Za-z]:[/\\]+(?:Users|Game_project|SteamLibrary)[/\\]+',value,re.I),rel
@@ -38,17 +61,19 @@ def audit(stage):
     main=(package/'payload/platform/steam/ue4ss/Mods/PBZMCProbe/Scripts/main.lua').read_text('utf-8')
     assert 'PBZMC_HostCompatible' in main and "require('host.pbz.mod').start"in main
     if shutil.which('powershell.exe'):
-        for name in ('Manage-PBZMC.ps1','Download-PBZMC.ps1'):
+        for name in (('Manage-PBZMC.ps1',)if offline else ('Manage-PBZMC.ps1','Download-PBZMC.ps1')):
             script=str(package/name).replace("'","''")
             command=f"$e=$null;$t=$null;[System.Management.Automation.Language.Parser]::ParseFile('{script}',[ref]$t,[ref]$e)|Out-Null;if($e.Count){{$e|ForEach-Object{{$_.Message}};exit 1}}"
             subprocess.run(['powershell.exe','-NoProfile','-Command',command],check=True)
-    assert (package/'source/tools/resource_download.py').is_file(),'missing embedded downloader'
-    print(f'PASS: {len(manifest["files"])} runtime files; no private files, original game resources or secrets; installer parses')
+    if not offline:assert (package/'source/tools/resource_download.py').is_file(),'missing embedded downloader'
+    label=f'{len(bundled)-1} verified bundled resources'if offline else 'no original game resources'
+    print(f'PASS: {len(manifest["files"])} runtime files; {label}; no private files or secrets; installer parses')
 
 def installer_test(stage):
     if not shutil.which('powershell.exe'):raise RuntimeError('Installer tests require Windows PowerShell')
     # This directory is newly allocated and never points at a real installation.
     # Keep it for inspection; no recursive deletion or real executable is used.
+    offline=json.loads((stage/'PBZMC/release.json').read_text('utf-8')).get('package_kind')=='offline'
     root=Path(tempfile.mkdtemp(prefix='pbzmc-installer-check-')).resolve()
     package=root/'PBZMC';package.mkdir()
     shutil.copy2(stage/'PBZMC/Manage-PBZMC.ps1',package/'Manage-PBZMC.ps1')
@@ -63,6 +88,9 @@ def installer_test(stage):
     write(package/'release.json',manifest)
     resources=package/'cache/runtime-assets';text(resources/'test.txt','synthetic runtime resource')
     write(resources/'ready.json',dict(schema=1,release='test.1',recipe='fixture-recipe',files=[dict(path='test.txt',sha256=sha(resources/'test.txt'))]))
+    if offline:
+        manifest.update(package_kind='offline',resource_receipt_sha256=sha(resources/'ready.json'))
+        write(package/'release.json',manifest)
     saves=['ProjectPBZ/Saved/SaveGames/slot.sav','ProjectPBZ/Saved/PBZSharedSetting.sav',relative+'/pbzmc-data/player-store/state.json']
     for name in saves:text(root/name,'preserve:'+name)
     saved={name:sha(root/name)for name in saves}
@@ -73,6 +101,15 @@ def installer_test(stage):
         assert (result.returncode==0)==ok,(action,result.stdout,result.stderr)
         for name,h in saved.items():assert sha(root/name)==h,('save changed',name)
         return result
+    if offline:
+        resource_receipt=resources/'ready.json';original=resource_receipt.read_bytes()
+        resource_receipt.unlink();run('Install',False)
+        resource_receipt.write_bytes(original+b' ');run('Install',False)
+        resource_receipt.write_bytes(original)
+        (resources/'test.txt').write_text('damaged resource');run('Install',False)
+        assert not any((root/name).exists()for name in critical),'offline failure left installed files'
+        (resources/'test.txt').write_text('synthetic runtime resource')
+        assert not (package/'cache/downloads').exists(),'offline failure entered the downloader'
     run('Install',explicit_root=False);run('Verify',explicit_root=False)
     receipt=json.loads((package/'installed-files.json').read_text('utf-8'))
     backup=Path(receipt['backup'])
@@ -82,7 +119,11 @@ def installer_test(stage):
     assert len(list((package/'backups').iterdir()))==count,'idempotent install made a backup'
     # A Lua-only upgrade must reuse the resource recipe without bootstrapping
     # tools (this fixture has neither a downloader lock nor converter scripts).
-    manifest['version']='test.2';write(package/'release.json',manifest)
+    manifest['version']='test.2'
+    if offline:
+        data=json.loads((resources/'ready.json').read_text());data['release']='test.2'
+        write(resources/'ready.json',data);manifest['resource_receipt_sha256']=sha(resources/'ready.json')
+    write(package/'release.json',manifest)
     run('Install');run('Verify')
     assert json.loads((resources/'ready.json').read_text('utf-8'))['release']=='test.2'
     assert json.loads((package/'installed-files.json').read_text('utf-8'))['version']=='test.2'
@@ -102,6 +143,7 @@ def installer_test(stage):
     write(package/'release.json',malicious);run('Install',False)
     assert not (root.parent/'outside.txt').exists()
     print('PASS: fresh install, backup hashes, idempotence, code-only upgrade, uninstall/reinstall, modified-file preservation, proxy conflict, unsupported-build disable and unsafe paths')
+    if offline:print('PASS: missing/corrupt offline manifest, damaged resource rollback and zero downloader entry')
     print('Fixture retained at '+str(root))
 
 def main():

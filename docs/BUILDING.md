@@ -27,6 +27,19 @@ python tools/check_release.py build/package-0.1.0-alpha.3/stage
 
 `distribution/loader` 保存本游戏需要的 UE4SS 设置与签名适配；不要换成任意 UE4SS 版本。Lua 运行代码在 `src`，宿主接口在 `src/host/pbz`，纯玩法规则在 `src/rules`，内容定义在 `src/content`。
 
+### 本地离线便携包
+
+已有通过校验的运行资源时，可以组合成首次启动也无需下载的离线包：
+
+```powershell
+python tools/package_offline.py --release build/package-0.1.0-alpha.3/stage --assets build/runtime-assets --output build/offline-0.1.0-alpha.3
+python tools/check_release.py build/offline-0.1.0-alpha.3/stage --installer-test
+```
+
+`--assets` 必须包含 `ready.json`，且全部资源与固定配方逐项匹配。打包器只复制清单内的运行资源，不带个人存档、下载的客户端归档、转换工具或开发缓存。离线包包含 `PBZMC/cache/runtime-assets`，其安装器校验资源清单后直接使用；缺失或损坏时停止，不联网回退。游戏运行文件和在线包相同。
+
+资源原作者归属保留在离线包的 NOTICE；资源缓存和生成的离线包继续保存在本地，不提交源码仓库。在线发布包仍使用上面的 `package_release.py` 流程。
+
 ## 资源准备与校验
 
 首次安装由启动脚本准备独立的 Python、Pillow、json5、FFmpeg 环境，再调用 `tools/prepare_release_assets.py`。固定工具 URL／哈希在 `distribution/toolchain.lock.json`；原始资源来源在 `distribution/asset-recipes/sources.lock.json`。

@@ -1,8 +1,8 @@
--- F5 shares the native message queue but never produces an item/combat intent.
+-- F5 and help share the native message queue without item/combat intents.
 local M={};M.__index=M
-function M.new() return setmetatable({armed=false},M) end
+function M.new(bit) return setmetatable({armed=false,bit=bit or 13},M) end
 function M:update(pointer,allowed,epoch)
-  local down=((pointer.keys or 0)&(1<<13))~=0
+  local down=((pointer.keys or 0)&(1<<self.bit))~=0
   local stamp=tostring(pointer.epoch)..'/'..tostring(epoch)..'/'..tostring(allowed)
   if not pointer.focused or not allowed or pointer.overflow or self.stamp~=stamp then
     self.stamp=stamp;self.armed=false;self.down=down

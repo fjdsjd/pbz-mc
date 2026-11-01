@@ -2,23 +2,20 @@
 -- their visibility; they never rebuild the inventory or touch gameplay input.
 local identity=require('host.pbz.object_identity')
 local session=require('presentation.quick_help').new()
-local active,registered
 local M={};M.__index=M
 function M.new(ui)
-  local self=setmetatable({ui=ui,clips={}},M)
-  active=self
-  if not registered then
-    RegisterKeyBind(Key.H,function()
-      ExecuteInGameThread(function()
-        local current=active
-        if not current or current.closed then return end
-        local ok,why=pcall(current.toggle,current)
-        if not ok then current.ui.log('quick help toggle unavailable: '..tostring(why))end
-      end)
-    end)
-    registered=true
+  return setmetatable({ui=ui,clips={},edges=require('presentation.camera_input').new(23)},M)
+end
+function M:input(batch,allowed,epoch)
+  if self.closed or not batch.quick_help_controls then return end
+  local function sample(pointer)
+    if self.edges:update(pointer,allowed and not batch.overflow,epoch)then
+      local ok,why=pcall(self.toggle,self)
+      if not ok then self.ui.log('quick help toggle unavailable: '..tostring(why))end
+    end
   end
-  return self
+  for _,pointer in ipairs(batch.samples or {})do sample(pointer)end
+  sample(batch.latest)
 end
 function M:bind(draw,inventory)
   self.clips={};self.inventory=inventory==true;self.visible=nil
@@ -52,6 +49,6 @@ function M:toggle()
 end
 function M:close()
   self.closed=true;self.clips={}
-  if active==self then active=nil;session.eligible=false;session.epoch=nil end
+  session.eligible=false;session.epoch=nil
 end
 return M

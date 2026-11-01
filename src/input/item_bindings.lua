@@ -2,12 +2,13 @@
 -- Only physical bindings are configurable; context decides the resulting action.
 local M={}
 M.actions={'inventory','close','offhand','drop','slot_1','slot_2','slot_3','slot_4','slot_5','slot_6','slot_7','slot_8','slot_9','camera',
-  'forward','left','back','right','jump','sneak','sprint','chain_mine'}
+  'forward','left','back','right','jump','sneak','sprint','chain_mine','command','help'}
 M.defaults={inventory='B',close='Escape',offhand='F',drop='Q',slot_1='1',slot_2='2',slot_3='3',slot_4='4',slot_5='5',slot_6='6',slot_7='7',slot_8='8',slot_9='9',camera='F5'}
-local fixed={camera=116,forward=87,left=65,back=83,right=68,jump=32,sneak=16,sprint=17,chain_mine=192}
+local fixed={camera=116,forward=87,left=65,back=83,right=68,jump=32,sneak=16,sprint=17,chain_mine=192,command=191,help=72}
 M.defaults.forward='W';M.defaults.left='A';M.defaults.back='S';M.defaults.right='D'
 M.defaults.jump='Space';M.defaults.sneak='Shift';M.defaults.sprint='Control'
 M.defaults.chain_mine='`'
+M.defaults.command='/';M.defaults.help='H'
 local allowed={};for _,name in ipairs(M.actions) do allowed[name]=true end
 function M.code(name)
   assert(type(name)=='string','invalid-item-binding-name')

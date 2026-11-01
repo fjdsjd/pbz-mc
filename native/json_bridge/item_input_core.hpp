@@ -11,7 +11,7 @@
 // Callback paths mutate fixed-size POD storage only; serialization is outside
 // the callback and outside the state lock.
 namespace PBZMC::ItemInput {
-constexpr std::size_t key_count = 23;
+constexpr std::size_t key_count = 24;
 constexpr std::size_t queue_capacity = 512;
 constexpr std::uint64_t heartbeat_limit_ms = 500;
 using Bindings = std::array<std::uint16_t, key_count>;
@@ -43,7 +43,7 @@ inline Context parse_context(std::string_view text) {
 }
 inline Bindings parse_bindings(std::string_view text) {
     if (text.empty() || text.size() > 96) throw std::runtime_error("binding CSV must contain 1..96 ASCII bytes");
-    constexpr std::array<unsigned,10> fixed{116,87,65,83,68,32,16,17,192,191};
+    constexpr std::array<unsigned,11> fixed{116,87,65,83,68,32,16,17,192,191,72};
     Bindings result{};
     std::size_t position{};
     for (std::size_t i = 0; i < result.size(); ++i) {
@@ -65,7 +65,7 @@ inline Bindings parse_bindings(std::string_view text) {
         result[i] = static_cast<std::uint16_t>(value);
         // Older callers send the original thirteen keys. F5 stays reserved and
         // receives the new last bit without changing any existing bit index.
-        if ((i == 12 || i == 13 || i == 20 || i == 21) && position == text.size()) {
+        if ((i == 12 || i == 13 || i == 20 || i == 21 || i == 22) && position == text.size()) {
             for (auto j=i+1;j<result.size();++j) {
                 result[j]=static_cast<std::uint16_t>(fixed[j-13]);
                 for (std::size_t k=0;k<j;++k) if(result[k]==result[j]) throw std::runtime_error("item binding conflicts with reserved first-person movement");
@@ -73,16 +73,16 @@ inline Bindings parse_bindings(std::string_view text) {
             return result;
         }
         if (i + 1 < result.size()) {
-            if (position == text.size()) throw std::runtime_error("binding CSV requires 13/14/21 legacy or 22 VK values");
+            if (position == text.size()) throw std::runtime_error("binding CSV requires 13/14/21/22/23 legacy or 24 VK values");
             ++position;
-        } else if (position != text.size()) throw std::runtime_error("binding CSV requires 13/14/21 legacy or 22 VK values");
+        } else if (position != text.size()) throw std::runtime_error("binding CSV requires 13/14/21/22/23 legacy or 24 VK values");
     }
     return result;
 }
 inline bool consumes_key(Context context, unsigned index) noexcept {
     if (index >= key_count || context == Context::inactive) return false;
     if (context == Context::command) return true;
-    if (index == 22) return context != Context::inventory;
+    if (index == 22 || index == 23) return context != Context::inventory;
     if (context == Context::creative_pbz) return index==0 || (index>=4 && index<=13) || (index>=18 && index<=20);
     if (index == 21) return context == Context::game_fp || context == Context::game_mc_combat || context == Context::inventory;
     // Keep native WASD key state current while MC's controller movement lease
@@ -386,7 +386,7 @@ inline std::string sample_json(const Sample& sample) {
 inline std::string batch_json(const Batch& batch, std::uint32_t game_thread, std::uint32_t window_thread,
                               std::uint64_t callback_entries, std::uint64_t stale_callbacks) {
     const auto boolean = [](bool v) { return v ? "true" : "false"; };
-    std::string text = "{\"protocol\":2,\"command_controls\":true,\"creative_pbz_controls\":true,\"camera_key\":true,\"first_person_controls\":true,\"chain_mining_controls\":true,\"combat_message_capture\":true,\"raw_input_filtered\":" + std::string(batch.context==Context::game_fp ? "true" : "false") + ",\"context\":\"" + std::string(context_name(batch.context)) + "\",\"epoch\":" + std::to_string(batch.epoch) +
+    std::string text = "{\"protocol\":2,\"quick_help_controls\":true,\"command_controls\":true,\"creative_pbz_controls\":true,\"camera_key\":true,\"first_person_controls\":true,\"chain_mining_controls\":true,\"combat_message_capture\":true,\"raw_input_filtered\":" + std::string(batch.context==Context::game_fp ? "true" : "false") + ",\"context\":\"" + std::string(context_name(batch.context)) + "\",\"epoch\":" + std::to_string(batch.epoch) +
         ",\"overflow\":" + boolean(batch.overflow) + ",\"timed_out_since_read\":" + boolean(batch.timed_out_since_read) +
         ",\"heartbeat_expired\":" + boolean(batch.heartbeat_expired) + ",\"draining_owned_releases\":" + boolean(batch.draining_owned_releases) +
         ",\"identity_lost\":" + boolean(batch.identity_lost) + ",\"heartbeat_limit_ms\":" + std::to_string(heartbeat_limit_ms) +

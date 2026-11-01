@@ -1113,7 +1113,7 @@ public:
     ~JsonBridge() override { HealthGate::clear();BlockAudio::clear();ShieldGate::clear();PBZMC::ItemInput::Capture::instance().stop_noexcept(); pointer_capture.stop(); }
     JsonBridge() {
         ModName = L"PBZMCJsonBridge";
-        ModVersion = L"0.1.0-alpha.1";
+        ModVersion = L"0.1.0-alpha.2";
         ModDescription = L"Fixed JSON and create-only campaign identity bridge, preview and item input";
         ModAuthors = L"PBZMC";
         ModIntendedSDKVersion = L"3.0.1-1183-gcdbc0b66";

@@ -309,6 +309,7 @@ function M.start(log,directory)
         ((controls_group=='pbz' or traversal) and 'game-pbz-hotbar' or 'game-mc')) or 'inactive')
       local batch=controls:read();local samples={}
       for _,sample in ipairs(batch.samples) do samples[#samples+1]=sample end
+      if instance and instance.quick_help then instance.quick_help:input(batch,available,controls_epoch)end
       if camera() then camera():input(batch,available,controls_epoch) end
       local boats=require('host.pbz.boat_service').get(binding)
       if boats then boats:input_batch(batch,available and not (selector and selector.pending),controls_group,data) end

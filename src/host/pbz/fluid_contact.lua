@@ -106,6 +106,30 @@ function Contact:_flow(record)
   return definition and definition.collision~=false or false
  end)
 end
+-- Sample the actual water surface at the explosion origin. The TNT hull may
+-- already overlap water while the point which emits the blast is still dry.
+function Contact:water_at(x,y,z)
+ return not self.closed and self:_point(x,y,z,{})=='water'
+end
+function Contact:tnt_current(x,y,z,half)
+ if self.closed then return end
+ -- The .98-block hull can touch at most 2x2x2 cells. Only the lower edge
+ -- and crossed upper layer matter; count each wet cell once, even at a seam.
+ local bottom=z-half+.1;local heights,seen,rows={},{},{}
+ for _,px in ipairs({x-half+.1,x+half-.1})do
+  for _,py in ipairs({y-half+.1,y+half-.1})do
+   for _,pz in ipairs({bottom,z+half-.1})do
+    local r=self.service.read_world(px,py,pz)
+    if fluids.kind(r)==fluids.water and not seen[r.id or r]then
+     seen[r.id or r]=true
+     local kind,top=self:_point(px,py,math.max(bottom,r.z-50+.001),heights)
+     if kind=='water'then rows[#rows+1]={flow=self:_flow(r),depth=(top-bottom)/100}end
+    end
+   end
+  end
+ end
+ if #rows>0 then return flow.average(rows)end
+end
 function Contact:_sample(s,now)
  local location=point(s.row.actor:K2_GetActorLocation());local size=self:_dimensions(s,now)
  local feet=location.Z-size.half+.1;local eye=location.Z+size.half*.74

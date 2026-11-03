@@ -2,6 +2,18 @@ local Store=require('storage.build_store')
 local transaction=require('rules.place_transaction')
 local policy=require('rules.build_policy')
 local M={};M.__index=M
+local region_size=800
+local function region_key(x,y,z)return string.pack('<iii',x,y,z)end
+local function index_record(regions,r,add)
+  local key=region_key(math.floor(r.x/region_size),math.floor(r.y/region_size),math.floor(r.z/region_size))
+  local bucket=regions[key]
+  if add then
+    if not bucket then bucket={};regions[key]=bucket end
+    bucket[r.id]=true
+  elseif bucket then
+    bucket[r.id]=nil;if not next(bucket)then regions[key]=nil end
+  end
+end
 function M.open(directory,scope,host,registry)
   local store=Store.open(directory,scope)
   return M.attach(store,scope.mode,host,registry)
@@ -11,9 +23,11 @@ function M.attach(store,mode,host,registry)
   local data,warning=store:load()
   assert(data,warning)
   local self=setmetatable({store=store,data=data,mode=mode,creative=false,host=host,registry=registry,
-    world=host.world_id,generation=1,handles={},pending={},warning=warning},M)
+    world=host.world_id,generation=1,handles={},pending={},regions={},warning=warning},M)
   for id,record in pairs(data.buildings) do
-    if record.world==self.world and registry.get(record.content_id) then self.pending[#self.pending+1]=id end
+    if record.world==self.world and registry.get(record.content_id) then
+      self.pending[#self.pending+1]=id;index_record(self.regions,record,true)
+    end
   end
   table.sort(self.pending)
   if host.restore_distance then
@@ -35,10 +49,34 @@ function M:next_id()
   self.serial=(self.serial or 0)+1
   return string.format('b-%016x-%08x',self.store.generation+1,self.serial)
 end
-function M:notify(changes)
+function M:notify(changes,options)
+  if self.regions then
+    for _,row in ipairs(changes)do
+      local a,b=row.before,row.after
+      if not row.restored and not (a and b and a.x==b.x and a.y==b.y and a.z==b.z and a.id==b.id and a.world==b.world)then
+        if a and a.world==self.world then index_record(self.regions,a,false)end
+        if b and b.world==self.world then index_record(self.regions,b,true)end
+      end
+    end
+  end
   if self.on_change then
-    local ok,why=pcall(self.on_change,changes)
+    local ok,why=pcall(self.on_change,changes,options)
     if not ok then self.notification_error=tostring(why) end
+  end
+end
+function M:visit_nearby(p,radius,visit)
+  if not self.regions then
+    self.regions={}
+    for _,r in pairs(self.data.buildings)do if r.world==self.world then index_record(self.regions,r,true)end end
+  end
+  local size=region_size
+  for x=math.floor((p.x-radius)/size),math.floor((p.x+radius)/size)do
+    for y=math.floor((p.y-radius)/size),math.floor((p.y+radius)/size)do
+      for z=math.floor((p.z-radius)/size),math.floor((p.z+radius)/size)do
+        local bucket=self.regions[region_key(x,y,z)]
+        if bucket then for id in pairs(bucket)do visit(self.data.buildings[id])end end
+      end
+    end
   end
 end
 function M:batch(changes,options)return require('rules.build_batch').apply(self,changes,options)end

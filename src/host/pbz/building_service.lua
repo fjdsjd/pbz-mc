@@ -24,7 +24,7 @@ function M.ensure(binding,directory,log)
     local store=campaign.build_store(binding)
     local self={binding=binding,world=world,store=store,log=log,placed=0,removed=0,progress=0,preload=0}
     self.audio=require('host.pbz.block_sounds').new(directory..'/pbzmc-assets',log)
-    local pc=require('UEHelpers').GetPlayerController()
+    local pc=require('host.pbz.local_player').controller()
     self.session=require('runtime.build_session').attach(store,'free',world,registry)
     function self:cancel()
       if self.mining then

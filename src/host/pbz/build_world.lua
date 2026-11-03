@@ -11,8 +11,19 @@ local M={};M.__index=M
 -- overlapping character or MC collider behind the first blocking trace hit.
 local object_types={}
 for i=0,31 do object_types[#object_types+1]=i end
+M.object_types=object_types
 local function valid(o) return o and o:IsValid() end
 local function v(x,y,z) return {X=x,Y=y,Z=z} end
+-- PBZ walls need not coincide with a grid face. Keep the electrical cell on
+-- the lattice and bind the rendered torch and its aim box to the hit surface.
+local function mounted_position(r)
+  local p=r.properties
+  if p and p.wall_inset and r.content_id=='pbzmc:redstone_torch' and p.face=='wall' then
+    local d=require('rules.block_directions').vectors[p.facing or 'north']
+    return r.x-d.x*p.wall_inset,r.y-d.y*p.wall_inset,r.z
+  end
+  return r.x,r.y,r.z
+end
 local function transform()
   return {Rotation={X=0,Y=0,Z=0,W=1},Translation=v(0,0,0),Scale3D=v(1,1,1)}
 end
@@ -21,7 +32,7 @@ local function hit_object(hit)
   return ok and valid(obj) and obj or nil
 end
 function M.new(registry,log,assets)
-  local pawn=UE.GetPlayer()
+  local pawn=require('host.pbz.local_player').pawn()
   assert(valid(pawn) and not pawn:GetFullName():find('SpectatorPawn',1,true),'gameplay-pawn-required')
   local world=pawn:GetWorld()
   local self=setmetatable({pawn=pawn,world=world,world_id=world:GetFullName():gsub('^World ',''),
@@ -45,7 +56,7 @@ function M:engine_valid(object)
   return result
 end
 function M:is_current()
-  local pawn=UE.GetPlayer()
+  local pawn=require('host.pbz.local_player').pawn()
   return identity.matches(pawn,self.pawn_identity) and identity.matches(pawn:GetWorld(),self.world_identity)
 end
 function M:restore_distance(record)
@@ -67,14 +78,14 @@ function M:line_trace(start,finish,ignore_actors)
   local yes=UE.GetKismetSystemLibrary():LineTraceSingle(self.pawn,start,finish,0,false,ignored,0,hit,true,color,color,0)
   return yes,hit
 end
-function M:overlap_components(center,half)
+function M:overlap_components(center,half,ignored)
   local out={}
   self.primitive_class=self.primitive_class or StaticFindObject('/Script/Engine.PrimitiveComponent')
   UE.GetKismetSystemLibrary():BoxOverlapComponents(self.pawn,center,v(half.x,half.y,half.z),
-    object_types,self.primitive_class,{self.pawn},out)
+    object_types,self.primitive_class,ignored or {self.pawn},out)
   return out
 end
-function M:placement_obstacle(component)
+function M:placement_obstacle(component,piston_rider)
   -- OutComponents contains UE4SS array parameter wrappers, unlike a direct
   -- UObject return. Unwrap before calling reflected component methods.
   if not component.GetFullName then component=component:get() end
@@ -82,6 +93,7 @@ function M:placement_obstacle(component)
   if not valid(owner) then return 'unknown-collider' end
   local handle=self.by_actor[owner:GetFullName()]
   if handle and handle.active and identity.matches(owner,handle.identity) then return 'mc-block',handle end
+  if piston_rider and piston_rider(owner)then return 'ignored' end
   local pawn_response=component:GetCollisionResponseToChannel(2)
   self.pawn_class=self.pawn_class or StaticFindObject('/Script/Engine.Pawn')
   if owner:IsA(self.pawn_class) then
@@ -120,39 +132,95 @@ function M:boxes(record)
     -- shape. Their manifest collision boxes are deliberately empty.
     local bounds=catalog.manifest.models[catalog:model(record)].bounds_cm
     local center,half={},{}
-    for i=1,3 do center[i]=(bounds[i][1]+bounds[i][2])*.5;half[i]=math.max(.5,(bounds[i][2]-bounds[i][1])*.5)end
+    for i=1,3 do
+      -- The vanilla wall-torch artwork overlaps its support by almost 6 cm.
+      -- Keep the original mesh, but confine its selection volume to its own cell.
+      local lo,hi=math.max(-50,bounds[i][1]),math.min(50,bounds[i][2])
+      center[i]=(lo+hi)*.5;half[i]=math.max(.5,(hi-lo)*.5)
+    end
     return {{center=center,half=half}}
   end
   local h=definition.half;return {{center={0,0,0},half={h.x,h.y,h.z}}}
 end
-function M:can_place(record,ignored,options)
+local function interior_box(x,y,z,c,s,shape)
+  local o,h=shape.center,shape.half
+  return v(x+o[1]*c-o[2]*s,y+o[1]*s+o[2]*c,z+o[3]),{
+    x=math.max(.05,math.abs(c)*(h[1]-.5)+math.abs(s)*(h[2]-.5)),
+    y=math.max(.05,math.abs(s)*(h[1]-.5)+math.abs(c)*(h[2]-.5)),z=math.max(.05,h[3]-.5)}
+end
+local function needs_placement(a,b)
+  return b and (not a or a.content_id~=b.content_id or a.x~=b.x or a.y~=b.y or a.z~=b.z)
+end
+-- A negative overlap of this enclosing box proves every enclosed placement
+-- is clear. In a crowded or irregular scene, keep the individual shape checks.
+function M:piston_destinations_clear(rows,piston_rider)
+  local destinations=0
+  for _,row in ipairs(rows)do
+    local a,b=row.before,row.after
+    if needs_placement(a,b) then destinations=destinations+1 end
+  end
+  if destinations<3 then return false end
+  local minx,miny,minz=math.huge,math.huge,math.huge
+  local maxx,maxy,maxz=-minx,-miny,-minz
+  local ignored={self.pawn}
+  for _,row in ipairs(rows)do
+    local a,b=row.before,row.after
+    if row.handle and row.handle.active and identity.matches(row.handle.actor,row.handle.identity) then
+      ignored[#ignored+1]=row.handle.actor
+    end
+    if needs_placement(a,b) then
+      local x,y,z=mounted_position(b);local c,s=math.cos(math.rad(b.yaw)),math.sin(math.rad(b.yaw))
+      for _,shape in ipairs(self:boxes(b))do
+        local p,h=interior_box(x,y,z,c,s,shape)
+        minx,miny,minz=math.min(minx,p.X-h.x),math.min(miny,p.Y-h.y),math.min(minz,p.Z-h.z)
+        maxx,maxy,maxz=math.max(maxx,p.X+h.x),math.max(maxy,p.Y+h.y),math.max(maxz,p.Z+h.z)
+      end
+    end
+  end
+  if minx>maxx then return false end
+  -- Small outward margin keeps the float-converted broad phase conservative.
+  local center=v((minx+maxx)*.5,(miny+maxy)*.5,(minz+maxz)*.5)
+  local pad=math.max(.125,math.abs(center.X)*2e-7,math.abs(center.Y)*2e-7,math.abs(center.Z)*2e-7)
+  local extent={x=(maxx-minx)*.5+pad,y=(maxy-miny)*.5+pad,z=(maxz-minz)*.5+pad}
+  local found=self:overlap_components(center,extent,ignored)
+  if #found>32 then return false end
+  for _,component in ipairs(found)do
+    if self:placement_obstacle(component,piston_rider)~='ignored' then return false end
+  end
+  return true
+end
+function M:can_place(record,ignored,options,destinations_clear)
   assert(self:is_current() and record.world==self.world_id,'stale-native-world')
   local definition=assert(self.registry.get(record.content_id),'unsupported-content')
   local p=self.pawn:K2_GetActorLocation()
   local capsule=self.pawn.CapsuleComponent
   local c,s=math.cos(math.rad(record.yaw)),math.sin(math.rad(record.yaw))
-  local dx,dy=p.X-record.x,p.Y-record.y
+  local rx,ry,rz=mounted_position(record)
+  local dx,dy=p.X-rx,p.Y-ry
   local report={terrain=0,components=0};self.last_placement_check=report
   if definition.fluid then return true end
+  local piston_rider=options and options.piston_rider
+  local player_seated=piston_rider and piston_rider(self.pawn)
   for _,shape in ipairs(self:boxes(record))do
   local h={x=shape.half[1],y=shape.half[2],z=shape.half[3]};local o=shape.center
-  if definition.collision~=false and geometry.capsule_overlaps(dx*c+dy*s-o[1],-dx*s+dy*c-o[2],p.Z-record.z-o[3],h.x,h.y,h.z,
+  if not player_seated and definition.collision~=false and geometry.capsule_overlaps(dx*c+dy*s-o[1],-dx*s+dy*c-o[2],p.Z-rz-o[3],h.x,h.y,h.z,
     capsule:GetScaledCapsuleRadius(),capsule:GetScaledCapsuleHalfHeight()) then
     report.blocked='player';return false,'player'
   end
   -- Test the interior; touching a supporting floor/adjacent cube is legal.
   -- Current full blocks have yaw=0. An enclosing AABB stays conservative for
   -- historical rotated records instead of silently ignoring their corners.
-  local interior={x=math.max(.05,math.abs(c)*(h.x-.5)+math.abs(s)*(h.y-.5)),
-    y=math.max(.05,math.abs(s)*(h.x-.5)+math.abs(c)*(h.y-.5)),z=math.max(.05,h.z-.5)}
-  for _,component in ipairs(self:overlap_components(v(record.x+o[1]*c-o[2]*s,record.y+o[1]*s+o[2]*c,record.z+o[3]),interior)) do
+  if not destinations_clear then
+  local center,interior=interior_box(rx,ry,rz,c,s,shape)
+  for _,component in ipairs(self:overlap_components(center,interior)) do
     report.components=report.components+1
-    local kind,handle=self:placement_obstacle(component)
+    local kind,handle=self:placement_obstacle(component,piston_rider)
     if handle and ignored and ignored[handle.id]then kind='ignored'end
     if kind=='terrain' then
       report.terrain=report.terrain+1
       if options and options.native_solid then report.blocked='native-terrain';return false,'native-terrain'end
     elseif kind~='ignored' then report.blocked=kind;return false,kind end
+  end
   end
   end
   return true
@@ -319,10 +387,24 @@ function M:create(record)
   local definition=assert(self.registry.get(record.content_id),'unsupported-content')
   assert(type(self.assets)=='string','private-assets-not-configured')
   local model=self:model(record)
+  if record.content_id=='pbzmc:piston_head' and self.head_pool then
+    for i,spare in ipairs(self.head_pool)do
+      if spare.model==model and self:engine_valid(spare.actor)then
+        table.remove(self.head_pool,i);spare.record=record;spare.id=record.id
+        local ok,why=pcall(function()
+          spare.actor:K2_SetActorLocationAndRotation(v(record.x,record.y,record.z),{Pitch=0,Yaw=record.yaw,Roll=0},false,{},true)
+          self:set_active(spare,true)
+          self.by_actor[spare.identity.name]=spare
+        end)
+        if not ok then error({reason=why,cleanup_handle=spare})end
+        return spare
+      end
+    end
+  end
   local mesh_data=not definition.fluid and self:part(model)or nil
   local material=self:material_for(record,model)
   assert(valid(material),'vertex-color-material-unavailable')
-  local p=v(record.x,record.y,record.z)
+  local p=v(mounted_position(record))
   local actor=self.world:SpawnActor(StaticFindObject('/Script/Engine.Actor'),p,{Pitch=0,Yaw=record.yaw,Roll=0})
   assert(valid(actor),'actor-create-failed')
   local handle={actor=actor,identity=identity.capture(actor),id=record.id,record=record,model=model,
@@ -381,6 +463,18 @@ function M:light(handle,level)
 end
 function M:update_boxes(handle,record)
   local definition=self.registry.get(record.content_id);local shapes=self:boxes(record)
+  local applied=handle.applied_boxes
+  local same=applied and #applied==#shapes and handle.applied_query==(definition.collision==false)
+  if same then
+    for i,shape in ipairs(shapes)do
+      for axis=1,3 do
+        if shape.center[axis]~=applied[i].center[axis] or shape.half[axis]~=applied[i].half[axis] then same=false;break end
+      end
+      if not same then break end
+    end
+    if same then return end
+  end
+  handle.applied_boxes=nil
   handle.boxes=handle.boxes or (handle.box and {handle.box}or {})
   for i,shape in ipairs(shapes)do
     local box=handle.boxes[i]
@@ -397,14 +491,19 @@ function M:update_boxes(handle,record)
   end
   for i=#shapes+1,#handle.boxes do handle.boxes[i]:SetCollisionEnabled(0)end
   handle.box=handle.boxes[1];handle.box_count=#shapes;handle.collision_mode=definition.collision==false and 1 or 3
+  handle.applied_boxes=shapes;handle.applied_query=definition.collision==false
 end
 function M:revise(handle,record,options)
   assert(self:is_current()and self:engine_valid(handle.actor),'stale-building-revision')
   options=options or {};local old=handle.record;local model=self:model(record)
   local definition=self.registry.get(record.content_id)
-  local moved=old.x~=record.x or old.y~=record.y or old.z~=record.z or old.yaw~=record.yaw
+  local ox,oy,oz=mounted_position(old)
+  local x,y,z=mounted_position(record)
+  local moved=ox~=x or oy~=y or oz~=z or old.yaw~=record.yaw
   if handle.cubic and (moved or model~=handle.model)then self.faces:remove(handle);self:queue_neighbors(handle)end
-  if model~=handle.model then
+  if model~=handle.model or handle.visual_uncertain then
+    local previous=not handle.visual_uncertain and handle.model
+    handle.visual_uncertain=true
     if handle._mechanism_cracks then
       local ok,why=require('host.pbz.mechanism_cracks').clear(handle);assert(ok,why)
     end
@@ -415,29 +514,33 @@ function M:revise(handle,record,options)
     handle.surface_model=nil;handle.face_mask=nil;handle.stage=nil
     self:update_boxes(handle,record)
     if definition.fluid then
+      if handle.spare_model then
+        require('host.pbz.mechanism_sections').clear(self,handle);handle.mesh:ClearAllMeshSections()
+      end
       local renderer=self:fluid_renderer()
       local yes,reason
       if handle.fluid_visual then yes,reason=renderer:update(handle,record)else yes,reason=renderer:attach(handle,record)end
       assert(yes,reason)
     else
-      handle.mesh:ClearAllMeshSections()
-      handle.mesh:SetMaterial(0,self:material_for(record,model));MeshBundle.apply(handle.mesh,self:part(model))
+      require('host.pbz.mechanism_sections').switch(self,handle,record,model,previous)
     end
+    handle.visual_uncertain=nil
   elseif definition.fluid then local yes,reason=self:fluid_renderer():update(handle,record);assert(yes,reason)end
   handle.record=record
-  self:light(handle,definition.light)
+  if definition.light or handle.light_counted then self:light(handle,definition.light)end
   if moved then
-    handle.actor:K2_SetActorLocation(v(record.x,record.y,record.z),false,{},true)
-    handle.actor:K2_SetActorRotation({Pitch=0,Yaw=record.yaw,Roll=0},true)
+    handle.actor:K2_SetActorLocation(v(x,y,z),false,{},true)
+    if old.yaw~=record.yaw or options.rollback then handle.actor:K2_SetActorRotation({Pitch=0,Yaw=record.yaw,Roll=0},true)end
     if options.animate and not options.rollback then
-      handle.motion={x=old.x-record.x,y=old.y-record.y,z=old.z-record.z,start=self.mechanism_now or 0,duration=.1}
+      handle.motion={x=ox-x,y=oy-y,z=oz-z,start=self.mechanism_now or 0,duration=.1}
       self.motions=self.motions or {};self.motions[handle.id]=handle
       handle.mesh:K2_SetRelativeLocation(v(handle.motion.x,handle.motion.y,handle.motion.z),false,{},true)
     end
   end
   if options.rollback then handle.motion=nil;if self.motions then self.motions[handle.id]=nil end;handle.mesh:K2_SetRelativeLocation(v(0,0,0),false,{},true)end
   if handle.cubic then self.faces:put(handle);self:queue_faces(handle);self:queue_neighbors(handle)end
-  return self:set_active(handle,true)
+  if not handle.active or handle.activation_uncertain then return self:set_active(handle,true)end
+  return true
 end
 function M:tick_mechanisms(now)
   self.mechanism_now=now
@@ -453,6 +556,7 @@ function M:tick_mechanisms(now)
 end
 function M:set_active(handle,active)
   assert(valid(handle.actor) and valid(handle.mesh),'invalid-native-building')
+  handle.activation_uncertain=true
   if not active and handle._mechanism_cracks then
     local ok,why=require('host.pbz.mechanism_cracks').clear(handle);assert(ok,why);handle.stage=nil
   end
@@ -464,9 +568,10 @@ function M:set_active(handle,active)
     if active then self.faces:put(handle);self:queue_faces(handle) else self.faces:remove(handle) end
     self:queue_neighbors(handle)
   end
-  return true
+  handle.activation_uncertain=nil;return true
 end
 function M:destroy(handle)
+  require('host.pbz.mechanism_sections').clear(self,handle)
   if handle._mechanism_cracks then
     local ok,why=require('host.pbz.mechanism_cracks').clear(handle);assert(ok,why);handle.stage=nil
   end
@@ -488,6 +593,24 @@ function M:destroy(handle)
   self.log('build destroy id='..tostring(handle.id)..' engine-invalid='..tostring(gone))
   return gone
 end
+-- Only a committed retraction may recycle a head. Old logical handles must
+-- never become valid for a new block, even when the native carrier is reused.
+function M:retire(handle)
+  if handle.record.content_id~='pbzmc:piston_head' or handle.active or handle._mechanism_cracks then return self:destroy(handle)end
+  self.head_pool=self.head_pool or {}
+  if #self.head_pool>=8 or not self:engine_valid(handle.actor)then return self:destroy(handle)end
+  local spare={}
+  for _,key in ipairs({'actor','identity','root','mesh','boxes','box','box_count','collision_mode',
+    'model','mechanism','applied_boxes','applied_query','rendered','colliding','sections','record','id'})do
+    spare[key]=handle[key]
+  end
+  if self.motions then self.motions[handle.id]=nil end
+  if handle.motion then spare.mesh:K2_SetRelativeLocation(v(0,0,0),false,{},true)end
+  self.by_actor[handle.identity.name]=nil
+  handle.actor=nil;handle.mesh=nil;handle.rendered=false;handle.colliding=false
+  spare.active=false;self.head_pool[#self.head_pool+1]=spare
+  return true
+end
 function M:trace_record(record)
   local yes,hit=self:line_trace(v(record.x,record.y,record.z+75),v(record.x,record.y,record.z-75))
   local object=yes and hit_object(hit)
@@ -495,6 +618,10 @@ function M:trace_record(record)
   return yes,handle and handle.id or nil,object and object:GetFullName() or 'none'
 end
 function M:close_effects()
+  for i=#(self.head_pool or {}),1,-1 do
+    assert(self:destroy(self.head_pool[i]),'pooled-piston-head-cleanup-pending')
+    table.remove(self.head_pool,i)
+  end
   local ok,why=require('host.pbz.mechanism_cracks').close(self);assert(ok,why)
   self.translucent_materials=nil
 end

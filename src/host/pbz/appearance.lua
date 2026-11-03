@@ -102,6 +102,12 @@ function M.new(actor,assets,log,source_hint)
   return self
 end
 function M:is_current()
+  if self.closed or self.closing then return false end
+  -- Many services consult the same binding in a single game-thread update.
+  -- Lifecycle and mesh-change events expire the expensive component audit.
+  if self.lifecycle and self.checked_tick==self.lifecycle.ticks then
+    return self.actor:IsValid() and self.source:IsValid()
+  end
   if not (not self.closed and valid(self.actor) and identity.matches(self.actor,self.actor_id)
     and identity.matches(self.actor:GetWorld(),self.world_id) and valid(self.source)
     and identity.matches(self.source,self.source_id) and identity.matches(self.source:GetOwner(),self.actor_id)
@@ -109,20 +115,22 @@ function M:is_current()
     and identity.matches(self.source:GetSkeletalMeshAsset(),self.asset_id)) then return false end
   for _,entry in ipairs(self.parts) do if not valid(entry.component) then return false end end
   if self.held and not self.held:is_current() then return false end
+  if self.lifecycle then self.checked_tick=self.lifecycle.ticks end
   return true
 end
 function M:ensure_hidden()
   if self.suppress_native_weapons and not self.weapons_suppressed then self:hide_native() end
   self.weapons_suppressed=self.suppress_native_weapons
   for _,entry in ipairs(self.hidden) do
-    if valid(entry.component) and identity.matches(entry.component,entry.identity) then
+    if (not entry.weapon or self.suppress_native_weapons or entry.weapon_hidden)
+        and valid(entry.component) and identity.matches(entry.component,entry.identity) then
       if entry.weapon then
         local owner=entry.component:GetOwner()
         local attached=identity.matches(owner,self.actor_id) or
           valid(owner) and identity.matches(owner:GetAttachParentActor(),self.actor_id)
         if self.suppress_native_weapons and attached then
           if not entry.weapon_hidden then entry.weapon_before=entry.component.bHiddenInGame;entry.weapon_hidden=true end
-          entry.component:SetHiddenInGame(true,false)
+          if not entry.component.bHiddenInGame then entry.component:SetHiddenInGame(true,false) end
         elseif entry.weapon_hidden then
           entry.component:SetHiddenInGame(entry.weapon_before,false);entry.weapon_hidden=nil
         end
@@ -167,13 +175,14 @@ function M:hide_native()
 end
 function M:update(presentation)
   assert(self:is_current(),'appearance-stale-owner')
-  local points={}
-  for name,bone in pairs(self.bones) do
-    local p=self.source:GetSocketLocation(bone)
-    points[name]={X=p.X,Y=p.Y,Z=p.Z}
+  if self.camera_body_hidden and not self.trace then
+    -- The first-person hands have their own model. Resume the world pose
+    -- before showing it or using its head for the native weapon camera.
+    self.pose_deferred=true;self.frames=self.frames+1
+    return
   end
-  local r=self.source:GetSocketRotation(self.head_bone)
-  local output=pose.solve(points,{Pitch=r.Pitch,Yaw=r.Yaw,Roll=r.Roll},self.head_basis)
+  self.pose_deferred=nil
+  local output
   if presentation then
     assert(presentation.group=='mc' and not presentation.first_person,'unsupported-appearance-presentation')
     local state={}
@@ -199,7 +208,17 @@ function M:update(presentation)
       self.held=require('host.pbz.held_items').new(self.actor,catalog,self.material,{owned=self.owned})
     end
     self.held:update(presentation,output)
-  else self.elytra_body_local=nil;if self.held then self.held:hide()end end
+  else
+    local points={}
+    for name,bone in pairs(self.bones) do
+      local p=self.source:GetSocketLocation(bone)
+      points[name]={X=p.X,Y=p.Y,Z=p.Z}
+    end
+    local r=self.source:GetSocketRotation(self.head_bone)
+    output=pose.solve(points,{Pitch=r.Pitch,Yaw=r.Yaw,Roll=r.Roll},self.head_basis)
+    self.elytra_body_local=nil
+    if self.held then self.held:hide()end
+  end
   for _,entry in ipairs(self.parts) do
     local target=assert(output[entry.part.name],'appearance-unknown-part:'..entry.part.name)
     entry.component:K2_SetWorldLocationAndRotation(target.position,target.rotation,false,{},true)

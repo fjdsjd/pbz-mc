@@ -7,6 +7,7 @@ local definitions=require('content.items')
 local input
 local json=require('dkjson')
 local campaign=require('host.pbz.campaign_inventory')
+local auto_defense=require('host.pbz.auto_defense')
 local revision=0
 local controls,controls_binding,controls_pc,controls_pc_id,controls_loop,controls_controller,controls_stats
 local controls_group,controls_epoch,shown,render_revision='mc',0,true,-1
@@ -16,6 +17,7 @@ local keep_ui_on_close
 local selector,selection_context,combat
 local display_binding,display_pc
 local command_session
+local ui_retry_at
 local function camera() return require('host.pbz.first_person_camera').get() end
 function M.view_state() return data end
 function M.pick_target(binding)
@@ -50,13 +52,9 @@ local function current_binding()
   return lifecycle and lifecycle:current()
 end
 local function local_controller(binding)
-  local identity=require('host.pbz.object_identity');local found
-  for _,pc in ipairs(FindAllOf('PlayerController') or {}) do
-    if pc:IsValid() and pc:IsLocalPlayerController() and identity.matches(pc.Pawn,binding.actor_id) then
-      assert(not found,'multiple-item-input-controllers');found=pc
-    end
-  end
-  return found
+  local pc=binding.actor.Controller
+  if pc and pc:IsValid() and pc:IsLocalPlayerController()
+    and require('host.pbz.object_identity').matches(pc.Pawn,binding.actor_id) then return pc end
 end
 local function cleanup()
   if instance then
@@ -210,11 +208,19 @@ function M.start(log,directory)
   end
   lifecycle.presentation_source=presentation_source
   local last_error
+  local function defense_notice(message)
+    if not instance or not instance:valid() or not controls_binding then return end
+    instance.command_layer=instance.command_layer or require('host.pbz.command_ui').new(instance)
+    instance.command_message=message
+    instance.command_message_until=StaticFindObject('/Script/Engine.Default__GameplayStatics'):GetRealTimeSeconds(controls_binding.actor)+2
+  end
   local monitor_closed=false
   controls_loop=LoopInGameThreadAfterFrames(1,function()
     if monitor_closed then return end
+    auto_defense.begin_frame()
     local ok,why=pcall(function()
       if stopping then
+        auto_defense.suspend()
         if command_session then if not command_session:close()then return end;command_session=nil end
         if not cleanup() then return end
         assert(require('host.pbz.tnt_service').close(),'tnt-cleanup-pending')
@@ -236,8 +242,9 @@ function M.start(log,directory)
         return
       end
       local binding=current_binding()
-      local controller=binding and binding:is_current() and local_controller(binding) or nil
-      if controls and (binding~=controls_binding or not binding or not binding:is_current()
+      local bound=binding and binding:is_current()
+      local controller=bound and local_controller(binding) or nil
+      if controls and (binding~=controls_binding or not bound
           or not require('host.pbz.object_identity').matches(controller,controls_pc_id)) then
         assert(require('host.pbz.tnt_service').close(),'tnt-lifecycle-cleanup-pending')
         assert(require('host.pbz.boat_service').close(),'boat-lifecycle-cleanup-pending')
@@ -248,7 +255,7 @@ function M.start(log,directory)
         controls:close();controls=nil;controls_binding=nil;controls_pc=nil;controls_pc_id=nil;controls_controller=nil;controls_fault=nil
         return -- Native hook retirement must cross a clock tick before Begin.
       end
-      if not binding or not binding:is_current() then return end
+      if not bound then return end
       if controls_fault then
         if controls then controls:set_context('inactive') end
         if interaction or close_pending then request_close(false,log) end
@@ -355,6 +362,12 @@ function M.start(log,directory)
         end
       end
       if data then
+        local healthy_keys=not batch.overflow and not batch.timed_out_since_read
+        local pbz_selected=require('rules.native_slot_reference').is(slots.get(data,'player/hotbar/'..data.player.selected))
+        auto_defense.update(binding,controls_pc,available and batch.latest.focused,
+          pbz_selected and controls_group=='pbz' and not (selector and selector.pending) and not traversal
+          and not binding.mc_boat_riding and not binding.mc_gliding and not binding.mc_creative_flight,
+          now,defense_notice,log,healthy_keys)
         local allowed=available and first and controls_group=='mc' and not (selector and selector.pending)
         local success,why=pcall(function()
           if allowed and not combat then combat=require('host.pbz.minecraft_combat').new(binding,controls_pc,controls_epoch,log) end
@@ -372,11 +385,13 @@ function M.start(log,directory)
       if shown and batch.latest.focused and batch.latest.width>=320 and batch.latest.height>=240 then
         if instance and not instance:valid() then instance:close();instance=nil end
         if not instance then
+          if ui_retry_at and now<ui_retry_at and now>=ui_retry_at-0.25 then return end
           local ready,value=pcall(require('host.pbz.item_ui').new,directory..'/pbzmc-assets/ui',log)
           if not ready then
-            if tostring(value):find('live-pbz-overlay-unavailable',1,true) then return end
+            if tostring(value):find('live-pbz-overlay-unavailable',1,true) then ui_retry_at=now+.25;return end
             error(value)
           end
+          ui_retry_at=nil
           instance=value;render_revision=-1
         end
         local pointer=batch.latest

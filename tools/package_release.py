@@ -26,7 +26,7 @@ def main():
     parser.add_argument('--loader',type=Path,required=True,help='Pinned loader folder containing dwmapi.dll and ue4ss/UE4SS.dll')
     parser.add_argument('--bridge',type=Path,default=ROOT/'build/native-release/main.dll')
     parser.add_argument('--output',type=Path,required=True,help='New, empty output directory; never overwrites earlier releases')
-    parser.add_argument('--version',default='0.1.0-alpha.3')
+    parser.add_argument('--version',default='0.1.0-alpha.4')
     args=parser.parse_args()
     if not args.version or any(c not in '0123456789abcdefghijklmnopqrstuvwxyz.-' for c in args.version):raise ValueError('Invalid release version')
     if sha(args.loader/'ue4ss/UE4SS.dll')!=LOADER_HASH:raise ValueError('Wrong loader DLL')

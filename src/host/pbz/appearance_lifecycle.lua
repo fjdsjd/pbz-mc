@@ -14,7 +14,7 @@ local protagonist_classes={
 function M.get() return active end
 function M.start(log,assets)
   assert(not active,'appearance-lifecycle-already-started')
-  local self={log=log,closed=false,ticks=0,hooks={},errors={},protagonist_assets={},source_hints={},class_cache={}}
+  local self={log=log,closed=false,ticks=0,hooks={},errors={},protagonist_assets={},source_hints={},class_cache={},class_retry={}}
   active=self
   local host={}
   function host:key(actor)
@@ -37,7 +37,11 @@ function M.start(log,assets)
     local hint=self.lifecycle.source_hints[key]
     if hint and not identity.matches(hint.object,hint.identity)then hint=nil;self.lifecycle.source_hints[key]=nil end
     local binding=Appearance.new(actor,assets,log,hint and hint.object)
-    if not binding.creation_failure then self.lifecycle.protagonist_assets[binding.asset_id.name]=true end
+    binding.lifecycle=self.lifecycle
+    if not binding.creation_failure and not self.lifecycle.protagonist_assets[binding.asset_id.name] then
+      self.lifecycle.protagonist_assets[binding.asset_id.name]=true
+      self.lifecycle.scan_requested=true
+    end
     if binding.creation_failure then
       log('appearance partial creation retained for cleanup: '..binding.creation_failure..'; '..binding.cleanup_failure)
     else log('appearance lifecycle bind reason='..reason..' tick='..self.lifecycle.ticks..' actor='..binding.actor_id.name) end
@@ -50,8 +54,15 @@ function M.start(log,assets)
     -- owns input. Nil (including cinematic/native ownership) uses native pose.
     -- All component writes still occur in this single lifecycle update.
     local frame=self.lifecycle.presentation_source and self.lifecycle.presentation_source(binding) or nil
-    binding:update(frame);binding:ensure_hidden()
-    if binding.frames%30==0 then binding:hide_native() end
+    binding:update(frame)
+    local camera=package.loaded['host.pbz.first_person_camera']
+    camera=camera and camera.get()
+    local pawn=self.lifecycle.cached_pawn
+    local cinematic=not pawn or binding.actor:GetAddress()~=pawn:GetAddress() or (camera and camera.in_story)
+    if cinematic or binding.weapons_suppressed~=binding.suppress_native_weapons or binding.frames%6==0 then
+      binding:ensure_hidden()
+    end
+    if binding.frames%((cinematic or binding.suppress_native_weapons)and 30 or 120)==0 then binding:hide_native() end
   end
   function host:release(binding) binding:close() end
   self.registry=Registry.new(host)
@@ -66,21 +77,40 @@ function M.start(log,assets)
     end
     return ok,why
   end
+  local character_class=StaticFindObject('/Script/Engine.Character')
+  local skeletal_class=StaticFindObject('/Script/Engine.SkeletalMeshComponent')
+  local function controlled_player(controller)
+    if not Appearance.valid(controller) or not controller:IsLocalPlayerController() then return end
+    local pawn=controller.Pawn
+    if not Appearance.valid(pawn) or not pawn:IsA(character_class) then return end
+    local world=pawn:GetWorld()
+    if not Appearance.valid(world) or controller:GetWorld():GetAddress()~=world:GetAddress() then return end
+    if not self.protagonist_world or self.protagonist_world.identity.address~=world:GetAddress()
+        or not Appearance.valid(self.protagonist_world.object) then
+      self.protagonist_world={object=world,identity=identity.capture(world)}
+    end
+    return pawn
+  end
   function self:local_player()
-    -- UEHelpers.GetPlayer selects the first controller, including a stale wrapper
-    -- during travel. Require native validity, a local controller and a live pawn.
-    for _,controller in ipairs(FindAllOf('PlayerController') or {}) do
-      if Appearance.valid(controller) and controller:IsLocalPlayerController() then
-        local pawn=controller.Pawn
-        if Appearance.valid(pawn) and pawn:IsA(StaticFindObject('/Script/Engine.Character')) then
-          local world=pawn:GetWorld()
-          self.protagonist_world={object=world,identity=identity.capture(world)}
-          return pawn
-        end
+    if self.player_tick==self.ticks then
+      if not self.cached_pawn then return end
+      if Appearance.valid(self.cached_pawn) and Appearance.valid(self.controller) then
+        local pawn=self.controller.Pawn
+        if Appearance.valid(pawn) and pawn:GetAddress()==self.cached_pawn:GetAddress() then return self.cached_pawn end
       end
     end
+    self.player_tick=self.ticks;self.cached_pawn=nil
+    local pawn=controlled_player(self.controller)
+    if pawn then self.cached_pawn=pawn;return pawn end
+    if self.player_retry and self.ticks<self.player_retry then return end
+    self.player_retry=self.ticks+12
+    self.controller=nil
+    for _,pc in ipairs(FindAllOf('PlayerController') or {}) do
+      pawn=controlled_player(pc)
+      if pawn then self.controller=pc;self.cached_pawn=pawn;return pawn end
+    end
   end
-  function self:consider(actor,reason)
+  function self:consider(actor,reason,source)
     local player=self:local_player()
     if player and identity.matches(actor,identity.capture(player)) then return self.registry:observe(actor,reason) end
     -- Possession can be absent during a native cinematic handoff. Retain only
@@ -91,28 +121,42 @@ function M.start(log,assets)
     -- IsA admits later derived story variants without matching arbitrary names.
     for name,path in pairs(protagonist_classes)do
       local cls=self.class_cache[name]
-      if not Appearance.valid(cls)then cls=StaticFindObject(path:match('^[^ ]+ (.+)$'));self.class_cache[name]=cls end
+      if not Appearance.valid(cls) and self.ticks>=(self.class_retry[name] or 0)then
+        cls=StaticFindObject(path:match('^[^ ]+ (.+)$'));self.class_cache[name]=cls;self.class_retry[name]=self.ticks+30
+      end
       if Appearance.valid(cls)and actor:IsA(cls)then
         return self.registry:observe(actor,'protagonist-double-'..reason)
       end
     end
     -- A sequence can instantiate a plain skeletal actor instead of a pawn.
     -- Authorize only an exact body asset already observed on a verified Hun.
-    for _,wrapped in ipairs(actor:K2_GetComponentsByClass(StaticFindObject('/Script/Engine.SkeletalMeshComponent')))do
-      local component=wrapped:get()
+    local function match(component)
       if Appearance.valid(component)then
         local asset=component:GetSkeletalMeshAsset()
         if Appearance.valid(asset)and self.protagonist_assets[asset:GetFullName()]then
           self.source_hints[host:key(actor)]={object=component,identity=identity.capture(component)}
-          return self.registry:observe(actor,'protagonist-mesh-double-'..reason)
+          self.registry:observe(actor,'protagonist-mesh-double-'..reason)
+          return true
         end
       end
+    end
+    if source then match(source);return end
+    -- Most spawned effects and projectiles have no skeleton. Avoid constructing
+    -- a reflected array of components for every one of those BeginPlay events.
+    local first=actor:GetComponentByClass(skeletal_class)
+    if not Appearance.valid(first) or match(first) then return end
+    for _,wrapped in ipairs(actor:K2_GetComponentsByClass(skeletal_class)) do
+      local component=wrapped:get()
+      if component:GetAddress()~=first:GetAddress() and match(component) then return end
     end
   end
   function self:current()
     local actor=self:local_player()
     if not actor then return end
-    local entry=self.registry.entries[host:key(actor)]
+    if not self.current_actor or not self.current_actor:IsValid() or self.current_actor:GetAddress()~=actor:GetAddress() then
+      self.current_actor=actor;self.current_key=host:key(actor)
+    end
+    local entry=self.registry.entries[self.current_key]
     return entry and entry.binding
   end
   function self:ensure(reason)
@@ -138,19 +182,26 @@ function M.start(log,assets)
   RegisterBeginPlayPostHook(function(context)
     self:guard('beginplay',function()
       local actor=context:get()
+      require('host.pbz.auto_defense').spawned(actor)
       self:consider(actor,'beginplay')
     end)
   end)
   RegisterEndPlayPreHook(function(context)
     self:guard('endplay',function()
       local actor=context:get()
-      if actor and actor:IsValid() then self.source_hints[host:key(actor)]=nil;self.registry:forget(actor) end
+      if actor and actor:IsValid() then
+        for key,entry in pairs(self.registry.entries) do
+          if entry.actor:GetAddress()==actor:GetAddress() then self.source_hints[key]=nil;self.registry:forget(actor);break end
+        end
+      end
     end)
   end)
   hook('/Script/Engine.Controller:Possess',function()
+    self.player_tick=nil;self.player_retry=nil
     self:guard('possess',function() self:ensure('possess') end)
   end)
   hook('/Script/Engine.PlayerController:ClientRestart',function()
+    self.player_tick=nil;self.player_retry=nil
     self:guard('client-restart',function() self:ensure('client-restart') end)
   end)
   local function mesh_changed(context)
@@ -158,13 +209,15 @@ function M.start(log,assets)
       local component=context:get()
       for _,entry in pairs(self.registry.entries) do
         if entry.binding and identity.matches(component,entry.binding.source_id) then
+          entry.binding.checked_tick=nil
           if host:alive(entry.actor)then self.registry:observe(entry.actor,'mesh-changed')
           else self.registry:forget(entry.actor);self.source_hints[host:key(entry.actor)]=nil end
         end
       end
       if Appearance.valid(component)then
         local owner=component:GetOwner()
-        self:consider(owner,'late-mesh')
+        local asset=component:GetSkeletalMeshAsset()
+        if Appearance.valid(asset) and self.protagonist_assets[asset:GetFullName()] then self:consider(owner,'late-mesh',component) end
         local entry=Appearance.valid(owner)and self.registry.entries[host:key(owner)]
         if entry and entry.binding then entry.binding:hide_native()end
       end
@@ -176,26 +229,38 @@ function M.start(log,assets)
     self:guard('tick',function()
       self.ticks=self.ticks+1
       self:ensure('local-player-discovery')
-      if self.ticks%30==0 then
-        for name in pairs(protagonist_classes) do
-          for _,actor in ipairs(FindAllOf(name) or {}) do self:consider(actor,'sequence-discovery') end
+      if self.protagonist_world and (self.scan_world~=self.protagonist_world or self.scan_requested and not self.mesh_scan) then
+        self.scan_world=self.protagonist_world;self.scan_requested=nil
+        -- The skeletal inventory also contains every known character class.
+        -- Enumerating four classes (including unloaded story variants) ahead
+        -- of it caused a large synchronous stall at combat-camera handoffs.
+        local known={}
+        for _,path in pairs(protagonist_classes)do
+          local class=StaticFindObject(path:match('^[^ ]+ (.+)$'))
+          if Appearance.valid(class)then known[#known+1]=class end
         end
+        self.mesh_scan={items=FindAllOf('SkeletalMeshComponent') or {},index=1,seen={},known=known}
       end
-      if self.ticks%120==0 then
-        -- Event paths handle spawn/mesh assignment immediately; this bounded
-        -- cadence recovers actors already present before the lifecycle started.
-        local seen={}
-        for _,component in ipairs(FindAllOf('SkeletalMeshComponent')or{})do
+      local scan=self.mesh_scan
+      if scan then
+        local deadline=os.clock()+.0007
+        for i=scan.index,math.min(scan.index+7,#scan.items) do
+          scan.index=i+1
+          local component=scan.items[i]
           if Appearance.valid(component)then
             local asset=component:GetSkeletalMeshAsset()
-            if Appearance.valid(asset)and self.protagonist_assets[asset:GetFullName()]then
-              local actor=component:GetOwner()
-              if Appearance.valid(actor)and not seen[actor:GetAddress()]then
-                seen[actor:GetAddress()]=true;self:consider(actor,'mesh-discovery')
+            local actor=component:GetOwner()
+            if Appearance.valid(actor)and not scan.seen[actor:GetAddress()]then
+              local match=Appearance.valid(asset)and self.protagonist_assets[asset:GetFullName()]
+              if not match then
+                for _,class in ipairs(scan.known)do if actor:IsA(class)then match=true;break end end
               end
+              if match then scan.seen[actor:GetAddress()]=true;self:consider(actor,'mesh-discovery',component)end
             end
           end
+          if os.clock()>=deadline then break end
         end
+        if scan.index>#scan.items then self.mesh_scan=nil end
       end
       local ok,why=self.registry:tick();assert(ok,why)
       for key in pairs(self.source_hints)do if not self.registry.entries[key]then self.source_hints[key]=nil end end

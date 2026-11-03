@@ -32,6 +32,18 @@ local function conductor(n)
  return k=='solid' or k=='tnt' or k=='redstone_block' or k=='observer'
 end
 local function face(n) return (n.properties or {}).facing or n.facing or 'north' end
+local function is_piston(n)return n and (n.kind=='piston' or n.kind=='sticky_piston')end
+local function attachment(n)
+ local p=n.properties
+ return p.support or ((p.face=='wall' or p.wall) and D.opposite(face(n)) or p.face=='ceiling' and 'up' or 'down')
+end
+-- A block change notifies its six neighbours. Some components additionally
+-- notify around their attached/output block. A redstone block has no such relay.
+local function relay_face(n)
+ if n.kind=='lever' then return attachment(n) end
+ if n.kind=='repeater' or n.kind=='comparator' or n.kind=='observer' then return D.opposite(face(n)) end
+ if n.kind=='wire' or n.kind=='torch' then return 'all' end
+end
 local function before(a,b)
  if a.due~=b.due then return a.due<b.due end
  if a.priority~=b.priority then return a.priority<b.priority end
@@ -39,14 +51,20 @@ local function before(a,b)
 end
 function M.new(options)
  options=options or {}
- return setmetatable({nodes={},cells={},count=0,max_nodes=options.max_nodes or 8192,
+ return setmetatable({nodes={},cells={},watchers={},count=0,max_nodes=options.max_nodes or 8192,
   read=options.read,budget=options.budget or 256,tick=0,target_tick=0,
   dirty={},dirty_head=1,dirty_tail=0,queued={},heap={},events={},serial=0,
   changes={},change_order={},generation=0,total_work=0},Network)
 end
 function Network:_at(x,y,z)
- local id=self.cells[D.key(x,y,z)];if id then return self.nodes[id] end
- if self.read then return self.read(x,y,z) end
+ local key=D.key(x,y,z);local id=self.cells[key];if id then return self.nodes[id] end
+ if self.read then
+  local cache=self.read_cache
+  if not cache then return self.read(x,y,z)end
+  local value=cache[key]
+  if value==nil then value=self.read(x,y,z) or false;cache[key]=value end
+  return value or nil
+ end
 end
 function Network:_relative(n,d,amount)
  local v=D.vectors[d];amount=amount or 1
@@ -56,22 +74,45 @@ function Network:_enqueue(n)
  if not n or not self.nodes[n.id] or self.queued[n.id] then return end
  self.dirty_tail=self.dirty_tail+1;self.dirty[self.dirty_tail]=n.id;self.queued[n.id]=true
 end
-function Network:_near(n)
- self:_enqueue(self:_at(n.x,n.y,n.z))
- local function neighbor(a)
-  if a and self.nodes[a.id] and a.id~=n.id then
+-- Only registered nodes can consume a notification. Terrain reads are for
+-- signal, support and movement decisions, never for discovering listeners.
+function Network:_registered(x,y,z)
+ return self.nodes[self.cells[D.key(x,y,z)]]
+end
+function Network:_near(n,passive,output_only)
+ local own=self:_registered(n.x,n.y,n.z)
+ if not passive or not is_piston(own)then self:_enqueue(own)end
+ local function neighbor(a,notifies_piston)
+  if not a then return end
+  if is_piston(a)then
+   if passive or not notifies_piston then return end
+   a._restored_retracted=nil
+  end
+  if a.id~=n.id then
    a._torch_blocked=nil;a._last_request=nil
   end
   self:_enqueue(a)
  end
- for _,d in ipairs(D.order) do neighbor(self:_relative(n,d)) end
- -- Wire slopes, diode analog through a conductor, and piston quasi-connectivity.
- for _,d in ipairs(D.horizontal) do
-  local p=D.step(n,d)
-  neighbor(self:_at(p.x,p.y,p.z+1));neighbor(self:_at(p.x,p.y,p.z-1))
-  p=D.step(n,d,2);neighbor(self:_at(p.x,p.y,p.z))
+ local relay=not passive and relay_face(n)
+ for _,d in ipairs(D.order) do
+  local v=D.vectors[d];neighbor(self:_registered(n.x+v.x,n.y+v.y,n.z+v.z),not output_only or relay==d)
  end
- neighbor(self:_at(n.x,n.y,n.z-2));neighbor(self:_at(n.x,n.y,n.z+2))
+ -- Sloped dust and analog inputs have two-cell dependencies. Being in this
+ -- dependency set does not send a vanilla neighbour update to a distant piston.
+ local all=relay=='all'
+ for _,d in ipairs(D.horizontal) do
+  local v=D.vectors[d];local x,y=n.x+v.x,n.y+v.y
+  local along=all or relay==d
+  neighbor(self:_registered(x,y,n.z+1),along or relay=='up')
+  neighbor(self:_registered(x,y,n.z-1),along or relay=='down')
+  neighbor(self:_registered(x+v.x,y+v.y,n.z),along)
+  if relay and (d=='east' or d=='west')then
+   if along or relay=='north'then neighbor(self:_registered(x,y+1,n.z),true)end
+   if along or relay=='south'then neighbor(self:_registered(x,y-1,n.z),true)end
+  end
+ end
+ neighbor(self:_registered(n.x,n.y,n.z-2),all or relay=='down')
+ neighbor(self:_registered(n.x,n.y,n.z+2),all or relay=='up')
 end
 function Network:_change(n,properties,signal,request)
  local c=self.changes[n.id]
@@ -83,17 +124,23 @@ function Network:_change(n,properties,signal,request)
   c.request.block_kind=n.kind;c.request.facing=face(n);c.request.tick=self.tick
  end
 end
-function Network:_props(n,delta)
+function Network:_props(n,delta,input_only)
  local changed={};local any=false
  for k,v in pairs(delta) do
   if not equal(n.properties[k],v) then n.properties[k]=clone(v);changed[k]=v;any=true end
  end
- if any then self:_change(n,changed);self:_near(n);self:_observers(n) end
+ if any then
+  self:_change(n,changed)
+  if not input_only then
+   local directional=n.kind=='observer' or n.kind=='repeater' or n.kind=='comparator'
+   self:_near(n,directional and changed.locked~=nil,directional);self:_observers(n)
+  end
+ end
  return any
 end
-function Network:_signal(n,value)
+function Network:_signal(n,value,already_notified)
  value=level(value)
- if n.signal~=value then n.signal=value;self:_change(n,nil,value);self:_near(n) end
+ if n.signal~=value then n.signal=value;self:_change(n,nil,value);if not already_notified then self:_near(n)end end
 end
 function Network:_swap(a,b)
  local h=self.heap;h[a],h[b]=h[b],h[a];h[a].index=a;h[b].index=b
@@ -129,12 +176,26 @@ function Network:_schedule(n,delay,priority,reason,earlier)
  local e={id=n.id,key=key,x=n.x,y=n.y,z=n.z,kind=n.kind,due=due,priority=priority or 0,reason=reason,serial=self.serial,index=#self.heap+1}
  self.events[key]=e;self.heap[e.index]=e;self:_heap_up(e.index)
 end
+function Network:_watch(n,add)
+ if n.kind~='observer' or n.moving then return end
+ local facing=face(n);local v=D.vectors[facing]
+ local key=D.key(n.x+v.x,n.y+v.y,n.z+v.z)
+ local watchers=self.watchers[key]
+ if add then
+  if not watchers then watchers={};self.watchers[key]=watchers end
+  watchers[D.opposite(facing)]=n.id
+ elseif watchers then
+  watchers[D.opposite(facing)]=nil
+  if not next(watchers)then self.watchers[key]=nil end
+ end
+end
 function Network:_observers(changed)
- for _,d in ipairs(D.order) do
-  local n=self:_relative(changed,d)
-  if n and self.nodes[n.id] and not n.moving and kind(n)=='observer' and face(n)==D.opposite(d) and not n.properties.powered then
-   self:_schedule(n,2,0,'observer')
-  end
+ local watchers=self.watchers[D.key(changed.x,changed.y,changed.z)]
+ if not watchers then return end
+ -- Keep vanilla neighbour order if several observing faces share this cell.
+ for _,d in ipairs(D.order)do
+  local n=self.nodes[watchers[d]]
+  if n and not n.properties.powered then self:_schedule(n,2,0,'observer')end
  end
 end
 function Network:put(record,options)
@@ -149,8 +210,10 @@ function Network:put(record,options)
  if (n.kind=='repeater' or n.kind=='comparator') and (face(n)=='up' or face(n)=='down') then return false,'horizontal-facing-required' end
  local same=old and old.x==n.x and old.y==n.y and old.z==n.z and old.kind==n.kind
  if same then
+  self:_watch(old,false)
   n.generation=old.generation;n.signal=old.signal;n._toggles=old._toggles;n._last_request=old._last_request
   n._restart_key=old._restart_key;n._torch_blocked=old._torch_blocked
+  n._ignite_requested=old._ignite_requested
   -- Any real host/property edit permits a blocked piston to retry once.
   if not equal(old.properties,n.properties) then n._last_request=nil end
  else
@@ -162,9 +225,15 @@ function Network:put(record,options)
  if n.kind=='repeater' then n.properties.delay=math.max(1,math.min(4,math.floor(tonumber(n.properties.delay) or 1))) end
  if n.kind=='comparator' then n.properties.mode=n.properties.mode=='subtract' and 'subtract' or 'compare';n.signal=level(n.properties.output) end
  if n.moving then n.signal=0 end
+ if options.restored and is_piston(n)then
+  if same then n._restored_retracted=old._restored_retracted
+  elseif not n.properties.extended then n._restored_retracted=true end
+ end
  self.nodes[n.id]=n;self.cells[cell]=n.id
- self:_near(n)
- if not old or not equal(old.properties,n.properties) or not same or old.moving~=n.moving then self:_observers(n) end
+ self:_watch(n,true)
+ self:_near(n,options.restored)
+ if options.restored and not same and is_piston(n)then self:_enqueue(n)end
+ if not options.restored and (not old or not equal(old.properties,n.properties) or not same or old.moving~=n.moving) then self:_observers(n) end
  if n.kind=='observer'and not n.moving and options.shapes_updated then
   -- updateFromNeighbourShapes at placement/moving-block finalization visits
   -- the observing face, even when that face is air. Never carry an old pulse.
@@ -179,16 +248,17 @@ function Network:put(record,options)
 end
 function Network:remove(id)
  local n=self.nodes[id];if not n then return false,'unknown-block' end
+ self:_watch(n,false)
  self.nodes[id]=nil;self.cells[D.key(n.x,n.y,n.z)]=nil;self.count=self.count-1
  self.changes[id]=nil;self:_near(n);self:_observers(n)
  return true
 end
 -- Notify changes to unregistered terrain/support or a failed actuator's vicinity.
 function Network:notify(x,y,z,options)
- D.key(x,y,z);local n={x=x,y=y,z=z}
- for _,d in ipairs(D.order) do local a=self:_relative(n,d);if a and self.nodes[a.id] then a._last_request=nil end end
- self:_near(n)
- if not options or options.shape_changed~=false then self:_observers(n)end
+ local n={x=x,y=y,z=z}
+ local passive=options and options.shape_changed==false
+ self:_near(n,passive)
+ if not passive then self:_observers(n)end
 end
 -- Commit successful actuator changes without manufacturing a delayed input.
 function Network:acknowledge(id,properties)
@@ -197,6 +267,11 @@ function Network:acknowledge(id,properties)
  n._last_request=nil;self:_near(n);return true
 end
 function Network:state(id) return clone(self.nodes[id]) end
+function Network:already_applied(n)
+ local live=self.nodes[n.id]
+ return live and live.kind==n.kind and live.x==n.x and live.y==n.y and live.z==n.z
+  and live.moving==n.moving and equal(live.properties,n.properties)
+end
 function Network:drain_changes()
  local result={}
  for _,id in ipairs(self.change_order) do if self.changes[id] then result[#result+1]=self.changes[id];self.changes[id]=nil end end
@@ -212,8 +287,7 @@ function Network:_output(n,d,strong,exclude_wire)
   return 0
  elseif k=='redstone_block' then return strong and 0 or 15
  elseif k=='lever' then
-  local support=p.support or (p.face=='wall' and D.opposite(face(n)) or p.face=='ceiling' and 'up' or 'down')
-  return powered and (not strong or d==support) and 15 or 0
+  return powered and (not strong or d==attachment(n)) and 15 or 0
  elseif k=='torch' then
   local support=p.support or (p.wall and D.opposite(face(n)) or 'down')
   return p.lit~=false and (strong and d=='up' or not strong and d~=support) and 15 or 0
@@ -267,7 +341,7 @@ function Network:_wire(n)
   if ns then if connections.west=='none' then connections.west='side' end;if connections.east=='none' then connections.east='side' end end
   if ew then if connections.north=='none' then connections.north='side' end;if connections.south=='none' then connections.south='side' end end
  end
- connections.power=level(value);self:_props(n,connections);self:_signal(n,value)
+ connections.power=level(value);local changed=self:_props(n,connections);self:_signal(n,value,changed)
 end
 function Network:_rear(n)
  local input=self:_received(n,face(n),false,false);local rear=self:_relative(n,face(n))
@@ -326,18 +400,18 @@ function Network:_evaluate(n)
  local k=n.kind;local p=n.properties
  if n.moving then self:_signal(n,0);return end
  if k=='wire' then self:_wire(n)
- elseif k=='lever' then self:_signal(n,p.powered and 15 or 0)
- elseif k=='redstone_block' then self:_signal(n,15)
+ elseif k=='lever' then self:_signal(n,p.powered and 15 or 0,true)
+ elseif k=='redstone_block' then self:_signal(n,15,true)
  elseif k=='torch' then
-  self:_signal(n,p.lit and 15 or 0)
+  self:_signal(n,p.lit and 15 or 0,true)
   if not n._torch_blocked and p.lit==self:_torch_input(n) then self:_schedule(n,2,0,'torch',true) end
  elseif k=='repeater' then
-  local locked=self:_side(n,true)>0;self:_props(n,{locked=locked});self:_signal(n,p.powered and 15 or 0)
+  local locked=self:_side(n,true)>0;self:_props(n,{locked=locked});self:_signal(n,p.powered and 15 or 0,true)
   if not locked and (p.powered==true)~=(self:_rear(n)>0) then self:_schedule(n,p.delay*2,self:_diode_priority(n,p.powered and -2 or -1),'repeater') end
  elseif k=='comparator' then
-  local output=self:_compare(n);self:_signal(n,p.output or 0)
+  local output=self:_compare(n);self:_signal(n,p.output or 0,true)
   if output~=n.signal or (p.powered==true)~=(output>0) then self:_schedule(n,2,self:_diode_priority(n,0),'comparator') end
- elseif k=='observer' then self:_signal(n,p.powered and 15 or 0)
+ elseif k=='observer' then self:_signal(n,p.powered and 15 or 0,true)
  elseif k=='door' then
   local other=self:_relative(n,p.half=='upper' and 'down' or 'up')
   local powered=self:_power(n)>0 or (other and kind(other)=='door' and self:_power(other)>0) or false
@@ -348,15 +422,20 @@ function Network:_evaluate(n)
   local powered=self:_power(n,face(n))>0
   -- Java's quasi-connectivity samples around the cell above, excluding down.
   local top={x=n.x,y=n.y,z=n.z+1}
-  powered=powered or self:_power(top,'down')>0
-  self:_props(n,{powered=powered});self:_signal(n,powered and 15 or 0);self:_actuate(n,powered,previous~=powered)
+  powered=powered or (not n._restored_retracted and self:_power(top,'down')>0) or false
+  self:_props(n,{powered=powered},true);self:_signal(n,powered and 15 or 0,true);self:_actuate(n,powered,previous~=powered)
  elseif k=='tnt' then
   local powered=self:_power(n)>0
-  if powered and not p.powered then self:_change(n,nil,nil,{kind='ignite'}) end
-  self:_props(n,{powered=powered});self:_signal(n,powered and 15 or 0)
+  -- A stable cube restored with powered=true may have survived a rejected
+  -- host ignition. A fresh binding must request its fuse once as well.
+  if powered and not n._ignite_requested then self:_change(n,nil,nil,{kind='ignite'})end
+  n._ignite_requested=powered or nil
+  self:_props(n,{powered=powered},true);self:_signal(n,powered and 15 or 0,true)
  elseif conductor(n) then
   local value=0;for _,d in ipairs(D.order) do value=math.max(value,self:_received(n,d,true,false)) end
-  self:_signal(n,value)
+  -- This passive block has no neighbourChanged broadcast of its own. All
+  -- consumers read strong power from its actual source in _received().
+  self:_signal(n,value,true)
  end
 end
 function Network:_event(e)
@@ -381,7 +460,7 @@ function Network:_event(e)
    end
   end
  elseif e.reason=='comparator' then
-  local output=self:_compare(n);self:_props(n,{output=output,powered=output>0});self:_signal(n,output)
+  local output=self:_compare(n);self:_props(n,{output=output,powered=output>0});self:_signal(n,output,true)
  elseif e.reason=='observer' then
   self:_props(n,{powered=not p.powered})
   if p.powered then self:_schedule(n,2,0,'observer') end
@@ -421,6 +500,7 @@ end
 function Network:advance_to_tick(tick,budget)
  assert(D.integer(tick)and tick>=self.tick,'nondecreasing game tick required')
  budget=budget or self.budget;self.tick=tick;self.target_tick=math.max(self.target_tick,tick)
+ if self.dirty_head<=self.dirty_tail or self.heap[1] and self.heap[1].due<=tick then self.read_cache={}end
  local work=0
  while work<budget do
   if self.dirty_head<=self.dirty_tail then
@@ -434,6 +514,7 @@ function Network:advance_to_tick(tick,budget)
   end
  end
  self.total_work=self.total_work+work
+ self.read_cache=nil
  return {tick=tick,target_tick=self.target_tick,processed=work,
   pending=self.dirty_head<=self.dirty_tail or (self.heap[1]and self.heap[1].due<=tick)or false,
   dirty=self.dirty_tail-self.dirty_head+1,scheduled=#self.heap}
@@ -441,6 +522,8 @@ end
 function M.rebind(network)
  assert(type(network)=='table'and network.nodes and network.heap,'redstone-network-required')
  setmetatable(network,Network)
+ network.watchers={}
+ for _,n in pairs(network.nodes)do network:_watch(n,true)end
  -- Retain due time, priority and insertion order from the installed scheduler.
  -- Old installations keyed events by ID; snapshot their original positions.
  local events,heap={},{}

@@ -15,7 +15,7 @@ function M.poll(session,binding)
   local ok,changed=pcall(function()
     local camera=require('host.pbz.first_person_camera').get()
     if camera and camera:native_takeover() then return false end
-    local pc=require('UEHelpers').GetPlayerController()
+    local pc=require('host.pbz.local_player').controller()
     assert(pc and pc:IsValid() and pc:IsLocalPlayerController()
       and identity.matches(pc.Pawn,binding.actor_id),'slot-sync-local-player')
     if cache.reader and not identity.matches(pc,cache.controller_id) then cache.reader:close();cache.reader=nil end

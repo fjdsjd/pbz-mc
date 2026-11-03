@@ -87,13 +87,21 @@ function M:eligible(row)
   -- Player self-damage is deliberately checked before the hostile filter.
   return row.player or self.faction:GetFactionRelation(self.pawn,target)==2
 end
-function M:candidates(kind)
+function M:candidates(kind,center)
   local stamp=self.clock:GetTimeSeconds(self.pawn)
   assert(finite(stamp),'tnt-damage-clock')
-  if kind=='explosion' or stamp>=self.next_scan or stamp<(self.scanned_at or 0) then
+  local local_blast=kind=='explosion' and center
+  if local_blast or stamp>=self.next_scan or stamp<(self.scanned_at or 0) then
     local out,seen={},{}
-    for _,actor in ipairs(FindAllOf('PBZCharacter') or {})do
+    local candidates
+    if local_blast then
+      candidates={}
+      UE.GetKismetSystemLibrary():SphereOverlapActors(self.pawn,center,rules.blast_radius,
+        require('host.pbz.build_world').object_types,self.character,{self.pawn},candidates)
+    else candidates=FindAllOf('PBZCharacter') or {} end
+    for _,item in ipairs(candidates)do
       local ok,row=pcall(function()
+        local actor=item.GetFullName and item or item:get()
         if not valid(actor) or not actor:IsA(self.character) or identity.matches(actor,self.pawn_id)
           or not identity.matches(actor:GetWorld(),self.world_id) then return nil end
         return {actor=actor,id=identity.capture(actor),player=false}
@@ -106,6 +114,7 @@ function M:candidates(kind)
     -- Apply self-damage last: a fatal self-hit must not retire the source
     -- halfway through dispatching this explosion to its other targets.
     out[#out+1]={actor=self.pawn,id=self.pawn_id,player=true}
+    if local_blast then return out end
     self.targets=out;self.scanned_at=stamp;self.next_scan=stamp+rules.fire_interval
   end
   return self.targets
@@ -119,12 +128,27 @@ function M:clear_line(center,finish,target,source)
     end
   end
   local hit={}
-  local blocked=UE.GetKismetSystemLibrary():LineTraceSingle(
-    self.pawn,center,finish,0,false,ignored,0,hit,true,color,color,0)
-  assert(type(blocked)=='boolean','tnt-damage-trace-result')
-  -- A blocking terrain hit is sufficient. UE4SS's packed bStartPenetrating
-  -- value is unreliable; neither it nor any inferred material name is used.
-  return not blocked
+  local lib=UE.GetKismetSystemLibrary()
+  for _=1,24 do
+    local blocked=lib:LineTraceSingle(self.pawn,center,finish,0,false,ignored,0,hit,true,color,color,0)
+    assert(type(blocked)=='boolean','tnt-damage-trace-result')
+    if not blocked then return true end
+    local handle=self.build_world and self.build_world:hit_handle(hit)
+    local def=handle and require('content.blocks').get(handle.content_id)
+    if not def or def.collision~=false or seen[handle.actor:GetAddress()]then return false end
+    seen[handle.actor:GetAddress()]=true;ignored[#ignored+1]=handle.actor
+  end
+  return false
+end
+-- A bounded set of points over the TNT body gives partial cover a fractional
+-- impulse; wholly enclosed bodies cannot receive a launch through the wall.
+local exposure_points={{0,0,0},{-32,-32,-32},{32,32,-32},{-32,32,32},{32,-32,32}}
+function M:tnt_exposure(center,state,target)
+  local visible=0
+  for _,p in ipairs(exposure_points)do
+    if self:clear_line(center,{X=state.x+p[1],Y=state.y+p[2],Z=state.z+p[3]},target)then visible=visible+1 end
+  end
+  return visible/#exposure_points
 end
 function M:player_gate()
   local status=self.binding.mc_status_service
@@ -196,7 +220,7 @@ function M:hit(row,amount,action_id,kind,location,direction)
   end
   return result
 end
-function M:run(kind,center,source,action_id,power)
+function M:run(kind,center,source,action_id,power,underwater)
   local report={kind=kind,action_id=action_id,considered=0,occluded=0,dispatched=0,hurt=0,
     knocked_back=0,targets={},errors={}}
   self.report=report
@@ -212,7 +236,8 @@ function M:run(kind,center,source,action_id,power)
     end
     if self.events[action_id] then report.duplicate=true;return end
     self.events[action_id]=true -- Claim the complete event before any external call.
-    for _,row in ipairs(self:candidates(kind))do
+    local boats=kind=='explosion' and require('host.pbz.boat_service').get(self.binding)
+    for _,row in ipairs(self:candidates(kind,center))do
       local eligible_ok,eligible=pcall(self.eligible,self,row)
       if eligible_ok and eligible then
         local target_ok,target_error=pcall(function()
@@ -236,7 +261,8 @@ function M:run(kind,center,source,action_id,power)
           if result.error then report.errors[#report.errors+1]=row.id.name..': '..tostring(result.error) end
           -- A native shield-only hit is real, but its armor/poise response
           -- remains PBZ's. Do not turn this feedback repair into forced launch.
-          if result.health_hit and blast and blast.impulse>0 and self:eligible(row) then
+          if (result.health_hit or underwater) and blast and blast.impulse>0 and self:eligible(row)
+              and not (boats and boats:piston_rider(row.actor)) then
             local impulse=rules.knockback(offset,blast.impulse)
             local launch_ok,launch_error=pcall(row.actor.LaunchCharacter,row.actor,
               {X=impulse.x,Y=impulse.y,Z=impulse.z},false,false)
@@ -256,7 +282,7 @@ function M:run(kind,center,source,action_id,power)
   end
   return report
 end
-function M:explode(center,source_actor,action_id,power)return self:run('explosion',center,source_actor,action_id,power)end
+function M:explode(center,source_actor,action_id,power,underwater)return self:run('explosion',center,source_actor,action_id,power,underwater)end
 function M:burn(center,action_id)return self:run('fire',center,nil,action_id)end
 function M:close()
   if self.closed then return end

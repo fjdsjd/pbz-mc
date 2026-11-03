@@ -11,17 +11,18 @@
 ## 安装
 
 1. **退出游戏并备份存档。** 原生存档和模组数据需要一起保存，具体位置见[备份说明](docs/INSTALLATION.md#备份与恢复)。
-2. 在 Releases 下载 `PBZMC-0.1.0-alpha.3-win64.zip`，不要下载 GitHub 自动生成的 Source code 压缩包作为模组。GitHub 下载困难时可使用[大陆网络备用下载](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.3/PBZMC-0.1.0-alpha.3-win64.zip)，或[第二备用入口](https://ghfast.top/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.3/PBZMC-0.1.0-alpha.3-win64.zip)。
+2. 首次安装请选择**标准包**。已有 PBZMC 资源或要把自己的缓存带到离线电脑，可选**免下载版**。两个包包含相同的玩法代码。[标准包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.4/PBZMC-0.1.0-alpha.4-win64.zip) · [免下载版（自备缓存）](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.4/PBZMC-0.1.0-alpha.4-win64-offline-cache.zip) · [Nexus 文件页](https://www.nexusmods.com/phantombladezero/mods/374?tab=files) · [标准包大陆备用下载](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.4/PBZMC-0.1.0-alpha.4-win64.zip) · [第二备用入口](https://ghfast.top/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.4/PBZMC-0.1.0-alpha.4-win64.zip)
 3. 将压缩包内容解压到 PBZ 游戏根目录，也就是包含 `platform/steam/PBZ.exe` 的目录。解压后 `Launch-PBZMC.cmd` 应与 `platform` 文件夹并列。
-4. 双击 **`Launch-PBZMC.cmd`**。首次运行会备份存档、校验游戏版本、下载并在本机转换资源，然后安装模组并通过 Steam 启动。以后使用同一脚本直接启动。
+4. 双击 **`Launch-PBZMC.cmd`**。标准包在首次缺少资源时下载并在本机转换。免下载版只校验本机已有资源。换电脑时，先把自己的 `PBZMC/cache/runtime-assets` 目录复制到游戏目录的相同位置。两种安装器都会先核验游戏版本、备份存档，然后安装并通过 Steam 启动。
 
-首次准备需要联网及额外磁盘空间，不需要自行安装 Python、编译器、Java 或 Minecraft 模组加载器。按资源选择镜像／原站优先顺序，失败自动切换，支持断线续传；所有来源使用相同的固定版本与哈希。下载受阻时保留缓存、重试即可，详见[下载来源与重试方法](docs/INSTALLATION.md#中国大陆网络与下载失败)。普通游戏启动前务必完成第一次准备。
+标准包首次准备资源需要联网及额外磁盘空间。安装器会自行准备转换工具，下载中断后可保留缓存重试。免下载版沿用 alpha.3 的全部资源，已有完整缓存可直接升级。[下载来源与重试方法](docs/INSTALLATION.md#中国大陆网络与下载失败)
 
 仅支持 Windows x64 和[已验证的 PBZ 构建](docs/COMPATIBILITY.md)。这是早期测试版，不承诺跨所有章节、所有模组组合或未来 PBZ 更新兼容。游戏更新后，启动脚本和原生桥会拒绝未经验证的版本；请等待对应更新，不要删除版本检查。
 
 ## 当前玩法
 
 - 常驻史蒂夫、MC 第一人称与 PBZ 原版视角、实时背包人物预览。
+- 选中 PBZ 原生武器后可按 F6 开关自动完美格挡与闪避，默认关闭。H 可重看提示。
 - 27 格背包、9 格快捷栏、副手、护甲、分类分页目录、垃圾槽与物品名称提示。PBZ 原生槽位作为引用物品进入同一个快捷栏。
 - 多材质剑、镐、铲、斧、弓与盾；MC 装备没有耐久消耗。PBZ 原生战斗与 MC 物品按当前选择切换。
 - 红心、护甲、金心与效果显示，经验条映射 PBZ 体力。金苹果、附魔金苹果、图腾、末影珍珠、紫菘果、鞘翅及烟花。

@@ -63,6 +63,16 @@ function M:engine_valid(object)
   assert(type(result)=='boolean','boat-native-validity-result-unavailable')
   return result
 end
+-- The query uses the entities' collision bounds, including tall boss capsules.
+-- The service applies the exact seat test to each candidate.
+function M:characters_near_boats(region)
+  self.character_class=self.character_class or StaticFindObject('/Script/ProjectPBZ.PBZCharacter')
+  local x,y,z=(region.x0+region.x1)*.5,(region.y0+region.y1)*.5,(region.z0+region.z1)*.5
+  local actors={}
+  UE.GetKismetSystemLibrary():BoxOverlapActors(self.pawn,v(x,y,z+28.125),
+    v(region.x1-x+220,region.y1-y+220,region.z1-z+28.125),object_types,self.character_class,{self.pawn},actors)
+  return actors
+end
 function M:is_current()
   return not self.closed and not self.closing and identity.matches(self.binding.actor,self.pawn_identity)
     and identity.matches(self.pawn:GetWorld(),self.world_identity) and self:engine_valid(self.pawn)

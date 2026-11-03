@@ -133,12 +133,7 @@ function M:commit_buildings(ticket,changes,grids)
         for world,origin in pairs(additions) do next_grids[world]=origin end
       end
     end
-    -- One shallow building-map copy. Existing records and all unrelated core
-    -- branches are immutable owned references, so none need revalidation/copy.
-    local buildings=state.object()
-    for id,record in pairs(starting_core.buildings) do buildings[id]=record;next_count=next_count+1 end
-    assert(next_count>=0 and next_count<=8192,'excessive-building-records')
-    for id,record in pairs(updates) do buildings[id]=record or nil end
+    local buildings=require('storage.building_map').updated(starting_core.buildings,updates,next_count)
     local core=state.object();for k,v in pairs(starting_core) do core[k]=v end
     core.buildings=buildings;core.building_grids=next_grids
     assert(starting_generation+1<2^53,'player-generation-exhausted')

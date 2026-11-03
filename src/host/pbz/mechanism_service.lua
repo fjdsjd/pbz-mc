@@ -1,6 +1,7 @@
 -- Local grid ownership and bounded scheduling. Rule engines never call UE.
 local Blocks=require('content.blocks')
 local D=require('rules.block_directions')
+local geometry=require('rules.placement_geometry')
 local Props=require('rules.block_properties')
 local Fluid=require('rules.fluid_network')
 local M={};M.__index=M
@@ -52,7 +53,7 @@ function M.new(build)
   local seeds={}
   for _,record in pairs(self.index)do if Fluid.kind(record)then seeds[#seeds+1]=self:cell(record)end end
   self.fluid:seed(seeds)
-  self.session.on_change=function(changes)self:changed(changes)end
+  self.session.on_change=function(changes,options)self:changed(changes,options)end
   self.session.expand_removals=function(ids)return self:expand_removals(ids)end
   self.contact=require('host.pbz.fluid_contact').new({binding=self.binding,world=self.world,
     read_world=function(x,y,z)return self:read_world(x,y,z)end,
@@ -123,7 +124,7 @@ function M:reconcile_overlaps()
   return count
 end
 function M:cleanup_overlaps()
-  if self.session.busy or self.session.quarantined then return false end
+  if not self.overlap_cleanup or not next(self.overlap_cleanup) or self.session.busy or self.session.quarantined then return false end
   local ids={}
   for id,entry in pairs(self.overlap_cleanup or {})do
     local fluid=self.session.data.buildings[id];local cover=self.session.data.buildings[entry.solid_id]
@@ -180,6 +181,7 @@ function M:replaceable(cell)
   return def and (def.collision==false and not def.fluid)or false
 end
 function M:probe_terrain(budget)
+  if self.probe_head>#self.probes then return end
   local done=0
   while self.probe_head<=#self.probes and done<budget do
     local cell=self.probes[self.probe_head];self.probe_head=self.probe_head+1;self.probe_set[cell.key]=nil
@@ -219,11 +221,20 @@ function M:queue_visuals(p)
     end
   end end end
 end
-function M:changed(changes)
+function M:changed(changes,options)
   if self.session.grid then self.origin=copy(self.session.grid)end
+  local echo={}
   for _,row in ipairs(changes)do
     local r=row.before
-    if r then
+    if options and options.signal_output and r and row.after and r.content_id==row.after.content_id and same_position(r,row.after)then
+      local n=self:node(row.after)
+      if self.network:already_applied(n)then
+        -- Rules have already notified the observers and neighbours of this
+        -- edge. Publishing its visual/save state must not restart the pulse.
+        echo[row]=true;self.nodes[n.id]=n;self.index[D.key(n.x,n.y,n.z)]=row.after
+      end
+    end
+    if r and not echo[row] then
       local p=self:cell(r);local key=D.key(p.x,p.y,p.z)
       if self.index[key]and self.index[key].id==r.id then self.index[key]=nil end
       if not row.after or row.after.content_id~=r.content_id or row.after.x~=r.x or row.after.y~=r.y or row.after.z~=r.z then
@@ -233,16 +244,29 @@ function M:changed(changes)
       end
     end
   end
-  for _,row in ipairs(changes)do if row.after then self:insert(row.after,{restored=row.restored==true})end end
+  for _,row in ipairs(changes)do if row.after and not echo[row] then self:insert(row.after,{restored=row.restored==true})end end
+  local notified,physical={},{}
+  local function notify(record,shape_change,restored)
+    local p=self:cell(record);local key=D.key(p.x,p.y,p.z)
+    if not notified[key]then
+      notified[key]=true;self.network:notify(p.x,p.y,p.z,restored and {shape_changed=false} or nil)
+    end
+    if shape_change and not physical[key]then
+      physical[key]=true;self.fluid:changed(p.x,p.y,p.z);self:near_support(p);self:queue_visuals(p)
+    end
+  end
   for _,row in ipairs(changes)do
-    for _,r in ipairs({row.before or row.after,row.after or row.before})do
-      local p=self:cell(r);self.network:notify(p.x,p.y,p.z);self.fluid:changed(p.x,p.y,p.z);self:near_support(p)
-      if r.id then self.supports[r.id]=true end
-      if self.world.fluid_visual then
-        -- Smoothed corner heights depend on diagonals and the layer above,
-        -- not just six face neighbors. Coalesce whole-batch invalidation.
-        self:queue_visuals(p)
-      end
+    local a,b=row.before,row.after
+    local moved=a and b and not same_position(a,b)
+    -- These components have the same fluid permeability and support at every
+    -- signal strength. Observers still receive their property changes.
+    local k=b and Blocks.get(b.content_id).mechanism
+    local electrical=k=='wire' or k=='repeater' or k=='comparator' or k=='observer' or k=='lever' or k=='torch'
+    local shape_change=not a or not b or moved or a.content_id~=b.content_id or not electrical
+    if not echo[row]then
+      if a then notify(a,shape_change,row.restored)end
+      if b and (not a or moved)then notify(b,shape_change,row.restored)end
+      if shape_change and b then self.supports[b.id]=true end
     end
     if row.before and row.after and (row.before.properties or {}).open~=(row.after.properties or {}).open then
       local def=Blocks.get(row.after.content_id)
@@ -266,6 +290,7 @@ function M:changed(changes)
   end
 end
 function M:flush_visuals(limit)
+  if self.visual_head>#self.visual_queue then return end
   local done=0
   while self.visual_head<=#self.visual_queue and done<limit do
     local id=self.visual_queue[self.visual_head];self.visual_head=self.visual_head+1;self.visual_queued[id]=nil
@@ -399,7 +424,9 @@ function M:place(def,position,hit,aim)
     if def.mechanism=='end_rod'then
       props.facing=math.abs(normal.Z)>.5 and (normal.Z>0 and 'up'or 'down')or D.from_yaw(math.deg(math.atan(normal.Y,normal.X)))
     elseif def.mechanism=='lever'or def.mechanism=='torch'then
-      if math.abs(normal.Z)<.5 then props.face='wall';props.facing=D.from_yaw(math.deg(math.atan(normal.Y,normal.X)))
+      if geometry.face_axis(normal.X,normal.Y,normal.Z)~=2 then
+        props.face='wall';props.facing=D.from_yaw(math.deg(math.atan(normal.Y,normal.X)))
+        if def.mechanism=='torch' then props.wall_inset=position.wall_inset end
       else props.face=normal.Z<0 and 'ceiling'or 'floor';if def.mechanism=='torch'then if normal.Z<0 then return false,'torch-ceiling' end;props.facing='north'end end
     end
   end
@@ -425,6 +452,7 @@ function M:place(def,position,hit,aim)
   return false,why
 end
 function M:apply_updates()
+  if not next(self.updates)then return true,false,0 end
   local changes,done,used={},{},{}
   local ids={};for id in pairs(self.updates)do ids[#ids+1]=id end;table.sort(ids)
   for _,id in ipairs(ids)do
@@ -446,7 +474,7 @@ function M:apply_updates()
       end
     end
   end
-  local ok=#changes==0 or self:commit(changes,nil,true)
+  local ok=#changes==0 or self:commit(changes,{signal_output=true},true)
   if ok then for _,id in ipairs(done)do self.updates[id]=nil end end
   local remaining=false
   for id in pairs(self.updates)do if self.session.handles[id]then remaining=true;break end end
@@ -516,7 +544,7 @@ function M:piston(id,extend,drop_pull)
     end
   end
   self.install_motion=installing
-  local call,ok;call,ok,err=pcall(self.commit,self,changes,{native_solid=true,animate=true},true)
+  local call,ok;call,ok,err=pcall(self.commit,self,changes,{native_solid=true,animate=true,piston_rider=ticket.is_rider},true)
   self.install_motion=nil
   if not call then err=tostring(ok);ok=false end
   if not ok then
@@ -550,6 +578,7 @@ function M:queue_request(id,request)
   entry={id=id,request=request};self.request_entries[id]=entry;self.request_queue[#self.request_queue+1]=entry
 end
 function M:drain_redstone()
+  if #self.network.change_order==0 then return end
   for _,change in ipairs(self.network:drain_changes())do
     if change.properties then self.updates[change.id]=merge(self.updates[change.id],change.properties)end
     if change.request then self:queue_request(change.id,change.request);self.piston_retry[change.id]=nil end
@@ -577,6 +606,7 @@ function M:rebind_timing(now)
 end
 function M:run_block_events(limit)
   local attempted,hold=0,false;local stop=#self.request_queue
+  if stop==0 then return 0,false end
   while self.request_head<=stop and attempted<limit do
     local entry=self.request_queue[self.request_head];self.request_queue[self.request_head]=false;self.request_head=self.request_head+1
     local id,request=entry.id,entry.request
@@ -596,13 +626,17 @@ function M:run_block_events(limit)
           end
         end
         if not ok then
-          self.last_piston_block=why
+          if request.kind=='ignite'then self.last_ignite_block=why else self.last_piston_block=why end
           if why=='terrain-pending' or tostring(why):find('fixture-frame-create-budget',1,true)then
             -- Unknown native geometry is an asynchronous query, not an MC
             -- power edge. Complete it before crossing this tick boundary.
             keep=true;hold=true;self.piston_retry[id]=self.sim_tick
           elseif why~='immovable'and why~='push-limit'and why~='moving-block'and why~='native-terrain'then
-            keep=true;self.piston_retry[id]=self.sim_tick+2
+            local delay=2
+            if tostring(why):find(':%d+:')then
+              delay=math.min(20,(entry.error_delay or 1)*2);entry.error_delay=delay
+            end
+            keep=true;self.piston_retry[id]=self.sim_tick+delay
           end
         end
       end
@@ -627,6 +661,7 @@ function M:run_block_events(limit)
   return attempted,hold or ready
 end
 function M:complete_motion_tick()
+  if not next(self.motions)then return end
   local due={}
   for _,motion in pairs(self.motions)do if motion.due<=self.sim_tick then due[#due+1]=motion end end
   table.sort(due,function(a,b)return a.serial<b.serial end)
@@ -679,10 +714,12 @@ function M:tick(now)
   local target=math.floor(math.max(0,now-self.started)*20+1e-7);self.frame_target=target
   local work,actions,batches,completed=0,0,0,0
   local work_limit=self.redstone_budget or 96
+  local deadline=os.clock()+.003
   -- A render frame may stop inside a game tick, but may never merge the next
   -- scheduled pulse across an unfinished block-event/moving-entity phase.
   while self.sim_tick<=target and work<work_limit and batches<8 and completed<8 do
     if self.sim_phase=='events'then
+      if work+actions>0 and os.clock()>=deadline then break end
       local result=self.network:advance_to_tick(self.sim_tick,work_limit-work)
       self.redstone_work=result;work=work+result.processed;self:drain_redstone()
       local ok,remaining,used=self:apply_updates();batches=batches+used
@@ -709,7 +746,7 @@ function M:state()
   return {redstone=self.network:stats(),redstone_frame=self.redstone_frame,moving_blocks=motions,
     fluid=self.fluid:status(),terrain_reads=self.terrain_reads,
     probes=#self.probes-self.probe_head+1,batches=self.batches,rejected=self.rejected,last_error=self.last_error,
-    last_piston_block=self.last_piston_block,last_piston_entities=self.last_piston_entities,
+    last_piston_block=self.last_piston_block,last_ignite_block=self.last_ignite_block,last_piston_entities=self.last_piston_entities,
     entity_recovery=self.entity_recovery~=nil,notification_error=self.session.notification_error,
     legacy_fluid_overlaps=overlaps,legacy_fluid_removed=self.overlap_removed or 0,legacy_fluid_error=self.overlap_error,
     resources=self.world.mechanisms and self.world.mechanisms.report,audio=self.audio and self.audio:state()}

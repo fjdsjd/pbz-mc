@@ -1,4 +1,4 @@
-"""Assemble a local offline bundle from an audited release and verified resources."""
+"""Assemble a public cache-only installer or a personal offline bundle."""
 from __future__ import annotations
 
 import argparse
@@ -39,10 +39,13 @@ def write(path, data):
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--release', type=Path, required=True, help='Audited online release stage directory')
-    ap.add_argument('--assets', type=Path, required=True, help='Verified runtime-assets directory containing ready.json')
+    mode = ap.add_mutually_exclusive_group(required=True)
+    mode.add_argument('--assets', type=Path, help='Personal bundle with resources from this verified runtime-assets directory')
+    mode.add_argument('--cache-only', action='store_true', help='Public installer. Include the hash list and use the player\'s own resources.')
     ap.add_argument('--output', type=Path, required=True, help='New empty output directory')
     args = ap.parse_args()
-    release, assets, output = args.release.resolve(), args.assets.resolve(), args.output.resolve()
+    release, output = args.release.resolve(), args.output.resolve()
+    assets = args.assets.resolve() if args.assets else None
     if output.exists() and any(output.iterdir()):
         raise ValueError('Choose a new output directory; existing packages are never replaced')
     manifest = json.loads((release/'PBZMC/release.json').read_text('utf-8'))
@@ -50,23 +53,25 @@ def main():
     recipe = json.loads(recipe_file.read_text('utf-8'))
     if sha(recipe_file) != manifest['asset_recipe_sha256']:
         raise ValueError('Release and resource recipe differ')
-    ready = json.loads((assets/'ready.json').read_text('utf-8'))
-    if ready['recipe'] != manifest['asset_recipe_sha256']:
-        raise ValueError('Prepared resources use a different recipe')
     expected = {name: row['sha256'] for name, row in recipe.items()}
-    actual = {row['path']: row['sha256'] for row in ready['files']}
-    if expected != actual or len(actual) != len(ready['files']):
-        raise ValueError('Incomplete or altered runtime resource list')
+    if assets:
+        ready = json.loads((assets/'ready.json').read_text('utf-8'))
+        if ready['recipe'] != manifest['asset_recipe_sha256']:
+            raise ValueError('Prepared resources use a different recipe')
+        actual = {row['path']: row['sha256'] for row in ready['files']}
+        if expected != actual or len(actual) != len(ready['files']):
+            raise ValueError('Incomplete or altered runtime resource list')
     # Validate everything before creating an output package. Never include a
     # user's save, source archives, conversion work or stale cache files.
     for row in manifest['files']:
         path = child(release/'PBZMC/payload', row['path'])
         if sha(path) != row['sha256']:
             raise ValueError('Damaged release input: ' + row['path'])
-    for relative, expected_hash in expected.items():
-        path = child(assets, relative)
-        if not path.is_file() or ('bytes' in recipe[relative] and path.stat().st_size != recipe[relative]['bytes']) or sha(path) != expected_hash:
-            raise ValueError('Damaged runtime resource: ' + relative)
+    if assets:
+        for relative, expected_hash in expected.items():
+            path = child(assets, relative)
+            if not path.is_file() or ('bytes' in recipe[relative] and path.stat().st_size != recipe[relative]['bytes']) or sha(path) != expected_hash:
+                raise ValueError('Damaged runtime resource: ' + relative)
     stage = output/'stage'
     stage.mkdir(parents=True)
     excluded = {'README.md', 'NOTICE', 'docs/INSTALLATION.md', 'docs/BUILDING.md',
@@ -84,26 +89,36 @@ def main():
         shutil.copy2(source, dest)
     shutil.copy2(ROOT/'distribution/Manage-PBZMC.ps1', stage/'PBZMC/Manage-PBZMC.ps1')
     version = manifest['version']
-    for name in ('README.md', 'INSTALLATION.md'):
-        dest = stage/('README.md' if name == 'README.md' else 'docs/INSTALLATION.md')
-        value = (ROOT/'distribution/offline'/name).read_text('utf-8').replace('{version}', version)
-        dest.write_text(value, encoding='utf-8', newline='\n')
-    notice = (ROOT/'NOTICE').read_text('utf-8')
-    notice = notice.replace(
-        'The upstream NOTICE above describes its original project; third-party game assets listed there are not redistributed in this project.\nMinecraft resources are prepared locally from pinned original sources and are not relicensed.',
-        'The upstream NOTICE above describes its original project. This local offline bundle includes verified Minecraft resources from the resource cache.\nMinecraft resources remain the property of Mojang / Microsoft and are not relicensed under the mod source license.\nIt includes neither Minecraft client binaries nor PBZ game content.')
-    (stage/'NOTICE').write_text(notice, encoding='utf-8', newline='\n')
-    resources = stage/'PBZMC/cache/runtime-assets'
-    for relative in expected:
-        dest = child(resources, relative)
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(child(assets, relative), dest)
+    if args.cache_only:
+        readme = (ROOT/'distribution/offline/CACHE-README.md').read_text('utf-8')
+        (stage/'README.md').write_text(readme.replace('{version}', version), encoding='utf-8', newline='\n')
+        shutil.copy2(release/'docs/INSTALLATION.md', stage/'docs/INSTALLATION.md')
+        shutil.copy2(release/'NOTICE', stage/'NOTICE')
+        receipt = stage/'PBZMC/offline-resources.json'
+        kind = 'offline-cache'
+    else:
+        for name in ('README.md', 'INSTALLATION.md'):
+            dest = stage/('README.md' if name == 'README.md' else 'docs/INSTALLATION.md')
+            value = (ROOT/'distribution/offline'/name).read_text('utf-8').replace('{version}', version)
+            dest.write_text(value, encoding='utf-8', newline='\n')
+        notice = (ROOT/'NOTICE').read_text('utf-8')
+        notice = notice.replace(
+            'The upstream NOTICE above describes its original project; third-party game assets listed there are not redistributed in this project.\nMinecraft resources are prepared locally from pinned original sources and are not relicensed.',
+            'The upstream NOTICE above describes its original project. This local offline bundle includes verified Minecraft resources from the resource cache.\nMinecraft resources remain the property of Mojang / Microsoft and are not relicensed under the mod source license.\nIt includes neither Minecraft client binaries nor PBZ game content.')
+        (stage/'NOTICE').write_text(notice, encoding='utf-8', newline='\n')
+        resources = stage/'PBZMC/cache/runtime-assets'
+        for relative in expected:
+            dest = child(resources, relative)
+            dest.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(child(assets, relative), dest)
+        receipt = resources/'ready.json'
+        kind = 'offline'
     ready = dict(schema=1, release=version, recipe=manifest['asset_recipe_sha256'],
                  files=[dict(path=name, sha256=expected[name]) for name in sorted(expected)])
-    write(resources/'ready.json', ready)
-    manifest.update(package_kind='offline', resource_receipt_sha256=sha(resources/'ready.json'))
+    write(receipt, ready)
+    manifest.update(package_kind=kind, resource_receipt_sha256=sha(receipt))
     write(stage/'PBZMC/release.json', manifest)
-    archive = output/f'PBZMC-{version}-win64-offline.zip'
+    archive = output/f'PBZMC-{version}-win64-{kind}.zip'
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as z:
         for path in sorted(stage.rglob('*')):
             if path.is_file():
@@ -113,7 +128,7 @@ def main():
                 z.writestr(info, path.read_bytes())
     (output/'SHA256SUMS.txt').write_text(f'{sha(archive)}  {archive.name}\n', encoding='ascii', newline='\n')
     print(json.dumps(dict(archive=str(archive), sha256=sha(archive), bytes=archive.stat().st_size,
-                         resources=len(expected), runtime_files=len(manifest['files']))))
+                         bundled_resources=len(expected) if assets else 0, runtime_files=len(manifest['files']))))
 
 
 if __name__ == '__main__':

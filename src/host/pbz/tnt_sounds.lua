@@ -85,7 +85,7 @@ function M:play(kind,p)
  local rules=policy[kind];local choices=self.events[kind]
  if not rules or not choices or #choices==0 then return reject(self,tostring(kind),'unknown-event')end
  if not p or not finite(p.x) or not finite(p.y) or not finite(p.z)then return reject(self,kind,'invalid-position')end
- local pc=require('UEHelpers').GetPlayerController();local stamp=now(self,pc)
+ local pc=require('host.pbz.local_player').controller();local stamp=now(self,pc)
  if not stamp then return reject(self,kind,'clock-unavailable')end
  local previous=self.last_events[kind]
  if previous and stamp-previous<rules.window then return reject(self,kind,'coalesced',true)end
@@ -125,7 +125,7 @@ function M:play(kind,p)
  return true
 end
 function M:state()
- if not self.closed then now(self,require('UEHelpers').GetPlayerController())end
+ if not self.closed then now(self,require('host.pbz.local_player').controller())end
  local active,soft,kinds=snapshot(self)
  return {played=self.played,counts=copy(self.counts),requested=self.requested,merged=self.merged,dropped=self.dropped,
   merged_counts=copy(self.merged_counts),dropped_counts=copy(self.dropped_counts),drop_reasons=copy(self.drop_reasons),
@@ -135,7 +135,7 @@ function M:state()
 end
 function M:close()
  if self.closed then return true end
- now(self,require('UEHelpers').GetPlayerController())
+ now(self,require('host.pbz.local_player').controller())
  self.last_events={};self.clock=nil;self.closed=true
  -- The native API has no per-voice stop. Retain <=8 numeric reservations,
  -- never a controller/world/actor or delayed playback callback.

@@ -26,6 +26,12 @@ PBZ/
 
 第一次安装后可离线复用资源缓存，但 Steam 和游戏本身的离线要求仍按原游戏执行。不要删除 `PBZMC` 文件夹中的安装记录，否则自动卸载无法区分本模组与其他工具拥有的文件。
 
+## 免下载版与离线迁移
+
+`PBZMC-0.1.0-alpha.4-win64-offline-cache.zip` 使用玩家已经准备好的资源。在已经装过 alpha.3 的电脑上，保留原来的 `PBZMC` 目录，解压新版后双击 `Launch-PBZMC.cmd` 即可。缓存缺失时，安装器也会检查游戏中已安装的资源副本。
+
+在另一台电脑首次离线安装时，先从自己已装好模组的电脑完整复制 `PBZMC/cache/runtime-assets` 到目标游戏目录的相同位置，再解压免下载版并启动。安装器按包内固定清单核对全部 3172 项资源。无法找到完整的匹配资源时会停止并提示，不会联网下载工具或素材。没有准备过资源的玩家请选标准包。
+
 ## 中国大陆网络与下载失败
 
 双击启动脚本即可使用以下线路，无需另装下载工具或手动替换资源：
@@ -50,7 +56,7 @@ $env:PBZMC_DOWNLOAD_SOURCE='official'
 
 关闭这个 PowerShell 窗口即可恢复默认镜像策略。若本机代理配置失效，可在同一窗口设置 `$env:PBZMC_DOWNLOAD_PROXY='direct'` 后重试；这仅对本次启动有效，不改变系统代理设置。
 
-Release 页面无法下载时，可使用 README 中的两个备用入口；对应[校验文件](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.3/SHA256SUMS.txt)与原 Release 一致。可用 `Get-FileHash .\PBZMC-0.1.0-alpha.3-win64.zip -Algorithm SHA256` 核对。gh-proxy.com 的发行包入口已通过大陆三大运营商节点的 Range 抽查，完整下载哈希也与 GitHub 相同；ghfast 在部分移动节点出现超时，因此作为第二备用入口。
+Release 页面无法下载时，可以使用 README 的备用入口或 [Nexus 文件页](https://www.nexusmods.com/phantombladezero/mods/374?tab=files)。运行 `Get-FileHash .\PBZMC-0.1.0-alpha.4-win64*.zip -Algorithm SHA256`，按文件名与本次发行的 [SHA256SUMS.txt](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.4/SHA256SUMS.txt) 核对。
 
 alpha.3 已从空缓存完整下载并校验 4 个工具包和 166 个不同的资源输入，生成的 3172 个运行资源逐个匹配固定哈希；该完整下载在关闭进程代理的日本出口完成。另通过 Globalping 的中国大陆电信、联通、移动节点进行 HTTPS Range 下载抽查，确认各类资源至少有一条可用线路，并据此将 Bedrock 切到 Gcore、FFmpeg 原站优先。节点抽查不等于每个地区的完整安装测试，第三方线路也不能保证永久可用。
 

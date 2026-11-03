@@ -34,8 +34,12 @@ function M:set_inventory(value)
   self.enabled=not value
 end
 function M:hide()
-  if identity.matches(self.canvas,self.canvas_id) then self.canvas:SetVisibility(1) end
-  if self.native then self.native:release() end
+  self.base_paint=nil
+  if self.paint_visible~=false then
+    if identity.matches(self.canvas,self.canvas_id) then self.canvas:SetVisibility(1) end
+    if self.native then self.native:release() end
+    self.paint_visible=false
+  end
 end
 function M:tick()
   if not self.ui:valid() then self:close();return end
@@ -44,11 +48,12 @@ function M:tick()
   if self.ui.visibility_reason then self:hide();self.report.visible=false;return end
   local lifecycle=require('host.pbz.appearance_lifecycle').get();local binding=lifecycle and lifecycle:current()
   if not binding or not binding:is_current() then self:hide();self.reader=nil;self.binding=nil;return end
-  local now=StaticFindObject('/Script/Engine.Default__GameplayStatics'):GetTimeSeconds(binding.actor)
-  local real_time=StaticFindObject('/Script/Engine.Default__GameplayStatics'):GetRealTimeSeconds(binding.actor)
+  self.clock=self.clock or StaticFindObject('/Script/Engine.Default__GameplayStatics')
+  local now=self.clock:GetTimeSeconds(binding.actor)
+  local real_time=self.clock:GetRealTimeSeconds(binding.actor)
   if self.binding~=binding then
     self:hide();self.binding=binding;self.epoch=self.epoch+1;self.read_tick=nil
-    self.reader=assert(require('host.pbz.player_vitals').new(binding,require('UEHelpers').GetPlayerController(),self.epoch))
+    self.reader=assert(require('host.pbz.player_vitals').new(binding,require('host.pbz.local_player').controller(),self.epoch))
     self.native=require('host.pbz.native_player_status_visibility').new(binding)
     self.animation=hearts.new()
     self.selected_name=require('presentation.selected_item_name').new()
@@ -77,31 +82,48 @@ function M:tick()
   if camera and camera:native_takeover() then self:hide();return end
   local scale=self.ui.layout.scale;local view=self.ui.viewport;local dpi=self.ui.dpi
   local left=math.floor((view.width-182*scale)/2);local top=view.height-(30+17)*scale
-  local draw=self.inventory and service and require('presentation.status_effect_ui').draw(service.value,self.ui.assets,self.ui.layout)
-    or (self.inventory or binding.mc_creative) and {} or hearts.draw(frame,self.ui.assets.player_status,left,top,scale)
+  local draw=self.inventory and service and require('presentation.status_effect_ui').draw(service.value,self.ui.assets,self.ui.layout) or {}
   local campaign=require('host.pbz.campaign_inventory')
-  local containers=campaign.view(binding)
+  local session=campaign.ensure(binding)
+  local containers=require('runtime.hotbar_selection').view(session.store)
   local armor=require('host.pbz.armor_state').get(containers.player.armor)
   self.report.armor_points=armor.points;self.report.armor_toughness=armor.toughness
-  local armor_top
+  local armor_top,base_count,skip_base=nil,0,false
   if not self.inventory and not binding.mc_creative then
     local armor_ui=require('presentation.armor_hud')
-    local armor_draw=armor_ui.draw(armor.hud_points,frame.gold,self.ui.assets.player_status,left,top,scale)
-    for _,entry in ipairs(armor_draw)do draw[#draw+1]=entry end
-    if #armor_draw>0 then armor_top=armor_ui.row_top(frame.gold,top,scale)end
-  end
+    local phase=frame.low and frame.tick or frame.regenerating and frame.tick%25 or -1
+    local previous=frame.blinking and frame.previous or 0
+    local sprites=self.ui.assets.player_status
+    local base=self.base_paint
+    skip_base=base and base.left==left and base.top==top and base.scale==scale and base.dpi==dpi and base.sprites==sprites
+      and base.units==frame.units and base.gold==frame.gold and base.previous==previous and base.blinking==frame.blinking
+      and base.kind==frame.kind and base.phase==phase and base.regenerating==frame.regenerating and base.armor==armor.hud_points
+    if not skip_base then
+      draw=hearts.draw(frame,sprites,left,top,scale)
+      local armor_draw=armor_ui.draw(armor.hud_points,frame.gold,sprites,left,top,scale)
+      for _,entry in ipairs(armor_draw)do draw[#draw+1]=entry end
+      base={left=left,top=top,scale=scale,dpi=dpi,sprites=sprites,units=frame.units,gold=frame.gold,
+        previous=previous,blinking=frame.blinking,kind=frame.kind,phase=phase,regenerating=frame.regenerating,
+        armor=armor.hud_points,count=#draw}
+      self.base_paint=base
+    end
+    if skip_base then base_count=base.count end
+    if armor.hud_points>0 then armor_top=armor_ui.row_top(frame.gold,top,scale)end
+  else self.base_paint=nil end
   local extra=require('presentation.status_hud').draw(service and service.value,self.ui.assets,self.ui.layout,view,self.inventory,
     containers,not binding.mc_creative and snapshot.stamina/snapshot.max_stamina or nil,activation,now,self.ui.enchanted_icons,real_time)
   for _,entry in ipairs(extra) do draw[#draw+1]=entry end
   if not self.inventory then
-    local session=campaign.ensure(binding);local sync=session.native_slot_sync
+    local sync=session.native_slot_sync
     local title=self.selected_name:update(containers,self.ui.assets,sync and sync.snapshot,session.epoch,now,view,scale,armor_top)
     for _,entry in ipairs(title)do draw[#draw+1]=entry end
     self.report.selected_name=self.selected_name.report
   end
-  for index,entry in ipairs(draw) do
+  for offset,entry in ipairs(draw) do
+    local index=base_count+offset
     local row=self.images[index]
-    if not row or not identity.matches(row.image,row.id) then
+    -- The owned clip keeps its single image alive until this HUD is closed.
+    if not row or not row.image:IsValid() then
       local image=StaticConstructObject(StaticFindObject('/Script/UMG.Image'),self.ui.tree)
       local clip=StaticConstructObject(StaticFindObject('/Script/UMG.CanvasPanel'),self.ui.tree)
       assert(valid(image) and valid(clip),'health-image-required');self.canvas:AddChildToCanvas(clip)
@@ -129,11 +151,13 @@ function M:tick()
     end
     self.cache[index]={shown=true,texture=entry.texture,x=entry.x,y=entry.y,w=entry.w,h=entry.h,color=color,dpi=dpi,region=region,z=z}
   end
-  for i=#draw+1,#self.images do
+  local total=base_count+#draw
+  for i=total+1,#self.images do
     local row=self.images[i]
     if self.cache[i] and self.cache[i].shown and identity.matches(row.image,row.id) then row.clip:SetVisibility(1);self.cache[i].shown=false end
   end
-  self.canvas:SetVisibility(3);self.report.visible=true;self.report.images=#draw
+  if not self.paint_visible then self.canvas:SetVisibility(3);self.paint_visible=true end
+  self.report.visible=true;self.report.images=total
   if self.native then self.native:apply(now) end
   self.report.gold=frame.gold;self.report.inventory=self.inventory
   self.report.peak_ms=math.max(self.report.peak_ms,(os.clock()-start)*1000)

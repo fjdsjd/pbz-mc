@@ -10,7 +10,6 @@ function M.apply(session,changes,options)
   if #changes>128 then return false,'batch-too-large' end
   local host,store=session.host,session.store
   if not host:is_current() then return false,'stale-scene' end
-  local candidate=copy(session.data);candidate.buildings=copy(session.data.buildings)
   local ids,ignored,prepared={},{},{}
   for _,change in ipairs(changes)do
     local before,after=change.before,change.after
@@ -26,35 +25,24 @@ function M.apply(session,changes,options)
       if not pcall(properties.validate,after.properties)then return false,'invalid-batch-properties' end
       after=copy(after);after.properties=properties.copy(after.properties)
     end
-    candidate.buildings[id]=after
     prepared[#prepared+1]={before=before,after=after,id=id,handle=session.handles[id]}
   end
+  local index=require('rules.build_occupancy').for_session(session)
+  local delta,reason=index:delta(prepared)
+  if not delta then return false,reason end
+  local candidate=copy(session.data);candidate.buildings=copy(session.data.buildings)
+  for _,row in ipairs(prepared)do candidate.buildings[row.id]=row.after end
   if options.grid then
     candidate.building_grids=copy(candidate.building_grids);candidate.building_grids[session.world]=copy(options.grid)
   end
-  local prior_counts,counts,limits,total={},{},{},0
-  for _,r in pairs(session.data.buildings)do if r.world==session.world then
-    local d=session.registry.get(r.content_id);if d then local g=d.group or 'block';prior_counts[g]=(prior_counts[g]or 0)+1 end
-  end end
-  local occupied={}
-  for _,r in pairs(candidate.buildings)do
-    total=total+1
-    if r.world==session.world then
-      local d=session.registry.get(r.content_id)
-      if d then local g=d.group or 'block';counts[g]=(counts[g]or 0)+1;limits[g]=math.min(limits[g]or math.huge,d.limit or 1024)end
-      local key=r.x..':'..r.y..':'..r.z
-      if occupied[key]and (ids[r.id]or ids[occupied[key]])then return false,'batch-grid-occupied'end
-      occupied[key]=r.id
-    end
-  end
-  for g,n in pairs(counts)do if n>(limits[g]or 1024)and n>(prior_counts[g]or 0)then return false,'building-capacity'end end
-  if total>8192 then return false,'world-building-capacity'end
   local generation=session.generation;session.busy=true
   local attempted,created={},{ }
   local ok,why=pcall(function()
+    local clear=options.animate and options.native_solid and host.piston_destinations_clear
+      and host:piston_destinations_clear(prepared,options.piston_rider)
     for _,row in ipairs(prepared)do
       if row.after and (not row.before or row.before.content_id~=row.after.content_id or row.before.x~=row.after.x or row.before.y~=row.after.y or row.before.z~=row.after.z)then
-        local yes,reason=host:can_place(row.after,ignored,options)
+        local yes,reason=host:can_place(row.after,ignored,options,clear)
         assert(yes,reason or 'batch-space-occupied')
       end
     end
@@ -93,15 +81,16 @@ function M.apply(session,changes,options)
     session.busy=false;return false,tostring(why)
   end
   session.data=candidate;session.grid=candidate.building_grids and candidate.building_grids[session.world] or session.grid
+  index:publish(delta,candidate.buildings)
   local retired={}
   for _,row in ipairs(prepared)do
     session.handles[row.id]=row.after and (row.handle or row.created) or nil
     if not row.after and row.handle then retired[#retired+1]=row.handle end
   end
   session.busy=false
-  if session.notify then session:notify(prepared)end
+  if session.notify then session:notify(prepared,options)end
   for _,h in ipairs(retired)do
-    local clean,done=pcall(host.destroy,host,h)
+    local clean,done=pcall(host.retire or host.destroy,host,h)
     if not clean or not done then session.pending_group=session.pending_group or {};session.pending_group[#session.pending_group+1]=h end
   end
   if session.pending_group then session.group_action='destroy';session.quarantined=true end

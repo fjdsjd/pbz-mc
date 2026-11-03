@@ -4,6 +4,8 @@
 local M={id='pbzmc:tnt',tick_seconds=.05,fuse_seconds=4,sweep_radius=48,
   blast_radius=800,fire_seconds=8,fire_interval=.5,fire_radius=110,fire_coefficient=.18}
 local blocks=require('content.blocks')
+local flow=require('rules.fluid_flow')
+local half_height=49 -- PrimedTnt is .98 blocks tall; positions here are mesh centres.
 local EPS=1e-9
 local function finite(n)return type(n)=='number' and n==n and math.abs(n)<math.huge end
 local function position(p)
@@ -43,7 +45,7 @@ function M.visual(left)
   local flash=math.floor(math.ceil(math.max(0,left)*20)/5)%2
   return {scale=1+pulse^4*.3,flash=flash,white=flash==0}
 end
-function M.advance(state,dt,sweep)
+function M.advance(state,dt,sweep,water_current)
   assert(finite(dt) and dt>=0,'invalid-tnt-delta')
   assert(sweep==nil or type(sweep)=='function','invalid-tnt-sweep')
   local output={exploded=false,steps=0,smoke={}}
@@ -58,7 +60,7 @@ function M.advance(state,dt,sweep)
   local age=math.min(state.fuse,state.age+dt)
   local ticks=math.floor((age+EPS)/M.tick_seconds)
   local x,y,z,vx,vy,vz=state.x,state.y,state.z,state.vx,state.vy,state.vz
-  for _=state.ticks+1,ticks do
+  for tick=state.ticks+1,ticks do
     vz=vz-80
     local destination={x=x+vx*M.tick_seconds,y=y+vy*M.tick_seconds,z=z+vz*M.tick_seconds}
     local hit=sweep and sweep({x=x,y=y,z=z},destination,M.sweep_radius) or nil
@@ -68,8 +70,18 @@ function M.advance(state,dt,sweep)
       local norm=math.sqrt(hit.nx^2+hit.ny^2+hit.nz^2)
       assert(norm>EPS,'invalid-tnt-normal')
       local nx,ny,nz=hit.nx/norm,hit.ny/norm,hit.nz/norm
+      local intended=destination
       destination={x=hit.x,y=hit.y,z=hit.z}
-      if nz>.5 then vx=vx*.7;vy=vy*.7;vz=vz*-.5
+      if nz>.5 then
+        -- A downward sweep from resting TNT can hit the floor at time zero.
+        -- Consume the remaining horizontal travel, still sweeping for walls.
+        if math.abs(intended.x-hit.x)+math.abs(intended.y-hit.y)>.01 then
+          local slide={x=intended.x,y=intended.y,z=hit.z}
+          local wall=sweep(destination,slide,M.sweep_radius)
+          if wall then position(wall);slide={x=wall.x,y=wall.y,z=wall.z}end
+          destination=slide
+        end
+        vx=vx*.7;vy=vy*.7;vz=vz*-.5
       else
         local dot=vx*nx+vy*ny+vz*nz
         vx=vx-2*dot*nx;vy=vy-2*dot*ny;vz=vz-2*dot*nz
@@ -77,6 +89,13 @@ function M.advance(state,dt,sweep)
     end
     x,y,z=destination.x,destination.y,destination.z
     vx,vy,vz=vx*.98,vy*.98,vz*.98
+    if water_current and tick*M.tick_seconds<state.fuse-EPS then
+      local current=water_current(x,y,z,half_height)
+      if current then
+        local push=flow.impulse(current,'water',{X=vx,Y=vy,Z=vz},false)
+        vx,vy,vz=vx+push.X,vy+push.Y,vz+push.Z
+      end
+    end
     output.smoke[#output.smoke+1]={x=x,y=y,z=z+50}
   end
   -- Commit only after every sweep result has validated. Invalid adapter data
@@ -91,6 +110,20 @@ function M.advance(state,dt,sweep)
   local visual=M.visual(output.left)
   output.scale,output.flash,output.white=visual.scale,visual.flash,visual.white
   return output
+end
+function M.explosion_origin(state)
+  return {x=state.x,y=state.y,z=state.z-half_height+2*half_height*.0625}
+end
+-- Explosion.collectBlocksAndDamageEntities uses a TNT target's feet for both
+-- the direction and the distance. The existing trajectory and fuse survive.
+function M.push_primed(state,origin,exposure)
+  if state.exploded or not state.primed or exposure<=0 then return false end
+  local x,y,z=state.x-origin.x,state.y-origin.y,state.z-half_height-origin.z
+  local distance=math.sqrt(x*x+y*y+z*z)
+  if distance<EPS or distance>=M.blast_radius then return false end
+  local scale=(1-distance/M.blast_radius)*exposure*flow.velocity_scale/distance
+  state.vx,state.vy,state.vz=state.vx+x*scale,state.vy+y*scale,state.vz+z*scale
+  return true
 end
 function M.blast(distance,clear)
   distance_valid(distance)

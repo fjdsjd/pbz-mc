@@ -17,7 +17,7 @@ function M.new(log)
  return setmetatable({log=log or function()end,huds={},movies={},scans=0},M)
 end
 function M:watch_movie()
- if self.hook or self.hook_failed or type(RegisterHook)~='function'then return end
+ if self.hook or self.hook_failed or type(RegisterHook)~='function'then return true end
  local fn=StaticFindObject(movie_path)
  if not valid(fn)then return end -- The class may load only in a later chapter.
  local ok,pre,post=pcall(RegisterHook,movie_path,function(context)
@@ -31,22 +31,32 @@ function M:watch_movie()
  end)
  if ok then self.hook={pre,post}
  else self.hook_failed=true;self.log('movie HUD visibility uses cached polling: '..tostring(pre))end
+ return true
+end
+local function collect(kind,rows,binding)
+ for _,object in ipairs(FindAllOf(kind)or{})do
+  if valid(object)and object:GetFullName():find('/Engine/Transient.',1,true)
+     and identity.matches(object:GetWorld(),binding.world_id)then rows[object:GetAddress()]=entry(object)end
+ end
 end
 function M:reason(binding,now)
  if not binding or binding.closing or not binding:is_current()then self.binding=nil;return 'no-current-player'end
  if self.binding~=binding then
   self.binding=binding;self.huds={};self.movies={};self.had_hud=false;self.next_scan=nil
+  self.next_hud=nil;self.movie_seeded=false;self.next_movie_lookup=nil;self.hud_painted=false
  end
  if not self.next_scan or now>=self.next_scan then
   self.next_scan=now+.25;self.scans=self.scans+1
-  self:watch_movie()
-  for _,pair in ipairs({{'W_FrontEndHUDLayout_C',self.huds},{'WBP_FlowVideo_C',self.movies}})do
-   for _,object in ipairs(FindAllOf(pair[1])or{})do
-    if valid(object)and object:GetFullName():find('/Engine/Transient.',1,true)
-      and identity.matches(object:GetWorld(),binding.world_id)then pair[2][object:GetAddress()]=entry(object)end
-   end
+  if not self.hud_painted or not self.next_hud or now>=self.next_hud then
+   collect('W_FrontEndHUDLayout_C',self.huds,binding);self.next_hud=now+3
+  end
+  if (not self.hook or not self.movie_seeded) and (not self.next_movie_lookup or now>=self.next_movie_lookup) then
+   if self:watch_movie()then
+    collect('WBP_FlowVideo_C',self.movies,binding);self.movie_seeded=true
+   else self.next_movie_lookup=now+.5 end
   end
  end
+ self.hud_painted=false
  for key,row in pairs(self.movies)do
   if not current(row,binding)then self.movies[key]=nil
   elseif row.object:IsActivated()then return 'native-flow-video'end
@@ -61,7 +71,7 @@ function M:reason(binding,now)
    -- our health HUD intentionally hides those, and PBZ also fades them idle.
    local tree=widget.WidgetTree
    if widget:IsActivated()and painted(widget)and valid(tree)and painted(tree.RootWidget)then
-    self.had_hud=true;return nil
+    self.had_hud=true;self.hud_painted=true;return nil
    end
   end
  end

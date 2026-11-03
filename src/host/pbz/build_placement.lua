@@ -1,6 +1,7 @@
 -- Production placement entry, shared by normal input and developer observation.
 local registry=require('content.blocks')
 local grid=require('rules.build_grid')
+local geometry=require('rules.placement_geometry')
 local M={}
 function M.target(self,aim,ignore_boats)
   if not self.store:current() or not self.world:is_current() then return end
@@ -40,7 +41,17 @@ function M.place(self,id,aim)
   local position=M.position(self,hit,handle)
   -- Thin devices, doors and poured fluids sit above native supports. Full
   -- blocks retain the user's terrain-intersection layer.
-  if definition.mechanism and not definition.full_cube and not handle and hit.ImpactNormal.Z>.5 then
+  local normal=hit.ImpactNormal
+  local face_axis=definition.mechanism=='torch' and not handle and geometry.face_axis(normal.X,normal.Y,normal.Z)
+  if face_axis and face_axis~=2 then
+    local axis=face_axis==0 and 'x' or 'y'
+    local impact=face_axis==0 and hit.ImpactPoint.X or hit.ImpactPoint.Y
+    local sign=(face_axis==0 and normal.X or normal.Y)<0 and -1 or 1
+    local inside=sign*impact+50
+    position[axis]=sign*(self.session.grid and grid.above(inside,sign*self.session.grid[axis]) or inside)
+    local inset=math.floor(sign*position[axis]-inside+.5)
+    if inset>0 then position.wall_inset=inset end
+  elseif definition.mechanism and not definition.full_cube and not handle and normal.Z>.5 then
     if not self.session.grid then position.z=hit.ImpactPoint.Z+50
     elseif position.z-50<hit.ImpactPoint.Z-.5 then position.z=position.z+math.ceil((hit.ImpactPoint.Z+50-position.z)/100-1e-6)*100 end
   end
@@ -76,7 +87,7 @@ function M.place(self,id,aim)
     self.log('building placed '..id..' '..why..' terrain-overlaps='..tostring(check.terrain or 0))
     if not definition.fluid then
       if definition.mechanism then self.mechanisms:sound((definition.sound_group or 'stone')..'_place',self.session.data.buildings[why])
-      else self.audio:play('place',self.session.data.buildings[why],require('UEHelpers').GetPlayerController())end
+      else self.audio:play('place',self.session.data.buildings[why],require('host.pbz.local_player').controller())end
     end
   end
   return ok,ok and 'success' or 'fail'

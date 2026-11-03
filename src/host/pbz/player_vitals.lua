@@ -73,17 +73,13 @@ function M.new(binding,controller,epoch)
     assert(asc and asc:IsValid() and asc:IsA(classes.pbz_asc),'vitals-asc-required')
     assert(attributes and attributes:IsValid() and attributes:IsA(classes.attributes),'vitals-attributes-required')
     local self={epoch=epoch,binding=binding,controller=controller,player=player,actor=actor,
-      asc=asc,attributes=attributes,classes=classes,class_ids={}}
-    for key,class in pairs(classes) do self.class_ids[key]=identity.capture(class) end
+      asc=asc,attributes=attributes}
     for _,key in ipairs({'controller','player','actor','asc','attributes'}) do
       self[key..'_id']=identity.capture(self[key])
     end
     function self:check(expected_epoch)
       assert(expected_epoch==self.epoch and epoch_valid(expected_epoch),'vitals-stale-epoch')
       assert(self.binding:is_current(),'vitals-stale-binding')
-      for key,class in pairs(self.classes) do
-        assert(identity.matches(class,self.class_ids[key]),'vitals-stale-class:'..key)
-      end
       for _,key in ipairs({'controller','player','actor','asc','attributes'}) do
         assert(identity.matches(self[key],self[key..'_id']),'vitals-stale-object:'..key)
       end
@@ -112,7 +108,10 @@ function M.new(binding,controller,epoch)
         local stamina=current_value(self.attributes,'Shachi');local max_stamina=current_value(self.attributes,'Shachi_Max')
         assert(max_hp>0,'vitals-invalid-maximum')
         assert(max_stamina>0,'vitals-invalid-stamina-maximum')
-        self:check(expected_epoch)
+        -- These are four synchronous reads from the same reflected set on
+        -- the game thread. Recheck the owner without walking the ASC twice.
+        assert(identity.matches(self.controller.Pawn,self.actor_id) and
+          identity.matches(self.actor.AttributeSetBase,self.attributes_id),'vitals-owner-changed')
         -- Native Shield semantics are unverified. Unknown armor/absorption
         -- stay absent; never translate them to zero or fake a complete HUD.
         return {epoch=self.epoch,health_authoritative=true,hp=hp,max_hp=max_hp,

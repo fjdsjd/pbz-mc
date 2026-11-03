@@ -87,6 +87,22 @@ function Expand-Safe([string]$Archive,[string]$Destination) {
 function Prepare-Resources {
     $result=Join-Path $PSScriptRoot 'cache/runtime-assets'
     $ready=Join-Path $result 'ready.json'
+    if ($manifest.package_kind -eq 'offline-cache') {
+        $receipt=Join-Path $PSScriptRoot 'offline-resources.json'
+        if ((Hash $receipt) -ne $manifest.resource_receipt_sha256) { throw 'Damaged offline package resource list.' }
+        $record=Get-Content -LiteralPath $receipt -Raw | ConvertFrom-Json
+        if ($record.release -ne $manifest.version -or $record.recipe -ne $manifest.asset_recipe_sha256) { throw 'Incompatible offline resource list.' }
+        foreach ($candidate in @($result,(Resolve-Child $root $assetsRelative))) {
+            if (-not (Test-Path -LiteralPath $candidate -PathType Container)) { continue }
+            $complete=$true
+            foreach ($entry in $record.files) {
+                $path=Resolve-Child $candidate $entry.path
+                if (-not [IO.File]::Exists($path) -or (Hash $path) -ne $entry.sha256) { $complete=$false;break }
+            }
+            if ($complete) { Write-Host "Using verified local resources from $candidate";return $candidate }
+        }
+        throw 'A complete matching resource set is required. Copy your prepared PBZMC/cache/runtime-assets into this game root or use the standard installer on a connected PC. No download was attempted.'
+    }
     if ($manifest.package_kind -eq 'offline') {
         if (-not (Test-Path -LiteralPath $ready) -or (Hash $ready) -ne $manifest.resource_receipt_sha256) {
             throw 'Offline resource manifest is missing or damaged. Extract the complete offline archive again; no download will be attempted.'
@@ -206,13 +222,14 @@ try {
         }
         $backup=Backup-Saves
         $resources=Prepare-Resources
-        $resourceManifest=Get-Content -LiteralPath (Join-Path $resources 'ready.json') -Raw | ConvertFrom-Json
+        $resourceReceipt=if ($manifest.package_kind -eq 'offline-cache') { Join-Path $PSScriptRoot 'offline-resources.json' } else { Join-Path $resources 'ready.json' }
+        $resourceManifest=Get-Content -LiteralPath $resourceReceipt -Raw | ConvertFrom-Json
         $files=@();$written=@()
         try {
             # The loader proxy is copied last, after code and resources succeed.
             $entries=@($manifest.files|Where-Object path -ne 'platform/steam/dwmapi.dll')
             $entries+=@($resourceManifest.files|ForEach-Object {[pscustomobject]@{path=$assetsRelative+'/'+$_.path;sha256=$_.sha256;resource=$_.path}})
-            $entries+=@([pscustomobject]@{path=$assetsRelative+'/ready.json';sha256=(Hash (Join-Path $resources 'ready.json'));resource='ready.json'})
+            $entries+=@([pscustomobject]@{path=$assetsRelative+'/ready.json';sha256=(Hash $resourceReceipt);resource='ready.json'})
             $entries+=@($manifest.files|Where-Object path -eq 'platform/steam/dwmapi.dll')
             $newPaths=@{};foreach ($entry in $entries) { $newPaths[$entry.path]=$true }
             # Retain ownership of earlier-version files until explicit uninstall.
@@ -237,7 +254,7 @@ try {
             }
             foreach ($entry in $entries) {
                 $to=Resolve-Child $root $entry.path
-                $source=if ($entry.PSObject.Properties.Name -contains 'resource') { Resolve-Child $resources $entry.resource } else { Resolve-Child (Join-Path $PSScriptRoot 'payload') $entry.path }
+                $source=if ($entry.resource -eq 'ready.json') { $resourceReceipt } elseif ($entry.PSObject.Properties.Name -contains 'resource') { Resolve-Child $resources $entry.resource } else { Resolve-Child (Join-Path $PSScriptRoot 'payload') $entry.path }
                 if ((Hash $source) -ne $entry.sha256) { throw 'Install source changed.' }
                 if (Test-Path -LiteralPath $to) {
                     if ((Hash $to) -eq $entry.sha256) {

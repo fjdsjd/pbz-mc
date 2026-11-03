@@ -46,6 +46,7 @@ function Service:near(p,radius)
 end
 function Service:sleep(boat,reason,why)
   local first=boat.dormant_reason~=reason or boat.simulation_error~=why
+  if not first then return end
   boat.dormant_reason=reason;boat.simulation_error=why
   local s=boat.state;s.vx=0;s.vy=0;s.vz=0;s.delta_yaw=0
   s.paddling={left=false,right=false};boat.animated=false;boat.surface=nil
@@ -204,7 +205,7 @@ function Service:release(boat,rider,reason,exit)
   self:report('released',reason..' '..boat.handle.id);return true
 end
 function Service:interact(aim)
-  if not self:current() then return false end
+  if not next(self.boats) or not self:current() then return false end
   local handle=self.world:target(aim,500);if not handle then return false end
   if self.driver then return false end
   local boat=self.boats[handle.id];if not boat then return false end
@@ -246,7 +247,7 @@ function Service:remove(boat,reason)
   return true
 end
 function Service:attack(record,aim)
-  if not self:current() then return false,false end
+  if not next(self.boats) or not self:current() then return false,false end
   local handle=self.world:target(aim,500);local boat=handle and self.boats[handle.id]
   if not boat then return false,false end
   if self.driver==boat then return true,false end -- A rider cannot hit its vehicle.
@@ -285,53 +286,64 @@ function Service:input_batch(batch,allowed,group,data)
   end
   self.previous_keys=keys;self.previous_buttons=buttons
 end
+local function capture_candidate(self,actor,region,now)
+  if not valid(actor) or identity.matches(actor,self.binding.actor_id) or not identity.matches(actor:GetWorld(),self.binding.world_id)then return end
+  local p=actor:K2_GetActorLocation()
+  if not p or not finite(p.X)or not finite(p.Y)or not finite(p.Z)then return end
+  local rider=key(actor)
+  if self.passengers[rider] or (self.released[rider]or 0)>now or not alive(actor) or not actor.bCanBeDamaged then return end
+  local capsule=actor.CapsuleComponent;if not valid(capsule)then return end
+  local half,radius=capsule:GetScaledCapsuleHalfHeight(),capsule:GetScaledCapsuleRadius()
+  self.faction=self.faction or StaticFindObject('/Script/SGameCombatSystem.Default__FactionUtils')
+  if not valid(self.faction) or self.faction:GetFactionRelation(self.binding.actor,actor)~=2 then return end
+  for _,boat in ipairs(region)do
+    local s=boat.state;local dx,dy=p.X-s.x,p.Y-s.y
+    if self.boats[boat.handle.id]==boat and not boat.dormant_reason and not s.destroyed and not boat.retired
+        and #s.riders<2 and dx*dx+dy*dy<=220*220 then
+      local angle=math.rad(s.yaw)
+      local x=dx*math.cos(angle)+dy*math.sin(angle);local y=-dx*math.sin(angle)+dy*math.cos(angle)
+      if math.abs(x)<=95+radius and math.abs(y)<=65+radius
+          and p.Z-half<=s.z+56.25 and p.Z+half>=s.z then return boat,rider end
+    end
+  end
+end
 function Service:scan(now)
-  -- Index boats in Lua, then read each native character only once per pass.
-  -- The old boat x all-characters loop repeated UObject/world/location calls
-  -- for every distant boat, producing periodic spikes even with empty seats.
-  local cells={};local available=false
-  for _,boat in pairs(self.boats)do
-    if not boat.dormant_reason and not boat.state.destroyed and not boat.retired and #boat.state.riders<2 then
-      local s=boat.state;local cell=math.floor(s.x/440)..':'..math.floor(s.y/440)
-      cells[cell]=cells[cell]or {};cells[cell][#cells[cell]+1]=boat;available=true
-    end
-  end
-  if not available then self.enemies=nil;return end
-  if not self.enemies or now>=(self.scan_at or 0)then self.enemies=FindAllOf('PBZCharacter')or {};self.scan_at=now+1 end
-  local faction=StaticFindObject('/Script/SGameCombatSystem.Default__FactionUtils')
-  if not valid(faction)then return end
-  for _,actor in ipairs(self.enemies or {})do
-    local ok,candidate=pcall(function()
-      if not valid(actor) or identity.matches(actor,self.binding.actor_id)then return end
-      local p=actor:K2_GetActorLocation()
-      if not p or not finite(p.X)or not finite(p.Y)or not finite(p.Z)then return end
-      local cx,cy=math.floor(p.X/440),math.floor(p.Y/440);local nearby={}
-      for x=cx-1,cx+1 do for y=cy-1,cy+1 do
-        for _,boat in ipairs(cells[x..':'..y]or {})do
-          local dx,dy=p.X-boat.state.x,p.Y-boat.state.y
-          if #boat.state.riders<2 and dx*dx+dy*dy<=220*220 then nearby[#nearby+1]=boat end
+  local regions=self.capture_regions
+  if not regions then
+    regions={};local by_cell={}
+    for _,boat in pairs(self.boats)do
+      local s=boat.state
+      if not boat.dormant_reason and not s.destroyed and not boat.retired and #s.riders<2 then
+        local cell=math.floor(s.x/800)..':'..math.floor(s.y/800)..':'..math.floor(s.z/400)
+        local region=by_cell[cell]
+        if not region then
+          region={x0=s.x,x1=s.x,y0=s.y,y1=s.y,z0=s.z,z1=s.z};by_cell[cell]=region;regions[#regions+1]=region
         end
-      end end
-      if #nearby==0 or not identity.matches(actor:GetWorld(),self.binding.world_id)then return end
-      local rider=key(actor)
-      if self.passengers[rider] or (self.released[rider]or 0)>now or not alive(actor) or not actor.bCanBeDamaged then return end
-      local capsule=actor.CapsuleComponent;if not valid(capsule)then return end
-      local half,radius=capsule:GetScaledCapsuleHalfHeight(),capsule:GetScaledCapsuleRadius()
-      if faction:GetFactionRelation(self.binding.actor,actor)~=2 then return end
-      for _,boat in ipairs(nearby)do
-        local dx,dy=p.X-boat.state.x,p.Y-boat.state.y;local angle=math.rad(boat.state.yaw)
-        local x=dx*math.cos(angle)+dy*math.sin(angle);local y=-dx*math.sin(angle)+dy*math.cos(angle)
-        if math.abs(x)<=95+radius and math.abs(y)<=65+radius
-            and p.Z-half<=boat.state.z+56.25 and p.Z+half>=boat.state.z then return {boat=boat,key=rider}end
+        region.x0=math.min(region.x0,s.x);region.x1=math.max(region.x1,s.x)
+        region.y0=math.min(region.y0,s.y);region.y1=math.max(region.y1,s.y)
+        region.z0=math.min(region.z0,s.z);region.z1=math.max(region.z1,s.z)
+        region[#region+1]=boat
       end
-    end)
-    if ok and candidate then
-      if self.world:valid(candidate.boat.handle)then
-        local yes,why=self:capture(candidate.boat,actor,'mob',now)
-        if not yes then self.released[candidate.key]=now+2;self:report('capture-rejected',why)end
-      else candidate.boat.state.destroyed=true;candidate.boat.resting=false end
     end
+    self.capture_regions=regions;self.capture_index=1
   end
+  -- Spread distant groups across frames. Neighbouring hulls share one native
+  -- overlap. Already full, removed or moving hulls are checked at capture time.
+  for i=self.capture_index,math.min(self.capture_index+1,#regions)do
+    local region=regions[i]
+    for _,wrapped in ipairs(self.world:characters_near_boats(region))do
+      local actor=wrapped:get()
+      local ok,boat,rider=pcall(capture_candidate,self,actor,region,now)
+      if ok and boat then
+        if self.world:valid(boat.handle)then
+          local yes,why=self:capture(boat,actor,'mob',now)
+          if not yes then self.released[rider]=now+2;self:report('capture-rejected',why)end
+        else boat.state.destroyed=true;boat.resting=false end
+      end
+    end
+    self.capture_index=i+1
+  end
+  if self.capture_index>#regions then self.capture_regions=nil end
 end
 function Service:pin(boat,now)
   local remove={}
@@ -356,20 +368,62 @@ function Service:external_push_owner(actor)
   local handle=self.world.by_actor and self.world.by_actor[actor:GetAddress()]
   if handle and self.boats[handle.id]and identity.matches(actor,handle.identity)then return handle.actor end
 end
+-- The seat, including equipment attached to its occupant, is not another
+-- piston body. Match a current lease; an empty hull or released mob must
+-- continue through the ordinary collision checks.
+function Service:piston_rider(actor)
+  if not next(self.passengers)then return false end
+  for _=1,5 do
+    if not valid(actor)then return false end
+    local rid=key(actor);local boat=self.passengers[rid]
+    local lease=boat and boat.leases[rid]
+    if lease and not boat.retired and not boat.state.destroyed and lease:is_current()then return true end
+    actor=actor:GetAttachParentActor()
+  end
+  return false
+end
+local function hull_intersects(h,box)
+  local b=h.bounds
+  if b.max.X<=box.min.X or b.min.X>=box.max.X or b.max.Y<=box.min.Y or b.min.Y>=box.max.Y
+      or b.max.Z<=box.min.Z or b.min.Z>=box.max.Z then return false end
+  local hx,hy=(box.max.X-box.min.X)*.5,(box.max.Y-box.min.Y)*.5
+  local dx,dy=box.min.X+hx-h.x,box.min.Y+hy-h.y
+  return math.abs(dx*h.c+dy*h.s)<rules.width*.5+hx*math.abs(h.c)+hy*math.abs(h.s)
+    and math.abs(dy*h.c-dx*h.s)<rules.width*.5+hy*math.abs(h.c)+hx*math.abs(h.s)
+end
 function Service:external_push_candidates(box)
   local out={};if not self:current()then return out end
   assert(box and box.min and box.max,'boat-external-bounds-required')
   for _,boat in pairs(self.boats)do
     if not boat.retired and not boat.dormant_reason and not boat.state.destroyed then
       local p=boat.state;local angle=math.rad(p.yaw)
-      local half=rules.width*.5*(math.abs(math.cos(angle))+math.abs(math.sin(angle)))
+      local c,s=math.cos(angle),math.sin(angle)
+      local radius=rules.width*.5
+      local half=radius*(math.abs(c)+math.abs(s))
       local bounds={min={X=p.x-half,Y=p.y-half,Z=p.z},max={X=p.x+half,Y=p.y+half,Z=p.z+rules.height}}
-      if bounds.max.X>box.min.X and bounds.min.X<box.max.X and bounds.max.Y>box.min.Y
-          and bounds.min.Y<box.max.Y and bounds.max.Z>box.min.Z and bounds.min.Z<box.max.Z
-          and self.world:valid(boat.handle)then out[#out+1]={actor=boat.handle.actor,bounds=bounds}end
+      local h={actor=boat.handle.actor,bounds=bounds,x=p.x,y=p.y,c=c,s=s,intersects=hull_intersects}
+      if h:intersects(box) and self.world:valid(boat.handle)then out[#out+1]=h end
     end
   end
   return out
+end
+function Service:blast(origin,damage)
+  local tnt=require('rules.tnt')
+  local center={X=origin.x,Y=origin.y,Z=origin.z}
+  for _,boat in pairs(self.boats)do
+    local s=boat.state
+    if not boat.retired and not boat.dormant_reason and not s.destroyed then
+      local offset={x=s.x-origin.x,y=s.y-origin.y,z=s.z+rules.height*.5-origin.z}
+      local blast=tnt.blast(math.sqrt(offset.x^2+offset.y^2+offset.z^2))
+      if blast and blast.impulse>0 and self.world:valid(boat.handle) and damage:clear_line(center,
+          {X=s.x,Y=s.y,Z=s.z+rules.height*.5},boat.handle.actor)then
+        local impulse=tnt.knockback(offset,blast.impulse)
+        -- Boat motion is cm per game tick. Its usual swept move carries its seats.
+        s.vx=s.vx+impulse.x/20;s.vy=s.vy+impulse.y/20;s.vz=s.vz+impulse.z/20
+        boat.resting=false
+      end
+    end
+  end
 end
 function Service:external_push_prepare(actor,delta,now,ignore_actors)
   local boat_service=self
@@ -456,6 +510,13 @@ end
 function Service:tick()
   if self.closed then return end
   if self.failed then M.close();return end
+  if not next(self.boats) and #self.pending==0 and not next(self.deferred)
+      and #self.cleanup==0 and not self.dirty and not self.driver then
+    self.last_time=nil;self.capture_regions=nil
+    self.idle_frames=(self.idle_frames or 0)+1
+    if self.idle_frames%30==1 and not self:current()then M.close()end
+    return
+  end
   if not self:current()then M.close();return end
   local game=StaticFindObject('/Script/Engine.Default__GameplayStatics')
   if game:IsGamePaused(self.binding.actor)then self.input={};self.last_time=nil;return end
@@ -536,7 +597,10 @@ function Service:tick()
       if not ok then self:isolate(boat,why)end
     end
   end
-  if now>=(self.capture_at or 0)then self.capture_at=now+.1;self:scan(now)end
+  if self.capture_regions or now>=(self.capture_at or 0)then
+    if not self.capture_regions then self.capture_at=now+.1 end
+    self:scan(now)
+  end
   if self.dirty and self.moved_at and now-self.moved_at>.4 and not self.session.session.opened then self:flush_memory()end
 end
 function Service:state()

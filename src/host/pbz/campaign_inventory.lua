@@ -189,7 +189,7 @@ function M.ensure(binding)
   local snap=snapshot(true)
   if snap.needs_registration then
     local starter_snapshot
-    local ok,reader=pcall(require('host.pbz.native_equipment').new,binding,UE.GetPlayerController(),load_epoch)
+    local ok,reader=pcall(require('host.pbz.native_equipment').new,binding,require('host.pbz.local_player').controller(),load_epoch)
     if ok and reader then
       local read,value=pcall(reader.read,reader,load_epoch)
       if read then starter_snapshot=value end

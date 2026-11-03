@@ -57,17 +57,31 @@ function Native.new(service)
   pawn_class=StaticFindObject('/Script/Engine.Pawn')},Native)
 end
 function Native:current()return self.service.binding:is_current()and self.world:is_current()end
+function Native:is_rider(actor)
+ if not self.boat or not valid(actor)then return false end
+ local key=address(actor);local riders=self.riders
+ if not riders then riders={};self.riders=riders end
+ if riders[key]==nil then riders[key]=self.boat:piston_rider(actor) or false end
+ return riders[key]
+end
 function Native:owner(actor)
  if self.boat and self.boat.external_push_owner then return self.boat:external_push_owner(actor)or actor end
  return actor
 end
-function Native:describe(actor,component)
+function Native:describe(actor)
  if not valid(actor)then return nil end
- local p=copy(actor:K2_GetActorLocation());local row={actor=actor,id=Identity.capture(actor),position=p}
- if self.boat and self.boat.external_push_owner and self.boat:external_push_owner(actor)then
-  return nil -- Added once using the boat owner's body bounds below.
+ local pawn=actor:IsA(self.pawn_class)
+ local root
+ if not pawn then
+  root=actor.RootComponent
+  if not valid(root)or not root:IsA(self.primitive)then return nil end
+  self.no_bone=self.no_bone or FName('None')
+  if not root:IsSimulatingPhysics(self.no_bone)then return nil end
  end
- if actor:IsA(self.pawn_class)then
+ if self:is_rider(actor) or self:owner(actor)~=actor then return nil end
+ if self.boat and self.boat.world.by_actor[actor:GetAddress()]then return nil end
+ local p=copy(actor:K2_GetActorLocation());local row={actor=actor,id=Identity.capture(actor),position=p}
+ if pawn then
   local capsule=actor.CapsuleComponent
   if not valid(capsule)then return nil,'unsupported-pawn-collision'end
   row.radius=capsule:GetScaledCapsuleRadius();row.height=capsule:GetScaledCapsuleHalfHeight()
@@ -75,10 +89,6 @@ function Native:describe(actor,component)
   row.bounds=box(p,v(row.radius,row.radius,row.height));row.kind='character'
   local ok,grounded=pcall(function()return not actor.CharacterMovement:IsFalling()end);row.grounded=ok and grounded
  else
-  local root=actor.RootComponent
-  if not valid(root)or not root:IsA(self.primitive)then return nil end
-  local ok,physics=pcall(function()return root:IsSimulatingPhysics()end)
-  if not ok or not physics then return nil end -- Fixed level props are blockers.
   local bounds_ok,bounds=pcall(function()return root.Bounds end)
   if not bounds_ok or not bounds then return nil,'unsupported-physics-bounds'end
   row.kind='physics';row.component=root;row.offset=minus(copy(bounds.Origin),p)
@@ -86,28 +96,41 @@ function Native:describe(actor,component)
  end
  return row
 end
-function Native:candidates(bounds)
+function Native:query(bounds,allow_fallback)
+ local center,half=centerhalf(bounds)
+ local components=self.world:overlap_components(center,{x=half.X,y=half.Y,z=half.Z})
+ if allow_fallback and #components>M.MAX_COMPONENTS then return nil end
+ assert(#components<=M.MAX_COMPONENTS,'piston-component-budget')
  local rows,seen={},{}
- local function append(actor,component)
+ local function append(actor)
   if not valid(actor)then return end
-  actor=self:owner(actor);local key=address(actor)
+  local key=address(actor)
   if seen[key]then return end;seen[key]=true
-  local row,why=self:describe(actor,component)
+  local row,why=self:describe(actor)
   if why then error(why)end
   if row and overlaps(bounds,row.bounds)then rows[#rows+1]=row end
  end
  append(self.pawn)
- local center,half=centerhalf(bounds)
- local components=self.world:overlap_components(center,{x=half.X,y=half.Y,z=half.Z})
- assert(#components<=M.MAX_COMPONENTS,'piston-component-budget')
  for _,wrapped in ipairs(components)do
   local component=wrapped;if not component.GetFullName then component=component:get()end
-  append(component:GetOwner(),component)
+  append(component:GetOwner())
  end
+ return rows
+end
+function Native:prefetch(bounds)
+ self.nearby=self:query(bounds,true)
+ if self.boat then self.hulls=self.boat:external_push_candidates(bounds)end
+end
+function Native:candidates(bounds)
+ local rows
+ if self.nearby then
+  rows={}
+  for _,row in ipairs(self.nearby)do if overlaps(bounds,row.bounds)then rows[#rows+1]=row end end
+ else rows=self:query(bounds,false)end
  if self.boat and self.boat.external_push_candidates then
-  for _,candidate in ipairs(self.boat:external_push_candidates(bounds))do
+  for _,candidate in ipairs(self.hulls or self.boat:external_push_candidates(bounds))do
    local actor=candidate.actor
-   if valid(actor)then
+   if (not self.hulls or candidate:intersects(bounds)) and valid(actor)then
     local b=candidate.bounds or box(candidate.center,candidate.half)
     rows[#rows+1]={actor=actor,id=Identity.capture(actor),position=copy(actor:K2_GetActorLocation()),
      kind='boat',bounds=b,grounded=true}
@@ -137,12 +160,14 @@ function Native:sweep(row,to,ignored)
     {Pitch=0,Yaw=0,Roll=0},0,false,exclude,0,hit,false,color,color,0)
   end
   if not yes then return true end
-  local handle=self.world:hit_handle(hit)
-  local definition=handle and require('content.blocks').get(handle.content_id or handle.record and handle.record.content_id)
-  if not definition or definition.collision~=false then return false,'piston-entity-sweep-blocked'end
-  -- Fluids/devices retain Visibility selection boxes, but have no physical
-  -- collision. Skipping these explicitly never ignores native map geometry.
-  exclude[#exclude+1]=handle.actor
+  local owner=self:hit_actor(hit)
+  if self:is_rider(owner)then exclude[#exclude+1]=owner
+  else
+   local handle=self.world:hit_handle(hit)
+   local definition=handle and require('content.blocks').get(handle.content_id or handle.record and handle.record.content_id)
+   if not definition or definition.collision~=false then return false,'piston-entity-sweep-blocked'end
+   exclude[#exclude+1]=handle.actor
+  end
  end
  return false,'piston-entity-trace-budget'
 end
@@ -215,18 +240,25 @@ function M.prepare(service,plan,changes,now,adapter)
  if #shapes==0 then return ticket end
  adapter=adapter or Native.new(service)
  if not adapter:current()then return nil,'piston-entity-stale'end
+ if adapter.is_rider then ticket.is_rider=function(actor)return adapter:is_rider(actor)end end
  local axis=delta.X~=0 and 'X'or delta.Y~=0 and 'Y'or 'Z';local positive=delta[axis]>0
  local candidates,byid={},{};local ignored={}
  for _,row in ipairs(changes)do
   local h=row.before and service.session.handles[row.before.id]
   if h then ignored[#ignored+1]=h.actor end
  end
+ local broadphase
  for _,shape in ipairs(shapes)do
   local area=shape.swept
   if shape.kind=='pbzmc:honey_block'and axis~='Z'then
    area=union(area,{min=copy(shape.from.min),max=plus(shape.from.max,v(0,0,50))})
   end
-  for _,row in ipairs(adapter:candidates(area))do
+  shape.area=area
+  broadphase=broadphase and union(broadphase,area) or area
+ end
+ if adapter.prefetch and #shapes>1 then adapter:prefetch(broadphase)end
+ for _,shape in ipairs(shapes)do
+  for _,row in ipairs(adapter:candidates(shape.area))do
    local key=row.id and tostring(row.id.address)..'/'..tostring(row.id.name)or row.actor
    local entry=byid[key]
    if not entry then

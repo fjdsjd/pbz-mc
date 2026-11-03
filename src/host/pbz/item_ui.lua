@@ -80,18 +80,26 @@ local function find_owner()
   end
   error('live-pbz-overlay-unavailable')
 end
-function M.new(asset_path,log)
-  local self={asset_path=asset_path,log=log or function() end,textures={},texture_ids={},texture_refs={},images={},image_ids={},clips={},clip_ids={},draw_cache={}}
+local cached_assets
+local function resource_index(asset_path)
+  if cached_assets and cached_assets.path==asset_path then return cached_assets end
   local file=assert(io.open(asset_path..'/manifest.json','rb'))
   local raw=file:read('*a');file:close()
-  self.assets=assert(require('dkjson').decode(raw))
-  assert(self.assets.schema==1 and self.assets.layout_profile=='java-inventory-176x166-v1','unsupported-ui-asset-layout')
-  self.records={}
-  for _,entry in ipairs(self.assets.outputs) do self.records[entry.path]=entry end
-  M.attach_catalogue_view(self)
-  local font_ok,font_error=pcall(require('presentation.original_mc_font').attach,self.assets,asset_path,self.records)
-  if not font_ok then self.font_error=tostring(font_error);self.log('original font fallback: '..self.font_error)end
+  local assets=assert(require('dkjson').decode(raw))
+  assert(assets.schema==1 and assets.layout_profile=='java-inventory-176x166-v1','unsupported-ui-asset-layout')
+  local records={}
+  for _,entry in ipairs(assets.outputs)do records[entry.path]=entry end
+  local ok,why=pcall(require('presentation.original_mc_font').attach,assets,asset_path,records)
+  cached_assets={path=asset_path,assets=assets,records=records,font_error=not ok and tostring(why)or nil}
+  return cached_assets
+end
+function M.new(asset_path,log)
   local owner,tree,root=find_owner()
+  local index=resource_index(asset_path)
+  local self={asset_path=asset_path,assets=index.assets,records=index.records,font_error=index.font_error,
+    log=log or function() end,textures={},texture_ids={},texture_refs={},images={},image_ids={},clips={},clip_ids={},draw_cache={}}
+  if self.font_error then self.log('original font fallback: '..self.font_error)end
+  M.attach_catalogue_view(self)
   self.owner,self.tree,self.root=owner,tree,root
   self.owner_identity=identity.capture(owner);self.root_identity=identity.capture(root);self.tree_identity=identity.capture(tree)
   self.original_children=root:GetChildrenCount()
@@ -112,11 +120,17 @@ function M.new(asset_path,log)
   end)
   if not ok then pcall(function() self.canvas:RemoveFromParent() end);error(err) end
   function self:valid()
-    return valid(self.owner) and identity.matches(self.owner,self.owner_identity) and self.owner:IsInViewport()
+    local lifecycle=require('host.pbz.appearance_lifecycle').get()
+    if lifecycle and self.valid_tick==lifecycle.ticks then
+      return self.owner:IsValid() and self.canvas:IsValid() and self.owner:IsInViewport()
+    end
+    local current=valid(self.owner) and identity.matches(self.owner,self.owner_identity) and self.owner:IsInViewport()
       and valid(self.tree) and identity.matches(self.owner.WidgetTree,self.tree_identity)
       and valid(self.root) and identity.matches(self.tree.RootWidget,self.root_identity)
       and valid(self.canvas) and identity.matches(self.canvas,self.canvas_identity)
       and identity.matches(self.canvas:GetParent(),self.root_identity)
+    self.valid_tick=current and lifecycle and lifecycle.ticks or nil
+    return current
   end
   function self:texture(path)
     local record=assert(self.records[path],'unlisted-ui-texture:'..path)
@@ -155,7 +169,7 @@ function M.new(asset_path,log)
     if self.native_reader and self.native_binding~=binding then self.native_reader:close();self.native_reader=nil;self.native_snapshot=nil end
     if binding and binding:is_current() and (not self.native_read_at or os.clock()-self.native_read_at>.5) then
       if not self.native_reader then
-        local pc=require('UEHelpers').GetPlayerController()
+        local pc=require('host.pbz.local_player').controller()
         self.native_reader=require('host.pbz.native_equipment').new(binding,pc,1);self.native_binding=binding
       end
       if self.native_reader then self.native_snapshot=self.native_reader:read(1) end

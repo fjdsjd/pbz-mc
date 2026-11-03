@@ -100,7 +100,7 @@ function M:teleport(position)
  -- distance; no synthetic movement/attack input is emitted.
  require('host.pbz.item_interface').reset_fall_after_teleport(self.binding)
  local ok,err=pcall(function()
-  if not self.fx then self.fx=require('host.pbz.portal_particles').new(self.binding,require('UEHelpers').GetPlayerController())end
+  if not self.fx then self.fx=require('host.pbz.portal_particles').new(self.binding,require('host.pbz.local_player').controller())end
   self.fx:burst(native(before));self.fx:burst(native(after))
   self.status:sound('pearl_teleport')
  end)

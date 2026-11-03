@@ -3,6 +3,7 @@ local identity=require('host.pbz.object_identity')
 local valid=require('host.pbz.appearance').valid
 local view=require('presentation.first_person_camera')
 local M={};local active
+local sequence_watcher=false
 local function vector(v) return {X=v.X,Y=v.Y,Z=v.Z} end
 local function rotation(v) return {Pitch=v.Pitch,Yaw=v.Yaw,Roll=v.Roll} end
 local function object(v) return valid(v) and identity.capture(v) or nil end
@@ -30,15 +31,22 @@ function M.start(log)
   local self={desired='pbz_native',reason='native',log=log,ticks=0,created=0,destroyed=0,retired=0,toggles=0,
     edges=require('presentation.camera_input').new(),inventory=false,width=16,height=9}
   active=self
+  -- Construction may run before the player has a world or camera. Invalidate
+  -- here and inspect on the game thread, after the new object is initialized.
+  if not sequence_watcher and type(NotifyOnNewObject)=='function' and valid(StaticFindObject('/Script/LevelSequence.LevelSequencePlayer'))then
+    sequence_watcher=pcall(NotifyOnNewObject,'/Script/LevelSequence.LevelSequencePlayer',function()
+      if active then active.sequence_dirty=true end
+    end)
+  end
+  self.sequence_watch=sequence_watcher
   function self:context()
     local lifecycle=require('host.pbz.appearance_lifecycle').get()
     local binding=lifecycle and lifecycle:current()
     if not binding or binding.closing or not binding:is_current() then return nil end
-    for _,pc in ipairs(FindAllOf('PlayerController') or {}) do
-      if valid(pc) and pc:IsLocalPlayerController() and identity.matches(pc.Pawn,binding.actor_id) then
-        local manager=pc.PlayerCameraManager
-        if valid(manager) then return binding,pc,manager end
-      end
+    local pc=lifecycle.controller
+    if valid(pc) and identity.matches(pc.Pawn,binding.actor_id) then
+      local manager=pc.PlayerCameraManager
+      if valid(manager) then return binding,pc,manager end
     end
   end
   function self:story(binding,pc,manager)
@@ -50,13 +58,18 @@ function M.start(log)
     if not own and not identity.matches(target,binding.actor_id) then return 'native-viewtarget' end
     if binding.actor.IsControlByDialogue then return 'native-dialogue' end
     if valid(binding.actor.CurrentCameraTrigger) then return 'native-camera-trigger' end
-    -- Recheck cached sequence handles each frame; discover only twice a second.
-    if self.ticks%15==0 or not self.sequences or self.sequence_world~=binding.world_id.name then
-      self.sequences=FindAllOf('LevelSequencePlayer') or {};self.sequence_world=binding.world_id.name
+    if not self.sequence_dirty and self.sequence_result_tick==self.ticks and self.sequence_binding==binding then return self.sequence_reason end
+    self.sequence_result_tick=self.ticks;self.sequence_binding=binding;self.sequence_reason=nil
+    -- Playing status is still read every frame. Only the membership changes
+    -- on construction or world travel. Older loaders retain timed discovery.
+    if self.sequence_dirty or not self.sequence_tick or self.sequence_world~=binding.world_id.address
+        or (not self.sequence_watch and self.ticks-self.sequence_tick>=15) then
+      self.sequence_dirty=nil
+      self.sequences=FindAllOf('LevelSequencePlayer') or {};self.sequence_world=binding.world_id.address;self.sequence_tick=self.ticks
     end
     for _,sequence in ipairs(self.sequences) do
-      if valid(sequence) and in_world(sequence,binding.world_id) and sequence:IsPlaying()
-        and valid(sequence:GetActiveCameraComponent()) then return 'native-sequence' end
+      if valid(sequence) and sequence:IsPlaying() and in_world(sequence,binding.world_id)
+        and valid(sequence:GetActiveCameraComponent()) then self.sequence_reason='native-sequence';return self.sequence_reason end
     end
     -- Damage reactions can temporarily ignore native input. They are not a
     -- cinematic camera owner and must not take the MC camera away.
@@ -72,20 +85,29 @@ function M.start(log)
   function self:mc_selected()
     return self.desired=='mc_first_person' and self:equipment().group=='mc'
   end
+  local special_class=StaticFindObject('/Script/AdvancedSpecialMove.SpecialMoveComponent')
+  local traversal_flags={'bEnableUpRunningIK','bEnableSideRunningIK','bEnableClimLadderIK',
+    'bEnableDownSlidingIK','bEnableHookIK','bEnableHookMoveIK'}
   function self:traversal(binding)
     if not binding then return 'no-player' end
     local movement=binding.actor.CharacterMovement
-    if valid(movement) and (movement.MovementMode==4 or movement.MovementMode==5 or movement.MovementMode==6) then
-      return 'native-movement-mode-'..movement.MovementMode
+    local mode=valid(movement) and movement.MovementMode
+    if mode==4 or mode==5 or mode==6 then
+      return 'native-movement-mode-'..mode
     end
-    local class=StaticFindObject('/Script/AdvancedSpecialMove.SpecialMoveComponent')
-    if valid(class) then
-      local component=binding.actor:GetComponentByClass(class)
+    if self.traversal_tick==self.ticks and self.traversal_binding==binding then return self.traversal_reason end
+    self.traversal_tick=self.ticks;self.traversal_reason=nil
+    if valid(special_class) then
+      local component=self.traversal_component
+      if self.traversal_binding~=binding or not valid(component) then
+        component=binding.actor:GetComponentByClass(special_class)
+        self.traversal_component=component
+      end
+      self.traversal_binding=binding
       if valid(component) then
         local data=component:GetSpecialMoveRuntimeData()
-        for _,name in ipairs({'bEnableUpRunningIK','bEnableSideRunningIK','bEnableClimLadderIK',
-          'bEnableDownSlidingIK','bEnableHookIK','bEnableHookMoveIK'}) do
-          if data[name] then return 'native-special-move-'..name end
+        for _,name in ipairs(traversal_flags) do
+          if data[name] then self.traversal_reason='native-special-move-'..name;return self.traversal_reason end
         end
       end
     end
@@ -161,16 +183,30 @@ function M.start(log)
   end
   function self:set_body(hidden)
     local binding=self.binding
+    local mode=hidden and ((self.source~='pbz' and not self.native_motion) and 'all' or 'head') or false
     if binding then
+      binding.camera_body_hidden=mode=='all'
       binding.armor_hidden=hidden and (((self.source~='pbz' or binding.mc_gliding) and not self.native_motion) and 'all' or 'head') or nil
       if binding.armor then binding.armor:set_hidden(binding.armor_hidden)end
     end
+    -- These are the mod's own components. A new actor or acquisition has a
+    -- new list, even if its desired visibility matches the last camera.
+    if self.applied_parts==self.hidden and self.applied_mode==mode then return end
+    if binding then
+      if mode=='all' then
+        if binding.held then binding.held:hide()end
+        if binding.elytra then binding.elytra:set_hidden('all')end
+      elseif binding.pose_deferred and binding:is_current()then
+        binding:update()
+      end
+    end
     for _,entry in ipairs(self.hidden or {}) do
       if valid(entry.component) and identity.matches(entry.component,entry.id) then
-        local hide=hidden and ((self.source~='pbz' and not self.native_motion) or entry.name=='head' or entry.name=='hat')
+        local hide=mode=='all' or mode=='head' and (entry.name=='head' or entry.name=='hat')
         entry.component:SetHiddenInGame(hide or entry.before,false)
       end
     end
+    self.applied_parts=self.hidden;self.applied_mode=mode
   end
   function self:release(reason,keep_movement)
     if not keep_movement then self:release_movement() end
@@ -184,7 +220,7 @@ function M.start(log)
       local pawn=self.pc.Pawn
       if valid(pawn) then self.pc:SetViewTargetWithBlend(pawn,0,0,0,false) end
     end
-    self:set_body(false);self.hidden=nil
+    self:set_body(false);self.hidden=nil;self.applied_parts=nil
     if self.model then self.model:close();self.model=nil end
     if valid(self.camera) and identity.matches(self.camera,self.camera_id) then
       self.camera:K2_DestroyActor();self.destroyed=self.destroyed+1
@@ -196,6 +232,9 @@ function M.start(log)
     self.reason=reason
   end
   function self:camera_view(binding,pc)
+    if binding.pose_deferred and (self.source=='pbz' or self.native_motion)then
+      binding.camera_body_hidden=false;binding:update()
+    end
     local height=binding.actor.CapsuleComponent:GetScaledCapsuleHalfHeight()
     local current=view.view(vector(binding.actor:K2_GetActorLocation()),height,
       binding.mc_creative_flight and binding.mc_creative_flight.frame.rotation or binding.mc_gliding and binding.mc_gliding.frame.rotation or self.movement and self.movement.frame and self.movement.frame.rotation or rotation(pc.ControlRotation),self.width,self.height)
@@ -324,6 +363,16 @@ function M.start(log)
     if self.creative_flight and (not binding or self.creative_flight.binding~=binding or not identity.matches(pc,self.creative_flight.pc_id))then self.creative_flight:close();self.creative_flight=nil end
     if not binding then self:release_free_look();self:release_facing();self.reason='waiting-player';return end
     local reason=self:story(binding,pc,manager)
+    -- A short camera blend also occurs on native attacks. BeginPlay and mesh
+    -- assignments cover new doubles immediately. Reconcile pre-existing
+    -- actors for sustained takeovers, without rescanning on each combat cut.
+    if reason then
+      self.story_frames=(self.story_frames or 0)+1
+      if binding.lifecycle and self.story_frames==3 and (not self.scan_after or os.clock()>=self.scan_after) then
+        binding.lifecycle.scan_requested=true;self.scan_after=os.clock()+4
+      end
+    else self.story_frames=0 end
+    self.in_story=reason~=nil
     if not self.creative_flight then self.creative_flight=require('host.pbz.creative_flight').new(binding,pc)end
     if not self.flight then self.flight=require('host.pbz.elytra_flight').new(binding,pc)end
     local creative_wants=self.creative_flight:take_request(self)

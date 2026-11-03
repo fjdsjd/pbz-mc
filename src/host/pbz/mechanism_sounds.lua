@@ -11,7 +11,7 @@ function M:play(event,record)
   event=aliases[event]or event
   local variants=self.variants[event];if not variants or #variants==0 then return false end
   if type(PBZMC_BlockSound)~='function'then return false end
-  local pc=require('UEHelpers').GetPlayerController();if not pc or not pc:IsValid()then return false end
+  local pc=require('host.pbz.local_player').controller();if not pc or not pc:IsValid()then return false end
   local pov=pc.PlayerCameraManager.CameraCachePrivate.POV
   local x,y,z=record.x-pov.Location.X,record.y-pov.Location.Y,record.z-pov.Location.Z
   local distance=math.sqrt(x*x+y*y+z*z);if distance>=1600 then return true end

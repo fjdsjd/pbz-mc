@@ -237,14 +237,22 @@ end
 function M:sound(event)
  local service=require('host.pbz.building_service').get(self.binding)
  if service and service.audio then
-  pcall(service.audio.combat,service.audio,event,self.binding.actor:K2_GetActorLocation(),require('UEHelpers').GetPlayerController())
+  pcall(service.audio.combat,service.audio,event,self.binding.actor:K2_GetActorLocation(),require('host.pbz.local_player').controller())
  end
 end
 function M:tick()
  if not self:current() then self:close();return end
  local t=now(self.binding.actor);local dt=math.max(0,math.min(.25,t-self.last));self.last=t
- local raw,why=PBZMC_PollHealth(self.asc_path);assert(raw,why)
- self.report.native=assert(require('dkjson').decode(raw))
+ -- Damage and death are handled synchronously by the native callbacks. This
+ -- report refreshes their 1.5 s wall-clock lease even while gameplay is paused.
+ local wall=os.clock()
+ if not self.health_poll_at or wall>=self.health_poll_at or wall<self.health_poll_at-.1 then
+   local raw,why=PBZMC_PollHealth(self.asc_path);assert(raw,why)
+   self.health_poll_at=wall+.1
+   if raw~=self.last_health_report then
+     self.report.native=assert(require('dkjson').decode(raw));self.last_health_report=raw
+   end
+ end
  require('host.pbz.native_totem_fall').tick(self)
  local hp=self.binding.actor.AttributeSetBase.Health.CurrentValue;local max=self.binding.actor.AttributeSetBase.Health_Max.CurrentValue
  if hp<=0 then
@@ -267,7 +275,7 @@ function M:tick()
  self.binding.mc_status=self.binding.mc_status or {}
  self.binding.mc_status.regeneration=self.value.effects.regeneration~=nil
  if self.pending_totem or next(self.value.effects) or self.fx then
-  if not self.fx then self.fx=require('host.pbz.status_particles').new(self.binding,require('UEHelpers').GetPlayerController()) end
+  if not self.fx then self.fx=require('host.pbz.status_particles').new(self.binding,require('host.pbz.local_player').controller()) end
   if self.pending_totem then self.pending_totem=false;self:sound('totem');self.fx:activate(t);self.activation_at=t end
   self.fx:step(t,self.value)
  end

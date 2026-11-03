@@ -258,9 +258,14 @@ function M:update(batch,data,revision,context,allowed)
   local main=slots.get(data,'player/hotbar/'..data.player.selected)
   local offhand=slots.get(data,'player/offhand')
   local mode=self.binding.mc_creative and 'creative' or 'free'
-  local signature=require('storage.canonical_json')({selected=data.player.selected,main=main,offhand=offhand,mode=mode})
-  if signature~=self.equipment_signature then
-    self.equipment_signature=signature;self.equipment_revision=(self.equipment_revision or 0)+1
+  local seen=self.equipment_seen
+  if not seen or revision==nil or seen.revision~=revision or seen.selected~=data.player.selected
+      or seen.main~=main or seen.offhand~=offhand or seen.mode~=mode then
+    local signature=require('storage.canonical_json')({selected=data.player.selected,main=main,offhand=offhand,mode=mode})
+    if signature~=self.equipment_signature then
+      self.equipment_signature=signature;self.equipment_revision=(self.equipment_revision or 0)+1
+    end
+    self.equipment_seen={revision=revision,selected=data.player.selected,main=main,offhand=offhand,mode=mode}
   end
   local c={kind=self.allowed and 'game' or 'inactive',weapon_group='mc',allow_actions=self.allowed,
     epoch=self.epoch,input_epoch=batch.epoch,equipment_revision=self.equipment_revision,mode=mode,has_arrow=true,

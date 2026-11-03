@@ -5,12 +5,11 @@ local native=require('rules.native_slot_reference')
 local hotbar=require('rules.hotbar')
 local M={}
 function M.view(store)
-  if store.selection_generation~=store.generation then
-    store.selection_revision=(store.selection_revision or store.generation)+1
-    store.selection_generation=store.generation
-  end
   local core=store.core.containers;local index=store.runtime_selected or core.player.selected
   if store.selection_core~=core or store.selection_index~=index then
+    -- The building store deliberately shares the unchanged containers.
+    -- A clock or an observer may publish many world revisions per second.
+    store.selection_revision=(store.selection_revision or store.generation or 0)+1
     store.selection_containers=hotbar.select(core,index);store.selection_core=core;store.selection_index=index
   end
   return store.selection_containers,store.selection_revision
@@ -33,7 +32,6 @@ function M.select(session,request,context,write,authorize)
   end
   local ok,why=write(candidate.player.selected);assert(ok,why)
   store.runtime_selected=candidate.player.selected
-  store.selection_revision=store.selection_revision+1
   M.view(store)
   return true
 end

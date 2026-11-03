@@ -29,9 +29,27 @@ function M:path(path)
  if not self.verified[path]then self:bytes(path)end
  return self.root..'/'..path
 end
+function M:face_texture(name)
+ self.face_paths=self.face_paths or {}
+ if self.face_paths[name]then return self.face_paths[name]end
+ local expected=assert(self.records['original/'..name..'.png'])
+ -- Portable installations share these three originals with the building pack.
+ local path=self.root..'/../building-blocks/original/assets/minecraft/textures/block/'..name..'.png'
+ assert(sha(read(path))==expected.sha256,'tnt-face-digest:'..name)
+ self.face_paths[name]=path;return path
+end
 function M:part(path)
  if self.cache[path]then return self.cache[path]end
  local r=assert(self.records[path]);local part=assert(bundle.decode(self:bytes(path),r.scale or 6.25)[1])
+ if path=='tnt_flash.mesh' then
+  -- The flash variant is the same six original model faces with full UVs.
+  -- Its side/top/bottom textures can drive the moving cube without pixel geometry.
+  local faces=require('rules.block_faces')
+  local split=faces.split(part)
+  self.textured={faces.combine(split,15),split[5],split[6]}
+  part.uv={}
+  for i=1,#part.positions do part.uv[i]={X=0,Y=0}end
+ end
  if path~='fire/fire_textured.mesh' then
   for _,uv in ipairs(part.uv)do uv.X=433.5/512;uv.Y=139.5/256 end
  end

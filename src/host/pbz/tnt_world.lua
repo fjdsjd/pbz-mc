@@ -4,6 +4,7 @@ local valid=require('host.pbz.appearance').valid
 local identity=require('host.pbz.object_identity')
 local bundle=require('host.pbz.mesh_bundle')
 local M={};M.__index=M
+local tnt_textures={'tnt_side','tnt_top','tnt_bottom'}
 local function v(p)return {X=p.x,Y=p.y,Z=p.z}end
 local function transform()return {Rotation={X=0,Y=0,Z=0,W=1},Translation={X=0,Y=0,Z=0},Scale3D={X=1,Y=1,Z=1}}end
 function M.new(binding,directory)
@@ -15,9 +16,10 @@ function M:material(kind,actor)
  local material
  if kind=='tnt' then material=LoadAsset('/Engine/EngineMaterials/DefaultTextMaterialOpaque.DefaultTextMaterialOpaque')
  else
-  local path=kind=='fire' and 'original/fire_0.png' or 'particles/atlas.png'
+  local path=kind:sub(1,4)=='tnt_' and self.assets:face_texture(kind)
+    or self.assets:path(kind=='particles' and 'particles/atlas.png' or 'original/fire_0.png')
   local library=StaticFindObject('/Script/Engine.Default__KismetRenderingLibrary')
-  local tex=StaticFindObject('/Script/Engine.KismetRenderingLibrary:ImportFileAsTexture2D')(library,self.binding.actor,self.assets:path(path))
+  local tex=StaticFindObject('/Script/Engine.KismetRenderingLibrary:ImportFileAsTexture2D')(library,self.binding.actor,path)
   assert(valid(tex),'tnt-texture');tex.Filter=0
   material=StaticFindObject('/Script/Engine.Default__KismetMaterialLibrary'):CreateDynamicMaterialInstance(self.binding.actor,
    LoadAsset('/Paper2D/MaskedUnlitSpriteMaterial.MaskedUnlitSpriteMaterial'),FName('PBZMC_TNT_'..kind),1)
@@ -35,9 +37,29 @@ function M:spawn(kind,state)
   h.mesh=actor:AddComponentByClass(StaticFindObject('/Script/ProceduralMeshComponent.ProceduralMeshComponent'),false,transform(),false)
   assert(valid(h.mesh),'tnt-mesh-create');h.mesh_id=identity.capture(h.mesh)
   h.mesh:SetCollisionEnabled(0);h.mesh:SetCastShadow(false)
-  h.mesh:SetMaterial(0,self:material(kind,actor));h.mesh:SetCullDistance(20000)
-  if kind=='tnt'then bundle.apply(h.mesh,self.assets:part('tnt.mesh'))
-  elseif kind=='fire'then bundle.apply(h.mesh,self.assets:fire(0))end
+  h.mesh:SetCullDistance(20000)
+  if kind=='tnt'then
+   local flash=self.assets:part('tnt_flash.mesh')
+   if self.textured==nil then
+    local ok,why=pcall(function()for _,name in ipairs(tnt_textures)do self:material(name,actor)end end)
+    self.textured=ok;self.texture_error=not ok and tostring(why) or nil
+   end
+   if self.textured then
+    for i,name in ipairs(tnt_textures)do
+     h.mesh:SetMaterial(i-1,self:material(name,actor));bundle.apply(h.mesh,self.assets.textured[i],i-1)
+    end
+    h.flash_section=3
+   else
+    -- Older or incomplete resource caches still have the verified baked cube.
+    h.mesh:SetMaterial(0,self:material(kind,actor));bundle.apply(h.mesh,self.assets:part('tnt.mesh'))
+    h.flash_section=1
+   end
+   h.mesh:SetMaterial(h.flash_section,self:material(kind,actor));bundle.apply(h.mesh,flash,h.flash_section)
+   h.mesh:SetMeshSectionVisible(h.flash_section,false);h.white=false
+  else
+   h.mesh:SetMaterial(0,self:material(kind,actor))
+   if kind=='fire'then bundle.apply(h.mesh,self.assets:fire(0))end
+  end
   actor:K2_SetActorLocation(v(state),false,{},true)
  end)
  if not ok then self:destroy(h);error(why)end
@@ -61,15 +83,23 @@ function M:render(h,state,frame)
    h.actor:K2_SetActorLocation(v(state),false,{},true);h.x,h.y,h.z=state.x,state.y,state.z
   end
   if h.white~=frame.white then
-   bundle.apply(h.mesh,self.assets:part(frame.white and 'tnt_flash.mesh' or 'tnt.mesh'));h.white=frame.white
+   for i=0,h.flash_section-1 do h.mesh:SetMeshSectionVisible(i,not frame.white)end
+   h.mesh:SetMeshSectionVisible(h.flash_section,frame.white);h.white=frame.white
   end
   if h.scale~=frame.scale then h.actor:SetActorScale3D({X=frame.scale,Y=frame.scale,Z=frame.scale});h.scale=frame.scale end
  elseif h.frame~=frame.frame then bundle.apply(h.mesh,self.assets:fire(frame.frame));h.frame=frame.frame end
 end
 function M:trace(from,to,radius)
  local hit,c={},{R=0,G=0,B=0,A=0};local system=require('UEHelpers').GetKismetSystemLibrary()
- local yes=system:SphereTraceSingle(self.binding.actor,v(from),v(to),radius,0,false,{self.binding.actor},0,hit,true,c,c,0)
- if not yes then return end
+ local ignored={self.binding.actor};local a,b=v(from),v(to)
+ for i=1,24 do
+  local yes=system:SphereTraceSingle(self.binding.actor,a,b,radius,0,false,ignored,0,hit,true,c,c,0)
+  if not yes then return end
+  local h=self.build_world and self.build_world:hit_handle(hit)
+  local def=h and require('content.blocks').get(h.content_id)
+  if not def or def.collision~=false or i==24 then break end
+  ignored[#ignored+1]=h.actor
+ end
  local p,n=hit.Location,hit.ImpactNormal
  if not p or not n then return end
  -- PBZ's packed bStartPenetrating reads true on ordinary valid hits. Use the

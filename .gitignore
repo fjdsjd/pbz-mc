@@ -42,6 +42,10 @@
 !/tools/package_offline.py
 !/tools/check_release.py
 !/tools/check_starter_loadout.py
+!/tools/check_auto_defense.py
+!/tools/check_building_delta.py
+!/tools/check_boat_distance_sleep.py
+!/tools/check_terrain_placement.py
 !/docs/
 /docs/*
 !/docs/INSTALLATION.md

@@ -91,7 +91,8 @@ inline void install() {
    attribute_name=reinterpret_cast<const FProperty*>(f);
   }
   require(attribute_name&&attribute_name->GetOffset_Internal()==0&&attribute_name->GetSize()==16,"health attribute name layout");
-  auto* address=reinterpret_cast<unsigned char*>(GetModuleHandleW(nullptr))+0x4c57d70;
+  const auto& build=verified_host_build();
+  auto* address=reinterpret_cast<unsigned char*>(GetModuleHandleW(nullptr))+build.apply_health;
   constexpr unsigned char prefix[]{0x48,0x89,0x5c,0x24,0x08,0x48,0x89,0x74,0x24,0x10,0x57,0x48,0x83,0xec,0x40};
   require(std::memcmp(address,prefix,sizeof(prefix))==0,"health apply entry changed");
   auto code=MH_CreateHook(address,reinterpret_cast<void*>(&intercept),reinterpret_cast<void**>(&original));
@@ -102,7 +103,7 @@ inline void install() {
   const auto schema=inspect_signature(L"/Script/SGameAttributes.AttributeUtils:ModifyCharacterAttributeValue",params);
   require(schema.at(L"Character").offset==0 && schema.at(L"Attribute").offset==8 && schema.at(L"ModiferOp").offset==64
    && schema.at(L"Value").offset==68,"direct health signature changed");
-  auto* direct=reinterpret_cast<unsigned char*>(GetModuleHandleW(nullptr))+0x5da1710;
+  auto* direct=reinterpret_cast<unsigned char*>(GetModuleHandleW(nullptr))+build.modify_attribute;
   constexpr unsigned char direct_prefix[]{0x40,0x55,0x56,0x57,0x41,0x56,0x41,0x57,0x48,0x8d,0xac,0x24,0x60,0xfd,0xff,0xff};
   require(std::memcmp(direct,direct_prefix,sizeof(direct_prefix))==0,"direct health entry changed");
   code=MH_CreateHook(direct,reinterpret_cast<void*>(&intercept_modify),reinterpret_cast<void**>(&original_modify));

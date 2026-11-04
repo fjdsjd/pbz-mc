@@ -32,7 +32,7 @@ PBZ/
 - 更新前保存、退出并备份，然后完整解压对应的新包。不要混用不同版本的安装器与资源清单。
 - `Uninstall-PBZMC.cmd` 会再次备份，只删除归属记录和哈希匹配的模组文件，保留存档、缓存和修改过的文件。
 - 资源缺失或损坏时会报错并停止，不尝试联网。重新完整解压同版离线包后启动即可。
-- 游戏版本不受支持时会拒绝启动模组，请等待适配版本，不要删除版本检查。
+- 较新的官方 UE 5.7 构建可在本机自动定位。若提示 `PBZMC-HOST`，请把游戏版本和失败入口发到 GitHub Issues。
 - 已安装其他 UE4SS 加载器或模组时，同名文件可能冲突；脚本不会强行覆盖不同文件。
 - 检查安装：`powershell -NoProfile -ExecutionPolicy Bypass -File .\PBZMC\Manage-PBZMC.ps1 -Action Verify`。
 

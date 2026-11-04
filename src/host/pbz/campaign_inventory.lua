@@ -15,6 +15,7 @@ local Session=require('runtime.inventory_session')
 local SessionStore=require('storage.session_store')
 local definitions=require('content.items')
 local active,config,base,log,hooks,frozen,pending,load_epoch=nil,nil,nil,nil,nil,false,nil,0
+local load_error
 local function valid(v) return v and v:IsValid() end
 local function section(root,name)
   local found
@@ -34,14 +35,19 @@ local function snapshot(allow_missing)
   end
   local sub_id=identity.capture(assert(chosen,'campaign-subsystem-unavailable'))
   local path=assert(sub_id.name:match('^PBZSaveLoadSubsystem (.+)$'))
-  if not allow_missing and PBZMC_ReadCampaignState then
-    -- Same exact-root precondition, validated by the native parser. Avoid
-    -- decoding the entire PBZ save five times for each building transaction.
-    local raw,why=PBZMC_ReadCampaignState(path);assert(raw,why)
+  local summary
+  if allow_missing then summary=PBZMC_ReadCampaignLoadState else summary=PBZMC_ReadCampaignState end
+  if summary then
+    -- For existing campaigns only the verified identity/anchor cross into
+    -- Lua. A read error must never be treated as first-time registration.
+    local raw,why=summary(path);assert(raw,why)
     local current=state.decode(raw)
+    assert(identity.matches(UE.GetGameInstance(),gi_id) and identity.matches(chosen,sub_id),'campaign-scope-changed')
+    if allow_missing and current.needs_registration==true then
+      return {path=path,instance=gi_id,subsystem=sub_id,needs_registration=true}
+    end
     assert(type(current.campaign_id)=='string' and type(current.checkpoint)=='string'
       and type(current.root_sha256)=='string' and #current.root_sha256==64,'campaign-state-summary')
-    assert(identity.matches(UE.GetGameInstance(),gi_id) and identity.matches(chosen,sub_id),'campaign-scope-changed')
     return {path=path,campaign_id=current.campaign_id,checkpoint=current.checkpoint,
       raw_sha256=current.root_sha256,instance=gi_id,subsystem=sub_id,
       selected=config and current.selection_mode==config.mode and current.selected or nil}
@@ -65,8 +71,9 @@ local function snapshot(allow_missing)
 end
 local function status(operation,why,write)
   local s=active
+  if load_error then s=nil end -- The previous campaign does not own this failed load.
   local report={schema=2,operation=operation,enabled=config~=nil,
-    frozen=frozen,load_epoch=load_epoch,error=why,campaign_id=s and s.campaign_id,checkpoint=s and s.checkpoint,
+    frozen=frozen,load_epoch=load_epoch,error=why or load_error,campaign_id=s and s.campaign_id,checkpoint=s and s.checkpoint,
     mode=config and config.mode,generation=s and s.store.generation,opened=s and s.session.opened or false,
     containers=s and s.store.core.containers,formal_inventory_bound=s~=nil,fixture_migrated=false,
     persistence='native-savepoint-only',dirty=s and s.store.dirty,savepoint=s and s.savepoint,
@@ -74,6 +81,22 @@ local function status(operation,why,write)
   if s then s.last_status=report end
   -- No diagnostic serialization or file write on a gameplay transaction.
   if write or why then fs.write(base..'campaign-inventory-status.json',json.encode(report,{indent=true})) end
+end
+local function size_reason(why)
+  if why:find('save-limit:',1,true) then return '存档展开后的 JSON 超过模组安全上限。' end
+  if why:find('native FString length exceeds the probe bound',1,true) then
+    return '旧版存档桥上限为 262144 个 UTF-16 代码单元，请完整更新模组并重启游戏。'
+  end
+end
+local function reject_load(why)
+  why=tostring(why)
+  frozen=true;pending=nil
+  if not load_error then
+    load_error='MC 读档失败：'..(size_reason(why) or '')..
+      '背包、快捷栏和建筑未加载。请保留当前存档与 pbzmc-data 的备份；更新后可重新读档。原因：'..why
+    log(load_error)
+    pcall(status,'load-rejected',load_error,true)
+  end
 end
 function M.enabled() return config~=nil end
 function M.game_mode(binding)
@@ -113,11 +136,11 @@ local function install_hooks()
     if not config then return nil end
     local ok,why=pcall(function()
       assert(identity.matches(Context:get(),identity.capture(UE.GetGameInstance())),'campaign-load-context')
-      load_epoch=load_epoch+1;frozen=true
+      load_epoch=load_epoch+1;frozen=true;load_error=nil
       pending={epoch=load_epoch,old_binding=active and active.binding}
       status('load-begin')
     end)
-    if not ok then frozen=true;log('formal inventory load begin rejected: '..tostring(why)) end
+    if not ok then reject_load(why) end
     return nil
   end,function(Context,Slot,Result)
     if not config then return nil end
@@ -129,7 +152,7 @@ local function install_hooks()
       assert(result.ResultType==0,'campaign-native-load-failed')
       pending.snapshot=snapshot(true);pending.success=true;status('load-result-success-await-player')
     end)
-    if not ok then frozen=true;pending=nil;log('formal inventory load result rejected: '..tostring(why)) end
+    if not ok then reject_load(why) end
     return nil
   end)}
   local save_path='/Script/ProjectPBZ.PBZGameSystem:PreSaveGame'
@@ -156,7 +179,7 @@ local function install_hooks()
       end)
       if not ok then
         active.saving=false;active.save_error=tostring(why)
-        log('MC savepoint failed; previous saved checkpoint retained: '..tostring(why))
+        log('MC 存档点未能确认保存背包与建筑：'..(size_reason(tostring(why)) or '')..tostring(why))
         pcall(status,'savepoint-failed',tostring(why),true)
       end
     end
@@ -175,19 +198,15 @@ function M.start(logger,directory)
   config={schema=1,mode=config and config.mode or 'free'}
   install_hooks()
 end
-function M.ensure(binding)
-  assert(config and binding and binding:is_current(),'formal-inventory-current-player-required')
-  if M.current(binding) then return active end
-  assert(not active or not active.failure or pending,'formal-inventory-publication-requires-recovery')
-  if pending then
-    assert(pending.success and binding~=pending.old_binding,'formal-inventory-waiting-for-loaded-player')
-  elseif frozen then error('formal-inventory-load-unresolved') end
+local function bind(binding)
   if active and active.status_service then
     if not pending then active.status_service:flush_memory() end
     active.status_service:close()
   end
   local snap=snapshot(true)
   if snap.needs_registration then
+    local raw=snap.raw
+    if not raw then local why;raw,why=PBZMC_ReadOrdinaryJson(snap.path);assert(raw,why) end
     local starter_snapshot
     local ok,reader=pcall(require('host.pbz.native_equipment').new,binding,require('host.pbz.local_player').controller(),load_epoch)
     if ok and reader then
@@ -195,7 +214,7 @@ function M.ensure(binding)
       if read then starter_snapshot=value end
       reader:close()
     end
-    require('host.pbz.campaign_registration').ensure(base,snap.path,snap.raw,starter_snapshot)
+    require('host.pbz.campaign_registration').ensure(base,snap.path,raw,starter_snapshot)
     snap=snapshot()
   end
   if pending and not pending.snapshot.needs_registration then
@@ -271,6 +290,21 @@ function M.ensure(binding)
   if ok then s.status_service=service else log('MC player status initialization failed: '..tostring(service)) end
   status('bound');log('formal inventory bound mode='..config.mode..' generation='..s.store.generation..' checkpoint='..s.checkpoint)
   return s
+end
+function M.ensure(binding)
+  assert(config and binding and binding:is_current(),'formal-inventory-current-player-required')
+  if M.current(binding) then return active end
+  if load_error then error(load_error,0) end
+  assert(not active or not active.failure or pending,'formal-inventory-publication-requires-recovery')
+  if pending then
+    assert(pending.success and binding~=pending.old_binding,'formal-inventory-waiting-for-loaded-player')
+  end
+  local ok,result=pcall(bind,binding)
+  if ok then return result end
+  -- A direct bind (e.g. scripts started after LoadGame) can hit the same
+  -- deterministic limit. Do not re-read megabytes every frame until reload.
+  if size_reason(tostring(result)) then reject_load(result);error(load_error,0) end
+  error(result,0)
 end
 local function publish(s)
   local snap=snapshot()

@@ -19,6 +19,8 @@ def text(path,value):
 
 def audit(stage):
     package=stage/'PBZMC';manifest=json.loads((package/'release.json').read_text('utf-8'))
+    if 'future_after_cl' in manifest:
+        assert sha(package/'Check-PBZHost.exe')==manifest['host_check_sha256'],'damaged host compatibility checker'
     kind=manifest.get('package_kind')
     assert kind in (None, 'offline', 'offline-cache'), 'unknown package type'
     offline=kind in ('offline','offline-cache')

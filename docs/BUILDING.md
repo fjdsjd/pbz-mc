@@ -14,15 +14,15 @@
 powershell -NoProfile -ExecutionPolicy Bypass -File native/json_bridge/build-portable.ps1
 ```
 
-脚本自动查找 MSVC，下载并校验固定版本的 UE4SS SDK、fmt，输出 `build/native-release/main.dll`。也可以显式传入 `-UE4SSDll`、`-SdkRoot`、`-BuildToolsRoot`。使用动态 MSVC 运行库，与 UE4SS 的分配器边界保持一致。
+脚本自动查找 MSVC，下载并校验固定版本的 UE4SS SDK、fmt，输出 `build/native-release/main.dll` 和 `Check-PBZHost.exe`。后者可在启动游戏前只读校验原生入口。也可以显式传入 `-UE4SSDll`、`-SdkRoot`、`-BuildToolsRoot`。桥接 DLL 使用动态 MSVC 运行库，与 UE4SS 的分配器边界保持一致。
 
 ## 打包
 
 ```powershell
-python tools/package_release.py --loader build/loader --version 0.1.0-alpha.4 --output build/package-0.1.0-alpha.4
-python tools/check_release.py build/package-0.1.0-alpha.4/stage
-python tools/package_offline.py --release build/package-0.1.0-alpha.4/stage --cache-only --output build/offline-cache-0.1.0-alpha.4
-python tools/check_release.py build/offline-cache-0.1.0-alpha.4/stage --installer-test
+python tools/package_release.py --loader build/loader --version 0.1.0-alpha.5 --output build/package-0.1.0-alpha.5
+python tools/check_release.py build/package-0.1.0-alpha.5/stage
+python tools/package_offline.py --release build/package-0.1.0-alpha.5/stage --cache-only --output build/offline-cache-0.1.0-alpha.5
+python tools/check_release.py build/offline-cache-0.1.0-alpha.5/stage --installer-test
 ```
 
 输出目录必须为空。打包脚本使用明确的文件列表，输出可解压到游戏根目录的 ZIP 与 SHA256SUMS。不会复制本机存档、日志、原游戏文件、私有资源缓存或开发命令入口。
@@ -34,8 +34,8 @@ python tools/check_release.py build/offline-cache-0.1.0-alpha.4/stage --installe
 已有通过校验的运行资源时，可以组合成首次启动也无需下载的离线包：
 
 ```powershell
-python tools/package_offline.py --release build/package-0.1.0-alpha.4/stage --assets build/runtime-assets --output build/offline-0.1.0-alpha.4
-python tools/check_release.py build/offline-0.1.0-alpha.4/stage --installer-test
+python tools/package_offline.py --release build/package-0.1.0-alpha.5/stage --assets build/runtime-assets --output build/offline-0.1.0-alpha.5
+python tools/check_release.py build/offline-0.1.0-alpha.5/stage --installer-test
 ```
 
 `--assets` 必须包含 `ready.json`，且全部资源与固定配方逐项匹配。打包器只复制清单内的运行资源，不带个人存档、下载的客户端归档、转换工具或开发缓存。离线包包含 `PBZMC/cache/runtime-assets`，其安装器校验资源清单后直接使用；缺失或损坏时停止，不联网回退。游戏运行文件和在线包相同。
@@ -63,3 +63,9 @@ python tools/prepare_release_assets.py --work build/asset-work --cache build/dow
 运行 `python tools/check_downloads.py`，在本机 HTTP 故障服务器上验证 Python 和 Windows PowerShell 5.1 两套生产下载器的回退、断线续传、错误 Range、损坏文件、缓存及失败时保留已有文件。测试仅替换网络连接入口，不连接游戏或外部下载源；不把该检查当作大陆运营商网络实测。
 
 安装 `lupa` 后可运行 `python tools/check_starter_loadout.py` 检查初始物品及原生槽位延迟发现。规则和安装器测试不能代替真实 PBZ 运行验证。游戏更新需重新验证接口、原生入口、生命／死亡和输入路径，再明确增加受支持的游戏哈希；不能只删除版本保护。
+
+大存档回归：在 x64 MSVC 开发者命令行中运行 `cl /nologo /std:c++latest /EHsc /O2 /utf-8 /DNOMINMAX tools/check_campaign_save_limits.cpp /Fe:build/check_campaign_save_limits.exe`，再运行生成的程序。它用真实 Windows 字符转换和生产读写校验，覆盖旧界限、中文、新上限与连续检查点。另运行 `python tools/check_campaign_load.py`（需 lupa），检查失败提示、重新读档及背包和建筑归属；两项都不会访问玩家存档。
+
+### 游戏更新后定位原生入口
+
+开发机安装 Python 包 `pefile` 和 `capstone` 后，可运行 `python tools/locate_host_build.py 旧版PBZ.exe 新版PBZ.exe`。工具按旧版 SHA-256 选择基准，在新版 x64 指令中匹配完整函数范围，忽略可重定位地址，核对两个死亡重试调用的目标。只有唯一匹配才输出候选地址。遇到函数改写、重复匹配或缺失时，需人工检查。确认游戏中的加载器、存档读写与战斗表现后，才将该构建加入 `native/json_bridge/host_builds.inc`。安装器和 DLL 共用这份表。

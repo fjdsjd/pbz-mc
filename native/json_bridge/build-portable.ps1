@@ -56,6 +56,8 @@ try {
     }
     & link /NOLOGO /DLL /MACHINE:X64 /OPT:REF /OPT:ICF /DYNAMICBASE /NXCOMPAT /Brepro ('/OUT:'+(Join-Path $build 'main.dll')) @objects (Join-Path $build 'UE4SS.lib') bcrypt.lib user32.lib xaudio2.lib
     if ($LASTEXITCODE -ne 0) { throw 'Native bridge link failed.' }
+    & cl /nologo /std:c++latest /MT /O2 /EHsc /utf-8 /DNOMINMAX /DWIN32_LEAN_AND_MEAN /Brepro ('/Fo'+(Join-Path $build 'check-host.obj')) ('/Fe'+(Join-Path $build 'Check-PBZHost.exe')) 'native/json_bridge/check_host.cpp' /link /Brepro
+    if ($LASTEXITCODE -ne 0) { throw 'Future host compatibility checker build failed.' }
     & dumpbin /nologo /imports (Join-Path $build 'main.dll') | Set-Content -LiteralPath (Join-Path $build 'imports.txt')
 } finally { Pop-Location }
 Get-FileHash -LiteralPath (Join-Path $build 'main.dll')

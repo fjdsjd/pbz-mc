@@ -60,15 +60,7 @@ inline void install() {
     std::call_once(once,[] {
         verify_pinned_abi();
         auto* base=reinterpret_cast<unsigned char*>(GetModuleHandleW(nullptr));
-        std::array<wchar_t,32768> path{};
-        require(GetModuleFileNameW(nullptr,path.data(),static_cast<DWORD>(path.size()))>0,"shield executable path");
-        std::ifstream input(path.data(),std::ios::binary);Sha256 hasher;std::array<unsigned char,65536> bytes{};
-        while(input.read(reinterpret_cast<char*>(bytes.data()),bytes.size())||input.gcount()>0)
-            hasher.update(bytes.data(),static_cast<ULONG>(input.gcount()));
-        require(input.eof()&&!input.bad(),"shield executable read");
-        constexpr std::array<unsigned char,32> expected{0x7b,0x4f,0xcd,0x28,0x6a,0x35,0x07,0x80,0xfa,0xf0,0x82,0x4d,0x73,0xaa,0x15,0x0b,
-            0x21,0xcb,0xf1,0xbc,0xcd,0xe8,0x83,0xe6,0xa9,0x63,0x86,0xcb,0xe0,0x99,0x73,0xb4};
-        require(hasher.finish()==expected,"shield unsupported PBZ executable");
+        const auto& build=verified_host_build();
         constexpr std::array<ExpectedParameter,10> expected_parameters{{
              {L"DamageSource",L"InterfaceProperty"},{L"DamageCause",L"StructProperty"},{L"HitLocation",L"StructProperty"},
              {L"HitBody",L"StructProperty"},{L"AttackerAttributes",L"MapProperty"},{L"AttackData",L"MapProperty"},
@@ -79,7 +71,7 @@ inline void install() {
             "shield damage ABI changed");
         final_map=schema.at(L"FinalDamageData").property;
         const auto init=MH_Initialize();require(init==MH_OK||init==MH_ERROR_ALREADY_INITIALIZED,"shield hook initialize");
-        auto* address=base+0x5da3d70;
+        auto* address=base+build.take_damage;
         // Preserve the verified unmodified function entry before MinHook owns it.
         constexpr unsigned char prefix[]{0x40,0x55,0x56,0x57,0x41,0x54,0x41,0x55,0x41,0x56,0x41,0x57};
         require(std::memcmp(address,prefix,sizeof(prefix))==0,"shield entry differs from ABI proof");
@@ -199,7 +191,7 @@ inline int lua_dev_hit(const Lua& lua) {
         std::memcpy(frame.address(schema.at(L"AttackDirection")),&direction,sizeof(direction));
         const auto before=blocked.load();
         const auto sounds_before=block_sounds.load(),failures_before=sound_failures.load();
-        auto entry=reinterpret_cast<Damage>(reinterpret_cast<unsigned char*>(GetModuleHandleW(nullptr))+0x5da3d70);
+        auto entry=reinterpret_cast<Damage>(reinterpret_cast<unsigned char*>(GetModuleHandleW(nullptr))+verified_host_build().take_damage);
         entry(component,frame.address(schema.at(L"DamageSource")),frame.address(schema.at(L"DamageCause")),
             static_cast<Vector*>(frame.address(schema.at(L"HitLocation"))),frame.address(schema.at(L"HitBody")),
             frame.address(schema.at(L"AttackerAttributes")),frame.address(schema.at(L"AttackData")),nullptr,

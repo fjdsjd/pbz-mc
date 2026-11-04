@@ -35,6 +35,9 @@
 #include "pointer_queue.hpp"
 #include "item_input_win32.hpp"
 #include "campaign_json.hpp"
+#include "save_json_text.hpp"
+#include "host_locator.hpp"
+#include "host_version.hpp"
 #include "checkpoint_json.hpp"
 #include "hotbar_json.hpp"
 #include "../../third_party/minhook-1.3.4/include/MinHook.h"
@@ -42,14 +45,14 @@
 namespace {
 using namespace RC::Unreal;
 using RC::LuaMadeSimple::Lua;
+using PBZMC::JsonText::Use;
+using PBZMC::JsonText::to_utf8;
 constexpr std::wstring_view target_mod = L"PBZMCProbe";
 constexpr std::string_view entry_name = "PBZMC_JsonRoundTrip";
 constexpr std::string_view read_entry_name = "PBZMC_ReadAdvancedJson";
 constexpr std::string_view preview_entry_name = "PBZMC_ConfigurePreviewCapture";
 constexpr std::string_view pointer_entry_name = "PBZMC_ReadPointerState";
 constexpr std::size_t input_limit = 64 * 1024;
-constexpr std::size_t output_limit = 256 * 1024;
-static_assert(PBZMC::Campaign::identity_before_limit+4096<=output_limit);
 constexpr wchar_t library_path[] = L"/Script/JsonBlueprintUtilities.Default__JsonBlueprintFunctionLibrary";
 constexpr wchar_t from_path[] = L"/Script/JsonBlueprintUtilities.JsonBlueprintFunctionLibrary:FromString";
 constexpr wchar_t to_path[] = L"/Script/JsonBlueprintUtilities.JsonBlueprintFunctionLibrary:ToString";
@@ -198,12 +201,16 @@ do
         end
         return read(...)
     end
-    PBZMC_ReadCampaignState = function(...)
-        if count('#', ...) ~= 1 or not string_arg((...), 4096) then
-            return nil, 'PBZMCJsonBridge: expected one bounded subsystem path string'
+    local function state_reader(native)
+        return function(...)
+            if count('#', ...) ~= 1 or not string_arg((...), 4096) then
+                return nil, 'PBZMCJsonBridge: expected one bounded subsystem path string'
+            end
+            return native(...)
         end
-        return current(...)
     end
+    PBZMC_ReadCampaignState = state_reader(current)
+    PBZMC_ReadCampaignLoadState = state_reader(PBZMC_ReadCampaignLoadState)
     PBZMC_CreateCampaignIdentity = function(...)
         local path, root_sha, id = ...
         if count('#', ...) ~= 3 or not string_arg(path, 4096) or not string_arg(root_sha, 64) or not string_arg(id, 36) then
@@ -252,16 +259,6 @@ std::wstring from_utf8(std::string_view text) {
     std::wstring result(length, L'\0');
     require(MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, text.data(), static_cast<int>(text.size()), result.data(), length) == length,
             "UTF-8 conversion failed");
-    return result;
-}
-
-std::string to_utf8(std::wstring_view text) {
-    require(text.size() <= output_limit, "native output exceeds the probe bound");
-    const auto length = WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, text.data(), static_cast<int>(text.size()), nullptr, 0, nullptr, nullptr);
-    require(length > 0, "native output is empty or invalid UTF-16");
-    std::string result(length, '\0');
-    require(WideCharToMultiByte(CP_UTF8, WC_ERR_INVALID_CHARS, text.data(), static_cast<int>(text.size()), result.data(), length, nullptr, nullptr) == length,
-            "UTF-16 conversion failed");
     return result;
 }
 
@@ -515,15 +512,8 @@ private:
     }
 };
 
-std::wstring_view read_string(const void* storage) {
-    const auto* string = reinterpret_cast<const TStringBase<wchar_t>*>(storage);
-    const auto length = string->Len();
-    require(length >= 0 && static_cast<std::size_t>(length) <= output_limit, "native FString length exceeds the probe bound");
-    const auto* chars = **string;
-    require(chars != nullptr || length == 0, "native FString has a null character view");
-    if (!length) return {};
-    require(chars[length] == L'\0', "native FString lacks its expected terminator");
-    return {chars, static_cast<std::size_t>(length)};
+std::wstring_view read_string(const void* storage,Use use=Use::probe) {
+    return PBZMC::JsonText::view(*reinterpret_cast<const TStringBase<wchar_t>*>(storage),use);
 }
 
 bool read_result(const Signature& signature, const ParameterFrame& frame) {
@@ -595,7 +585,7 @@ std::string read_advanced_json(std::string_view utf8_path) {
     consumed_json.property->CopyCompleteValue(to_frame.address(consumed_json), getter_frame.address(produced_json));
     library->ProcessEvent(to.function, to_frame.data());
     require(read_result(to, to_frame), "native ToString failed for the advanced JSON object");
-    return to_utf8(read_string(to_frame.address(to.at(L"OutJsonString"))));
+    return to_utf8(read_string(to_frame.address(to.at(L"OutJsonString")),Use::save),Use::save);
 }
 
 std::string sha256_text(std::string_view text) {
@@ -624,11 +614,11 @@ std::string ordinary_json_unlocked(UObject* subsystem) {
     const auto getter=inspect_signature(ordinary_getter_path,ordinary_parameters);
     ParameterFrame frame(getter);
     subsystem->ProcessEvent(getter.function,frame.data());
-    const auto wide=read_string(frame.address(getter.at(L"ReturnValue")));
+    const auto wide=read_string(frame.address(getter.at(L"ReturnValue")),Use::save);
     require(wide.find(L'\0')==std::wstring_view::npos,"ordinary JSON contains embedded native NUL");
-    auto text=to_utf8(wide); // WC_ERR_INVALID_CHARS rejects invalid UTF-16.
-    PBZMC::Campaign::parse(text); // Complete object, bound, UTF-8, duplicate keys.
-    return text; // Own bytes; no reflected storage escapes its ParameterFrame.
+    // Owned bytes. Public readers and write transactions parse once at the
+    // point of use; the second pre-write read must match these exact bytes.
+    return to_utf8(wide,Use::save);
 }
 
 std::string read_ordinary_json(std::string_view path) {
@@ -965,23 +955,38 @@ int lua_read_advanced_json(const Lua& lua) {
 int lua_read_ordinary_json(const Lua& lua) {
     try {
         require(lua.get_stack_size()==1 && lua.is_string(1),"usage: PBZMC_ReadOrdinaryJson(subsystem_path)");
-        lua.set_string(read_ordinary_json(std::string(lua.get_string(1)))); lua.set_nil();
+        auto raw=read_ordinary_json(std::string(lua.get_string(1)));
+        PBZMC::Campaign::parse(raw); // Do not expose an unvalidated root to Lua.
+        lua.set_string(raw); lua.set_nil();
     } catch (const std::exception& error) { lua.set_nil(); lua.set_string(std::string("PBZMCJsonBridge: ")+error.what()); }
     return 2;
 }
-int lua_read_campaign_state(const Lua& lua) {
+int campaign_state(const Lua& lua,bool allow_registration) {
     try {
         require(lua.get_stack_size()==1 && lua.is_string(1),"usage: PBZMC_ReadCampaignState(subsystem_path)");
         const auto raw=read_ordinary_json(std::string(lua.get_string(1)));
-        const auto root=PBZMC::Campaign::parse(raw);const auto current=PBZMC::Checkpoint::current(root);
-        auto result=nlohmann::json{{"campaign_id",current.campaign_id},{"checkpoint",current.checkpoint},{"root_sha256",sha256_text(raw)}};
-        if(const auto selection=PBZMC::Hotbar::read(root,current.campaign_id,current.checkpoint)) {
-            result["selected"]=selection->selected;result["selection_mode"]=selection->mode;
+        std::size_t nodes{};
+        const auto root=PBZMC::Campaign::parse(raw,&nodes);
+        const auto current=PBZMC::Checkpoint::inspect(root,allow_registration);
+        auto result=nlohmann::json::object();
+        if (current) {
+            result={{"campaign_id",current->campaign_id},{"checkpoint",current->checkpoint},{"root_sha256",sha256_text(raw)}};
+            if(const auto selection=PBZMC::Hotbar::read(root,current->campaign_id,current->checkpoint)) {
+                result["selected"]=selection->selected;result["selection_mode"]=selection->mode;
+            }
+        } else {
+            // First use will write an identity and/or checkpoint. Reject a
+            // full root before Lua creates any local bootstrap files.
+            PBZMC::Campaign::check_write_size(raw.size());
+            PBZMC::Campaign::check_limit(nodes,PBZMC::Campaign::node_limit-16,"expanded save JSON values before registration");
+            result["needs_registration"]=true;
         }
         lua.set_string(result.dump());lua.set_nil();
     } catch(const std::exception& error) {lua.set_nil();lua.set_string(std::string("PBZMCJsonBridge: ")+error.what());}
     return 2;
 }
+int lua_read_campaign_state(const Lua& lua) { return campaign_state(lua,false); }
+int lua_read_campaign_load_state(const Lua& lua) { return campaign_state(lua,true); }
 int lua_new_campaign_id(const Lua& lua) {
     try {
         require(lua.get_stack_size()==0,"usage: PBZMC_NewCampaignId()");
@@ -1064,6 +1069,52 @@ int lua_read_pointer_state(const Lua& lua) {
     return 2;
 }
 
+struct HostBuild {
+    std::string_view sha256;
+    std::uint32_t steam_build, cl, take_damage, apply_health, modify_attribute, activate_state, retry_a, retry_b;
+};
+constexpr HostBuild host_builds[] = {
+#include "host_builds.inc"
+};
+struct HostCheck {std::optional<HostBuild> layout;std::string message;};
+const HostCheck& host_check() {
+    static const HostCheck found=[] {
+        std::string identity="PBZ.exe";
+        try {
+        std::array<wchar_t,32768> path{};
+        const auto count=GetModuleFileNameW(nullptr,path.data(),static_cast<DWORD>(path.size()));
+        require(count && count<path.size(),"cannot locate executable");
+        PBZMC::Locator::FileMap file(path.data());
+        const auto data=file.bytes();
+        const auto digest=sha256_text({reinterpret_cast<const char*>(data.data()),data.size()});
+        const auto cl=PBZMC::HostVersion::changelist(path.data());
+        identity="CL-"+std::to_string(cl)+" SHA-256 "+digest;
+        const HostBuild* known=nullptr;std::uint32_t latest{};
+        for (const auto& build:host_builds) {
+            latest=std::max(latest,build.cl);
+            if(build.sha256==digest) known=&build;
+        }
+        require(known || cl>latest,"unrecognized PBZ build or engine family");
+        const auto a=PBZMC::Locator::locate(data,GetModuleHandleW(nullptr),sha256_text);
+        if(known) {
+            const PBZMC::Locator::Addresses pinned{known->take_damage,known->apply_health,known->modify_attribute,
+                known->activate_state,known->retry_a,known->retry_b};
+            require(a==pinned,"native locations differ from verified build");
+        }
+        HostBuild layout{{},known?known->steam_build:0,cl,a[0],a[1],a[2],a[3],a[4],a[5]};
+        return HostCheck{layout,"PBZMC-HOST: "+identity+"; 6 native locations verified"+(known?" (tested build)":" (newer build, auto-detected)")};
+        } catch(const std::exception& e) {
+            return HostCheck{std::nullopt,"PBZMC-HOST: "+identity+"; "+e.what()};
+        }
+    }();
+    return found;
+}
+const HostBuild& verified_host_build() {
+    const auto& check=host_check();
+    if(!check.layout) throw std::runtime_error(check.message);
+    return *check.layout;
+}
+
 #include "block_audio.hpp"
 #include "health_gate.hpp"
 #include "shield_gate.hpp"
@@ -1090,22 +1141,16 @@ int lua_hash_hex(const Lua& lua) {
 }
 
 int lua_host_compatible(const Lua& lua) {
-    static const bool compatible=[] {
-        try {
-            std::array<wchar_t,32768> path{};
-            const auto count=GetModuleFileNameW(nullptr,path.data(),static_cast<DWORD>(path.size()));
-            if(!count || count>=path.size()) return false;
-            std::ifstream input(path.data(),std::ios::binary);
-            Sha256 hasher;std::array<unsigned char,65536> bytes{};
-            while(input.read(reinterpret_cast<char*>(bytes.data()),bytes.size())||input.gcount()>0)
-                hasher.update(bytes.data(),static_cast<ULONG>(input.gcount()));
-            if(!input.eof()||input.bad()) return false;
-            constexpr std::array<unsigned char,32> expected{0x7b,0x4f,0xcd,0x28,0x6a,0x35,0x07,0x80,0xfa,0xf0,0x82,0x4d,0x73,0xaa,0x15,0x0b,
-                0x21,0xcb,0xf1,0xbc,0xcd,0xe8,0x83,0xe6,0xa9,0x63,0x86,0xcb,0xe0,0x99,0x73,0xb4};
-            return hasher.finish()==expected;
-        } catch(...) {return false;}
-    }();
-    lua.set_bool(compatible);return 1;
+    const auto& check=host_check();
+    if(!check.layout) {
+        static std::once_flag shown;
+        std::call_once(shown,[&] {
+            auto message=L"PBZMC 无法匹配当前游戏版本，模组已停止加载。\n请将以下信息和 UE4SS.log 附到 GitHub Issues：\n\n"+
+                from_utf8(check.message)+L"\n\nhttps://github.com/fjdsjd/pbz-mc/issues";
+            MessageBoxW(nullptr,message.c_str(),L"PBZMC 兼容性错误",MB_OK|MB_ICONERROR|MB_SETFOREGROUND);
+        });
+    }
+    lua.set_bool(check.layout.has_value());lua.set_string(check.message);return 2;
 }
 
 class JsonBridge final : public RC::CppUserModBase {
@@ -1113,7 +1158,7 @@ public:
     ~JsonBridge() override { HealthGate::clear();BlockAudio::clear();ShieldGate::clear();PBZMC::ItemInput::Capture::instance().stop_noexcept(); pointer_capture.stop(); }
     JsonBridge() {
         ModName = L"PBZMCJsonBridge";
-        ModVersion = L"0.1.0-alpha.2";
+        ModVersion = L"0.1.0-alpha.5";
         ModDescription = L"Fixed JSON and create-only campaign identity bridge, preview and item input";
         ModAuthors = L"PBZMC";
         ModIntendedSDKVersion = L"3.0.1-1183-gcdbc0b66";
@@ -1129,6 +1174,7 @@ public:
                 main_lua.execute_string(advanced_lua_preflight);
                 main_lua.register_function("PBZMC_ReadOrdinaryJson", &lua_read_ordinary_json);
                 main_lua.register_function("PBZMC_ReadCampaignState", &lua_read_campaign_state);
+                main_lua.register_function("PBZMC_ReadCampaignLoadState", &lua_read_campaign_load_state);
                 main_lua.register_function("PBZMC_NewCampaignId", &lua_new_campaign_id);
                 main_lua.register_function("PBZMC_CreateCampaignIdentity", &lua_create_campaign_identity);
                 main_lua.register_function("PBZMC_PutCampaignCheckpoint", &lua_put_campaign_checkpoint);
@@ -1177,7 +1223,7 @@ public:
                 main_lua.execute_string(std::string_view("PBZMC_BlockSound = nil; PBZMC_HashHex = nil"));
                 pointer_capture.stop();
                 main_lua.execute_string(std::string_view("PBZMC_JsonRoundTrip = nil; PBZMC_ReadAdvancedJson = nil; PBZMC_ConfigurePreviewCapture = nil; PBZMC_ReadPointerState = nil"));
-                main_lua.execute_string(std::string_view("PBZMC_ReadOrdinaryJson = nil; PBZMC_ReadCampaignState = nil; PBZMC_NewCampaignId = nil; PBZMC_CreateCampaignIdentity = nil; PBZMC_PutCampaignCheckpoint = nil; PBZMC_SetHotbarSelection = nil"));
+                main_lua.execute_string(std::string_view("PBZMC_ReadOrdinaryJson = nil; PBZMC_ReadCampaignState = nil; PBZMC_ReadCampaignLoadState = nil; PBZMC_NewCampaignId = nil; PBZMC_CreateCampaignIdentity = nil; PBZMC_PutCampaignCheckpoint = nil; PBZMC_SetHotbarSelection = nil"));
                 main_lua.execute_string(std::string_view("PBZMC_BeginPointerCapture = nil; PBZMC_ReadPointerEvents = nil; PBZMC_EndPointerCapture = nil"));
                 main_lua.execute_string(std::string_view("PBZMC_BeginItemInput = nil; PBZMC_SetItemInputContext = nil; PBZMC_ReadItemInputEvents = nil; PBZMC_EndItemInput = nil"));
             }

@@ -11,13 +11,15 @@
 ## 安装
 
 1. **退出游戏并备份存档。** 原生存档和模组数据需要一起保存，具体位置见[备份说明](docs/INSTALLATION.md#备份与恢复)。
-2. 首次安装请选择**标准包**。已有 PBZMC 资源或要把自己的缓存带到离线电脑，可选**免下载版**。两个包包含相同的玩法代码。[标准包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.4/PBZMC-0.1.0-alpha.4-win64.zip) · [免下载版（自备缓存）](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.4/PBZMC-0.1.0-alpha.4-win64-offline-cache.zip) · [Nexus 文件页](https://www.nexusmods.com/phantombladezero/mods/374?tab=files) · [标准包大陆备用下载](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.4/PBZMC-0.1.0-alpha.4-win64.zip) · [第二备用入口](https://ghfast.top/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.4/PBZMC-0.1.0-alpha.4-win64.zip)
+2. 首次安装请选择以 `-win64.zip` 结尾的**标准包**。已有 PBZMC 资源可选同版本的 **`-win64-offline-cache.zip` 免下载包**。修复大存档读档问题需使用 **0.1.0-alpha.5 或更新版本**。已有压缩包可直接继续下一步。[GitHub 发行文件](https://github.com/fjdsjd/pbz-mc/releases) · [Nexus 文件页](https://www.nexusmods.com/phantombladezero/mods/374?tab=files) · [大陆网络下载说明](docs/INSTALLATION.md#中国大陆网络与下载失败)
 3. 将压缩包内容解压到 PBZ 游戏根目录，也就是包含 `platform/steam/PBZ.exe` 的目录。解压后 `Launch-PBZMC.cmd` 应与 `platform` 文件夹并列。
 4. 双击 **`Launch-PBZMC.cmd`**。标准包在首次缺少资源时下载并在本机转换。免下载版只校验本机已有资源。换电脑时，先把自己的 `PBZMC/cache/runtime-assets` 目录复制到游戏目录的相同位置。两种安装器都会先核验游戏版本、备份存档，然后安装并通过 Steam 启动。
 
 标准包首次准备资源需要联网及额外磁盘空间。安装器会自行准备转换工具，下载中断后可保留缓存重试。免下载版沿用 alpha.3 的全部资源，已有完整缓存可直接升级。[下载来源与重试方法](docs/INSTALLATION.md#中国大陆网络与下载失败)
 
-仅支持 Windows x64 和[已验证的 PBZ 构建](docs/COMPATIBILITY.md)。这是早期测试版，不承诺跨所有章节、所有模组组合或未来 PBZ 更新兼容。游戏更新后，启动脚本和原生桥会拒绝未经验证的版本；请等待对应更新，不要删除版本检查。
+0.1.0-alpha.5 下载：[标准包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.5/PBZMC-0.1.0-alpha.5-win64.zip) · [免下载包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.5/PBZMC-0.1.0-alpha.5-win64-offline-cache.zip) · [标准包大陆备用](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.5/PBZMC-0.1.0-alpha.5-win64.zip) · [免下载包大陆备用](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.5/PBZMC-0.1.0-alpha.5-win64-offline-cache.zip) · [SHA-256](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.5/SHA256SUMS.txt)。
+
+支持 Steam Windows x64 构建 26266538、26367565。较新的官方 UE 5.7 构建会在启动时自动定位接口。全部匹配即可游玩，匹配失败会显示游戏版本和具体错误，可据此提 issue。[版本兼容说明](docs/COMPATIBILITY.md)
 
 ## 当前玩法
 
@@ -40,6 +42,8 @@
 先退出游戏，再使用 `Backup-PBZMC.cmd` 备份。`Uninstall-PBZMC.cmd` 只删除安装记录中且内容未被修改的模组文件，保留原生存档、模组数据和备份。更新、恢复、与其他 UE4SS 模组共存的处理见[安装教程](docs/INSTALLATION.md)。
 
 问题反馈：[GitHub Issues](https://github.com/fjdsjd/pbz-mc/issues)。请提供发行版本、游戏版本、复现步骤和相关日志片段；不要上传完整存档、账号信息或含个人路径的日志。
+
+如果推进到第二章后读档只剩史蒂夫、背包和快捷栏都消失，请先保留当前进度。旧版可能读不下游戏展开后的存档 JSON；磁盘上约 128 KB 的文件也可能触发。请参照[大存档排查与备份](docs/INSTALLATION.md#大存档与读档失败)更新后重读原档。
 
 ## 源码与许可
 

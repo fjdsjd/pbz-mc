@@ -2,7 +2,7 @@
 
 ## 准备
 
-需要合法安装的 PBZ Steam Windows x64 版本及可用的 Steam。游戏构建必须与 [兼容列表](COMPATIBILITY.md) 一致。为首次工具、资源下载和转换预留至少 3 GB 空间。
+需要合法安装的 PBZ Steam Windows x64 版本及可用的 Steam。已验证构建和较新版本的自动匹配条件见[兼容说明](COMPATIBILITY.md)。为首次工具、资源下载和转换预留至少 3 GB 空间。
 
 先在游戏中通过原生保存入口保存，再正常退出。安装和备份期间不要运行游戏。关闭任何旧版本加载器或模组管理器的自动部署功能，避免两个工具同时写文件。
 
@@ -28,7 +28,7 @@ PBZ/
 
 ## 免下载版与离线迁移
 
-`PBZMC-0.1.0-alpha.4-win64-offline-cache.zip` 使用玩家已经准备好的资源。在已经装过 alpha.3 的电脑上，保留原来的 `PBZMC` 目录，解压新版后双击 `Launch-PBZMC.cmd` 即可。缓存缺失时，安装器也会检查游戏中已安装的资源副本。
+文件名以 `-win64-offline-cache.zip` 结尾的包使用玩家已经准备好的资源。在已经装过 alpha.3 或更新版本的电脑上，保留原来的 `PBZMC` 目录，解压新版后双击 `Launch-PBZMC.cmd` 即可。缓存缺失时，安装器也会检查游戏中已安装的资源副本。
 
 在另一台电脑首次离线安装时，先从自己已装好模组的电脑完整复制 `PBZMC/cache/runtime-assets` 到目标游戏目录的相同位置，再解压免下载版并启动。安装器按包内固定清单核对全部 3172 项资源。无法找到完整的匹配资源时会停止并提示，不会联网下载工具或素材。没有准备过资源的玩家请选标准包。
 
@@ -56,7 +56,7 @@ $env:PBZMC_DOWNLOAD_SOURCE='official'
 
 关闭这个 PowerShell 窗口即可恢复默认镜像策略。若本机代理配置失效，可在同一窗口设置 `$env:PBZMC_DOWNLOAD_PROXY='direct'` 后重试；这仅对本次启动有效，不改变系统代理设置。
 
-Release 页面无法下载时，可以使用 README 的备用入口或 [Nexus 文件页](https://www.nexusmods.com/phantombladezero/mods/374?tab=files)。运行 `Get-FileHash .\PBZMC-0.1.0-alpha.4-win64*.zip -Algorithm SHA256`，按文件名与本次发行的 [SHA256SUMS.txt](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.4/SHA256SUMS.txt) 核对。
+GitHub 下载较慢时，可将同一版本 ZIP 的 GitHub 下载链接复制到 [GH Proxy](https://gh-proxy.com/) 或 [GHFast](https://ghfast.top/)，也可从 [Nexus 文件页](https://www.nexusmods.com/phantombladezero/mods/374?tab=files)选择相同版本。下载后运行 `Get-FileHash .\PBZMC-*-win64*.zip -Algorithm SHA256`，按文件名与该版本随附的 `SHA256SUMS.txt` 核对。
 
 alpha.3 已从空缓存完整下载并校验 4 个工具包和 166 个不同的资源输入，生成的 3172 个运行资源逐个匹配固定哈希；该完整下载在关闭进程代理的日本出口完成。另通过 Globalping 的中国大陆电信、联通、移动节点进行 HTTPS Range 下载抽查，确认各类资源至少有一条可用线路，并据此将 Bedrock 切到 Gcore、FFmpeg 原站优先。节点抽查不等于每个地区的完整安装测试，第三方线路也不能保证永久可用。
 
@@ -74,6 +74,14 @@ alpha.3 已从空缓存完整下载并校验 4 个工具包和 166 个不同的�
 
 建筑和物品变化只在原生保存入口保存时写入检查点。文件备份无法取代尚未发生的游戏内保存。
 
+### 大存档与读档失败
+
+alpha.4 及以前的存档桥最多读取 262,144 个 UTF-16 代码单元，写入前的 JSON 又限于 252 KiB。限制作用于游戏在内存中展开的文本：不能用磁盘上 `.sav` 的大小判断，也没有固定的出错章节。典型表现是史蒂夫外观仍在，但读档后背包、快捷栏和建筑无法加载。旧日志往往先出现 `native FString length exceeds the probe bound`，随后只剩 `formal-inventory-load-unresolved`。
+
+修复后的存档桥最多接受 **8 MiB（8,388,608 字节）的 UTF-8 JSON、400,000 个 JSON 值**；转换前也检查 UTF-16 长度。写入身份、检查点或快捷栏标记时，写入前的文本最多 **8,384,512 字节**，另为新增字段预留少量节点。超过限制时不会截断数据或另建空背包；在 `platform/steam/ue4ss/UE4SS.log` 搜索 `MC 读档失败`、`MC 存档点未能确认保存` 或 `save-limit:`，可看到触发的指标、实测值和上限。存档点写入失败时，请勿假定本次背包或建筑改动已保存。
+
+出现上述旧版报错时，先退出游戏，用 `Backup-PBZMC.cmd` 将**当前原生存档和模组数据一起备份**，安装含此修复的版本并完全重启，再读取同一个存档。仅触发旧上限并不需要回退进度或删除 `pbzmc-data`。建议每次换章和升级前都备份，并另存一份在游戏目录外。
+
 ## 更新与卸载
 
 更新前保存、退出、备份，查看新版本说明后再解压覆盖安装工具并运行启动脚本。脚本仅更新它能确认归属的文件；手动改过的文件或其他模组的冲突文件会阻止覆盖。
@@ -84,7 +92,7 @@ alpha.3 已从空缓存完整下载并校验 4 个工具包和 166 个不同的�
 
 ## 常见问题
 
-- **提示版本不支持：** 游戏的可执行文件哈希与已验证版本不同。获取适配版本，不能用改校验值的方法“适配”。
+- **提示 `PBZMC-HOST`：** 较新游戏版本会自动尝试匹配。如果报告引擎不兼容、缺少入口、多个匹配或调用目标改变，请保留完整提示，连同游戏版本发到 GitHub Issues。
 - **资源准备失败：** 检查网络和磁盘空间，保留 `PBZMC/cache` 后重试。转换日志位于 `PBZMC/cache/asset-work/`。哈希错误应重新下载该缓存文件，勿关闭校验。
 - **仍是原版人物／没有 MC UI：** 确认使用启动脚本完成首次准备；检查 `platform/steam/ue4ss/UE4SS.log`。不能在游戏运行时替换 DLL。
 - **缺少 VC 运行库 DLL：** 安装微软官方 [Visual C++ 2015–2022 x64 运行库](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist)。不要从不明网站下载单个 DLL。

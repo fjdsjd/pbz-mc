@@ -41,19 +41,27 @@ inline std::optional<std::string> known_anchor(const Value& root,std::string_vie
     return actual;
 }
 struct Current {std::string campaign_id,checkpoint;};
-inline Current current(const Value& root) {
+inline std::optional<Current> inspect(const Value& root,bool allow_registration) {
     const auto gameplay=key(root,"PBZGameSystem");
     require(gameplay && *gameplay=="PBZGameSystem" && root.object.at(*gameplay).kind==Value::Kind::object,
         "campaign gameplay root required");
     const auto marker=key(root,Campaign::section);
+    if (!marker && allow_registration) {
+        require(!key(root,section),"campaign checkpoint without identity; registration refused");
+        return std::nullopt;
+    }
     require(marker && root.object.at(*marker).kind==Value::Kind::object,"campaign identity required");
     const auto& fields=root.object.at(*marker).object;
     const auto id=fields.find("campaign_id");
     require(id!=fields.end() && id->second.kind==Value::Kind::string,"campaign identity id missing");
     identity(root,id->second.atom);
     const auto anchor_key=known_anchor(root,id->second.atom);
+    if (!anchor_key && allow_registration) return std::nullopt;
     require(anchor_key.has_value(),"campaign checkpoint required");
-    return {id->second.atom,root.object.at(*anchor_key).object.at("checkpoint").atom};
+    return Current{id->second.atom,root.object.at(*anchor_key).object.at("checkpoint").atom};
+}
+inline Current current(const Value& root) {
+    return inspect(root,false).value();
 }
 inline std::string verify(Value before,Value after,std::string_view campaign_id,const Value& expected) {
     identity(before,campaign_id);identity(after,campaign_id);
@@ -72,9 +80,9 @@ Proof put(std::string_view campaign_id,std::string_view checkpoint,std::string_v
     require(!write_started,"checkpoint write already started");
     Campaign::validate_uuid(campaign_id);Campaign::validate_sha(checkpoint);Campaign::validate_sha(expected_sha);
     const auto before_text=read();
-    require(before_text.size()<=Campaign::identity_before_limit,"ordinary root lacks checkpoint write reserve");
-    std::size_t nodes{};const auto before=Campaign::parse(before_text,&nodes);
-    require(nodes<=Campaign::node_limit-16,"ordinary root lacks checkpoint node reserve");
+    Campaign::check_write_size(before_text.size());
+    std::size_t nodes{};auto before=Campaign::parse(before_text,&nodes);
+    Campaign::check_limit(nodes,Campaign::node_limit-16,"expanded save JSON values before checkpoint write");
     identity(before,campaign_id);const auto previous=known_anchor(before,campaign_id);
     const auto before_sha=digest(before_text);
     require(before_sha==expected_sha,"checkpoint root precondition changed");
@@ -86,6 +94,6 @@ Proof put(std::string_view campaign_id,std::string_view checkpoint,std::string_v
     write_started=true; // A void native write and all subsequent failures are indeterminate.
     write();
     const auto after_text=read();
-    return {verify(before,Campaign::parse(after_text),campaign_id,expected),before_sha,digest(after_text),true};
+    return {verify(std::move(before),Campaign::parse(after_text),campaign_id,expected),before_sha,digest(after_text),true};
 }
 } // namespace PBZMC::Checkpoint

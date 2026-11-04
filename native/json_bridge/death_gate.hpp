@@ -8,7 +8,7 @@ using Activate=bool(*)(UObject*,const void*);
 inline Activate original{};
 inline UObject* owner{};
 inline std::wstring owner_name;
-inline std::uintptr_t image_base{};
+inline std::uintptr_t retry_a{},retry_b{};
 inline std::uint64_t observed{},handled{},failures{};
 inline std::string error;
 inline void clear(){owner=nullptr;owner_name.clear();}
@@ -26,7 +26,7 @@ inline bool intercept(UObject* component,const void* tag){
   try{
    // These two native loops iterate a copy of the pending queue. The Lua
    // decision checks the live queue before replaying a copied Dead request.
-   const bool retry=caller==image_base+0x5d9503c || caller==image_base+0x5d9488b;
+   const bool retry=caller==retry_a || caller==retry_b;
    lua->prepare_function_call("PBZMC_DeathDecision");lua->set_bool(retry);lua->call_function(1,1);
    require(lua->is_bool(),"death decision must be boolean");saved=lua->get_bool();
    if(saved)++handled;
@@ -46,8 +46,10 @@ inline void install(){
   const auto schema=inspect_signature(L"/Script/SGameActorState.ActorStateComponent:TryActivateNewState",params);
   require(schema.at(L"NewStateTag").offset==0 && schema.at(L"NewStateTag").property->GetSize()==8
    && schema.at(L"ReturnValue").offset==8,"death state signature changed");
-  image_base=reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr));
-  auto* address=reinterpret_cast<unsigned char*>(image_base+0x5d94d30);
+  const auto& build=verified_host_build();
+  const auto image_base=reinterpret_cast<std::uintptr_t>(GetModuleHandleW(nullptr));
+  retry_a=image_base+build.retry_a;retry_b=image_base+build.retry_b;
+  auto* address=reinterpret_cast<unsigned char*>(image_base+build.activate_state);
   constexpr unsigned char prefix[]{0x40,0x55,0x56,0x41,0x54,0x41,0x57,0x48,0x8b,0xec,0x48,0x83,0xec,0x78};
   require(std::memcmp(address,prefix,sizeof(prefix))==0,"death state entry changed");
   auto code=MH_CreateHook(address,reinterpret_cast<void*>(&intercept),reinterpret_cast<void**>(&original));

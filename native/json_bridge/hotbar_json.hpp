@@ -35,8 +35,9 @@ Checkpoint::Proof put(std::string_view id,std::string_view checkpoint,std::strin
     std::string_view expected_sha,Read read_root,Prepare prepare,Write write,Digest digest,bool& started) {
     require(!started,"hotbar write already started");Campaign::validate_sha(expected_sha);
     const auto text=marker(id,checkpoint,mode,selected);const auto expected=Campaign::parse(text);
-    const auto before_text=read_root();std::size_t nodes{};auto before=Campaign::parse(before_text,&nodes);
-    require(before_text.size()<=Campaign::identity_before_limit && nodes<=Campaign::node_limit-24,"hotbar root reserve");
+    const auto before_text=read_root();Campaign::check_write_size(before_text.size());
+    std::size_t nodes{};auto before=Campaign::parse(before_text,&nodes);
+    Campaign::check_limit(nodes,Campaign::node_limit-24,"expanded save JSON values before hotbar write");
     const auto scope=Checkpoint::current(before);
     require(scope.campaign_id==id && scope.checkpoint==checkpoint,"hotbar checkpoint changed");
     read(before,id,checkpoint);const auto prior=Checkpoint::key(before,section);

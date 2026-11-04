@@ -177,14 +177,33 @@ try {
         Write-Host 'Mod files removed. Native saves, mod data, resource cache and backups are retained.'
         exit 0
     }
-    if ((Hash $exe) -notin $manifest.supported_exe_sha256) {
+    $known=(Hash $exe) -in $manifest.supported_exe_sha256
+    $future=$false
+    $hostFailure='unsupported PBZ build or engine version'
+    if (-not $known -and $manifest.future_after_cl) {
+        $info=[Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
+        $future=$info.ProductName -ceq 'Phantom Blade Zero' -and $info.CompanyName -ceq 'S-GAME' -and
+            $info.InternalName -ceq 'ProjectPBZ' -and $info.OriginalFilename -ieq 'PBZ.exe' -and
+            $info.FileMajorPart -eq 5 -and $info.FileMinorPart -eq 7 -and
+            $info.FileVersion -cmatch '^CL-([0-9]{1,9})_JKS-[0-9]+$' -and [int64]$Matches[1] -gt [int64]$manifest.future_after_cl
+        if ($future) {
+            $checker=Join-Path $PSScriptRoot 'Check-PBZHost.exe'
+            if (-not (Test-Path -LiteralPath $checker) -or (Hash $checker) -ne $manifest.host_check_sha256) {
+                $future=$false;$hostFailure='damaged compatibility checker. Extract the release again'
+            } else {
+                $diagnostic=(& $checker $exe | Out-String).Trim()
+                if ($LASTEXITCODE -ne 0) { $future=$false;$hostFailure=$diagnostic } else { Write-Host $diagnostic }
+            }
+        }
+    }
+    if (-not $known -and -not $future) {
         # Only disable the proxy owned by this release, never another loader.
         $proxy=Resolve-Child $root 'platform/steam/dwmapi.dll'
         $expected=$manifest.files | Where-Object path -eq 'platform/steam/dwmapi.dll'
         if ((Test-Path -LiteralPath $receiptPath) -and (Test-Path -LiteralPath $proxy) -and (Hash $proxy) -eq $expected.sha256) {
             Move-Item -LiteralPath $proxy -Destination ($proxy+'.pbzmc-disabled') -Force
         }
-        throw 'Unsupported PBZ build. The mod was not started; obtain a compatible release. Do not bypass the version guard.'
+        throw "PBZMC-HOST: $hostFailure. Report the game version and executable SHA-256 $(Hash $exe) at https://github.com/fjdsjd/pbz-mc/issues."
     }
     $installed=$null
     if (Test-Path -LiteralPath $receiptPath) { $installed=Get-Content -LiteralPath $receiptPath -Raw | ConvertFrom-Json }
@@ -199,6 +218,11 @@ try {
         Write-Host 'Installed files and game build verified.';exit 0
     }
     $current=$installed -and -not $installed.uninstalled -and $installed.version -eq $manifest.version
+    if ($current) {
+        foreach ($entry in $manifest.files) {
+            if ($ownedHashes[$entry.path] -ne $entry.sha256) { $current=$false;break }
+        }
+    }
     if ($current) {
         foreach ($critical in @('platform/steam/dwmapi.dll','platform/steam/ue4ss/UE4SS.dll',
             'platform/steam/ue4ss/Mods/PBZMCJsonBridge/dlls/main.dll','platform/steam/ue4ss/Mods/PBZMCProbe/Scripts/main.lua',

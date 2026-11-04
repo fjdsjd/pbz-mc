@@ -16,7 +16,9 @@
 !/native/json_bridge/
 /native/json_bridge/*
 !/native/json_bridge/*.hpp
+!/native/json_bridge/host_builds.inc
 !/native/json_bridge/main.cpp
+!/native/json_bridge/check_host.cpp
 !/native/json_bridge/build-portable.ps1
 !/third_party/
 /third_party/*
@@ -42,6 +44,9 @@
 !/tools/package_offline.py
 !/tools/check_release.py
 !/tools/check_starter_loadout.py
+!/tools/check_campaign_save_limits.cpp
+!/tools/check_campaign_load.py
+!/tools/locate_host_build.py
 !/tools/check_auto_defense.py
 !/tools/check_building_delta.py
 !/tools/check_boat_distance_sleep.py

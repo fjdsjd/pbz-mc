@@ -3,13 +3,25 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 import shutil
 import zipfile
 
 ROOT=Path(__file__).resolve().parents[1]
-GAME_HASH='7b4fcd286a350780faf0824d73aa150b21cbf1bccde883e6a96386cbe09973b4'
 LOADER_HASH='c273e7228687b647226fd63d7ca65888d313ece6be18996ec1320d00a5efe1f8'
+
+def game_builds():
+    # Read the same table compiled into the DLL. Refuse unrecognized rows.
+    rows=(ROOT/'native/json_bridge/host_builds.inc').read_text('ascii').splitlines()
+    builds={}
+    for row in rows:
+        if not row.strip() or row.lstrip().startswith('//'): continue
+        match=re.fullmatch(r'\{"([0-9a-f]{64})",\d+,(\d+)(?:,0x[0-9a-f]+){6}\},',row.strip())
+        if not match or match[1] in builds: raise ValueError('Invalid native host build table')
+        builds[match[1]]=int(match[2])
+    if not builds: raise ValueError('No supported host builds')
+    return builds
 
 def sha(path):return hashlib.file_digest(path.open('rb'),'sha256').hexdigest()
 def copy(source,destination):
@@ -25,8 +37,9 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--loader',type=Path,required=True,help='Pinned loader folder containing dwmapi.dll and ue4ss/UE4SS.dll')
     parser.add_argument('--bridge',type=Path,default=ROOT/'build/native-release/main.dll')
+    parser.add_argument('--host-check',type=Path,default=ROOT/'build/native-release/Check-PBZHost.exe')
     parser.add_argument('--output',type=Path,required=True,help='New, empty output directory; never overwrites earlier releases')
-    parser.add_argument('--version',default='0.1.0-alpha.4')
+    parser.add_argument('--version',default='0.1.0-alpha.5')
     args=parser.parse_args()
     if not args.version or any(c not in '0123456789abcdefghijklmnopqrstuvwxyz.-' for c in args.version):raise ValueError('Invalid release version')
     if sha(args.loader/'ue4ss/UE4SS.dll')!=LOADER_HASH:raise ValueError('Wrong loader DLL')
@@ -51,6 +64,7 @@ def main():
         (mods/name).mkdir(parents=True,exist_ok=True)
         (mods/name/'enabled.txt').write_text('','utf-8')
     copy(args.bridge,mods/'PBZMCJsonBridge/dlls/main.dll')
+    copy(args.host_check,package/'Check-PBZHost.exe')
     scripts=mods/'PBZMCProbe/Scripts'
     copy(ROOT/'distribution/runtime/main.lua',scripts/'main.lua')
     tree(ROOT/'src',scripts/'pbzmc',{'.lua'})
@@ -67,8 +81,9 @@ def main():
                  'nlohmann-json-3.11.3/LICENSE.MIT','wukong-steve/LICENSE','wukong-steve/NOTICE','dkjson/dkjson.lua'):
         copy(ROOT/'third_party'/name,stage/'third_party'/name)
     files=[dict(path=p.relative_to(payload).as_posix(),sha256=sha(p))for p in sorted(payload.rglob('*'))if p.is_file()]
-    manifest=dict(schema=1,version=args.version,steam_app_id=4115450,supported_exe_sha256=[GAME_HASH],
-                  asset_recipe_sha256=sha(ROOT/'distribution/asset-recipes/runtime-files.json'),files=files)
+    builds=game_builds()
+    manifest=dict(schema=1,version=args.version,steam_app_id=4115450,supported_exe_sha256=list(builds),future_after_cl=max(builds.values()),
+                  host_check_sha256=sha(args.host_check),asset_recipe_sha256=sha(ROOT/'distribution/asset-recipes/runtime-files.json'),files=files)
     (package/'release.json').write_text(json.dumps(manifest,indent=2)+'\n','utf-8')
     archive=output/f'PBZMC-{args.version}-win64.zip'
     with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED,compresslevel=9) as z:

@@ -10,12 +10,19 @@
 namespace PBZMC::Campaign {
 inline constexpr std::string_view section = "PBZMC_CampaignIdentity";
 inline constexpr wchar_t section_wide[] = L"PBZMC_CampaignIdentity";
-inline constexpr std::size_t root_limit = 1024 * 1024;
-// Reserve >4 Ki native characters for the marker and serializer. The native
-// getter has a 256 Ki UTF-16-unit bound, so this initial write conservatively
-// limits the BEFORE root to 252 Ki UTF-8 bytes. Reads retain their larger bound.
-inline constexpr std::size_t identity_before_limit = 252 * 1024;
-inline constexpr std::size_t node_limit = 100000;
+// Limit the expanded save, not the size of its on-disk .sav. A valid UTF-8
+// encoding has at least one byte per UTF-16 code unit.
+inline constexpr std::size_t root_limit = 8 * 1024 * 1024;
+inline constexpr std::size_t write_reserve = 4 * 1024;
+inline constexpr std::size_t identity_before_limit = root_limit - write_reserve;
+inline constexpr std::size_t node_limit = 400000;
+inline void check_limit(std::size_t actual, std::size_t limit, std::string_view what) {
+    if (actual > limit) throw std::runtime_error("save-limit: " + std::string(what) + "=" +
+        std::to_string(actual) + ", limit=" + std::to_string(limit));
+}
+inline void check_write_size(std::size_t bytes) {
+    check_limit(bytes,identity_before_limit,"expanded save before write (UTF-8 bytes, marker reserve excluded)");
+}
 inline void require(bool ok, const char* error) { if (!ok) throw std::runtime_error(error); }
 
 // Numeric atoms retain their source lexemes. Parsing to double and comparing
@@ -27,9 +34,10 @@ struct Value {
     std::map<std::string, Value, std::less<>> object;
     bool operator==(const Value&) const = default;
 };
-inline std::vector<std::string> numeric_tokens(std::string_view text) {
-    std::vector<std::string> result;
-    for (std::size_t i=0; i<text.size();) {
+// Pull one lexeme per SAX number. In particular, a dense array cannot build
+// an unbounded second vector of tokens before the node budget gets checked.
+inline std::string next_number(std::string_view text,std::size_t& i) {
+    while (i<text.size()) {
         if (text[i]=='"') {
             ++i;
             while (i<text.size() && text[i]!='"') {
@@ -40,20 +48,20 @@ inline std::vector<std::string> numeric_tokens(std::string_view text) {
         } else if (text[i]=='-' || (text[i]>='0' && text[i]<='9')) {
             const auto start=i++;
             while (i<text.size() && std::string_view("0123456789.eE+-").find(text[i])!=std::string_view::npos) ++i;
-            result.emplace_back(text.substr(start,i-start));
+            return std::string(text.substr(start,i-start));
         } else ++i;
     }
-    return result; // Grammar/UTF-8/escapes are checked by the real parser below.
+    throw std::runtime_error("numeric token count mismatch");
 }
 
 class Parser final : public nlohmann::json_sax<nlohmann::json> {
     struct Frame { Value value; std::optional<std::string> key; };
     std::vector<Frame> stack_;
-    std::vector<std::string> numbers_;
-    std::size_t number_index_{}, nodes_{};
+    std::string_view source_;
+    std::size_t number_pos_{}, nodes_{};
     std::optional<Value> root_;
     bool add(Value value) {
-        require(++nodes_<=node_limit,"ordinary root has too many JSON values");
+        check_limit(++nodes_,node_limit,"expanded save JSON values");
         if (stack_.empty()) {
             require(!root_,"ordinary root contains multiple JSON values");
             root_=std::move(value);
@@ -72,8 +80,7 @@ class Parser final : public nlohmann::json_sax<nlohmann::json> {
         Value value; value.kind=kind; value.atom=std::move(text); return add(std::move(value));
     }
     bool number() {
-        require(number_index_<numbers_.size(),"numeric token count mismatch");
-        return atom(Value::Kind::number,numbers_[number_index_++]);
+        return atom(Value::Kind::number,next_number(source_,number_pos_));
     }
     bool start(Value::Kind kind) {
         require(stack_.size()<128,"ordinary root exceeds JSON nesting limit");
@@ -84,7 +91,7 @@ class Parser final : public nlohmann::json_sax<nlohmann::json> {
         auto value=std::move(stack_.back().value); stack_.pop_back(); return add(std::move(value));
     }
 public:
-    explicit Parser(std::string_view text):numbers_(numeric_tokens(text)) {}
+    explicit Parser(std::string_view text):source_(text) {}
     bool null() override { return atom(Value::Kind::null,""); }
     bool boolean(bool value) override { return atom(Value::Kind::boolean,value?"true":"false"); }
     bool number_integer(number_integer_t) override { return number(); }
@@ -105,7 +112,7 @@ public:
         throw std::runtime_error("ordinary root is not one valid complete JSON object");
     }
     Value take() {
-        require(root_.has_value() && stack_.empty() && number_index_==numbers_.size(),"incomplete ordinary root parse");
+        require(root_.has_value() && stack_.empty(),"incomplete ordinary root parse");
         require(root_->kind==Value::Kind::object,"ordinary root must be a JSON object");
         return std::move(*root_);
     }
@@ -113,7 +120,8 @@ public:
 };
 
 inline Value parse(std::string_view text,std::size_t* nodes=nullptr) {
-    require(!text.empty() && text.size()<=root_limit && text.find('\0')==std::string_view::npos,"ordinary root byte bound/NUL violation");
+    check_limit(text.size(),root_limit,"expanded save JSON (UTF-8 bytes)");
+    require(!text.empty() && text.find('\0')==std::string_view::npos,"ordinary root is empty or contains NUL");
     require(!text.starts_with("\xef\xbb\xbf"),"ordinary root must not contain a UTF-8 BOM");
     Parser parser(text);
     require(nlohmann::json::sax_parse(text.begin(),text.end(),&parser,nlohmann::json::input_format_t::json,true,false),"ordinary root parsing failed");
@@ -173,10 +181,10 @@ CreationProof create_only(std::string_view id,std::string_view expected_sha,
     require(!write_started,"identity write already started");
     validate_uuid(id); validate_sha(expected_sha);
     const auto before_text=read();
-    require(before_text.size()<=identity_before_limit,"ordinary root exceeds the identity write bound with required reserve");
+    check_write_size(before_text.size());
     std::size_t before_nodes{};
     const auto before=parse(before_text,&before_nodes);
-    require(before_nodes<=node_limit-16,"ordinary root lacks the identity write node reserve");
+    check_limit(before_nodes,node_limit-16,"expanded save JSON values before identity write");
     require_absent(before);
     const auto before_hash=digest(before_text);
     require(before_hash==expected_sha,"ordinary root precondition changed");

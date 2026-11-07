@@ -28,10 +28,10 @@ python tools/check_launcher.py
 输出 `build/launcher-proxy/dwmapi.dll` 和源码哈希回执。打包器默认读取该文件，可通过 `--proxy` 指定同目录带回执的构建；源码变更后必须重建。`check_launcher.py` 在独立临时进程中加载实际代理与模拟 UE4SS DLL，验证默认关闭、参数精确匹配、禁用优先、系统 API 转发及异常退出后默认关闭，不操作真实 Steam。真实游戏的两种启动路径需另行验证。
 
 ```powershell
-python tools/package_release.py --loader build/loader --version 0.1.0-alpha.6 --output build/package-0.1.0-alpha.6
-python tools/check_release.py build/package-0.1.0-alpha.6/stage
-python tools/package_offline.py --release build/package-0.1.0-alpha.6/stage --cache-only --output build/offline-cache-0.1.0-alpha.6
-python tools/check_release.py build/offline-cache-0.1.0-alpha.6/stage --installer-test
+python tools/package_release.py --loader build/loader --version 0.1.0-alpha.6.1 --output build/package-0.1.0-alpha.6.1
+python tools/check_release.py build/package-0.1.0-alpha.6.1/stage
+python tools/package_offline.py --release build/package-0.1.0-alpha.6.1/stage --cache-only --output build/offline-cache-0.1.0-alpha.6.1
+python tools/check_release.py build/offline-cache-0.1.0-alpha.6.1/stage --installer-test
 ```
 
 输出目录必须为空。打包脚本使用明确的文件列表，输出可解压到游戏根目录的 ZIP 与 SHA256SUMS。不会复制本机存档、日志、原游戏文件、私有资源缓存或开发命令入口。
@@ -43,8 +43,8 @@ python tools/check_release.py build/offline-cache-0.1.0-alpha.6/stage --installe
 已有通过校验的运行资源时，可以组合成首次启动也无需下载的离线包：
 
 ```powershell
-python tools/package_offline.py --release build/package-0.1.0-alpha.6/stage --assets build/runtime-assets --output build/offline-0.1.0-alpha.6
-python tools/check_release.py build/offline-0.1.0-alpha.6/stage --installer-test
+python tools/package_offline.py --release build/package-0.1.0-alpha.6.1/stage --assets build/runtime-assets --output build/offline-0.1.0-alpha.6.1
+python tools/check_release.py build/offline-0.1.0-alpha.6.1/stage --installer-test
 ```
 
 `--assets` 必须包含 `ready.json`，且全部资源与固定配方逐项匹配。打包器只复制清单内的运行资源，不带个人存档、下载的客户端归档、转换工具或开发缓存。离线包包含 `PBZMC/cache/runtime-assets`，其安装器校验资源清单后直接使用；缺失或损坏时停止，不联网回退。游戏运行文件和在线包相同。

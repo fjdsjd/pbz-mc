@@ -52,7 +52,7 @@ def main():
     parser.add_argument('--bridge',type=Path,default=ROOT/'build/native-release/main.dll')
     parser.add_argument('--host-check',type=Path,default=ROOT/'build/native-release/Check-PBZHost.exe')
     parser.add_argument('--output',type=Path,required=True,help='New, empty output directory; never overwrites earlier releases')
-    parser.add_argument('--version',default='0.1.0-alpha.6')
+    parser.add_argument('--version',default='0.1.0-alpha.6.1')
     args=parser.parse_args()
     if not args.version or any(c not in '0123456789abcdefghijklmnopqrstuvwxyz.-' for c in args.version):raise ValueError('Invalid release version')
     if sha(args.loader/'ue4ss/UE4SS.dll')!=LOADER_HASH:raise ValueError('Wrong loader DLL')
@@ -83,6 +83,25 @@ def main():
     scripts=mods/'PBZMCProbe/Scripts'
     copy(ROOT/'distribution/runtime/main.lua',scripts/'main.lua')
     tree(ROOT/'src',scripts/'pbzmc',{'.lua'})
+    # Keep lookup metadata with the code so existing verified resource caches work offline.
+    recipe=json.loads((ROOT/'distribution/asset-recipes/runtime-files.json').read_bytes())
+    icons={}
+    for path,row in recipe.items():
+        match=re.fullmatch(r'ui/construction/([a-z0-9_]+)\.png',path)
+        if match:icons[match[1]]=row['sha256']
+    if not icons:raise ValueError('Construction icon hashes missing from the resource recipe')
+    ui=json.loads((ROOT/'distribution/asset-recipes/manifests/ui/manifest.json').read_bytes())
+    indexed={row['path']:row['sha256'] for row in ui['outputs']}
+    blocks=json.loads((ROOT/'src/content/construction_reference.json').read_bytes())['blocks']
+    for name,*_ in blocks:
+        icon=ui['item_icons'].get('pbzmc:'+name)
+        if icon:
+            if not indexed.get(icon) or indexed[icon]!=recipe.get('ui/'+icon,{}).get('sha256'):
+                raise ValueError('Unverified construction catalogue icon: '+icon)
+        elif name not in icons:
+            raise ValueError('Missing construction catalogue icon: '+name)
+    hashes=''.join(f'  ["{name}"]="{digest}",\n' for name,digest in sorted(icons.items()))
+    (scripts/'pbzmc/content/construction_icon_hashes.lua').write_text('return {\n'+hashes+'}\n',encoding='ascii',newline='\n')
     copy(ROOT/'third_party/dkjson/dkjson.lua',scripts/'pbzmc/vendor/dkjson.lua')
     source=package/'source'
     copy(ROOT/'tools/prepare_release_assets.py',source/'tools/prepare_release_assets.py')

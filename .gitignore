@@ -55,6 +55,7 @@
 !/tools/package_release.py
 !/tools/package_offline.py
 !/tools/check_release.py
+!/tools/check_packaged_inventory.py
 !/tools/check_launcher.py
 !/tools/check_starter_loadout.py
 !/tools/check_campaign_save_limits.cpp

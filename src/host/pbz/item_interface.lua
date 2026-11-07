@@ -18,6 +18,7 @@ local keep_ui_on_close
 local selector,selection_context,combat
 local display_binding,display_pc
 local command_session
+local inventory_error_notice
 local ui_retry_at
 local function camera() return require('host.pbz.first_person_camera').get() end
 function M.view_state() return data end
@@ -149,7 +150,8 @@ local function begin(binding,preview,log)
     local ok,why=pcall(tick,log)
     if not ok then
       if interaction and interaction.last_error~=tostring(why) then interaction.last_error=tostring(why);log('inventory input failed: '..tostring(why)) end
-      close_pending=true;pcall(cleanup)
+      inventory_error_notice=true
+      request_close(false,log)
     end
   end)
   assert(controls and controls_binding==binding,'item-input-not-ready')
@@ -395,7 +397,14 @@ function M.start(log,directory)
             if request.kind=='open_inventory' then selector:abort('inventory-opened')
             else selector:queue(request);break end
           end
-          if request.kind=='open_inventory' then M.command('avatar_ui_preview',log,directory);return end
+          if request.kind=='open_inventory' then
+            local opened,err=pcall(M.command,'avatar_ui_preview',log,directory)
+            if not opened then
+              log('inventory open failed: '..tostring(err))
+              inventory_error_notice=true
+            end
+            return
+          end
           local success,why=pcall(function()
             if request.kind=='select_slot' or request.kind=='scroll_slots' then
               local index=request.kind=='select_slot' and request.index or ((data.player.selected-1+request.steps)%9)+1
@@ -452,6 +461,10 @@ function M.start(log,directory)
         if render_revision~=revision or controls_width~=pointer.width or controls_height~=pointer.height or controls_camera~=first_person then
           instance:render(data,{inventory=false,crosshair=first_person or controls_group=='mc'});render_revision=revision;controls_camera=first_person
           controls_width,controls_height=pointer.width,pointer.height
+        end
+        if inventory_error_notice then
+          inventory_error_notice=nil
+          defense_notice('背包显示失败，请查看 UE4SS.log','error',5)
         end
         if instance.command_layer then
           local real=gameplay:GetRealTimeSeconds(binding.actor)
@@ -540,7 +553,7 @@ function M.command(command,log,directory,diagnostic_group)
   assert(command~='avatar_ui_resources','development-fixture-removed-use-give')
   data,revision=campaign.view(assert(current_binding(),'formal-current-player-required'))
   -- Item keys are active immediately and after each controller replacement.
-  controls_group=diagnostic_group or 'mc';controls_epoch=controls_epoch+1
+  controls_group=diagnostic_group or controls_group;controls_epoch=controls_epoch+1
   controls_controller=require('presentation.hotbar_input').new()
   shown=true;render_revision=-1
   local binding
@@ -559,6 +572,6 @@ function M.command(command,log,directory,diagnostic_group)
     if binding and not interaction then begin(binding,preview,log) end
     instance:render(data,{inventory=command~='avatar_ui_hotbar',preview_binding=preview})
   end)
-  if not ok then close_pending=true;pcall(cleanup);error(err) end
+  if not ok then request_close(false,log);error(err) end
 end
 return M

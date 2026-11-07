@@ -81,7 +81,22 @@ local function find_owner()
   error('live-pbz-overlay-unavailable')
 end
 local cached_assets
-local function resource_index(asset_path)
+local function construction_icon_hashes(asset_path)
+  if package.searchpath('content.construction_icon_hashes',package.path) then
+    return require('content.construction_icon_hashes')
+  end
+  -- A development install may have only the verified resource receipt.
+  local file=assert(io.open(asset_path..'/../ready.json','rb'),'missing-construction-icon-receipt')
+  local raw=file:read('*a');file:close()
+  local receipt=assert(require('dkjson').decode(raw))
+  local hashes={}
+  for _,entry in ipairs(receipt.files)do
+    local name=entry.path:match('^ui/construction/([a-z0-9_]+)%.png$')
+    if name then hashes[name]=entry.sha256 end
+  end
+  return hashes
+end
+function M.resource_index(asset_path)
   if cached_assets and cached_assets.path==asset_path then return cached_assets end
   local file=assert(io.open(asset_path..'/manifest.json','rb'))
   local raw=file:read('*a');file:close()
@@ -89,13 +104,21 @@ local function resource_index(asset_path)
   assert(assets.schema==1 and assets.layout_profile=='java-inventory-176x166-v1','unsupported-ui-asset-layout')
   local records={}
   for _,entry in ipairs(assets.outputs)do records[entry.path]=entry end
+  for name,hash in pairs(construction_icon_hashes(asset_path))do
+    local id='pbzmc:'..name
+    if not assets.item_icons[id] then
+      local path='construction/'..name..'.png'
+      assets.item_icons[id]=path
+      records[path]=records[path] or {path=path,sha256=hash}
+    end
+  end
   local ok,why=pcall(require('presentation.original_mc_font').attach,assets,asset_path,records)
   cached_assets={path=asset_path,assets=assets,records=records,font_error=not ok and tostring(why)or nil}
   return cached_assets
 end
 function M.new(asset_path,log)
   local owner,tree,root=find_owner()
-  local index=resource_index(asset_path)
+  local index=M.resource_index(asset_path)
   local self={asset_path=asset_path,assets=index.assets,records=index.records,font_error=index.font_error,
     log=log or function() end,textures={},texture_ids={},texture_refs={},images={},image_ids={},clips={},clip_ids={},draw_cache={}}
   if self.font_error then self.log('original font fallback: '..self.font_error)end

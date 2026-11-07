@@ -202,6 +202,7 @@ function M:update(presentation)
       {position={X=0,Y=0,Z=24*pose.scale-capsule:GetScaledCapsuleHalfHeight()},rotation={Pitch=0,Yaw=0,Roll=0}})
     local render_anchor
     output,render_anchor=require('presentation.minecraft_gliding_pose').solve(cache,state)
+    if state.command_swing then output=require('host.pbz.command_presentation').third_person_pose(output,cache,state)end
     self.elytra_body_local=require('presentation.elytra_pose').relative(render_anchor,output.body)
     if not self.held then
       local catalog=require('host.pbz.item_models').new(self.item_models_root)
@@ -226,13 +227,17 @@ function M:update(presentation)
   self.render_pose=output -- Read-only input for camera-owned hand visuals.
   local armor_slots=require('host.pbz.campaign_inventory').armor_slots(self)
   local armor=require('host.pbz.armor_state').get(armor_slots)
-  if self.armor and not self.armor:is_current() then self.armor:close();self.armor=nil end
+  local armor_updated=false
+  if self.armor then
+    armor_updated=self.armor:refresh(armor,output,nil,self.armor_hidden)
+    if not armor_updated then self.armor:close();self.armor=nil end
+  end
   if armor.count>0 and not self.armor then
     local worn=require('host.pbz.worn_armor')
     self.armor=worn.new(self.actor,
       require('host.pbz.armor_models').new(self.armor_models_root),self.material,{owned=self.owned,parents=worn.parents(self.parts)})
   end
-  if self.armor then
+  if self.armor and not armor_updated then
     self.armor:set_hidden(self.armor_hidden)
     self.armor:update(armor,output)
   end

@@ -32,7 +32,7 @@ function M.new(host)
   assert(type(host)=='table' and type(host.authorize)=='function' and type(host.cancel)=='function'
     and type(host.handlers)=='table','missing-minecraft-action-adapter')
   return setmetatable({host=host,serial=0,previous_attack=-100,last_use=-100,next_pearl=0,next_wind=0,
-    last_mining_swing=-100,next_spear_tick=0,last_jab=-100,last_spear_impact=-100,
+    last_mining_swing=-100,last_jab=-100,last_spear_impact=-100,
     last_seq=-1,seen={}},M)
 end
 function M:_cancel(reason)
@@ -41,7 +41,7 @@ function M:_cancel(reason)
   self.breaking_block=false
   self.attack_target_checked=nil;self.attack_target_consumed=false;self.target_swing_until=nil
   self.last_entity_use=nil
-  self.swing_start=nil;self.last_jab=-100;self.attack_id=nil
+  self.swing_start=nil;self.swing_hand=nil;self.last_jab=-100;self.last_spear_impact=-100;self.attack_id=nil;self.spear_release=nil
   if old then self.host:cancel(old,reason) end
   -- Player cooldowns deliberately survive equipment/group/pause cancellations.
 end
@@ -67,7 +67,7 @@ function M:_action_id()
   self.serial=self.serial+1;assert(self.serial<2^53,'action-sequence-exhausted')
   return tostring(self.bound.epoch)..':'..tostring(self.serial)
 end
-function M:_animate(now) self.swing_start=now end
+function M:_animate(now,hand) self.swing_start=now;self.swing_hand=hand or 'main' end
 function M:_pearl(now,c,hand)
   if now<self.next_pearl or ((c.item_cooldowns or {})['pbzmc:ender_pearl'] or 0)>0 then return false,'pass' end
   local accepted,outcome=self:_call('use',{kind='pearl',hand=hand,action_id=self:_action_id(),now=now})
@@ -105,6 +105,7 @@ function M:_attack_target(now)
   return consumed
 end
 function M:_attack(now,c)
+  if c.flight_use_only then return end
   if self:_attack_target(now) then return end
   local profile=actions.get(id(self.bound.main)).combat
   -- User override: held RMB remains a defence intent. A sword attack can
@@ -123,7 +124,7 @@ function M:_attack(now,c)
   self.attack_id=self:_action_id()
   if profile.kind=='spear' then
     if rules.strength(now-self.previous_attack,profile.attack_speed)<1 then return end
-    self.previous_attack=now;self.last_jab=now;self.using=nil;self:_animate(now)
+    self.previous_attack=now;self.last_jab=now;self.using=nil;self.spear_release=nil;self:_animate(now)
     self:_call('spear_jab',{strength=1,now=now});return
   end
   if profile.kind=='mace' and now-self.previous_attack<rules.minimum_attack_interval then return end
@@ -138,12 +139,17 @@ function M:_attack(now,c)
   self:_call(profile.kind=='mace' and 'mace' or 'melee',{strength=strength,now=now})
 end
 function M:_start_use(kind,hand,now)
+  self.spear_release=nil
   self.using={kind=kind,hand=hand,started=now,action_id=self:_action_id(),next_eat=0}
 end
 function M:_use(now,c,released,repeated,inherited_guard)
   if released then
     local use=self.using;self.using=nil
     if not use then return end
+    if use.kind=='spear' then
+      -- Release is immediate for damage; only the hand blends back to idle.
+      self.spear_release={time=now,charge=math.max(0,now-use.started)}
+    end
     local elapsed=math.max(0,now-use.started)
     if use.kind=='bow' then
       local seconds=float(math.min(1,elapsed))
@@ -171,6 +177,13 @@ function M:_use(now,c,released,repeated,inherited_guard)
     end
     if outcome=='fail' then return end
   end
+  -- An offhand rocket remains a usable flight control even when the selected
+  -- main item has a ground-only use (a block, boat or native weapon reference).
+  if c.gliding and id(self.bound.main)~='pbzmc:firework_rocket' and id(self.bound.offhand)=='pbzmc:firework_rocket' then
+    local accepted,outcome=self:_call('use',{kind='instant',hand='offhand',action_id=self:_action_id(),now=now})
+    if accepted then self:_animate(now,'offhand') end
+    if accepted or outcome=='fail' then return end
+  end
   local guarded=self:_guard_combat()
   -- A fresh RMB on bow+shield uses the bow. Only an already-held defence
   -- intent (including sword -> bow) resumes the shield after an LMB shot.
@@ -192,16 +205,18 @@ function M:_use(now,c,released,repeated,inherited_guard)
   if kind=='spear' then self:_start_use(kind,'main',now);return end
   local off_wind=id(self.bound.offhand)=='pbzmc:wind_charge' and category.offhand_wind
   if kind=='wind' or off_wind then
-    if now<self.next_wind then return end
-    self.next_wind=now+.5
-    self:_call('use',{kind='wind',hand=kind=='wind' and 'main' or 'offhand',action_id=self:_action_id(),now=now})
-    self:_animate(now);return
+    local wind=require('rules.wind_charge')
+    if now<self.next_wind or ((c.item_cooldowns or {})[wind.id] or 0)>0 then return end
+    local hand=kind=='wind' and 'main' or 'offhand'
+    local thrown=self:_call('use',{kind='wind',hand=hand,action_id=self:_action_id(),now=now})
+    if thrown then self.next_wind=now+wind.cooldown_ticks/20;self:_animate(now,hand) end
+    return
   end
-  if kind=='shield' or kind=='food' and ((c.item_cooldowns or {})[id(self.bound.main)] or 0)<=0 or kind=='trident'
+  if kind=='shield' or kind=='drink' or kind=='food' and ((c.item_cooldowns or {})[id(self.bound.main)] or 0)<=0 or kind=='trident'
     or kind=='bow' and (self.bound.mode~='adventure' or c.has_arrow==true) then
     self:_start_use(kind,'main',now);return
   end
-  if kind=='instant' or kind=='pearl' or kind=='equipment' then
+  if kind=='instant' or kind=='pearl' or kind=='equipment' or kind=='summon' or kind=='potion_throw' then
     do
       local accepted,outcome
       if kind=='pearl' then accepted,outcome=self:_pearl(now,c,'main')
@@ -218,20 +233,25 @@ function M:_use(now,c,released,repeated,inherited_guard)
     if accepted and outcome=='success'then self:_animate(now)end
     if accepted or outcome=='fail'then return end
   end
-  if off_id=='pbzmc:firework_rocket' then
-    local accepted,outcome=self:_call('use',{kind='instant',hand='offhand',action_id=self:_action_id(),now=now})
-    if accepted and outcome=='success' then self:_animate(now) end
+  local off_kind=actions.get(off_id).use
+  if off_kind=='summon' or off_kind=='potion_throw' or off_id=='pbzmc:firework_rocket' then
+    local accepted,outcome=self:_call('use',{kind=off_kind,hand='offhand',action_id=self:_action_id(),now=now})
+    if accepted and outcome=='success' then self:_animate(now,'offhand') end
     if accepted or outcome=='fail' then return end
   end
   if off_id=='pbzmc:ender_pearl' then
     local accepted=self:_pearl(now,c,'offhand');if accepted then self:_animate(now) end;return
   end
-  if actions.get(off_id).use=='food' and ((c.item_cooldowns or {})[off_id] or 0)<=0 then
-    self:_start_use('food','offhand',now);return
+  if off_kind=='drink' or off_kind=='food' and ((c.item_cooldowns or {})[off_id] or 0)<=0 then
+    self:_start_use(off_kind,'offhand',now);return
   end
   if off_id=='pbzmc:shield' then self:_start_use('shield','offhand',now) end
 end
 function M:_update(now,c,dt)
+  if c.flight_use_only then
+    if self.use_down then self:_use(now,c,false,true) end
+    return
+  end
   local category=actions.get(id(self.bound.main));local profile=category.combat
   local targeted=self.attack_down and self:_attack_target(now) or false
   local mining=not targeted and self.attack_down and not self.using and profile.kind~='spear' or false
@@ -256,19 +276,20 @@ function M:_update(now,c,dt)
   end
   if not use then return end
   local elapsed=math.max(0,now-use.started)
-  if use.kind=='spear' and now>=self.next_spear_tick then
-    self.next_spear_tick=now+.05
-    -- The host uses rules.minecraft_combat.contacts for resolved entity IDs and
-    -- records actual contacts; the controller does not invent hit confirmations.
-    self:_call('spear_charge',{elapsed=elapsed,action_id=use.action_id,now=now})
-  elseif use.kind=='food' then
+  if use.kind=='spear' then
+    local tick=rules.spear_tick(now)
+    if tick~=use.last_tick and rules.spear_tick(elapsed)>=rules.spear_tick(profile.spear.delay) then
+      use.last_tick=tick
+      self:_call('spear_charge',{elapsed=elapsed,action_id=use.action_id,now=now})
+    end
+  elseif use.kind=='food' or use.kind=='drink' then
     if elapsed>=.35 and now>=use.next_eat then
-      use.next_eat=now+.2;self:_call('eat_feedback',{count=5,hand=use.hand,action_id=use.action_id,now=now})
+      use.next_eat=now+.2;self:_call('eat_feedback',{kind=use.kind,count=5,hand=use.hand,action_id=use.action_id,now=now})
     end
     if elapsed>=1.6 then
       self.using=nil
       -- One adapter transaction owns consumption and healing; no local decrement.
-      self:_call('consume',{kind='food',hand=use.hand,action_id=use.action_id,now=now})
+      self:_call('consume',{kind=use.kind,hand=use.hand,action_id=use.action_id,now=now})
     end
   elseif use.kind=='bottle' and elapsed>=1.6 then
     self.using=nil;self:_call('consume',{kind='bottle',hand=use.hand,action_id=use.action_id,now=now})
@@ -356,16 +377,21 @@ function M:presentation(now,context)
   local swing=self.swing_start and (now-self.swing_start)/rules.swing_seconds or 0
   local raising=self:_raising(context or {})
   local profile=actions.get(id(self.bound.main)).combat
+  local recover=self.spear_release
+  local w=recover and math.max(0,1-(now-recover.time)/.15) or 0
+  if recover and w==0 then self.spear_release=nil end
   return {group='mc',main=stacks.copy(self.bound.main),offhand=stacks.copy(self.bound.offhand),
-    swing=swing<1 and swing or 0,blocking=raising,
+    swing=swing<1 and swing or 0,swing_hand=swing<1 and self.swing_hand or nil,blocking=raising,
     -- PBZ requirement: no activation delay, including the first input frame.
     shield_active=raising,use_hand=use and use.hand,
     bow_charge=use and use.kind=='bow' and math.min(1,elapsed) or 0,
     bow_ticks=use and use.kind=='bow' and elapsed*20 or 0,
     trident_charge=use and use.kind=='trident' and math.min(1,elapsed*2) or 0,trident_out=context.trident_out==true,
-    eating=use and (use.kind=='food' or use.kind=='bottle') and math.min(1,elapsed/1.6) or 0,
+    eating=use and (use.kind=='food' or use.kind=='bottle' or use.kind=='drink') and math.min(1,elapsed/1.6) or 0,
     spear_charge=use and use.kind=='spear' and math.max(.001,elapsed) or 0,
-    spear_jab=profile.kind=='spear' and now-self.last_jab<.3 and math.max(.00001,(now-self.last_jab)/.3) or 0,
+    spear_recover_charge=w>0 and recover.charge or 0,spear_recover_weight=w*w*(3-2*w),
+    spear_jab=profile.kind=='spear' and now-self.last_jab<profile.spear.jab
+      and math.max(.00001,(now-self.last_jab)/profile.spear.jab) or 0,
     spear_recoil=math.min(10,(now-self.last_spear_impact)*20),
     attack_charge=rules.strength(now-self.previous_attack,profile.attack_speed),
     source=self.stamp,equipment_revision=self.bound.equipment_revision}

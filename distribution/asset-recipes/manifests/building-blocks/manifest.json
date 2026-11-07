@@ -4404,6 +4404,371 @@
       "base_model": "building-blocks/glass",
       "crack_stage": 9,
       "baked_crumbling": true
+    },
+    "building-blocks/spawner": {
+      "path": "meshes/spawner.mesh",
+      "sha256": "93279f07aa52bac5c5bc850a886cf9a129bf5dbf8798f3aa68c513a7e25c63f8",
+      "bytes": 145483,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2424,
+      "indices": 7272,
+      "double_sided": true,
+      "content_id": "pbzmc:spawner",
+      "axis": null,
+      "original_state": {
+        "model": "minecraft:block/spawner"
+      }
+    },
+    "building-blocks/spawner_crack_0": {
+      "path": "meshes/spawner_crack_0.mesh",
+      "sha256": "48beb07b9ad17fa8d1bfa8c63d7895ebe556617dfd2ec57094712e3ff3208f81",
+      "bytes": 149331,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2488,
+      "indices": 7464,
+      "double_sided": true,
+      "base_model": "building-blocks/spawner",
+      "crack_stage": 0,
+      "baked_crumbling": true
+    },
+    "building-blocks/spawner_crack_1": {
+      "path": "meshes/spawner_crack_1.mesh",
+      "sha256": "10e4a645c65cfdd95a8cdcb48182859e967e67117a42391fad5f4c2ba4e863f3",
+      "bytes": 156051,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2600,
+      "indices": 7800,
+      "double_sided": true,
+      "base_model": "building-blocks/spawner",
+      "crack_stage": 1,
+      "baked_crumbling": true
+    },
+    "building-blocks/spawner_crack_2": {
+      "path": "meshes/spawner_crack_2.mesh",
+      "sha256": "ceb236bbeef220b196a3ae7fe48d7f1079b09d8cb123b28412cf7e18f5dda0cc",
+      "bytes": 157011,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2616,
+      "indices": 7848,
+      "double_sided": true,
+      "base_model": "building-blocks/spawner",
+      "crack_stage": 2,
+      "baked_crumbling": true
+    },
+    "building-blocks/spawner_crack_3": {
+      "path": "meshes/spawner_crack_3.mesh",
+      "sha256": "0b31a8908a094708c4b16638e40d45f7a98803fbd80b88a73aa55fce6a3db5ae",
+      "bytes": 160371,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2672,
+      "indices": 8016,
+      "double_sided": true,
+      "base_model": "building-blocks/spawner",
+      "crack_stage": 3,
+      "baked_crumbling": true
+    },
+    "building-blocks/spawner_crack_4": {
+      "path": "meshes/spawner_crack_4.mesh",
+      "sha256": "2f3ac145c16b20e8d3ddded599feef3ba4da2e08aeab2c570625c66633d681be",
+      "bytes": 159411,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2656,
+      "indices": 7968,
+      "double_sided": true,
+      "base_model": "building-blocks/spawner",
+      "crack_stage": 4,
+      "baked_crumbling": true
+    },
+    "building-blocks/spawner_crack_5": {
+      "path": "meshes/spawner_crack_5.mesh",
+      "sha256": "602eb657da0fff61969713128c0d50e72572d26ca912f390de0af34063d80ec1",
+      "bytes": 166131,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2768,
+      "indices": 8304,
+      "double_sided": true,
+      "base_model": "building-blocks/spawner",
+      "crack_stage": 5,
+      "baked_crumbling": true
+    },
+    "building-blocks/spawner_crack_6": {
+      "path": "meshes/spawner_crack_6.mesh",
+      "sha256": "2b8fb44611e6c1ce5c8e1cfa8ac100996e871f26ddcd9f26717232fa39d0b590",
+      "bytes": 166131,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2768,
+      "indices": 8304,
+      "double_sided": true,
+      "base_model": "building-blocks/spawner",
+      "crack_stage": 6,
+      "baked_crumbling": true
+    },
+    "building-blocks/spawner_crack_7": {
+      "path": "meshes/spawner_crack_7.mesh",
+      "sha256": "6c4ea1db48d1a01bc1af5a9615ba0abef7a05f7ed0cdd1ee332d5a656d1e5872",
+      "bytes": 180051,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 3000,
+      "indices": 9000,
+      "double_sided": true,
+      "base_model": "building-blocks/spawner",
+      "crack_stage": 7,
+      "baked_crumbling": true
+    },
+    "building-blocks/spawner_crack_8": {
+      "path": "meshes/spawner_crack_8.mesh",
+      "sha256": "f969c4fc36570521b619844524134fd20deca91ae77edcf50b6933d3a44f6336",
+      "bytes": 197331,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 3288,
+      "indices": 9864,
+      "double_sided": true,
+      "base_model": "building-blocks/spawner",
+      "crack_stage": 8,
+      "baked_crumbling": true
+    },
+    "building-blocks/spawner_crack_9": {
+      "path": "meshes/spawner_crack_9.mesh",
+      "sha256": "1de4dd3d2db25018a36056afd75c668065420002545b6b828e3f23d063bac9dc",
+      "bytes": 222771,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 3712,
+      "indices": 11136,
+      "double_sided": true,
+      "base_model": "building-blocks/spawner",
+      "crack_stage": 9,
+      "baked_crumbling": true
     }
   },
   "items": {
@@ -4634,6 +4999,34 @@
         "key": "block.minecraft.glass"
       },
       "item_model": "1.21.1/assets/minecraft/models/item/glass.json"
+    },
+    "pbzmc:spawner": {
+      "default_model": "building-blocks/spawner",
+      "variants": {
+        "default": "building-blocks/spawner"
+      },
+      "collision": {
+        "shape": "box",
+        "half_cm": [
+          50,
+          50,
+          50
+        ]
+      },
+      "original_blockstates": "original/assets/minecraft/blockstates/spawner.json",
+      "original_random_variants_retained_not_selected": false,
+      "alpha_mode": "cutout-holes-double-sided",
+      "icon": "original/minecraft/1.21.1/rendered/spawner.png",
+      "label": "刷怪笼",
+      "label_source": {
+        "source": "assets/private/minecraft-original/1.21.1/indexed-assets/minecraft/lang/zh_cn.json",
+        "sha256": "7c58c6e3502d5643e92ed754ce7b5bb3bdedfeba1a09534165433c7c36260f2c",
+        "asset_sha1": "0f670c974705eb4868baf9d6760ad2f5ea52fc2b",
+        "minecraft_version": "1.21.1",
+        "kind": "minecraft-translation",
+        "key": "block.minecraft.spawner"
+      },
+      "item_model": "1.21.1/assets/minecraft/models/item/spawner.json"
     }
   },
   "cracks": [
@@ -9463,6 +9856,376 @@
       "path": "LICENSE-NOTICE.txt",
       "sha256": "4bfcd54a5c6a6f23ebb2b34e2125a6d4f8102c76de4db1d497badc59e81a2e70",
       "bytes": 318
+    },
+    {
+      "path": "meshes/spawner.mesh",
+      "sha256": "93279f07aa52bac5c5bc850a886cf9a129bf5dbf8798f3aa68c513a7e25c63f8",
+      "bytes": 145483,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2424,
+      "indices": 7272,
+      "double_sided": true
+    },
+    {
+      "path": "meshes/spawner_crack_0.mesh",
+      "sha256": "48beb07b9ad17fa8d1bfa8c63d7895ebe556617dfd2ec57094712e3ff3208f81",
+      "bytes": 149331,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2488,
+      "indices": 7464,
+      "double_sided": true
+    },
+    {
+      "path": "meshes/spawner_crack_1.mesh",
+      "sha256": "10e4a645c65cfdd95a8cdcb48182859e967e67117a42391fad5f4c2ba4e863f3",
+      "bytes": 156051,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2600,
+      "indices": 7800,
+      "double_sided": true
+    },
+    {
+      "path": "meshes/spawner_crack_2.mesh",
+      "sha256": "ceb236bbeef220b196a3ae7fe48d7f1079b09d8cb123b28412cf7e18f5dda0cc",
+      "bytes": 157011,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2616,
+      "indices": 7848,
+      "double_sided": true
+    },
+    {
+      "path": "meshes/spawner_crack_3.mesh",
+      "sha256": "0b31a8908a094708c4b16638e40d45f7a98803fbd80b88a73aa55fce6a3db5ae",
+      "bytes": 160371,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2672,
+      "indices": 8016,
+      "double_sided": true
+    },
+    {
+      "path": "meshes/spawner_crack_4.mesh",
+      "sha256": "2f3ac145c16b20e8d3ddded599feef3ba4da2e08aeab2c570625c66633d681be",
+      "bytes": 159411,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2656,
+      "indices": 7968,
+      "double_sided": true
+    },
+    {
+      "path": "meshes/spawner_crack_5.mesh",
+      "sha256": "602eb657da0fff61969713128c0d50e72572d26ca912f390de0af34063d80ec1",
+      "bytes": 166131,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2768,
+      "indices": 8304,
+      "double_sided": true
+    },
+    {
+      "path": "meshes/spawner_crack_6.mesh",
+      "sha256": "2b8fb44611e6c1ce5c8e1cfa8ac100996e871f26ddcd9f26717232fa39d0b590",
+      "bytes": 166131,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 2768,
+      "indices": 8304,
+      "double_sided": true
+    },
+    {
+      "path": "meshes/spawner_crack_7.mesh",
+      "sha256": "6c4ea1db48d1a01bc1af5a9615ba0abef7a05f7ed0cdd1ee332d5a656d1e5872",
+      "bytes": 180051,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 3000,
+      "indices": 9000,
+      "double_sided": true
+    },
+    {
+      "path": "meshes/spawner_crack_8.mesh",
+      "sha256": "f969c4fc36570521b619844524134fd20deca91ae77edcf50b6933d3a44f6336",
+      "bytes": 197331,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 3288,
+      "indices": 9864,
+      "double_sided": true
+    },
+    {
+      "path": "meshes/spawner_crack_9.mesh",
+      "sha256": "1de4dd3d2db25018a36056afd75c668065420002545b6b828e3f23d063bac9dc",
+      "bytes": 222771,
+      "scale": 6.25,
+      "pivot": [
+        0,
+        0,
+        0
+      ],
+      "bounds_cm": [
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ],
+        [
+          -50.0,
+          50.0
+        ]
+      ],
+      "opaque_texels": 1056,
+      "vertices_before_merge": 4224,
+      "vertices": 3712,
+      "indices": 11136,
+      "double_sided": true
+    },
+    {
+      "path": "original/assets/minecraft/blockstates/spawner.json",
+      "sha256": "c0af61145a9f00d59a481d2168be4354b4e5a68d3e43aa440fcf940f6ad915f8",
+      "bytes": 80,
+      "source": "assets/minecraft/blockstates/spawner.json",
+      "source_sha256": "c0af61145a9f00d59a481d2168be4354b4e5a68d3e43aa440fcf940f6ad915f8",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/assets/minecraft/models/block/spawner.json",
+      "sha256": "a285e3de95eca413bd0ab43d07aac63d0572dd6703fe2891e4c462b4aadb1a78",
+      "bytes": 112,
+      "source": "assets/minecraft/models/block/spawner.json",
+      "source_sha256": "a285e3de95eca413bd0ab43d07aac63d0572dd6703fe2891e4c462b4aadb1a78",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/assets/minecraft/models/block/cube_all_inner_faces.json",
+      "sha256": "bc79e7815836e25cd2f06532e8722f097003d7041a4f14b7c50e9acb5e0992c5",
+      "bytes": 1201,
+      "source": "assets/minecraft/models/block/cube_all_inner_faces.json",
+      "source_sha256": "bc79e7815836e25cd2f06532e8722f097003d7041a4f14b7c50e9acb5e0992c5",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/assets/minecraft/textures/block/spawner.png",
+      "sha256": "d6a4e76379a18bd87f43410a05413496c96064ad713512663dbd24db89f14256",
+      "bytes": 219,
+      "source": "assets/minecraft/textures/block/spawner.png",
+      "source_sha256": "d6a4e76379a18bd87f43410a05413496c96064ad713512663dbd24db89f14256",
+      "operation": "byte-copy"
+    },
+    {
+      "path": "original/assets/minecraft/models/item/spawner.json",
+      "sha256": "81d6632a5332bd77758c200af08891255a799f6734a38f32403266809e27a805",
+      "bytes": 41,
+      "source": "assets/minecraft/models/item/spawner.json",
+      "source_sha256": "81d6632a5332bd77758c200af08891255a799f6734a38f32403266809e27a805",
+      "operation": "byte-copy"
     }
   ],
   "tools": [
@@ -10419,9 +11182,9 @@
   },
   "optimization": "Exact RGBA rectangles within each source face. No per-frame generation. Share decoded buffers by model key; bounded crack cache should not preload all stages each frame.",
   "baked_cracks": {
-    "models": 120,
-    "bytes": 24760638,
-    "megabytes": 23.613584518432617,
+    "models": 130,
+    "bytes": 26475228,
+    "megabytes": 25.24874496459961,
     "largest_vertices": 5656,
     "formula": "clamp(2 * original_face_rgb * original_crack_rgb / 255); alpha<.1 discarded",
     "overlay_inflate": 1.002,
@@ -10662,7 +11425,27 @@
     {
       "path": "assets/minecraft/textures/block/destroy_stage_9.png",
       "sha256": "37aff035cb4ba9d7666b4d8b3270caa5427d0d15ff6850d3bd6c105246bd0638"
+    },
+    {
+      "path": "assets/minecraft/blockstates/spawner.json",
+      "sha256": "c0af61145a9f00d59a481d2168be4354b4e5a68d3e43aa440fcf940f6ad915f8"
+    },
+    {
+      "path": "assets/minecraft/models/block/spawner.json",
+      "sha256": "a285e3de95eca413bd0ab43d07aac63d0572dd6703fe2891e4c462b4aadb1a78"
+    },
+    {
+      "path": "assets/minecraft/models/block/cube_all_inner_faces.json",
+      "sha256": "bc79e7815836e25cd2f06532e8722f097003d7041a4f14b7c50e9acb5e0992c5"
+    },
+    {
+      "path": "assets/minecraft/textures/block/spawner.png",
+      "sha256": "d6a4e76379a18bd87f43410a05413496c96064ad713512663dbd24db89f14256"
+    },
+    {
+      "path": "assets/minecraft/models/item/spawner.json",
+      "sha256": "81d6632a5332bd77758c200af08891255a799f6734a38f32403266809e27a805"
     }
   ],
-  "recipe_sha256": "b0462acb5d90dc10b4c34d72016645b6844e09e4e7a2c9295f84d69ad833fb06"
+  "recipe_sha256": "9ee8eb8d0d6ba331f6f2c8887d194535ab098f5052a3372d003b1c2d73b694a4"
 }

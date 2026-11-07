@@ -134,4 +134,7 @@ constexpr ClipSpec clips[] = {
     {"block_honeyblock_slide2", "d78b5ac1e4225dd2d5b3d99785a54210dbce0d2a88263097c5ff85dc0d2798ab", 107704},
     {"block_honeyblock_slide3", "9d810787e4d7097b43090aa88e24b3ab90646c5218fb5b36fd174ee728e666fd", 120260},
     {"block_honeyblock_slide4", "a1446695569774a0a4c0997f37ae205afa20e48923ca74628aee8c24d1918f4a", 86476},
+#include "construction_sounds.inc"
+#include "mob_sounds.inc"
+#include "potion_sounds.inc"
 };

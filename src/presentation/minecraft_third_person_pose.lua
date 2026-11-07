@@ -68,11 +68,15 @@ function M.solve(parts,state)
   local swing=number(state.swing or 0);assert(swing>=0 and swing<=1,'invalid-minecraft-swing')
   local eating=number(state.eating or 0);assert(eating>=0 and eating<=1,'invalid-minecraft-eating')
   local bow,trident=number(state.bow_charge or 0),number(state.trident_charge or 0)
-  local charge,jab=number(state.spear_charge or 0),number(state.spear_jab or 0)
+  local charge,weight=spear_animation.use(state)
+  local jab=number(state.spear_jab or 0)
   assert(bow>=0 and trident>=0 and charge>=0 and jab>=0 and jab<=1,'invalid-minecraft-use-progress')
   local profile=combat_profile(state.main)
-  local spear=profile.kind=='spear'
-  local body_yaw=swing>0 and not spear and math.sin(math.sqrt(swing)*math.pi*2)*.2 or 0
+  local spear=profile.kind=='spear'and not state.command_swing
+  local phase=spear and charge>0 and spear_animation.solve(profile.spear,charge)
+  local jab_weight=phase and 1-spear_animation.in_out_sine(phase.raise)*weight or 1
+  local off_swing=state.swing_hand=='offhand'
+  local body_yaw=swing>0 and not spear and math.sin(math.sqrt(swing)*math.pi*2)*(off_swing and -.2 or .2) or 0
   local head_yaw=math.rad(clamp((number(state.look.Yaw)-number(state.actor_yaw)+540)%360-180,-75,75))
   local head_pitch=-math.rad(clamp((number(state.look.Pitch)+540)%360-180,-60,60))
   local main_shield=state.main and state.main.content_id=='pbzmc:shield' or false
@@ -111,25 +115,25 @@ function M.solve(parts,state)
         px=f32((right and -1 or 1)*math.cos(body_yaw)*5)
         pz=f32((right and 1 or -1)*math.sin(body_yaw)*5)
         y=body_yaw
-        if right then
+        if right~=off_swing then
           local ease=1-(1-swing)^4
           x=x-math.sin(ease*math.pi)*1.2-math.sin(swing*math.pi)*-(head_pitch-.7)*.75
-          y=y+body_yaw*2;z=z-math.sin(swing*math.pi)*.4
-        else x=x+body_yaw end
+          y=y+body_yaw*2;z=z-(right and 1 or -1)*math.sin(swing*math.pi)*.4
+        else x=x+(off_swing and -body_yaw or body_yaw) end
       end
       if right and spear then
-        x=clamp(-math.pi/2+head_pitch+.8,-math.pi*2/3,math.pi/6)
-        y=clamp(-.1+head_yaw,-math.pi/3,math.pi/3);z=0
-        if charge>0 then
-          local p=spear_animation.solve(profile.spear,charge)
-          y=y-p.fast*math.pi/180*p.intensity;z=z-p.slow*math.pi/180*p.intensity*.5
-          x=x+math.pi/180*(-40*p.start+30*p.middle-20*p.finish+20*p.lower+10*p.back+.6*p.slow*p.intensity)
+        x=clamp(-math.pi/2+head_pitch+.8-(state.crouching and math.rad(27) or 0),-math.pi*2/3,math.pi/6)
+        y=clamp(head_yaw,math.rad(-60),math.rad(45));z=0
+        if phase then
+          local p=phase
+          x=x+math.rad(-40*p.start+30*p.middle-20*p.finish+18*p.tired+13*p.lower+.8*p.shake)*weight
+          y=y+math.rad(p.roll)*weight;z=math.rad(p.shake*.6)*weight
         end
         if jab>0 then
           local a=spear_animation.in_out_sine(spear_animation.progress(jab,0,.05))
           local b=spear_animation.progress(jab,.05,.2)^2
           local c=spear_animation.in_out_expo(spear_animation.progress(jab,.4,1))
-          x=x+(90*a-120*b+30*c)*math.pi/180
+          x=x+(90*a-120*b+30*c)*math.pi/180*jab_weight
         end
       end
     end
@@ -141,33 +145,37 @@ end
 function M.item_motion(state)
   local profile=combat_profile(state.main)
   if profile.kind~='spear' then return nil end
-  local charge,jab=number(state.spear_charge or 0),number(state.spear_jab or 0)
-  local recoil=number(state.spear_recoil or 0)
+  local charge,weight=spear_animation.use(state)
+  local jab=number(state.spear_jab or 0)
+  local recoil=number(state.spear_recoil or 10)
   assert(charge>=0 and jab>=0 and jab<=1 and recoil>=0,'invalid-minecraft-spear-progress')
+  if charge==0 and jab==0 then return nil end
   local function hand(x,y,z) return rigid.vector(y*16*native.scale,x*16*native.scale,z*16*native.scale) end
   local function add(a,b) return rigid.vector(a.X+b.X,a.Y+b.Y,a.Z+b.Z) end
   local function sub(a,b) return rigid.vector(a.X-b.X,a.Y-b.Y,a.Z-b.Z) end
   local grip,offset=hand(.0625,.125,-.625),rigid.vector(0,0,0)
   local rotation={Pitch=0,Yaw=0,Roll=0}
-  local function rotate(axis,degrees,pivot)
+  local function rotate(axis,degrees)
     local next_rotation={Pitch=axis==0 and degrees or 0,Yaw=0,Roll=axis==1 and degrees or 0}
-    offset=add(offset,rigid.rotate(rotation,sub(pivot,rigid.rotate(next_rotation,pivot))))
     rotation=rigid.compose({position=rigid.vector(0,0,0),rotation=rotation},
       {position=rigid.vector(0,0,0),rotation=next_rotation}).rotation
   end
   local hit=spear_animation.hit_feedback(recoil)
   local b=spear_animation.progress(jab,.05,.2)^2
   local c=spear_animation.in_out_expo(spear_animation.progress(jab,.4,1))
+  local jab_weight=1
   if charge>0 then
     local p=spear_animation.solve(profile.spear,charge)
-    local forward=1-spear_animation.out_back(1-p.raise)
-    offset=add(offset,hand(0,-hit*.4,-.38*(forward-p.back)+hit))
-    rotate(0,-70*(p.raise-p.back)+40*(b-c),hand(0,-.03125,.125))
-    rotate(1,90*(p.raise-p.sway+3*c+b),hand(0,0,.125))
+    jab_weight=1-spear_animation.in_out_sine(p.raise)*weight
+    -- Arm and shaft rotate about the same palm; neither swings the item
+    -- around the centre of the texture or away from Steve's fingers.
+    rotate(0,(-72*p.raise+84*p.tired-78*p.lower+1.8*p.shake)*weight)
+    rotate(1,(90*p.raise-60*p.tired+20*p.lower+p.roll)*weight)
+    offset=rigid.rotate(rotation,hand(0,-hit*weight,0))
   end
   if jab>0 then
-    rotate(0,-70*(b-c),hand(0,-.125,.125))
-    offset=add(offset,rigid.rotate(rotation,hand(0,.38*(b-c),0)))
+    rotate(0,-70*(b-c)*jab_weight)
+    offset=add(offset,rigid.rotate(rotation,hand(0,.24*(b-c)*jab_weight,0)))
   end
   return {position=sub(add(grip,offset),rigid.rotate(rotation,grip)),rotation=rotation}
 end

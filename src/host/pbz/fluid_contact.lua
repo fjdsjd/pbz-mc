@@ -111,6 +111,16 @@ end
 function Contact:water_at(x,y,z)
  return not self.closed and self:_point(x,y,z,{})=='water'
 end
+local function eye_z(location,size)return location.Z+size.half*.74 end
+function Contact:eyes_in_water(now)
+ if self.closed then return nil end
+ if self.service.has_fluids and not self.service.has_fluids() then return false end
+ local snap=self.snapshot
+ if snap.active and snap.at==now then return snap.eye_water end
+ local p=self.binding.actor:K2_GetActorLocation()
+ local size=self:_dimensions(self:_state(self.player,now),now)
+ return self:water_at(p.X,p.Y,eye_z(p,size))
+end
 function Contact:tnt_current(x,y,z,half)
  if self.closed then return end
  -- The .98-block hull can touch at most 2x2x2 cells. Only the lower edge
@@ -132,7 +142,7 @@ function Contact:tnt_current(x,y,z,half)
 end
 function Contact:_sample(s,now)
  local location=point(s.row.actor:K2_GetActorLocation());local size=self:_dimensions(s,now)
- local feet=location.Z-size.half+.1;local eye=location.Z+size.half*.74
+ local feet=location.Z-size.half+.1;local eye=eye_z(location,size)
  local radius=size.radius*.85;local kind,surface,water,lava
  local heights={};local touched={};local currents={water={},lava={}}
  local function touch(found,top,record)
@@ -163,13 +173,14 @@ function Contact:_sample(s,now)
  end
  self.report.samples=self.report.samples+1
  return {kind=kind,submerged=kind~=nil and eye_kind==kind,depth=surface and math.max(0,math.min(1,(surface-feet)/(size.half*2))) or 0,
-  surface_z=surface,water_contact=water==true,lava_contact=lava==true,location=location,
+  surface_z=surface,water_contact=water==true,lava_contact=lava==true,eye_water=eye_kind=='water',location=location,
   flow=kind and flow.average(currents[kind])or nil}
 end
 function Contact:_snapshot(sample,s,now,active)
  local out=self.snapshot;local params=sample.kind and fluids.contact[sample.kind] or nil
  out.kind=sample.kind;out.submerged=sample.submerged;out.depth=sample.depth
  out.surface_z=sample.surface_z;out.water_contact=sample.water_contact;out.lava_contact=sample.lava_contact
+ out.eye_water=sample.eye_water==true
  out.flow=sample.flow
  out.at=now;out.valid_until=now+M.PLAYER_INTERVAL*2.5;out.active=active
  out.burning=s and s.burn_until>now or false;out.burn_until=s and s.burn_until or 0

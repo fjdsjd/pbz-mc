@@ -18,6 +18,7 @@
 #include <string_view>
 #include <thread>
 #include <utility>
+#include <unordered_map>
 #include <vector>
 
 #include <Windows.h>
@@ -34,6 +35,7 @@
 #include "pointer_state.hpp"
 #include "pointer_queue.hpp"
 #include "item_input_win32.hpp"
+#include "item_input_raw_hooks.hpp"
 #include "campaign_json.hpp"
 #include "save_json_text.hpp"
 #include "host_locator.hpp"
@@ -440,6 +442,8 @@ const FProperty* class_property(const wchar_t* path, std::wstring_view wanted) {
     }
     throw std::runtime_error("fixed capture class property is absent");
 }
+
+#include "pixel_texture.hpp"
 
 const FProperty* array_inner(const FProperty* array) {
     require(property_kind(array) == L"ArrayProperty" && array->GetArrayDim() == 1, "show flags must be one reflected array");
@@ -907,7 +911,10 @@ int lua_item_input(const Lua& lua, int operation) {
         auto& input = PBZMC::ItemInput::Capture::instance();
         if (operation == 0) {
             const std::string text(lua.get_string(1));
-            input.begin(PBZMC::ItemInput::parse_bindings(text)); lua.set_bool(true);
+            input.begin(PBZMC::ItemInput::parse_bindings(text));
+            try { PBZMC::ItemInput::RawInputHooks::ensure(); }
+            catch(...) { input.end();throw; }
+            lua.set_bool(true);
         } else if (operation == 1) {
             const std::string text(lua.get_string(1));
             input.set_context(PBZMC::ItemInput::parse_context(text)); lua.set_bool(true);
@@ -968,9 +975,10 @@ int campaign_state(const Lua& lua,bool allow_registration) {
         std::size_t nodes{};
         const auto root=PBZMC::Campaign::parse(raw,&nodes);
         const auto current=PBZMC::Checkpoint::inspect(root,allow_registration);
-        auto result=nlohmann::json::object();
+        auto result=nlohmann::json{{"root_sha256",sha256_text(raw)},{"root_bytes",raw.size()}};
+        bool bootstrap_backup=false;
         if (current) {
-            result={{"campaign_id",current->campaign_id},{"checkpoint",current->checkpoint},{"root_sha256",sha256_text(raw)}};
+            result["campaign_id"]=current->campaign_id;result["checkpoint"]=current->checkpoint;
             if(const auto selection=PBZMC::Hotbar::read(root,current->campaign_id,current->checkpoint)) {
                 result["selected"]=selection->selected;result["selection_mode"]=selection->mode;
             }
@@ -980,10 +988,19 @@ int campaign_state(const Lua& lua,bool allow_registration) {
             PBZMC::Campaign::check_write_size(raw.size());
             PBZMC::Campaign::check_limit(nodes,PBZMC::Campaign::node_limit-16,"expanded save JSON values before registration");
             result["needs_registration"]=true;
+            const auto marker=PBZMC::Checkpoint::key(root,PBZMC::Campaign::section);
+            // inspect() already verified the exact owner/schema/UUID. A
+            // partial bootstrap must recover that identity, never create a
+            // new empty campaign. Only brand-new registrations need a backup.
+            if(marker) result["campaign_id"]=root.object.at(*marker).object.at("campaign_id").atom;
+            else bootstrap_backup=true;
         }
         lua.set_string(result.dump());lua.set_nil();
-    } catch(const std::exception& error) {lua.set_nil();lua.set_string(std::string("PBZMCJsonBridge: ")+error.what());}
-    return 2;
+        // The backup crosses Lua as opaque bytes once. Do not parse or hash a
+        // chapter-sized PBZ root again in Lua merely to register two markers.
+        if(bootstrap_backup) lua.set_string(raw);else lua.set_nil();
+    } catch(const std::exception& error) {lua.set_nil();lua.set_string(std::string("PBZMCJsonBridge: ")+error.what());lua.set_nil();}
+    return 3;
 }
 int lua_read_campaign_state(const Lua& lua) { return campaign_state(lua,false); }
 int lua_read_campaign_load_state(const Lua& lua) { return campaign_state(lua,true); }
@@ -1200,9 +1217,11 @@ public:
                 HealthGate::start(main_lua);
                 main_lua.register_function("PBZMC_BindHealth", &HealthGate::lua_bind);
                 main_lua.register_function("PBZMC_PollHealth", &HealthGate::lua_poll);
+                main_lua.register_function("PBZMC_EntityHealthLease", &HealthGate::lua_entity);
                 main_lua.register_function("PBZMC_BindDeath", &DeathGate::lua_bind);
                 main_lua.register_function("PBZMC_BlockSound", &BlockAudio::lua_play);
                 main_lua.register_function("PBZMC_HashHex", &lua_hash_hex);
+                main_lua.register_function("PBZMC_RefreshPixelTexture", &PixelTexture::refresh);
                 main_lua.execute_string(R"lua(
                   do local native=PBZMC_HashHex
                     PBZMC_HashHex=function(hex)

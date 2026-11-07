@@ -83,6 +83,22 @@ nearby={terrain};player_position={X=0,Y=0,Z=0};local before=queried
 ok,reason=w:can_place(record);assert(not ok and reason=='player' and queried==before,'player capsule rejected before native query')
 player_position.Z=140;assert(w:can_place(record),'touching player feet is allowed')
 player_position.Z=139.9;assert(not w:can_place(record),'penetrating player feet is blocked')
+-- Command block edits are not right-click item placement. A fill includes
+-- both endpoints, so /fill ~ ~ ~ ~10 ~1 ~10 deliberately includes the player.
+player_position={X=0,Y=0,Z=0};nearby={terrain,enemy,dynamic}
+assert(w:can_place(record,nil,{command=true}),'command fill must allow entity intersections')
+ok,reason=w:can_place(record);assert(not ok and reason=='player','command must not relax later hand placement')
+ok,reason=w:can_place(record,nil,{command=false});assert(not ok and reason=='player')
+nearby={block};ok,reason=w:can_place(record,nil,{command=true})
+assert(not ok and reason=='mc-block','command must retain other MC object occupancy')
+local handle=w.by_actor[owner:GetFullName()];handle.id='replaced'
+assert(w:can_place(record,{replaced=true},{command=true}),'command replacement ignores only owned previous object')
+nearby={terrain};ok,reason=w:can_place(record,nil,{command=true,native_solid=true})
+assert(not ok and reason=='native-terrain','explicit native solid policy remains independent')
+player_position={X=1000,Y=1000,Z=1000};nearby={enemy}
+ok,reason=w:can_place(record);assert(not ok and reason=='character','ordinary placement still rejects NPCs')
+nearby={dynamic};ok,reason=w:can_place(record);assert(not ok and reason=='dynamic-collider')
+nearby={terrain}
 player_position={X=1000,Y=1000,Z=1000};record.yaw=90;assert(w:can_place(record))
 local rows={}
 for i=1,3 do

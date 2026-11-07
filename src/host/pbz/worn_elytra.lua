@@ -54,14 +54,21 @@ end
 function M:is_current()
   if self.closed or not valid(self.owner) or not identity.matches(self.owner,self.owner_id)
     or not identity.matches(self.owner:GetWorld(),self.world_id)or not identity.matches(self.material,self.material_id)then return false end
+  local parent,parent_id
   for _,entry in ipairs(self.parts)do
     if not entry.ready or not valid(entry.component) or not identity.matches(entry.component,entry.id)
       or not identity.matches(entry.component:GetOwner(),self.owner_id)
       or not identity.matches(entry.component:GetWorld(),self.world_id)
-      or not identity.matches(entry.parent,entry.parent_id)
-      or not identity.matches(entry.parent:GetOwner(),self.owner_id)
-      or not identity.matches(entry.parent:GetWorld(),self.world_id)
       or not identity.matches(entry.component:GetAttachParent(),entry.parent_id)then return false end
+    -- Both wings normally share the same torso wrapper. Validate it once per
+    -- call; different wrappers/identities are still checked independently.
+    if entry.parent~=parent or not parent_id or not entry.parent_id
+      or entry.parent_id.address~=parent_id.address or entry.parent_id.name~=parent_id.name then
+      if not identity.matches(entry.parent,entry.parent_id)
+        or not identity.matches(entry.parent:GetOwner(),self.owner_id)
+        or not identity.matches(entry.parent:GetWorld(),self.world_id)then return false end
+      parent=entry.parent;parent_id=entry.parent_id
+    end
     if self.options.capture_only and not entry.component.bVisibleInSceneCaptureOnly then return false end
   end
   return true

@@ -15,9 +15,11 @@
 3. 将压缩包内容解压到 PBZ 游戏根目录，也就是包含 `platform/steam/PBZ.exe` 的目录。解压后 `Launch-PBZMC.cmd` 应与 `platform` 文件夹并列。
 4. 双击 **`Launch-PBZMC.cmd`**。标准包在首次缺少资源时下载并在本机转换。免下载版只校验本机已有资源。换电脑时，先把自己的 `PBZMC/cache/runtime-assets` 目录复制到游戏目录的相同位置。两种安装器都会先核验游戏版本、备份存档，然后安装并通过 Steam 启动。
 
-标准包首次准备资源需要联网及额外磁盘空间。安装器会自行准备转换工具，下载中断后可保留缓存重试。免下载版沿用 alpha.3 的全部资源，已有完整缓存可直接升级。[下载来源与重试方法](docs/INSTALLATION.md#中国大陆网络与下载失败)
+标准包首次准备资源需要联网及额外磁盘空间。安装器会自行准备转换工具，下载中断后可保留缓存重试。公开免下载版需要与该版本资源配方相符的完整缓存；加入新物品的版本不能直接使用旧缓存。个人离线包包含已转换的配套资源，首次运行也不下载。[下载来源与重试方法](docs/INSTALLATION.md#中国大陆网络与下载失败)
 
-0.1.0-alpha.5 下载：[标准包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.5/PBZMC-0.1.0-alpha.5-win64.zip) · [免下载包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.5/PBZMC-0.1.0-alpha.5-win64-offline-cache.zip) · [标准包大陆备用](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.5/PBZMC-0.1.0-alpha.5-win64.zip) · [免下载包大陆备用](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.5/PBZMC-0.1.0-alpha.5-win64-offline-cache.zip) · [SHA-256](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.5/SHA256SUMS.txt)。
+**从 0.1.0-alpha.6 起，每次玩模组都使用 `Launch-PBZMC.cmd`。直接从 Steam 点“开始游戏”会进入原版。** 启动脚本只对本次进程开启模组，不改 Steam 的持久启动选项。正常退出或崩溃后无需运行卸载器，也不必重新下载资源。旧版升级后需运行一次新版 CMD，完成加载器替换。
+
+**0.1.0-alpha.6**　[标准包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6/PBZMC-0.1.0-alpha.6-win64.zip) · [免下载包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6/PBZMC-0.1.0-alpha.6-win64-offline-cache.zip) · [标准包大陆备用](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6/PBZMC-0.1.0-alpha.6-win64.zip) · [免下载包大陆备用](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6/PBZMC-0.1.0-alpha.6-win64-offline-cache.zip) · [SHA-256](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6/SHA256SUMS.txt)。
 
 支持 Steam Windows x64 构建 26266538、26367565。较新的官方 UE 5.7 构建会在启动时自动定位接口。全部匹配即可游玩，匹配失败会显示游戏版本和具体错误，可据此提 issue。[版本兼容说明](docs/COMPATIBILITY.md)
 
@@ -26,10 +28,15 @@
 - 常驻史蒂夫、MC 第一人称与 PBZ 原版视角、实时背包人物预览。
 - 选中 PBZ 原生武器后可按 F6 开关自动完美格挡与闪避，默认关闭。H 可重看提示。
 - 27 格背包、9 格快捷栏、副手、护甲、分类分页目录、垃圾槽与物品名称提示。PBZ 原生槽位作为引用物品进入同一个快捷栏。
-- 多材质剑、镐、铲、斧、弓与盾；MC 装备没有耐久消耗。PBZ 原生战斗与 MC 物品按当前选择切换。
+- 多材质剑、矛、重锤、风弹、镐、铲、斧、弓与盾。MC 装备没有耐久消耗。PBZ 原生战斗与 MC 物品按当前选择切换。
 - 红心、护甲、金心与效果显示，经验条映射 PBZ 体力。金苹果、附魔金苹果、图腾、末影珍珠、紫菘果、鞘翅及烟花。
+- 背包目录提供生物刷怪蛋和刷怪笼。召唤的生物可受伤，具备攻击能力的物种会主动对付附近的 PBZ 敌人。[生物模型与动作](docs/MOB_MODELS.md)
+- 提供饮用、喷溅、滞留药水与牛奶桶，可作用于自己、MC 生物和 PBZ 生物。原版生物攻击也能施加中毒、缓慢、漂浮等状态。用法与支持范围见[药水说明](docs/POTIONS.md)。
 - 放置和挖掘模组方块、TNT、船、门、水与岩浆、活塞、粘性活塞、红石器件、粘液块、蜂蜜块与观察者。不能任意挖掘 PBZ 原地图。
-- `/gamemode creative` 与 `/gamemode survival`，支持 Tab 补全。创造模式具有飞行与伤害免疫；不开放其他命令。
+- 火焰会熄灭、向可燃方块蔓延并引燃 TNT；岩浆随机引火，水能灭火。行为和性能边界见[火焰说明](docs/FIRE.md)。
+- 按 **B → 建筑** 翻页取用 Minecraft 26.3 建筑页的 475 种方块和 195 种彩色建材。台阶可合并，楼梯会转角，栅栏、玻璃板和墙会随邻块连接。生存模式按方块硬度、工具种类与材质计算挖掘时间。
+- `/gamemode creative` 与 `/gamemode survival`，创造模式具有飞行与伤害免疫。
+- 支持脉冲、循环、连锁三种命令方块，右键编辑，接入红石和条件链。`/` 命令行支持 Tab 补全、历史记录、实体选择器、传送、伤害、物品、建筑、计分板与函数。MC 召唤物和 PBZ 角色共用实体接口；具体范围和明确报错的未接入项见[命令兼容表](docs/COMMANDS.md)。
 
 **新存档初始快捷栏：** PBZ 武器引用、木剑、金苹果 ×1、附魔金苹果 ×1、末影珍珠、泥土、TNT、打火石、空格。盾牌在副手。PBZ 槽位来自实际原生装备，不生成额外武器。已有模组存档保留原有物品和布局。
 

@@ -11,3 +11,8 @@
 *.jpg binary
 # Upstream identity checks use the retained bytes of these licensed sources.
 /third_party/wukong-steve/src/**/*.cs -text
+# Installers validate these generated receipts byte-for-byte, including line endings.
+/distribution/asset-recipes/runtime-files.json -text !eol whitespace=cr-at-eol
+/distribution/asset-recipes/manifests/** -text !eol whitespace=cr-at-eol
+# Retain the upstream DWM export list, including its ordinal-only rows.
+/native/launcher_proxy/dwmapi.exports -text !eol -whitespace

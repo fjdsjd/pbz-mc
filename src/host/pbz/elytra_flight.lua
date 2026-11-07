@@ -15,26 +15,27 @@ function M.new(binding,pc)
   input=require('input.first_person_controls').new(pc.ControlRotation),fall_distance=0},M)
 end
 function M:input_batch(batch,allowed)
+ local accept_jump=allowed and batch.latest.focused and not batch.overflow and ((batch.blocked_keys or 0)&(1<<18))==0
  local function sample(p)
+  if not accept_jump or not p.focused then self.request=nil;self.down=nil;self.epoch=nil;return end
   if self.epoch~=p.epoch then self.request=nil;self.down=nil end
   local held=((p.keys or 0)&(1<<18))~=0
-  if allowed and p.focused and not batch.overflow and self.epoch==p.epoch and self.down==false and held then self.request=true end
+  if self.down==false and held then self.request=true end
   self.epoch=p.epoch;self.down=held
  end
  for _,p in ipairs(batch.samples or {})do sample(p)end;sample(batch.latest)
- if not allowed or not batch.latest.focused or batch.overflow then self.request=nil;self.down=nil end
  if self.active then
   local x,y=self.input:sample_batch(batch,allowed and not batch.overflow)
   if x then self.pc:SetMouseLocation(x,y)end
  end
 end
-function M:wants_start(camera)
+function M:wants_start(camera,allowed)
  local pressed=self.request;self.request=nil
- if self.active or not pressed or not equipped(self.binding)then return false end
+ if not pressed or allowed==false or self.active or self.binding.mc_creative_flight or not equipped(self.binding)then return false end
  local p=self.binding.actor;local m=p.CharacterMovement
  local fluid=self.binding.mc_fluid_contact
  if fluid and fluid.valid_until and clock(p)>fluid.valid_until then fluid=nil end
- return rules.can_start({jump_pressed=true,equipped=true,on_ground=m.MovementMode==1 or m.MovementMode==2,
+ return rules.can_start({jump_pressed=true,equipped=true,alive=p.AttributeSetBase.Health.CurrentValue>0,on_ground=m.MovementMode==1 or m.MovementMode==2,
   touching_water=fluid and fluid.active~=false and fluid.kind~=nil,passenger=self.binding.mc_boat_riding~=nil,
   climbing=camera:traversal(self.binding)~=nil,native_flying=m.MovementMode~=3,
   levitating=false})
@@ -55,6 +56,7 @@ end
 function M:reset_fall()self.fall_distance=0;self.fall_z=nil;self.fall_mode=nil end
 function M:start()
  assert(not self.closed and not self.active and self.binding:is_current(),'elytra-flight-owner')
+ assert(not self.binding.mc_creative_flight and not self.binding.mc_movement_owner,'elytra-movement-already-owned')
  local p=self.binding.actor;local m=p.CharacterMovement;local v=p:GetVelocity()
  self.physics=rules.new({vx=v.X,vy=v.Y,vz=v.Z});self.velocity=vec(v);self.accumulator=0;self.pending=0;self.last=clock(p)
  self.movement=m;self.movement_id=id.capture(m);self.mode=m.MovementMode;self.custom=m.CustomMovementMode
@@ -74,6 +76,7 @@ end
 function M:stop(reason,grounded)
  if not self.active then return end
  self.active=false;self.report.stops=self.report.stops+1;self.report.reason=reason
+ if self.collision then self.collision:close();self.collision=nil end
  self.fall_z=nil;self.fall_mode=nil
  if self.binding.mc_gliding==self then self.binding.mc_gliding=nil end
  if id.matches(self.anim,self.anim_id)and self.anim.RootMotionMode==1 then self.anim:SetRootMotionMode(self.root)end
@@ -82,7 +85,9 @@ function M:stop(reason,grounded)
   if id.matches(self.movement,self.movement_id)and id.matches(p.CharacterMovement,self.movement_id)and self.movement.MovementMode==0 then
    local alive=p.AttributeSetBase.Health.CurrentValue>0
    self.movement:SetMovementMode(alive and (grounded and 1 or 3)or 0,0)
-   if alive and not grounded and reason~='native-takeover' then p:LaunchCharacter(self.velocity,true,true)end
+   -- The creative controller inherits glide velocity directly. A queued
+   -- native launch would return the pawn to Falling on its next engine tick.
+   if alive and not grounded and reason~='native-takeover' and reason~='creative-flight' then p:LaunchCharacter(self.velocity,true,true)end
   end
  end
  if id.matches(self.pc,self.pc_id)then
@@ -94,7 +99,7 @@ function M:stop(reason,grounded)
  self.binding.log('MC elytra glide stopped: '..tostring(reason))
 end
 function M:damage(amount,kind,position,normal)
- if amount<=0 then return end
+ if amount<=0 or self.binding.mc_creative then return end
  if not self.damage_adapter then self.damage_adapter=require('host.pbz.tnt_damage').new(self.binding,self.binding.log)end
  local p=self.binding.actor
  local row={actor=p,id=self.binding.actor_id,player=true}
@@ -104,7 +109,7 @@ end
 function M:sweep(dt)
  local p=self.binding.actor;local start=vec(p:K2_GetActorLocation());local v=self.velocity
  local finish={X=start.X+v.X*dt,Y=start.Y+v.Y*dt,Z=start.Z+v.Z*dt};local hit={}
- p:K2_SetActorLocation(finish,true,hit,false);self.report.sweeps=self.report.sweeps+1
+ self:move(finish,hit)
  local after=vec(p:K2_GetActorLocation())
  local dx,dy,dz=finish.X-after.X,finish.Y-after.Y,finish.Z-after.Z
  local collision=dx*dx+dy*dy+dz*dz>.01
@@ -115,7 +120,10 @@ function M:sweep(dt)
  if not n then self:stop('invalid-collision');return end
  local normal=vec(n)
  if normal.Z>.65 and v.Z<=0 then
-  local damage=math.max(0,math.ceil(self.fall_distance/100-3))
+  local distance=self.fall_distance
+  local lift=self.binding.mc_wind_lift
+  if lift then distance=math.min(distance,math.max(0,lift.z-after.Z));self.binding.mc_wind_lift=nil end
+  local damage=math.max(0,math.ceil(distance/100-3))
   self:stop('landed',true);self:damage(damage,'fall',after,{X=0,Y=0,Z=-1});return
  end
  local dot=v.X*normal.X+v.Y*normal.Y+v.Z*normal.Z
@@ -132,8 +140,18 @@ function M:sweep(dt)
  local distance=math.sqrt((after.X-start.X)^2+(after.Y-start.Y)^2+(after.Z-start.Z)^2)
  local speed=math.sqrt((finish.X-start.X)^2+(finish.Y-start.Y)^2+(finish.Z-start.Z)^2)
  local remaining=dt*(1-math.min(1,distance/math.max(.001,speed)))
- if remaining>0 then p:K2_SetActorLocation({X=after.X+v.X*remaining,Y=after.Y+v.Y*remaining,Z=after.Z+v.Z*remaining},true,{},false)end
+ if remaining>0 then self:move({X=after.X+v.X*remaining,Y=after.Y+v.Y*remaining,Z=after.Z+v.Z*remaining},{})end
  self.report.collisions=(self.report.collisions or 0)+1
+end
+function M:move(finish,hit)
+ for attempt=1,8 do
+  for k in pairs(hit)do hit[k]=nil end
+  self.binding.actor:K2_SetActorLocation(finish,true,hit,false);self.report.sweeps=self.report.sweeps+1
+  if not hit.Component then return end
+  if not self.collision then self.collision=require('host.pbz.glide_collision').new(self.binding)end
+  if attempt==8 or not self.collision:ignore(hit) then return end
+  self.report.air_walls=(self.report.air_walls or 0)+1
+ end
 end
 function M:tick(camera,reason)
  if not self.active then return end

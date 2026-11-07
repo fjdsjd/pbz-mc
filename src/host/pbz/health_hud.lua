@@ -111,13 +111,21 @@ function M:tick()
     if armor.hud_points>0 then armor_top=armor_ui.row_top(frame.gold,top,scale)end
   else self.base_paint=nil end
   local extra=require('presentation.status_hud').draw(service and service.value,self.ui.assets,self.ui.layout,view,self.inventory,
-    containers,not binding.mc_creative and snapshot.stamina/snapshot.max_stamina or nil,activation,now,self.ui.enchanted_icons,real_time)
+    containers,not binding.mc_creative and snapshot.stamina/snapshot.max_stamina or nil,activation,now,self.ui.enchanted_icons,real_time,
+    service and service.submerged)
   for _,entry in ipairs(extra) do draw[#draw+1]=entry end
   if not self.inventory then
     local sync=session.native_slot_sync
     local title=self.selected_name:update(containers,self.ui.assets,sync and sync.snapshot,session.epoch,now,view,scale,armor_top)
     for _,entry in ipairs(title)do draw[#draw+1]=entry end
     self.report.selected_name=self.selected_name.report
+    local bars=session.store.core.commands and session.store.core.commands.bossbars
+    if bars and next(bars)then
+      local skin=require('host.pbz.command_ui').attach_assets(self.ui)
+      local custom=require('presentation.command_bossbars').draw(bars,'player',self.ui.assets,skin,view,scale)
+      for _,entry in ipairs(custom)do draw[#draw+1]=entry end
+      self.report.command_bossbar_images=#custom
+    end
   end
   for offset,entry in ipairs(draw) do
     local index=base_count+offset

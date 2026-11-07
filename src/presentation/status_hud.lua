@@ -3,15 +3,34 @@
 local rules=require('rules.status_effects')
 local slots=require('rules.container_slots')
 local M={}
-function M.draw(status,assets,layout,view,inventory,containers,stamina,activation,now,icons,real_time)
+function M.draw(status,assets,layout,view,inventory,containers,stamina,activation,now,icons,real_time,submerged)
  local out={};local scale=layout.scale
  local left=math.floor((view.width-182*scale)/2);local top=view.height-30*scale
  local function add(e)out[#out+1]=e end
+ if not inventory and status then
+  local breath=status.effects and status.effects.water_breathing
+  if breath then
+   local x=view.width-25*scale;local ticks=breath.ticks;local alpha=1
+   if ticks<200 then
+    alpha=math.max(0,math.min(.5,ticks/100)+math.cos(ticks*math.pi/5)*(10-math.floor(ticks/20))*.025)
+   end
+   add{texture=assets.player_status.effect_background,x=x,y=scale,w=24*scale,h=24*scale}
+   add{texture=assets.status_effects.water_breathing,x=x+3*scale,y=4*scale,w=18*scale,h=18*scale,tint={R=1,G=1,B=1,A=alpha}}
+  end
+  if stamina~=nil and (submerged or status.air~=nil) then
+   local air=math.max(0,status.air or rules.max_air)
+   local full=math.ceil((air-2)*10/rules.max_air)
+   for i=1,math.ceil(air*10/rules.max_air) do
+    add{texture=i<=full and assets.player_status.air or assets.player_status.air_bursting,
+     x=left+(181-8*i)*scale,y=top-17*scale,w=9*scale,h=9*scale}
+   end
+  end
+ end
  -- Overlay only the visible item rectangles. The main inventory is not rebuilt
  -- for animation; this also follows the dragged cursor and original count font.
  for _,icon in ipairs(icons or {}) do
   local frame=math.floor((real_time or now)*12)%12
-  add{texture=assets.enchanted_apple_animation,x=icon.x,y=icon.y,w=icon.w,h=icon.h,
+  add{texture=icon.glint_texture or assets.enchanted_apple_animation,x=icon.x,y=icon.y,w=icon.w,h=icon.h,
    region={x=(frame%4)*16,y=math.floor(frame/4)*16,w=16,h=16,tw=64,th=48}}
   if icon.count and icon.count>1 then
    local text=tostring(icon.count);local width=0

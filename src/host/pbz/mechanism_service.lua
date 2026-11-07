@@ -10,6 +10,9 @@ local function merge(a,b)local r=copy(a);for k,v in pairs(b or {})do r[k]=v end;
 local function kind(def,id)
   if id=='pbzmc:tnt'then return 'tnt'end
   if def.mechanism=='source'then return 'redstone_block'end
+  if def.family=='gate' or def.family=='trapdoor'then return 'door'end
+  if def.family=='button' or def.family=='plate'then return 'lever'end
+  if def.family=='bulb'then return 'bulb'end
   return def.mechanism or 'solid'
 end
 local function solid(record)
@@ -29,7 +32,13 @@ function M.new(build)
   self.session=build.session;self.origin=copy(self.session.grid or {x=0,y=0,z=0})
   self.network=require('rules.redstone_network').new({read=function(x,y,z)return self:node_at(x,y,z)end,budget=96})
   self.fluid=Fluid.new({
-    read=function(x,y,z)return self:read(x,y,z)end,
+    read=function(x,y,z)
+      local cell=self:read(x,y,z)
+      if cell and (cell.properties or {}).waterlogged then
+        return {content_id=Fluid.water,properties={level=0,falling=false},contained=cell.id}
+      end
+      return cell
+    end,
     is_solid=function(cell)return cell and not cell.pending and not Fluid.kind(cell)and not self:replaceable(cell)end,
     replaceable=function(cell)return self:replaceable(cell)end,
     commit=function(batch)return self:fluid_commit(batch)end,
@@ -51,11 +60,14 @@ function M.new(build)
     end
   end
   local seeds={}
-  for _,record in pairs(self.index)do if Fluid.kind(record)then seeds[#seeds+1]=self:cell(record)end end
+  for _,record in pairs(self.index)do
+    if Fluid.kind(record) or (record.properties or {}).waterlogged then seeds[#seeds+1]=self:cell(record)end
+  end
   self.fluid:seed(seeds)
   self.session.on_change=function(changes,options)self:changed(changes,options)end
   self.session.expand_removals=function(ids)return self:expand_removals(ids)end
   self.contact=require('host.pbz.fluid_contact').new({binding=self.binding,world=self.world,
+    has_fluids=function()return self.fluid.cell_count>0 end,
     read_world=function(x,y,z)return self:read_world(x,y,z)end,
     read_flow_world=function(x,y,z)local p=self:cell({x=x,y=y,z=z});return self:read(p.x,p.y,p.z)end,log=self.log})
   self.audio=require('host.pbz.mechanism_sounds').new(self.world.assets,self.log)
@@ -71,9 +83,12 @@ function M:read_world(x,y,z)
 end
 function M:node(record)
   local def=Blocks.get(record.content_id);local p=self:cell(record);local props=Props.copy(record.properties)or {}
+  if def.family=='plate' and props.power~=nil then props.powered=props.power>0 end
   if def.mechanism=='torch'and props.face=='wall'then props.wall=true end
   local n={id=record.id,content_id=record.content_id,x=p.x,y=p.y,z=p.z,kind=kind(def,record.content_id),
     properties=props,conductor=def.conductor,hardness=def.hardness,push_reaction=def.push_reaction}
+  if def.command_block then n.analog=props.success_count or 0 end
+  if def.family=='slab' and props.type=='double' then n.conductor=true end
   local motion=(self.install_motion and self.install_motion[record.id])or(self.motions and self.motions[record.id])
   if motion and motion.x==p.x and motion.y==p.y and motion.z==p.z then n.moving=true;n.conductor=false end
   if n.kind=='piston_head'then
@@ -100,6 +115,7 @@ function M:insert(record,options)
     self.nodes[old.id]=nil
   end
   self.index[key]=record
+  if Blocks.get(record.content_id).construction then require('host.pbz.construction_devices').track(self,record,options and options.restored)end
   local node=self:node(record);self.nodes[record.id]=node
   if not Fluid.kind(record)then
     local ok,why=self.network:put(node,options);assert(ok,why)
@@ -281,8 +297,7 @@ function M:changed(changes,options)
         for id,fire in pairs(tnt.fires or {})do
           local p=fire.state
           if math.abs(p.x-r.x)<55 and math.abs(p.y-r.y)<55 and p.z>=r.z-55 and p.z<=height+5 then
-            local ok,removed=pcall(tnt.world.destroy,tnt.world,fire.handle)
-            if ok and removed~=false then tnt.fires[id]=nil;tnt.extinguished=(tnt.extinguished or 0)+1;self:sound('extinguish',r)end
+            if tnt:remove_fire(id,'water')then self:sound('extinguish',r)end
           end
         end
       end
@@ -341,12 +356,51 @@ function M:fluid_commit(batch)
   local changes={}
   for _,row in ipairs(batch)do
     local before=self.index[D.key(row.x,row.y,row.z)]
-    if before~=row.before then return false end
-    changes[#changes+1]={before=before,after=row.after and self:record(row.after.content_id,row.x,row.y,row.z,row.after.properties,before)}
+    if row.before and row.before.contained then
+      if not before or before.id~=row.before.contained or not (before.properties or {}).waterlogged then return false end
+    else
+      if before~=row.before then return false end
+      changes[#changes+1]={before=before,after=row.after and self:record(row.after.content_id,row.x,row.y,row.z,row.after.properties,before)}
+    end
   end
-  return self:commit(changes,nil,true)
+  return #changes==0 or self:commit(changes,nil,true)
 end
 function M:sound(event,record)if self.audio then self.audio:play(event,record)end end
+-- A thrown wind charge reaches only 2.4 grid cells. Read the spatial index
+-- first, then commit all switches together. A two-part wooden door toggles once.
+function M:wind_pulse(origin,radius,visible)
+  local changes,visited,clicks={},{},{}
+  local function change(record,property,value)
+    visited[record.id]=true
+    local updated=copy(record);updated.properties=merge(record.properties,{[property]=value})
+    changes[#changes+1]={before=record,after=updated}
+  end
+  self.session:visit_nearby({x=origin.X,y=origin.Y,z=origin.Z},radius,function(record)
+    if visited[record.id] then return end
+    local def=Blocks.get(record.content_id)
+    local lever=def and def.mechanism=='lever'
+    local door=def and def.mechanism=='door' and def.manual
+    if not (lever or door) then return end
+    local dx,dy,dz=record.x-origin.X,record.y-origin.Y,record.z-origin.Z
+    if dx*dx+dy*dy+dz*dz>=radius*radius then return end
+    local handle=self.session.handles[record.id]
+    local other=door and self:pair(record)
+    if not handle or (door and not other) then return end
+    local pair=other and self.session.handles[other.id]
+    if not visible(origin,{X=record.x,Y=record.y,Z=record.z},handle.actor,pair and pair.actor) then return end
+    local props=record.properties or {}
+    if lever then
+      change(record,'powered',not props.powered);clicks[#clicks+1]=record
+    else
+      change(record,'open',not props.open);change(other,'open',not props.open)
+    end
+  end)
+  if #changes==0 then return 0 end
+  local ok,why=self:commit(changes,nil,true)
+  if not ok then return 0,why end
+  for _,record in ipairs(clicks) do self:sound('lever_click',record) end
+  return #changes
+end
 function M:pair(record)
   local p=self:cell(record);local props=record.properties or {}
   local z=p.z+(props.half=='upper'and -1 or 1)
@@ -378,7 +432,10 @@ function M:interact(aim)
   local _,handle=self.build:target(aim);local r=handle and self.session.data.buildings[handle.id]
   if not r then return false,'pass'end
   local def=Blocks.get(r.content_id);local props=copy(r.properties);local k=def.mechanism;local event
-  if k=='door'and def.manual then props.open=not props.open
+  if (k=='door' or def.family=='gate' or def.family=='trapdoor') and def.manual then props.open=not props.open
+  elseif def.family=='button'then
+    if props.powered then return true,'consume'end
+    props.powered=true
   elseif k=='lever'then props.powered=not props.powered;event='lever_click'
   elseif k=='repeater'then props.delay=(props.delay or 1)%4+1
   elseif k=='comparator'then props.mode=props.mode=='subtract'and 'compare'or 'subtract';event='comparator_click'
@@ -389,6 +446,9 @@ function M:interact(aim)
     local n=copy(other);n.properties=merge(other.properties,{open=props.open});changes[#changes+1]={before=other,after=n}
   end
   local ok=self:commit(changes)
+  if ok and def.family=='button'then
+    self.button_due=self.button_due or {};self.button_due[r.id]=(self.now or 0)+(def.tool=='axe' and 1.5 or 1)
+  end
   if ok and event then self:sound(event,next)end
   return ok,ok and 'consume'or 'fail'
 end
@@ -399,6 +459,12 @@ function M:scoop(aim)
   local last
   for distance=0,reach,10 do
     local r=self:read_world(start.X+direction.X*distance,start.Y+direction.Y*distance,start.Z+direction.Z*distance)
+    if r and (r.properties or {}).waterlogged then
+      local after=copy(r);after.properties=merge(r.properties,{waterlogged=false})
+      local ok=self:commit({{before=r,after=after}})
+      if ok then self:sound('bucket_fill',r)end
+      return ok,ok and 'success' or 'fail'
+    end
     if r and r~=last and Fluid.kind(r)then
       if Fluid.source(r)then
         local ok=self:commit({{before=r}})
@@ -674,6 +740,16 @@ function M:check_supports()
     local r=self.session.data.buildings[id]
     if r and self.session.handles[id]then
       local def=Blocks.get(r.content_id);local k=def.mechanism;local props=r.properties or {};local p=self:cell(r);local support
+      if def.family=='powder'then require('host.pbz.construction_devices').powder(self,r,p)end
+      if require('rules.construction').adapts(def.family)then
+        local updated=require('rules.construction').connected(r,function(d)
+          local q=D.step(p,d);return self.index[D.key(q.x,q.y,q.z)] or self.terrain[D.key(q.x,q.y,q.z)]
+        end)
+        if not Props.equal(props,updated)then
+          local after=copy(r);after.properties=updated
+          if not self:commit({{before=r,after=after}},nil,true)then self.supports[id]=true end
+        end
+      end
       if k=='door'then
         if not self:pair(r)then self:commit({{before=r}},nil,true)
         elseif props.half=='lower'then support='down'end
@@ -708,6 +784,18 @@ function M:tick(now)
   -- Only transactions touching an unrestored member must wait; other circuits
   -- and fluids continue on their own already-restored collision objects.
   if self.session.quarantined or self.session.busy then return end
+  if self.construction_devices then require('host.pbz.construction_devices').tick(self,now)end
+  for id,when in pairs(self.button_due or {})do
+    if now>=when then
+      local old=self.session.data.buildings[id]
+      if not old or Blocks.get(old.content_id).family~='button' or not (old.properties or {}).powered then self.button_due[id]=nil
+      else
+        local after=copy(old);after.properties=merge(old.properties,{powered=false})
+        if self:commit({{before=old,after=after}},nil,true)then self.button_due[id]=nil end
+      end
+      break
+    end
+  end
   if self:cleanup_overlaps()then return end
   if self.timing_revision~=2 then self:rebind_timing(now)end
   self.started=self.started or now
@@ -728,7 +816,10 @@ function M:tick(now)
       if held or self.session.quarantined then break end
       -- A successful block event can synchronously change another actuator.
       -- Resolve those neighbours before ending this same block-event phase.
-      if self.network:stats().dirty==0 then self.sim_phase='motion'end
+      if self.network:stats().dirty==0 then self.sim_phase='commands'end
+    elseif self.sim_phase=='commands'then
+      if self.build.commands and not self.build.commands:game_tick(self.sim_tick)then break end
+      self.sim_phase='motion'
     else
       self:complete_motion_tick()
       self.tick_id=self.sim_tick;self.sim_tick=self.sim_tick+1;self.sim_phase='events';completed=completed+1

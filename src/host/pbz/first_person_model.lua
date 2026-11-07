@@ -33,6 +33,11 @@ end
 function M:update(camera,equipment)
   equipment=equipment or {group='pbz'}
   if equipment.group=='pbz' then self:hide();return end
+  local commands=self.binding.mc_command_presentation
+  if commands and commands.player_id and commands.swings[commands.player_id]then
+    self.command_clock=self.command_clock or StaticFindObject('/Script/Engine.Default__GameplayStatics')
+    equipment=commands:apply_frame(equipment,self.command_clock:GetTimeSeconds(self.binding.actor))
+  end
   if equipment.group~='pbz' and (equipment.main or equipment.offhand) and not self.held then
     self.held=require('host.pbz.held_items').new(self.owner,
       require('host.pbz.item_models').new(self.binding.item_models_root),self.binding.material,
@@ -45,6 +50,7 @@ function M:update(camera,equipment)
     -- MC renders held offhand items without an additional free arm mesh.
     local shown=not left and equipment.main==nil
     local target=math3.arm(camera,left,equipment)
+    if equipment.command_swing then target=require('host.pbz.command_presentation').first_person_arm(target,camera,left,equipment)end
     arm_pose[entry.name]=target;arm_visible[entry.name]=shown
     entry.component:K2_SetWorldLocationAndRotation(target.position,target.rotation,false,{},true)
     entry.component:SetHiddenInGame(not shown,false)
@@ -60,7 +66,9 @@ function M:update(camera,equipment)
   if self.held then
     -- PBZ's aspect-correct world FOV needs a slightly farther holder than the
     -- upstream camera. Original per-item MC display transforms stay unchanged.
-    self.held:update(equipment,nil,camera,math3.holders(equipment,camera))
+    local holders=math3.holders(equipment,camera)
+    if equipment.command_swing then holders=require('host.pbz.command_presentation').first_person_holders(holders,equipment)end
+    self.held:update(equipment,nil,camera,holders)
   end
   self.equipment=equipment
 end

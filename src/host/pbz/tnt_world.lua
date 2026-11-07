@@ -87,7 +87,12 @@ function M:render(h,state,frame)
    h.mesh:SetMeshSectionVisible(h.flash_section,frame.white);h.white=frame.white
   end
   if h.scale~=frame.scale then h.actor:SetActorScale3D({X=frame.scale,Y=frame.scale,Z=frame.scale});h.scale=frame.scale end
- elseif h.frame~=frame.frame then bundle.apply(h.mesh,self.assets:fire(frame.frame));h.frame=frame.frame end
+ elseif h.frame~=frame.frame then
+  -- Fire geometry/material never changes. Updating only animated UVs avoids
+  -- recreating render sections and collision proxies twenty times a second.
+  h.mesh:UpdateMeshSection_LinearColor(0,{},{},self.assets:fire(frame.frame).uv,{},{},{},{},{},false)
+  h.frame=frame.frame
+ end
 end
 function M:trace(from,to,radius)
  local hit,c={},{R=0,G=0,B=0,A=0};local system=require('UEHelpers').GetKismetSystemLibrary()

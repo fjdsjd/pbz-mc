@@ -2,6 +2,28 @@
 -- preview, held meshes, textures or world objects.
 local id=require('host.pbz.object_identity')
 local M={};M.__index=M
+function M.attach_assets(ui)
+ if ui.assets.command_ui then return ui.assets.command_ui end
+ local file=assert(io.open(ui.asset_path..'/command/manifest.json','rb'),'original-command-widgets-manifest-missing')
+ local raw=file:read('*a');file:close()
+ local manifest=assert(require('dkjson').decode(raw))
+ assert(manifest.schema==1 and manifest.minecraft_version=='26.3' and manifest.layout_profile=='java-command-widgets-v1','unsupported-command-widget-layout')
+ local outputs={}
+ for _,entry in ipairs(manifest.outputs or {})do
+  assert(type(entry.path)=='string' and entry.path:sub(1,8)=='command/' and not entry.path:find('..',1,true)
+   and not entry.path:find(':',1,true) and type(entry.sha256)=='string' and #entry.sha256==64,'invalid-command-widget-resource')
+  local old=ui.records[entry.path];assert(not old or old.sha256==entry.sha256,'command-widget-resource-conflict')
+  outputs[entry.path]=entry
+ end
+ local skin=assert(manifest.widgets)
+ for _,name in ipairs({'button','button_highlighted','button_disabled','text_field','text_field_highlighted'})do
+  local sprite=assert(skin[name],'missing-original-command-widget:'..name)
+  assert(outputs[sprite.path] and sprite.width==200 and sprite.height==20
+   and (sprite.border==1 or sprite.border==3),'invalid-original-command-widget:'..name)
+ end
+ for path,record in pairs(outputs)do ui.records[path]=record end
+ skin.labels=manifest.labels;skin.bossbars=manifest.bossbars;ui.assets.command_ui=skin;return skin
+end
 function M.new(ui)
  local self=setmetatable({ui=ui,images={},cache={}},M)
  local canvas=StaticConstructObject(StaticFindObject('/Script/UMG.CanvasPanel'),ui.tree)
@@ -13,10 +35,12 @@ function M:render(editor,now,message)
  if not self.ui:valid() or not id.matches(self.canvas,self.id)then return false end
  local view=self.ui.viewport;if not view then return end
  local blink=editor~=nil and math.floor(now*2)%2==0
- local signature=table.concat({editor and editor.revision or -1,tostring(blink),view.width,view.height,message or ''},'/')
+ if editor and editor.block then M.attach_assets(self.ui)end
+ local signature=table.concat({tostring(editor),editor and editor.revision or -1,tostring(blink),view.width,view.height,self.ui.layout.scale,self.ui.dpi,message or ''},'/')
  if self.signature==signature then return end
  self.signature=signature
- local draw=require('presentation.command_line').draw(editor,self.ui.assets,view.width,view.height,self.ui.layout.scale,blink,message)
+ local draw,layout=require('presentation.command_line').draw(editor,self.ui.assets,view.width,view.height,self.ui.layout.scale,blink,message)
+ self.layout=layout
  local dpi=self.ui.dpi
  for i,e in ipairs(draw)do
   local row=self.images[i]
@@ -40,5 +64,11 @@ function M:render(editor,now,message)
  for i=#draw+1,#self.images do if self.cache[i]then self.images[i].clip:SetVisibility(1);self.cache[i]=nil end end
  self.canvas:SetVisibility(#draw>0 and 3 or 1)
  return true
+end
+function M:hit(x,y)
+ local hits=self.layout and self.layout.hits or {}
+ for i=#hits,1,-1 do local hit=hits[i]
+  if x>=hit.x and x<hit.x+hit.w and y>=hit.y and y<hit.y+hit.h then return hit end
+ end
 end
 return M

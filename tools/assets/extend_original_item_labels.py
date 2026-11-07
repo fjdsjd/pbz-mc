@@ -101,6 +101,14 @@ def main():
         label, source = None, None
         for version in dict.fromkeys((version, '1.21.1', '26.3')):
             data, provenance = languages[version]
+            if name in ('giant_spawn_egg','illusioner_spawn_egg','killer_bunny_spawn_egg'):
+                entity = 'entity.minecraft.' + name.removesuffix('_spawn_egg')
+                sample = 'item.minecraft.rabbit_spawn_egg'
+                rabbit = 'entity.minecraft.rabbit'
+                if entity in data and data[sample].startswith(data[rabbit]):
+                    label = data[entity] + data[sample][len(data[rabbit]):]
+                    source = dict(provenance, kind='minecraft-derived-translation', key=entity, template=sample, base=rabbit)
+                    break
             for resource in dict.fromkeys((name, aliases.get(enum))):
                 if not resource:
                     continue

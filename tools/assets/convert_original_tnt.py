@@ -124,7 +124,7 @@ def main():
     # Atlas copies pixels without resampling; one texture/section can batch all
     # smoke and explosion quads. Runs are retained for the current color path.
     atlas = Image.new('RGBA',(256,128)); sprites = {}; animations = {}; index = 0
-    for kind in ('smoke','explosion'):
+    for kind in ('smoke','explosion','flame'):
         definition = json.loads(source('assets/minecraft/particles/'+kind+'.json','particles/'+kind+'.json'))
         animations[kind] = []
         for identifier in definition['textures']:
@@ -156,7 +156,7 @@ def main():
         units=dict(tnt_scale=6.25,fire_scale=5.625,block_cm=100),
         geometry='TNT centered +/-8 recipe units; mesh_bundle maps (-z,-x,-y). Original per-face UV and colors; horizontal identical RGBA run merging.',
         tnt=dict(mesh='tnt.mesh',flash='tnt_flash.mesh',flash_note='Pinned black-monkey white geometry variant; Minecraft uses overlay UV instead.'),
-        fire=fire,particles=dict(path='particles.json',sha256=digest(raw),frames=24),
+        fire=fire,particles=dict(path='particles.json',sha256=digest(raw),frames=index),
         flint_and_steel=dict(path=flint_path.relative_to(ROOT).as_posix(),sha256=digest(flint_path.read_bytes()),
                              manifest='assets/private/item-models/manifest.json',key=item_key,display=flint['display'],copied=False),
         sources=[dict(path=k,sha256=digest(v),retained=retained.get(k)) for k,v in dependencies.items()],
@@ -167,7 +167,7 @@ def main():
     (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     pack.archive.close()
     print(json.dumps(dict(meshes=len(outputs),mesh_bytes=sum(r['bytes'] for r in outputs),
-        tnt_vertices=outputs[0]['vertices'],flash_vertices=outputs[1]['vertices'],particle_frames=24,
+        tnt_vertices=outputs[0]['vertices'],flash_vertices=outputs[1]['vertices'],particle_frames=index,
         atlas_size=atlas.size,fire_vertices_range=[min(r['vertices'] for r in outputs[2:-1]),max(r['vertices'] for r in outputs[2:-1])],
         manifest=str(OUT/'manifest.json'))))
 

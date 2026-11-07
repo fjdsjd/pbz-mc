@@ -10,6 +10,7 @@ local campaign=require('host.pbz.campaign_inventory')
 local auto_defense=require('host.pbz.auto_defense')
 local revision=0
 local controls,controls_binding,controls_pc,controls_pc_id,controls_loop,controls_controller,controls_stats
+local controls_load_epoch
 local controls_group,controls_epoch,shown,render_revision='mc',0,true,-1
 local controls_width,controls_height,controls_camera
 local controls_fault,stopping
@@ -39,6 +40,7 @@ function M.command_state()
     mode=controls_binding and campaign.game_mode(controls_binding),native=controls and controls.last.command_controls}
 end
 function M.reset_fall_after_teleport(binding)
+  binding.mc_wind_lift=nil
   if combat and combat.binding==binding then combat.fall_state=nil end
   local c=require('host.pbz.first_person_camera').get()
   if c and c.flight and c.flight.binding==binding then c.flight:reset_fall()end
@@ -188,12 +190,13 @@ function M.start(log,directory)
     local frame={};for key,value in pairs(source) do frame[key]=value end
     frame.group='mc'
     local game=StaticFindObject('/Script/Engine.Default__GameplayStatics');local now=game:GetTimeSeconds(binding.actor)
+    if binding.mc_command_presentation then frame=binding.mc_command_presentation:apply_frame(frame,now)end
     local dt=pose_clock.now and math.max(0,math.min(.1,now-pose_clock.now)) or 0;pose_clock.now=now
     local look=display_pc.ControlRotation;frame.look={Pitch=look.Pitch,Yaw=look.Yaw,Roll=look.Roll}
     local velocity=binding.actor:GetVelocity()
     local walk=require('presentation.minecraft_third_person_pose').locomotion(pose_clock,dt,
       {yaw=look.Yaw,vx=velocity.X,vy=velocity.Y,
-        aiming=(frame.swing or 0)>0 or (frame.bow_charge or 0)>0 or (frame.trident_charge or 0)>0})
+        aiming=(frame.swing or 0)>0 or (frame.bow_charge or 0)>0 or (frame.trident_charge or 0)>0 or (frame.spear_charge or 0)>0})
     for key,value in pairs(walk) do frame[key]=value end
     frame.crouching=current_camera.movement and current_camera.movement.frame and current_camera.movement.frame.sneak or false
     if binding.mc_gliding then
@@ -208,18 +211,25 @@ function M.start(log,directory)
   end
   lifecycle.presentation_source=presentation_source
   local last_error
-  local function defense_notice(message)
+  local load_notice=require('host.pbz.inventory_load_notice').new(directory,log)
+  local function defense_notice(message,kind,duration)
     if not instance or not instance:valid() or not controls_binding then return end
     instance.command_layer=instance.command_layer or require('host.pbz.command_ui').new(instance)
     instance.command_message=message
-    instance.command_message_until=StaticFindObject('/Script/Engine.Default__GameplayStatics'):GetRealTimeSeconds(controls_binding.actor)+2
+    instance.command_message_until=StaticFindObject('/Script/Engine.Default__GameplayStatics'):GetRealTimeSeconds(controls_binding.actor)+(duration or 2)
   end
   local monitor_closed=false
+  local function acquire_combat()
+    if not combat then combat=require('host.pbz.minecraft_combat').new(controls_binding,controls_pc,controls_epoch,log) end
+    return combat
+  end
+  local function acquire_summons() return acquire_combat():summon_group() end
   controls_loop=LoopInGameThreadAfterFrames(1,function()
     if monitor_closed then return end
     auto_defense.begin_frame()
     local ok,why=pcall(function()
       if stopping then
+        load_notice:close()
         auto_defense.suspend()
         if command_session then if not command_session:close()then return end;command_session=nil end
         if not cleanup() then return end
@@ -235,17 +245,29 @@ function M.start(log,directory)
         monitor_closed=true;CancelDelayedAction(controls_loop);controls_loop=nil;stopping=nil
         log('item input monitor stopped; native message hook released');return
       end
+      local binding=current_binding()
+      local bound=binding and binding:is_current()
+      local epoch_changed=controls and controls_load_epoch~=campaign.load_epoch()
+      if command_session and (not bound or binding~=controls_binding or epoch_changed or not campaign.current(binding))then
+        if not command_session:close()then return end
+        command_session=nil
+      end
       if command_session then
+        local command_service=require('host.pbz.command_service').get(controls_binding)
+        if command_service then
+          command_service:tick(StaticFindObject('/Script/Engine.Default__GameplayStatics'):GetTimeSeconds(controls_binding.actor))
+          require('host.pbz.building_service').ensure(controls_binding,directory,log,acquire_summons)
+        end
         local success,err=pcall(command_session.tick,command_session)
         if not success then command_session.closing=true;log('MC command failed: '..tostring(err));pcall(command_session.close,command_session)end
         if command_session.closed then command_session=nil;render_revision=-1;controls_controller=require('presentation.hotbar_input').new()end
         return
       end
-      local binding=current_binding()
-      local bound=binding and binding:is_current()
+      if not bound or not campaign.notice()then load_notice:close()end
       local controller=bound and local_controller(binding) or nil
-      if controls and (binding~=controls_binding or not bound
+      if controls and (binding~=controls_binding or not bound or epoch_changed
           or not require('host.pbz.object_identity').matches(controller,controls_pc_id)) then
+        assert(require('host.pbz.building_service').close(),'building-lifecycle-cleanup-pending')
         assert(require('host.pbz.tnt_service').close(),'tnt-lifecycle-cleanup-pending')
         assert(require('host.pbz.boat_service').close(),'boat-lifecycle-cleanup-pending')
         if combat then combat:close();combat=nil end
@@ -284,18 +306,30 @@ function M.start(log,directory)
         local identity=require('host.pbz.object_identity')
         assert(controller,'item-input-controller-unavailable')
         controls=adapter.new(adapter.load_bindings(directory..'/pbzmc-data/item-bindings.json'))
+        controls_load_epoch=campaign.load_epoch()
         controls_pc=controller;controls_pc_id=identity.capture(controller)
         controls_binding=binding;controls_controller=require('presentation.hotbar_input').new()
         log('production item input ready; group='..controls_group)
       end
-      if interaction or close_pending then return end -- Inventory loop owns drains while open.
       local gameplay=StaticFindObject('/Script/Engine.Default__GameplayStatics')
       local now=gameplay:GetTimeSeconds(binding.actor)
+      local commands_pumped=false
+      local command_service=require('host.pbz.command_service').get(binding)
+      if command_service and campaign.current(binding) and not gameplay:IsGamePaused(controls_pc)then
+        command_service:tick(now)
+        if binding:is_current()then require('host.pbz.building_service').ensure(binding,directory,log,acquire_summons)end
+        commands_pumped=true
+      end
+      if not binding:is_current()then return end
+      if interaction or close_pending then return end -- Inventory loop owns input drains, not world ticks.
       -- Native attacks/weapon stages temporarily ignore locomotion/look. They
       -- do not transfer number keys or wheel ownership back to PBZ bindings.
       local available=controls_pc:IsValid() and not gameplay:IsGamePaused(controls_pc)
         and not controls_pc.bShowMouseCursor and binding.actor.AttributeSetBase.Health.CurrentValue>0
         and (not camera() or not camera():native_takeover())
+      if campaign.notice()then
+        load_notice:update(binding,campaign.notice(),available,gameplay:GetRealTimeSeconds(binding.actor))
+      end
       if campaign.enabled() and available then
         local ready,why=pcall(function() data,revision=campaign.view(binding) end)
         if not ready then
@@ -304,7 +338,9 @@ function M.start(log,directory)
           if last_error~=tostring(why) then last_error=tostring(why);log('formal inventory waiting: '..last_error) end
           return
         end
-        require('host.pbz.building_service').ensure(binding,directory,log)
+        local buildings=commands_pumped and require('host.pbz.building_service').get(binding)
+          or require('host.pbz.building_service').ensure(binding,directory,log,acquire_summons)
+        require('host.pbz.command_service').ensure(binding,buildings,directory,acquire_summons,log,defense_notice)
         require('host.pbz.tnt_service').ensure(binding,directory,log)
         require('host.pbz.boat_service').ensure(binding,directory,log)
       end
@@ -315,6 +351,20 @@ function M.start(log,directory)
       controls:set_context(available and (binding.mc_creative_flight and controls_group=='pbz' and 'game-creative-pbz' or first and 'game-first-person' or
         ((controls_group=='pbz' or traversal) and 'game-pbz-hotbar' or 'game-mc')) or 'inactive')
       local batch=controls:read();local samples={}
+      if available and binding.command_block_edit then
+        local commands=require('host.pbz.command_service').get(binding)
+        local block=commands and commands.build.session.data.buildings[binding.command_block_edit]
+        binding.command_block_edit=nil
+        if block then
+          if selector and selector.pending then selector:abort('command-block-opened')end
+          if combat then combat:cancel('command')end
+          if not instance or not instance:valid()then instance=require('host.pbz.item_ui').new(directory..'/pbzmc-assets/ui',log)end
+          instance:render(data,{inventory=false,crosshair=false})
+          local success,value=pcall(require('host.pbz.command_console').new,instance,binding,controls,camera(),log,{service=commands,block=block})
+          if success then command_session=value else log('MC command editor unavailable: '..tostring(value))end
+          return
+        end
+      end
       for _,sample in ipairs(batch.samples) do samples[#samples+1]=sample end
       if instance and instance.quick_help then instance.quick_help:input(batch,available,controls_epoch)end
       if camera() then camera():input(batch,available,controls_epoch) end
@@ -336,7 +386,8 @@ function M.start(log,directory)
             if combat then combat:cancel('command')end
             if not instance or not instance:valid()then instance=require('host.pbz.item_ui').new(directory..'/pbzmc-assets/ui',log)end
             instance:render(data,{inventory=false,crosshair=false})
-            local success,value=pcall(require('host.pbz.command_console').new,instance,binding,controls,camera(),log)
+            local success,value=pcall(require('host.pbz.command_console').new,instance,binding,controls,camera(),log,
+              {service=require('host.pbz.command_service').get(binding)})
             if success then command_session=value else log('MC command unavailable: '..tostring(value))end
             return
           end
@@ -368,9 +419,11 @@ function M.start(log,directory)
           pbz_selected and controls_group=='pbz' and not (selector and selector.pending) and not traversal
           and not binding.mc_boat_riding and not binding.mc_gliding and not binding.mc_creative_flight,
           now,defense_notice,log,healthy_keys)
-        local allowed=available and first and controls_group=='mc' and not (selector and selector.pending)
+        local off=slots.get(data,'player/offhand')
+        local flight_rocket=binding.mc_gliding and binding.mc_gliding.active and off and off.content_id=='pbzmc:firework_rocket'
+        local allowed=available and first and (controls_group=='mc' or flight_rocket) and not (selector and selector.pending)
         local success,why=pcall(function()
-          if allowed and not combat then combat=require('host.pbz.minecraft_combat').new(binding,controls_pc,controls_epoch,log) end
+          if allowed then acquire_combat() end
           if combat and not combat.error then combat:update(batch,data,revision,context,allowed) end
         end)
         if not success then

@@ -1,5 +1,6 @@
 -- TNT and ground fire use the same PBZ damage/health gates as real attacks.
--- No HP writes, global attack mutation, gameplay timer or input lives here.
+-- No HP writes, gameplay timer or input lives here. The effect adapter keeps
+-- an active player potion lease out of MC explosion damage normalization.
 local UE=require('UEHelpers')
 local json=require('dkjson')
 local identity=require('host.pbz.object_identity')
@@ -81,6 +82,8 @@ function M:is_current()
 end
 function M:eligible(row)
   local target=row.actor
+  if self:is_current() and identity.matches(target,row.id)
+    and require('host.pbz.mob_living').alive(self.binding,target) then return true end
   if not self:is_current() or not valid(target) or not identity.matches(target,row.id)
     or not identity.matches(target:GetWorld(),self.world_id) or not target:IsA(self.character)
     or not target.bCanBeDamaged or (health(target) or 0)<=0 then return false end
@@ -111,6 +114,10 @@ function M:candidates(kind,center)
         if not seen[key] then seen[key]=true;out[#out+1]=row end
       end
     end
+    local group=self.binding.mc_summons
+    if group then for _,m in ipairs(group.mobs) do
+      if m.health>0 and not m.removed then out[#out+1]={actor=m.actor,id=m.id,mc=true} end
+    end end
     -- Apply self-damage last: a fatal self-hit must not retire the source
     -- halfway through dispatching this explosion to its other targets.
     out[#out+1]={actor=self.pawn,id=self.pawn_id,player=true}
@@ -164,6 +171,11 @@ function M:player_gate()
 end
 function M:hit(row,amount,action_id,kind,location,direction)
   assert(self:eligible(row),'tnt-damage-target-changed')
+  if require('host.pbz.mob_living').find(self.binding,row.actor) then
+    local accepted,result=require('host.pbz.mob_living').hit(self.binding,row.actor,
+      amount/(kind=='explosion' and 1600/65 or 20),action_id,{direction=direction,knockback=false})
+    return result or {dispatched=false,hurt=false,route='mc-living'}
+  end
   assert(type(IsInGameThread)=='function' and IsInGameThread(),'tnt-damage-game-thread-required')
   local target=row.actor
   local damage=component(target,'/Script/SGameAttributes.AttributeComponent')
@@ -220,7 +232,10 @@ function M:hit(row,amount,action_id,kind,location,direction)
   end
   return result
 end
-function M:run(kind,center,source,action_id,power,underwater)
+function M:run(kind,center,source,action_id,power,underwater,allied)
+  return require('host.pbz.entity_effects').with_attack_base(self.binding,self._run,self,kind,center,source,action_id,power,underwater,allied)
+end
+function M:_run(kind,center,source,action_id,power,underwater,allied)
   local report={kind=kind,action_id=action_id,considered=0,occluded=0,dispatched=0,hurt=0,
     knocked_back=0,targets={},errors={}}
   self.report=report
@@ -239,7 +254,7 @@ function M:run(kind,center,source,action_id,power,underwater)
     local boats=kind=='explosion' and require('host.pbz.boat_service').get(self.binding)
     for _,row in ipairs(self:candidates(kind,center))do
       local eligible_ok,eligible=pcall(self.eligible,self,row)
-      if eligible_ok and eligible then
+      if eligible_ok and eligible and not (allied and row.player) then
         local target_ok,target_error=pcall(function()
           local location=vector(row.actor:K2_GetActorLocation())
           local offset={x=location.X-center.X,y=location.Y-center.Y,z=location.Z-center.Z}
@@ -282,7 +297,9 @@ function M:run(kind,center,source,action_id,power,underwater)
   end
   return report
 end
-function M:explode(center,source_actor,action_id,power,underwater)return self:run('explosion',center,source_actor,action_id,power,underwater)end
+function M:explode(center,source_actor,action_id,power,underwater,allied)
+  return self:run('explosion',center,source_actor,action_id,power,underwater,allied)
+end
 function M:burn(center,action_id)return self:run('fire',center,nil,action_id)end
 function M:close()
   if self.closed then return end

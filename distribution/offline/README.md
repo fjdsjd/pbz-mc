@@ -1,12 +1,14 @@
 # PBZMC {version} 离线便携包
 
-本包包含模组、加载器及全部 3172 个已转换并校验的运行资源。**首次安装也不下载资源，不需要安装 Python、Java 或 FFmpeg。**
+本包包含模组、加载器及本版已转换并校验的全部运行资源。**首次安装也不下载资源，不需要安装 Python、Java 或 FFmpeg。**
 
 1. 退出 PBZ，备份原生存档和模组数据。
 2. 将压缩包里的所有内容解压到 PBZ 游戏根目录，使 `Launch-PBZMC.cmd` 与 `platform` 文件夹并列。
 3. 双击 **`Launch-PBZMC.cmd`**，脚本自动备份、校验并安装，然后通过 Steam 启动游戏。首次本地文件校验和复制需要一些时间，请保留窗口。
 
 `Backup-PBZMC.cmd` 用于备份，`Uninstall-PBZMC.cmd` 用于卸载模组并保留存档。
+
+**每次玩模组都从 `Launch-PBZMC.cmd` 启动；直接从 Steam 点“开始游戏”则是原版。** 退出或崩溃后不需卸载，不会留下开启状态；资源仍保存在本机。升级旧版后先运行一次新版 CMD，完成默认关闭加载器的安装。
 
 详细说明见 [安装与维护](docs/INSTALLATION.md)、[按键](docs/CONTROLS.md) 和 [支持的游戏构建](docs/COMPATIBILITY.md)。游戏内 B 打开背包，F5 切换视角，H 开关操作提示。
 

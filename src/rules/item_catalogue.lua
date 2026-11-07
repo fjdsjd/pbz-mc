@@ -18,6 +18,14 @@ for _,id in ipairs(require('rules.equipment_catalogue').list())do
  add(id,require('content.armor').get(id)and'armor'or'equipment','equipment')
 end
 for _,id in ipairs(require('rules.supply_catalogue').list())do add(id,source.supply_category(id),'supply')end
+-- Keep the vanilla building-tab order, including blocks also offered on a second tab.
+local construction,listed={},{}
+for _,id in ipairs(require('content.blocks').construction)do
+ construction[#construction+1]=id;listed[id]=true
+end
+for _,id in ipairs(by_id.construction.entries)do if not listed[id]then construction[#construction+1]=id end end
+by_id.construction.entries=construction
+for index,id in ipairs(construction)do if items[id].category=='construction'then items[id].index=index end end
 for _,group in ipairs(groups)do
  group.pages=math.max(1,math.ceil(#group.entries/M.page_size));pages[group.id]={}
  for page=1,group.pages do

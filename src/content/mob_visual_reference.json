@@ -1,0 +1,3056 @@
+{
+  "source_commit": "15701fa9c13923f12662984c32c124327e40e3d3",
+  "files": {
+    "animations/actor.animation.json": {
+      "sha256": "b9bc53f9b7d12f1c56f433425b15ffcac6cb8eb6d59df0a4f9fa8f482e7e8504"
+    },
+    "animations/agent.animation.json": {
+      "sha256": "1815803fad1a4c85ffee21a81d5fa2d5f3200bb3f9930719b10fa11099b0c64d"
+    },
+    "animations/allay.animation.json": {
+      "sha256": "4af0103837f3d21e6c058a274e85ac130797985e13acf3adb0a828a9acfed542"
+    },
+    "animations/armadillo.animation.json": {
+      "sha256": "28a565001c39727952dc77d1a973d3722cdfc13f47affb384f6044a345333c55"
+    },
+    "animations/armor.animation.json": {
+      "sha256": "1ec6e60ab6d419d12eeed7ab36e1186888d9b74139d41fbbe5f21f90c17bc78c"
+    },
+    "animations/armor_stand.animation.json": {
+      "sha256": "aadf88fda50a36a1d174e16f28269b0eccd97fb082017e7f86cf804829e812fc"
+    },
+    "animations/arrow.animation.json": {
+      "sha256": "c7a16f01ffa3ff114ed933a74fea79f413f1562a32d8f003a0f3b2f6442dc4ee"
+    },
+    "animations/axolotl.animation.json": {
+      "sha256": "1fb403213e05caf0fc4f7d3d722a1952a8872e399d9301f9e373d4d75cc2ecb0"
+    },
+    "animations/bat.animation.json": {
+      "sha256": "c05153c8fd1fe0a3faa0834d7f9b0630cbd72f108769ad4ef5bb266842c95fc0"
+    },
+    "animations/bee.animation.json": {
+      "sha256": "a26eb0e6047745675729b55f79fa08f37c89cb51b931972735c7565c62f6cd7b"
+    },
+    "animations/blaze.animation.json": {
+      "sha256": "8a6a3bdd5b86e78d457cfe88a9714fb38dd4303f744268d14dd42bec09c33569"
+    },
+    "animations/bow.animation.json": {
+      "sha256": "4c3ba6fad01e578c1c3c9b71ba8ade1084c08b39433a4816c853cb5db73374a8"
+    },
+    "animations/breeze.animation.json": {
+      "sha256": "8380d9fc3ecd621c2a78c0b1fb684fb340097b510a10c09505d87024a33a0c92"
+    },
+    "animations/camel.animation.json": {
+      "sha256": "4081dd088062d76e4076227b7ed2ebffca597f7379d2ec9acddc51c8b76ed3b5"
+    },
+    "animations/cat.animation.json": {
+      "sha256": "0afea2d0bf2e6f1ffebb2bcc7aad3db54ec53f7e08fdb2b0949db6e91a3345be"
+    },
+    "animations/chicken.animation.json": {
+      "sha256": "8753bc5edfb0b8495061c2544dac1def6da2e31af0187043c8ba26f0e314a0b5"
+    },
+    "animations/cod.animation.json": {
+      "sha256": "af54e7578d0be856c16a51387bbbb1d35914d690adc6fe630a55b3436286ac30"
+    },
+    "animations/copper_golem.animation.json": {
+      "sha256": "e4231236c95f29cf5a7915d35f39ce54313611fca8472cca5cad0f1c37c5bf6f"
+    },
+    "animations/cow.animation.json": {
+      "sha256": "d9b146775fc99ab23a602ee3ad581df4eaaf602878cd94ed520ab8b48bd2ab8f"
+    },
+    "animations/creaking.animation.json": {
+      "sha256": "a86d2c240a75141dbcae349c31aaecece1cca56043d3f238644bfb33020b20e5"
+    },
+    "animations/creeper.animation.json": {
+      "sha256": "ae5893d5520433859b76ea7fdb07b35cf889ae25a3127191a99c98a71ee487e2"
+    },
+    "animations/crossbow.animation.json": {
+      "sha256": "847cba569e4faa38d622f33e36949cdfad5499344e9e298ee27eda9f894dafd5"
+    },
+    "animations/dolphin.animation.json": {
+      "sha256": "65e593b4faef23072802647ad9b6b56cc130061f8da41b412e838a61b4ee7f35"
+    },
+    "animations/dressing_room_idle_arm_1.anim.json": {
+      "sha256": "cd36c3d474255e5e860b47a4df5ba0f3c598dd0337095e0603ae6e47f0daae17"
+    },
+    "animations/dressing_room_idle_back_1.anim.json": {
+      "sha256": "150f5fade609684080b8084900a52dc299b029acf2a9edfcd019de21ac944297"
+    },
+    "animations/dressing_room_idle_bottom_1.anim.json": {
+      "sha256": "2e2ff55f803e30c266ac2e21c5fd02015dcb73be9d5a70f0051914c6ae80930d"
+    },
+    "animations/dressing_room_idle_torso_1.anim.json": {
+      "sha256": "88c8ebcb0cee6ea8369e4b210e997b3c27485b9c3268d0b082a546f8273366e6"
+    },
+    "animations/dressing_room_react_arm_1.anim.json": {
+      "sha256": "af8dd1ec9c72970478836360c01c0b1fffa651986bb8f0c2df31a881d082f407"
+    },
+    "animations/dressing_room_react_arm_2.anim.json": {
+      "sha256": "769c2693079bcffde03009e6215d1c6984d458f7f16a238aed3f455b211f4252"
+    },
+    "animations/dressing_room_react_back_1.anim.json": {
+      "sha256": "85092739e6834ed443a42f26a7595409a7a2ebc55f1f355d3a1b8ad798b61078"
+    },
+    "animations/dressing_room_react_back_2.anim.json": {
+      "sha256": "bb3ee174742fec20e4bffa272483fc24517ef4ac171bc30c5072230f6f76d558"
+    },
+    "animations/dressing_room_react_bored_1.anim.json": {
+      "sha256": "f7b2b420d4fe7b3c43ebfb6f44322593fc9ad897865ca2545ca585c06a1815f9"
+    },
+    "animations/dressing_room_react_bored_arm_1.anim.json": {
+      "sha256": "7269771efe44037b630fee33ad3abf3aa7d14f7178a36b684d41cc5c47cd0a33"
+    },
+    "animations/dressing_room_react_bored_back_1.anim.json": {
+      "sha256": "baaed13360ea96d80fc15d03003b18dec1f8dda24d1ea2284dcd8e0114075f97"
+    },
+    "animations/dressing_room_react_bored_bottom_1.anim.json": {
+      "sha256": "997a6acc7d6e8b7dbf40956944fecbb0c1aaafc17d11a0635b14652bba3e7772"
+    },
+    "animations/dressing_room_react_bored_head_1.anim.json": {
+      "sha256": "ecc02f2dd68ca4b688b2cf41b4bed04d9b9e73ae764d38fdc0fbdcc111e6e37f"
+    },
+    "animations/dressing_room_react_bored_torso_1.anim.json": {
+      "sha256": "a7ecd25131c7a46a7e6d3c11eab4508b9c8d146110f22f249e7b1cc406743b2e"
+    },
+    "animations/dressing_room_react_bottom_1.anim.json": {
+      "sha256": "e4f6d0f77c3f8309b0fae621f5b7bb61571b034f5694d4ad250974f8c4cccede"
+    },
+    "animations/dressing_room_react_bottom_2.anim.json": {
+      "sha256": "dfdc41a87d5b217593a82cd7e3981faa2b9bd99694d5b145aeb0af2f0e3aa8d0"
+    },
+    "animations/dressing_room_react_bottom_3.anim.json": {
+      "sha256": "c596ae5ae34b9710a424f7f3e139d6c4f224023812436ff3c384bfe2938c7bee"
+    },
+    "animations/dressing_room_react_confirm_1.anim.json": {
+      "sha256": "71781587b7ff8775f39457c0152cb4d2215a010ba99c8e0c6d1c060a44ccc36e"
+    },
+    "animations/dressing_room_react_confirm_2.anim.json": {
+      "sha256": "2be6a9efcec51235ec450f0b4928e16c605bacb702bf8ceed465fb5cffe2d89e"
+    },
+    "animations/dressing_room_react_head_1.anim.json": {
+      "sha256": "5b7cfd53c2e676d53d82ec57817baafb41ee6803e6cabb0621621935989845d2"
+    },
+    "animations/dressing_room_react_head_2.anim.json": {
+      "sha256": "fa537ba65c297cd639046bca9cadfd9504927ddd51c6ad13c4b6a4bf03d9c35c"
+    },
+    "animations/dressing_room_react_idle.anim.json": {
+      "sha256": "3399814abc837fa230189efd11c5bc583958deac297c5d6e87b3eecb40984c7b"
+    },
+    "animations/dressing_room_react_offer_1.json": {
+      "sha256": "f9fbf125b4aa25c1503b5d19cb7bcc6d77893883c93ad08390d4542b3a620416"
+    },
+    "animations/dressing_room_react_offer_2.json": {
+      "sha256": "2bc8941baff3369a7bfb557a7bc416e2bcf758deb7b227f6fbff27cebcdeb253"
+    },
+    "animations/dressing_room_react_offer_arm_1.json": {
+      "sha256": "ceb9333f2038099e8b68ccbec68aa7e6442ea5a34eef0fbe3428f329ee73815e"
+    },
+    "animations/dressing_room_react_offer_arm_2.json": {
+      "sha256": "7de875173bf9cc1029a3beb7115534af151b6bc6fda204d976fabd000a2d31ce"
+    },
+    "animations/dressing_room_react_offer_back_1.json": {
+      "sha256": "7cd1ce98588284429acf26ff3a7529092c89f4247ca0b8ffcc4cc1b18099ce33"
+    },
+    "animations/dressing_room_react_offer_back_2.json": {
+      "sha256": "56f6257d6950034470099ec453b8056e0d5b4b9980c058dcb60bef0632a242c0"
+    },
+    "animations/dressing_room_react_offer_bottom_1.json": {
+      "sha256": "7f5f9a82659e86c382eea651fc50333fa554476022ca982350a0001529983555"
+    },
+    "animations/dressing_room_react_offer_bottom_2.json": {
+      "sha256": "118efd038c0193aaddfa5b0214ddfc7b6de4ca50b3ce5cdeafd0a6c9a2014d63"
+    },
+    "animations/dressing_room_react_offer_head_1.json": {
+      "sha256": "3c77dd3e0502ec50f2c18fb34beea9b75d44efb7d3d67a9948b8b648a3779673"
+    },
+    "animations/dressing_room_react_offer_head_2.json": {
+      "sha256": "f7a652f20518518e5e37c73a0e307c3586b30d29126551a7a809a77abd21d910"
+    },
+    "animations/dressing_room_react_offer_torso_1.json": {
+      "sha256": "45efbe7affa2f3062c3aa4dc9219be849f9b3e06a551c2e73b077ae1ed7aca93"
+    },
+    "animations/dressing_room_react_offer_torso_2.json": {
+      "sha256": "908398d8680328fd5e120cc28f1d6f8b8670639a7c0f514a9ff4fa701af41f31"
+    },
+    "animations/dressing_room_react_torso_1.anim.json": {
+      "sha256": "2e25e3b839208a7f6003e3a087a58f1a842c368c3ffad38cd1dfaba21c60842d"
+    },
+    "animations/dressing_room_react_torso_2.anim.json": {
+      "sha256": "d9f9c74fc61aee951a643216032507868b9aec3066f7cf548d688ea97b11df2c"
+    },
+    "animations/drowned.animation.json": {
+      "sha256": "04e0b1e4865a10a8e3f0dbe0f864774d3bdc498ee9260de6304f9ca25ea09f87"
+    },
+    "animations/drowned.animation.v1.0.json": {
+      "sha256": "7b74ae5747e8a8ea6fb8e65aa4ef0cd38761aa4a6b179f36c314b3ade5fe8374"
+    },
+    "animations/elytra.animation.json": {
+      "sha256": "50d5e279987334782d60a3109a4338d6608655125775cb15738cbcec59b18d8c"
+    },
+    "animations/enderman.animation.json": {
+      "sha256": "c6ef4c453576ba219d8731624fb2d10736afee40e3182e974bae386ba60ebbd7"
+    },
+    "animations/enderman.animation.v1.0.json": {
+      "sha256": "d06940be79d31d0b4c729bb65f70bbd67ba7c24cb3ef5b66ef6f99a13f2f755e"
+    },
+    "animations/endermite.animation.json": {
+      "sha256": "b4faad5ed3778c0fe291a52d66bddde0586ee94649254b0fdd29ed308066c8bc"
+    },
+    "animations/ender_crystal.animation.json": {
+      "sha256": "4a572e9de136dcfe0233c0fbb82ed5091177aca9067341367a0403f7e1dc13d7"
+    },
+    "animations/ender_dragon.animation.json": {
+      "sha256": "43a4cf19dfdc05a35216e1ff93d5905ef6da4058cc5b2eb9ea4508358fd05307"
+    },
+    "animations/evocation_fang.animation.json": {
+      "sha256": "2cb5ef28f77237256cbfcb576cf36f229fcbbd878abaa80e8d8e24e0e41964b0"
+    },
+    "animations/evoker.animation.json": {
+      "sha256": "354feea696328fa8c3617469b7024442f5609c9f3905dcdcf50bdce84ff5ae43"
+    },
+    "animations/fireworks_rocket.animation.json": {
+      "sha256": "f20cd76f2c35998ce12f693e106f47759a8ce80e963b095286011524bb60c3b5"
+    },
+    "animations/fox.animation.json": {
+      "sha256": "f84994975520365e2d2c662413c00d3f8212b29107c87b660fe6e57e50d85d15"
+    },
+    "animations/frog.animation.json": {
+      "sha256": "a4462d2eb4484a92518de085a854d345839cbbfb23213a4d54e844f7ecb8c366"
+    },
+    "animations/ghast.animation.json": {
+      "sha256": "a00bfdcc9b0c2c248fee780b1ca1c125491fec6a21e80d3a2f41aa9fe6f03a74"
+    },
+    "animations/goat.animation.json": {
+      "sha256": "6f8ad3bae02068ed2ea660b7f497d0559283f7baff98dd395c6a8ce3cb176192"
+    },
+    "animations/guardian.animation.json": {
+      "sha256": "d8e2c959c7a3a0146c6273a6243c9a81ff4a2a528b96f28b2b5c2f01b5919bdf"
+    },
+    "animations/guardian.animation.v1.0.json": {
+      "sha256": "14e1805ca8d67545a4589c0d51776271ba8fda1307617b731d9255ee63c92a5d"
+    },
+    "animations/happy_ghast.animation.json": {
+      "sha256": "9b12160e6b015b7d458f7bb736485cafcf8556733640231d79aa08fc5d049be4"
+    },
+    "animations/hoglin.animation.json": {
+      "sha256": "6c63db783b22030c776276aa17434d6b7744b69f2478e55119cb43151c442758"
+    },
+    "animations/horse_v1.animation.json": {
+      "sha256": "80539046b7d84193db30409e5de7cdb1b3cd395d4f2bdf2bf80582e87638488c"
+    },
+    "animations/horse_v2.animation.json": {
+      "sha256": "d3cfd46fcbe61ac3972b0efab225811ccb62c71995c9d7bff89c00dcf890e372"
+    },
+    "animations/horse_v3.animation.json": {
+      "sha256": "48363e9b26be08519d45555bd287f4d942bfb28ef400303d12a74a0d21942edc"
+    },
+    "animations/humanoid.animation.json": {
+      "sha256": "4059e76703386ec92b4a66e863507fd17417c7398bad071c2e0e6ffec8363a44"
+    },
+    "animations/iron_golem.animation.json": {
+      "sha256": "e2481811ca038c69685302973439ebdae62ff8fb6e8eca9f7f80c37b7156d7c0"
+    },
+    "animations/llama.animation.json": {
+      "sha256": "343b205000069f98d8542a27fa1185200d00db1011ef417d6def7636af5882a0"
+    },
+    "animations/llama_spit.animation.json": {
+      "sha256": "ff86a6fd1f9af0bcbfafb98da00fdaf26fbf06e169a84c0f082ba324a2c9817a"
+    },
+    "animations/look_at_target.animation.json": {
+      "sha256": "57a19d59216b0bb56331756c37cbd7cebfdd66841b31191ecfa14a34fb36bfe9"
+    },
+    "animations/magma_cube.animation.json": {
+      "sha256": "47796c94117200accc1b63c14c8e50eddc478a04aa6737f2c3924c5b133c88d7"
+    },
+    "animations/minecart.animation.json": {
+      "sha256": "2976d935d920d8bae7a02467f777531852de2850c10855d19760151703ec3911"
+    },
+    "animations/minecart.animation.v1.0.json": {
+      "sha256": "a480beb9b0bd4bae22734d6a4087966a10df8c6cf4f97d56553623c09b368161"
+    },
+    "animations/mooshroom.animation.json": {
+      "sha256": "90fb451ae8c90924cb902c93bfaeb9465661f56642f7ff6a26ee992f845cee1d"
+    },
+    "animations/nautilus.animation.json": {
+      "sha256": "1b05e054205a5ba7fe37bafe85438bf5bb9c7c6536ef3ee903ecdb8f61a11931"
+    },
+    "animations/npc.animation.json": {
+      "sha256": "2f596e20bfa51dde8c68aa99c2a6b8f006f868bc457a3cb8f6d5fd8a2e2461af"
+    },
+    "animations/ocelot.animation.json": {
+      "sha256": "85fbad78686c254ada7f4d7a142dae6f2efb62f746dc0ad300911b83ba113671"
+    },
+    "animations/ocelot.animations.v1.0.json": {
+      "sha256": "8f3a3397a83da24ee511b72c294faae94a81bd1bf002bc1b39a702604c70c654"
+    },
+    "animations/panda.animation.json": {
+      "sha256": "7ab0d07940b821fd4c08ba39c72c4bbbdf2aaa6a8a9758051523f7eb39623fd5"
+    },
+    "animations/parrot.animation.json": {
+      "sha256": "eaebe057537c25eb4d021b2e02a0efdf077f7603b7f043d88672a940f1f511cd"
+    },
+    "animations/phantom.animation.json": {
+      "sha256": "b4c83f74f01d73c958afbcacf6c3119f8d1da56a547c6dc0f7457f484d8d8e79"
+    },
+    "animations/pig.animation.json": {
+      "sha256": "d8422d81b7913eb231baa2e6414123b06603ac5ac2f49daf853326c1fc96090b"
+    },
+    "animations/piglin.animation.json": {
+      "sha256": "7bd3c391bee9a0bee18a9785979e9f4ca5755b3fe81de41af199ed2ca6506f41"
+    },
+    "animations/pillager.animation.json": {
+      "sha256": "2bc9acd4538fa53d7e096b217d0bf08d3e17e14267b960ebc7a069bcfb91a377"
+    },
+    "animations/player.animation.json": {
+      "sha256": "cd258200cf312d703ccc3c2c8d3c9b4bb191b44e0d2ae06a98db5ee5ee199e1a"
+    },
+    "animations/player_firstperson.animation.json": {
+      "sha256": "be55737455e163a4983d2315b46df3d6815d9365363c295776251287a70b664e"
+    },
+    "animations/polar_bear.animation.json": {
+      "sha256": "257ff7a6a668f08c79e58db2635e5798097e3fc4621158a75f508e83096ac627"
+    },
+    "animations/pufferfish.animation.json": {
+      "sha256": "ebfdbb5aa095e2373b0977c2850167135e26a24269b55f9f61f1fee8b6b4f808"
+    },
+    "animations/quadruped.animation.json": {
+      "sha256": "35c47c56eb92146526972dff707d80cad9011c6cbbb07009d0d4954b018d60c0"
+    },
+    "animations/rabbit.animation.json": {
+      "sha256": "f237ea273967fe32b027252c6b886599b0a53434dcdc347cc0ef635c4bbeb7e0"
+    },
+    "animations/rabbit.v2.animation.json": {
+      "sha256": "4abe9a155f7917f452bee29d5384605fe02d169c8c07aa9e29d431a32036f410"
+    },
+    "animations/ravager.animation.json": {
+      "sha256": "d0135e21bec599bfc510163d9a376fcaeb3b6068b18df25076a884808c086389"
+    },
+    "animations/salmon.animation.json": {
+      "sha256": "b442ff6de1b68a8155fd413bacc7dae41a4d2faff78b39394e9801a70ead5ebe"
+    },
+    "animations/sheep.animation.json": {
+      "sha256": "03f48a44765e1bb872d5634c5871c7ff768990dcdc4400e5d065ccb5037ecefc"
+    },
+    "animations/shield.animation.json": {
+      "sha256": "3676aeb4b67f446e1f5f6a2b530391e57a60e73ebb194d4701fbf49219f8f4c4"
+    },
+    "animations/shulker.animation.json": {
+      "sha256": "c827fa4a053594f927f906247128e00c9c59fe1d44edf18b1f577bdac1b6ee64"
+    },
+    "animations/shulker.animations.v1.0.json": {
+      "sha256": "5160963e081c187009caee1c9a7994ae3bd2783afe9a9831b71563d79c464be9"
+    },
+    "animations/shulker_bullet.animation.json": {
+      "sha256": "5543a9471d26d37caf42110abb5939721e7dde7add4d9409dfed74f3154e2c78"
+    },
+    "animations/silverfish.animation.json": {
+      "sha256": "2ae9272b082dca8cfb29b137b2a3f905f722cd0844c85ee0c7d6edaa73181e0c"
+    },
+    "animations/skeleton.animation.json": {
+      "sha256": "ee57315b126e9c8271320e8c8f53c427effbf62a93151bd5e6064e95c3701fb9"
+    },
+    "animations/skeleton.animations.v1.0.json": {
+      "sha256": "3c79de01be95d9f5d6104a4491c3c9dd84bff3a51df92de496c966dee8bd02fa"
+    },
+    "animations/sniffer.animation.json": {
+      "sha256": "099e5cab8ab92519ef7ad4b04d80d25342a02c89b1c379756357685ab5aaf837"
+    },
+    "animations/snow_golem.animation.json": {
+      "sha256": "b501ca9b6ac3bb6811d911f6bb9c23e94345c7d849317a753e3e5298f6b7ce75"
+    },
+    "animations/snow_golem.animations.v1.0.json": {
+      "sha256": "56f0efcd04bafc0165b4603703dfd5b2babf1fdd46f9f579c4fc777c96c3bb3f"
+    },
+    "animations/spear.animation.json": {
+      "sha256": "8446937efe10c463d0fa1b514f4dc416c9cdd2dd6d241dc957e947203eb62df9"
+    },
+    "animations/spider.animation.json": {
+      "sha256": "9ab761620c870d774d8b59f4566c085f79c031895207e6f5b7d5ce09bef65fc5"
+    },
+    "animations/spyglass.animation.json": {
+      "sha256": "47b4bd464184644853eb5d91e7a6fabb8543159098d4dde89317d0283d3c5126"
+    },
+    "animations/squid.animation.json": {
+      "sha256": "3d67986a722bff8d70f5bf47b3448df87a72562676fd6d0b7eeb91bb5d496196"
+    },
+    "animations/strider.animation.json": {
+      "sha256": "8739e36043db7b75d2af2762adc9302df8efddaca3dda7c8a0f8dcaf8392f8c5"
+    },
+    "animations/sulfur_cube.animation.json": {
+      "sha256": "590b284e7ce5b74b15a1cb435aa70e5f7e1238a5d4dbbeb0f4fbb63afae403b5"
+    },
+    "animations/tadpole.animation.json": {
+      "sha256": "cda2a862e3cb85cd202e8ed2a37f8024df927a80d8d0b0eb75249b5c8b74c8a3"
+    },
+    "animations/trident.animation.json": {
+      "sha256": "c78caec132025496253ac4a1db6c21653bb8ad235dc75230d2ad9a48ad18b5ac"
+    },
+    "animations/tripod_camera.animation.json": {
+      "sha256": "018f20c4fc24ccc1a0341488ee9de3dd9985ff4174d6b0362e0fac00393b4bf4"
+    },
+    "animations/tropicalfish.animation.json": {
+      "sha256": "e2572284ec0eeb10b643cd4d3af4cb4b3aa6ff4f3133149391a794b98f5dc588"
+    },
+    "animations/turtle.animation.json": {
+      "sha256": "131a3fbcacc46f2d7f84f30f8632b706a11051fc09f9ee16b70c7d67c474d31b"
+    },
+    "animations/turtle.animations.json": {
+      "sha256": "89d1e59f0313d836b387783fc67db4a9ced732c3f66e877548814f4634b8233c"
+    },
+    "animations/vex.animation.json": {
+      "sha256": "10c644b02c86074daf254be78fcb5f24cb5c75e3a03041de8f3cbc7823240d94"
+    },
+    "animations/villager.animation.json": {
+      "sha256": "291ee066110528bed721208f204a184a2bc69514c7ed7c1316ba3e4d4cef34d7"
+    },
+    "animations/vindicator.animation.json": {
+      "sha256": "ad19a8d2e280122dc391784a4ae4b0d529b726441c22956ace5ed78e513ea79d"
+    },
+    "animations/warden.animation.json": {
+      "sha256": "cf938237dee7f93f5b4aee2971647f548f02f4780bbf7413f4750064735d45ad"
+    },
+    "animations/wind_charge.animation.json": {
+      "sha256": "bd8bf6df4071cff0c88dfffb02d31d4229de91769846bd5afebbe73e2e507908"
+    },
+    "animations/witch.animation.json": {
+      "sha256": "450f9f46fa7afa7f42703d6fa4d2dea160ac876b99d89f4a449a55c91f80f810"
+    },
+    "animations/wither_boss.animation.json": {
+      "sha256": "359cb7f4d27d814503cfd179661c99e407d3f6e7d5529ae4286b38d24a7a4dcd"
+    },
+    "animations/wither_skeleton.animation.json": {
+      "sha256": "f522bba319f37f8213ab530609e8a00778ea26367202a5d5e45f0a46aebf2668"
+    },
+    "animations/wither_skull.animation.json": {
+      "sha256": "b7704f289cb7f1f5616de4b15c3da37e99ca853bb0bf1950d2d8c020bc7e7c24"
+    },
+    "animations/wolf.animations.json": {
+      "sha256": "9f9c8842f9f83ec5edfe40b3994563a3f99a18751ceb59c3721fa055931bfa1e"
+    },
+    "animations/zombie.animation.json": {
+      "sha256": "abec25b15f1a324485a9cf218498739ec95c6bddef10b8aac66fffd63924f0d9"
+    },
+    "animation_controllers/agent.animation_controllers.json": {
+      "sha256": "9206ada6d54975b2ab9b01b5ab3bbebcc98c8f89130a6e1c06934b01fc068aa4"
+    },
+    "animation_controllers/allay.animation_controllers.json": {
+      "sha256": "c8da7ea9f6e1dbb8a5db879c1cc31524169da735da710b16513a29b35db8e5c5"
+    },
+    "animation_controllers/armadillo.animation_controllers.json": {
+      "sha256": "450366181de3fc947496bd1b3b3b0dd4ab37a667a1a084652a403f60fbd9a890"
+    },
+    "animation_controllers/armor_stand.animation_controllers.json": {
+      "sha256": "4ea3586e62fab479d92604258dc2029d8173d3912819539c8735177c67e065b0"
+    },
+    "animation_controllers/axolotl.animation_controllers.json": {
+      "sha256": "4b46dcf917d4caa6db5e900fa4f9c76a8942aa351c7ab3aff7d1578a8bebab44"
+    },
+    "animation_controllers/bat.animation_controllers.json": {
+      "sha256": "720ef5bd9dbdc39f7d60ec92706cef1cc85066a6901078876d3308144458db13"
+    },
+    "animation_controllers/bee.animation_controllers.json": {
+      "sha256": "eb8149a89a027abc0455ad5c0968cf387d47a395f01bc1a8ee28fbea8339ee80"
+    },
+    "animation_controllers/blaze.animation_controllers.json": {
+      "sha256": "2ace9aa635a3016ef4036cc11c3671893505689bf6da6f1790b00f4f642985ea"
+    },
+    "animation_controllers/breeze.animation_controllers.json": {
+      "sha256": "0baa4d8ed2dcbd29b1e3b490ae582e1d0308dbf699f08d913e0a47e5a82183fb"
+    },
+    "animation_controllers/camel.animation_controllers.json": {
+      "sha256": "e29380cab9efa457681b963660b81e997c2b83845c4225b27a0365e9f1816ba8"
+    },
+    "animation_controllers/camel_husk.animation_controllers.json": {
+      "sha256": "bf524e050ddf6b1c658c2ec4d7875c3e1e63607fcf86665a0e89d2a6b74d26ea"
+    },
+    "animation_controllers/cat.animation_controllers.json": {
+      "sha256": "4f967622990c7a35ffbcff57dd1060d778946da3d5a3bc97b648cd57c2f2f91f"
+    },
+    "animation_controllers/copper_golem.animation_controllers.json": {
+      "sha256": "cdfae5d8e75d41ef0bd684769d19cdbb9c5389325b7a13a979ea6018a7b9b47f"
+    },
+    "animation_controllers/creaking.animation_controllers.json": {
+      "sha256": "08674f28cc4f2ccff211802b824be4d3b43a1555617a36d6dfe5b3892fd0b53e"
+    },
+    "animation_controllers/creeper.animation_controllers.json": {
+      "sha256": "5c794ba2bfbe0b1f545a0ad46b1b843a8c924d92414392bdbce3f5330cfa0877"
+    },
+    "animation_controllers/dolphin.animation_controllers.json": {
+      "sha256": "e523e868a55666b1dc03013419118c8aed34136cae5a8c17a81d67d7c2552566"
+    },
+    "animation_controllers/drowned.animation_controllers.json": {
+      "sha256": "a0770f96f95d1c76a857b70beef1fe1de68b63d40dc35420801c0d658793745e"
+    },
+    "animation_controllers/elytra.animation_controllers.json": {
+      "sha256": "606cf3c3b67829bc958110b15590ce060b5581b9fa1533ca0d9093f09e10646d"
+    },
+    "animation_controllers/enderman.animation_controllers.json": {
+      "sha256": "29702ac0bc3ef2c13be402145ceba710406ac3c5d2e7994dd554aba2b250eb7a"
+    },
+    "animation_controllers/endermite.animation_controllers.json": {
+      "sha256": "3d2a12783f66e7174b7e23e2346f5926e4717975a86160f86bdac6bb7c919741"
+    },
+    "animation_controllers/evoker.animation_controllers.json": {
+      "sha256": "e61192153108b7106a664b54eb028abb968c7c3e9cb8f971b2845b6990f213a1"
+    },
+    "animation_controllers/fish.animation_controllers.json": {
+      "sha256": "2476aef770726427b4ae0b2810d3a0368f14c3acbbcd2d7ae34fa4203a972456"
+    },
+    "animation_controllers/fox.animation_controllers.json": {
+      "sha256": "efa550033adf0c2e039812ee9f2bd29f7ce320c6782c6ba3c1a686e3b2ef68d5"
+    },
+    "animation_controllers/frog.animation_controllers.json": {
+      "sha256": "148d2abeb5664912680c13fa5747c20d3ffc5e774f376cc3ba4a2d1ebf093e58"
+    },
+    "animation_controllers/ghast.animation_controllers.json": {
+      "sha256": "cf636534bd601be3e1c065e5b56fb3e36890376b3d54e5cdf8a1ac50188cfbff"
+    },
+    "animation_controllers/goat.animation_controllers.json": {
+      "sha256": "ac97eabc99c029c80ff3945b2a123a205774fab9b50eaa0cf4a1b3b3937f2e55"
+    },
+    "animation_controllers/happy_ghast.animation_controllers.json": {
+      "sha256": "002141cc1cc5e1bce23bd620843a805483ae00eafa206d0ce7ad07205bb93683"
+    },
+    "animation_controllers/hoglin.animation_controllers.json": {
+      "sha256": "ff906b6215ed122fba52877bdb381f41db3354d83a498de18e8a91ad057fd118"
+    },
+    "animation_controllers/humanoid.animation_controllers.json": {
+      "sha256": "a65e7e09510cb9b47266df618a2e953e6308c3cf1d26835f524670761b5fa912"
+    },
+    "animation_controllers/iron_golem.animation_controllers.json": {
+      "sha256": "6662b3ee12999d3a38dfbd3098f0439297b8cfbb5b70c3efdeab33f05dba7da4"
+    },
+    "animation_controllers/llama.animation_controllers.json": {
+      "sha256": "725e9e2dead69a82dabd009fcfde00a106d91fb98856131f7a6561d086a5c84b"
+    },
+    "animation_controllers/magma_cube.animation_controllers.json": {
+      "sha256": "d66ba7528ee5ce78f5f31c83136dfb9b37e7fc948404af1e75514849db34bad2"
+    },
+    "animation_controllers/mooshroom.animation_controllers.json": {
+      "sha256": "683e5c3b6d8b2b5949af28f30372a5c30f450ceaf41e4777102a51178196e4c1"
+    },
+    "animation_controllers/nautilus.animation_controllers.json": {
+      "sha256": "b996ea098d48d207941e8454bc280562184265314c2c153aee0dd5538d0e0073"
+    },
+    "animation_controllers/ocelot.animation_controllers.json": {
+      "sha256": "5d901eeeb827a2bfbf79f1311221d4b6acb4517920d9f8d5dd5e894d4e1b77ed"
+    },
+    "animation_controllers/ocelot.animation_controllers.v1.0.json": {
+      "sha256": "2c5bd43d305f4d4a11d3247e441c09d1c5061ca4f31b4951ec5e9c5ba196a698"
+    },
+    "animation_controllers/panda.animation_controllers.json": {
+      "sha256": "651d6023fbc5542a5e5e3df81e34cda3cdc228c7a72aa36ac0720fb18a971ed2"
+    },
+    "animation_controllers/parrot.animation_controllers.json": {
+      "sha256": "cde38cf03bcbaa341bbb2d6dbe1569a138f27d66db7dde71be2e450ff525d663"
+    },
+    "animation_controllers/persona.animation_controllers.json": {
+      "sha256": "145c95e3a3e0fa9fd9df86ec5a75f28c315cc3e90ce8cc475207601b4985c6c9"
+    },
+    "animation_controllers/phantom.animation_controllers.json": {
+      "sha256": "35779c909701e5849e714732d76d2142e7fd81f55511a6650b466943a63f96e3"
+    },
+    "animation_controllers/piglin.animation_controllers.json": {
+      "sha256": "7677ac69bc38e270277149e7e2e4bd697bdac0544f05a18f97b2ce36dd395f51"
+    },
+    "animation_controllers/pillager.animation_controllers.json": {
+      "sha256": "c64a4077cb0321e36f544da6a114d42e7565fd637182f32f6a994cc9150aa957"
+    },
+    "animation_controllers/player.animation_controllers.json": {
+      "sha256": "86d139f2fdb1a18b67bceac8cc691dfa9a3738056e8b44c2e232647bddf784e2"
+    },
+    "animation_controllers/polar_bear.animation_controllers.json": {
+      "sha256": "8db748c32203332d8f287cb5dd036c6c3a5351d88be9dc1db6470068b5e56727"
+    },
+    "animation_controllers/rabbit.animation_controllers.json": {
+      "sha256": "b0d44783c5c5ee0f3b3861f29f7df01bed995de52a7bcab73334144721afb7f0"
+    },
+    "animation_controllers/rabbit.animation_controllers.v2.json": {
+      "sha256": "c11fa7e3278132cea7b4780936c56b5e098b6482cf64f1961609791edf40e527"
+    },
+    "animation_controllers/ravager.animation_controllers.json": {
+      "sha256": "35c44aaa006b84b8a6b547cdfc7c6717feeec1a9d2dca2a0f952796f62a60cb4"
+    },
+    "animation_controllers/sheep.animation_controllers.json": {
+      "sha256": "282a9aeec41010f49e94c92823bda67d4027fb8ab0b2c3e33a0220466e60eac1"
+    },
+    "animation_controllers/shield.animation_controllers.json": {
+      "sha256": "a67157620dda7f0f2aba947f3bd2f93bf94f461817eeaf51b2e6bfb993f57df6"
+    },
+    "animation_controllers/shulker.animation_controllers.json": {
+      "sha256": "c84d4997b27e72ed43eeeab5a6e1b05d79ad631c2217923f7f41b961bf8ed326"
+    },
+    "animation_controllers/silverfish.animation_controllers.json": {
+      "sha256": "20616b6b8ba0b4543bbe4f0e114654dc96de57d9dab9564b1573cd5b91f480b2"
+    },
+    "animation_controllers/skeleton.animation_controllers.json": {
+      "sha256": "71b7bee62f321cfe65542fe17dfd8aa6c47b5aea437112749e26087909380602"
+    },
+    "animation_controllers/sniffer.animation_controllers.json": {
+      "sha256": "4ab141a34b513b4a3949635ba031e87eae49d5b571154aa9509cfefaa48ebeb4"
+    },
+    "animation_controllers/snow_golem.animation_controllers.json": {
+      "sha256": "b55342a97e59ac7a2e0664782e06f44fc960078ec61049d8ef900233fc44cb47"
+    },
+    "animation_controllers/snow_golem.animation_controllers.v1.0.json": {
+      "sha256": "9a01a595867caa14449a76e5c1f5841fdac94bd33b8c8d633fd5b21576846011"
+    },
+    "animation_controllers/spear.animation_controllers.json": {
+      "sha256": "d9c21ff87b777f0ddea579e6aab85502da56308b443de2cf266164d2377ac9e5"
+    },
+    "animation_controllers/spider.animation_controllers.json": {
+      "sha256": "c3c96c6db0c74da3f57905f0d2cd6ba9870f7ae8e4fb6b378a2752ce50488d88"
+    },
+    "animation_controllers/sulfur_cube.animation_controllers.json": {
+      "sha256": "8b4d87a7d7681b3e54a70dd08c537aa6c7d7c10d5b82f77b7f27a4e61825acf4"
+    },
+    "animation_controllers/tadpole.animation_controllers.json": {
+      "sha256": "2244bdcbeb43d0bb9e07d16f32feba5dc53f1e56a95a3c5c72e205c0b3c78c93"
+    },
+    "animation_controllers/trident.animation_controllers.json": {
+      "sha256": "a10c3d623261e2f103b8000fef7f8857f81036227880bbcbf0c634a2edcf97a4"
+    },
+    "animation_controllers/tripod_camera.animation_controllers.json": {
+      "sha256": "a4be3511e97cfd2711091ca058ed0ee033b5aeaccff5dd3935fef82c6a2d3a66"
+    },
+    "animation_controllers/turtle.animations_controllers.json": {
+      "sha256": "f9c8489800acde5a88f95183978cd9affd8a8bbfecf577d68f5ad1919660f145"
+    },
+    "animation_controllers/turtle.animation_controllers.json": {
+      "sha256": "37157719f7f5e7bd994973303b46f7d461e603f9678e69221528683c3032fce5"
+    },
+    "animation_controllers/vex.animation_controllers.json": {
+      "sha256": "95446451187f29f8938798ceaf80ed0ab89736f6f8846b4601791ba32d9d5ec0"
+    },
+    "animation_controllers/villager.animation_controllers.json": {
+      "sha256": "2ae19b42b0f54f35b35c2c01446a4336bf6fa36e40c54638f9c608e64cb83767"
+    },
+    "animation_controllers/villager_v2.animation_controllers.json": {
+      "sha256": "95d27aa47efc0ae7453d25b119cbb6e0f4ad70d02c8dd9dfa4622f0bac7be5af"
+    },
+    "animation_controllers/vindicator.animation_controllers.json": {
+      "sha256": "71707c526fc13ba81c8f8fd89963b00294ece10313cec8870c3c890d94c729c9"
+    },
+    "animation_controllers/warden.animation_controllers.json": {
+      "sha256": "bf1e5e69958b6c72aa3595eaaa6e040b4eb24740ac030c109f7a159faddd902b"
+    },
+    "animation_controllers/witch.animation_controllers.json": {
+      "sha256": "005c2b296c749c00380b72207a674241a089c030872545eb123765dc6da4f6aa"
+    },
+    "animation_controllers/wither_boss.animation_controllers.json": {
+      "sha256": "0a557a37944642dd4a27e9147d413abda7ef54c20b4b25f0135b580cb769e50a"
+    },
+    "animation_controllers/wither_skeleton.animation_controllers.json": {
+      "sha256": "649afd63a03f21419710150579e8a2fff44931885b5db7a9016d5d9dd0cbdf83"
+    },
+    "animation_controllers/wolf.animation_controllers.json": {
+      "sha256": "ba610d4bfc7371164e74bd27a537539b2b1d9136f9d453777ae5402ac8dc9383"
+    },
+    "animation_controllers/zombie.animation_controllers.json": {
+      "sha256": "e6cc5e42c4bd49af35f35260f7b94c6b0886d6009756c99d8c9028e9225cbac9"
+    },
+    "render_controllers/agent.render_controllers.json": {
+      "sha256": "6c6cca990690aa1db6a6921dfd4f3756082da4b5b49c62add59b10112dd3b947"
+    },
+    "render_controllers/allay.render_controllers.json": {
+      "sha256": "70c27873504a62ca0631872d5f1a49af9a6404b6eafc57ac288f55c302c7fb5e"
+    },
+    "render_controllers/armadillo.render_controllers.json": {
+      "sha256": "71e7a2e278d39a6ded92acf61165b2e5f420a439c364a9f0af6dfb558e36fde7"
+    },
+    "render_controllers/armadillo.v2.render_controllers.json": {
+      "sha256": "a592a4c519c217ce3a5eba90cbe458eff54b359f81c04323b2f6d4fe5f987998"
+    },
+    "render_controllers/armor.leather.render_controllers.json": {
+      "sha256": "a0606452c383a52a17156090086b3d7fc49ca3fa57ddfc56fb6fda8172c67da1"
+    },
+    "render_controllers/armor.player.render_controllers.json": {
+      "sha256": "8b520efbadc7a832662fdc0f08b32994e904b6443d33f185be30b8c8af748d41"
+    },
+    "render_controllers/armor.render_controllers.json": {
+      "sha256": "68a9f925709b3c0e5128aa8c29d098ef03178a57c8d26411e34c4e028da48766"
+    },
+    "render_controllers/armor.v2.render_controllers.json": {
+      "sha256": "1f2ae77edb45959eda88a012616055d743779139c68a8377d4063f0d4cd31f48"
+    },
+    "render_controllers/armor_stand.render_controllers.json": {
+      "sha256": "7d77b4d4d818697a0ae60b0227805f2104527e3e27c326789dc41f72bc8b07a1"
+    },
+    "render_controllers/arrow.render_controllers.json": {
+      "sha256": "39376332c64122d2ed8c6aa82cdf43736711c10487f6ab65367b338f59b5c819"
+    },
+    "render_controllers/axolotl.render_controllers.json": {
+      "sha256": "387b8c4c3d2c28b935ac94d29d5355e85a0d8d8f0b9fe90d275cf8792a31525f"
+    },
+    "render_controllers/axolotl.v2.render_controllers.json": {
+      "sha256": "4c367527b9ccd60a7066b33836d97d6f684186604da61aaa929307ddc0875a22"
+    },
+    "render_controllers/bat.render_controllers.json": {
+      "sha256": "e8cee5d20bbb4cf07f32ac55424a8e5f4729d674ff1c97fda809edd7755ab3ea"
+    },
+    "render_controllers/bee.render_controllers.json": {
+      "sha256": "98fe1ce6bf6ffbaf4183b6d5e63e685c5f724482a0c8fe997aef9eaabd8f9354"
+    },
+    "render_controllers/bee.v2.render_controllers.json": {
+      "sha256": "8fa7b44b3906dad66fe85fde6711431d6160204cdf2d26c7452b44c7dc7ce364"
+    },
+    "render_controllers/blaze.render_controllers.json": {
+      "sha256": "46e908484b1139bcfddd65ff3dc07f700ab51d5d33ec654e29540096fd422ccb"
+    },
+    "render_controllers/bogged.render_controllers.json": {
+      "sha256": "1b8fa9bfc62c44b0c8afd3857d95746cee8fda674b83bc3a58f899aa0f23162f"
+    },
+    "render_controllers/bogged_clothes.render_controllers.json": {
+      "sha256": "99905c50a6beb7c582e719bb7bd8aeb91d0b5d62c8c2fb449734b84f629ab6ff"
+    },
+    "render_controllers/bow.render_controllers.json": {
+      "sha256": "b9dc5d9715f0d001d5337610cbd7b318aabfa4ec701ad698f0e2953189a98c62"
+    },
+    "render_controllers/breeze.render_controllers.json": {
+      "sha256": "fedec7c461bfa3b73a93cd4f4d0d63435c1f41780ac05468492c761a246fd0de"
+    },
+    "render_controllers/camel.render_controllers.json": {
+      "sha256": "7f937864d4e177e95e472afda701422d92205402c0efea24bfe393293b243778"
+    },
+    "render_controllers/camel.v2.render_controllers.json": {
+      "sha256": "1142d07ac3aa42a9fc283f6e312df9183c7e05e26dc253ddcd522189ba51ddfb"
+    },
+    "render_controllers/camel_husk.render_controllers.json": {
+      "sha256": "69585688d9c420f0723cfb5de43d33db43e450bb7f1f5d841bbb91b7df82e562"
+    },
+    "render_controllers/cape.render_controllers.json": {
+      "sha256": "eff84d8af813058af31c1490fd4e534b3b8ea917c72fbd4fe2e1cd9a36b33cfb"
+    },
+    "render_controllers/cat.render_controllers.json": {
+      "sha256": "edf6149337988b07eee4d65e1aa054eb0bbcddda52a2628495a8e1a5ca51dffe"
+    },
+    "render_controllers/cat.v2.render_controllers.json": {
+      "sha256": "f5fdcd483a05e0074fc81dcc5d8bf4128fe020ef89631d76f5ca5d1d42d372f6"
+    },
+    "render_controllers/chicken.render_controllers.json": {
+      "sha256": "d66759814be323e02caad0198cff164607043618265b6eb330a1bea2cc346ff7"
+    },
+    "render_controllers/chicken.v2.render_controllers.json": {
+      "sha256": "a7aabe3ab9a90cf6da652f32270105e68996c83cecc9593580e5a81baba8d8d6"
+    },
+    "render_controllers/chicken.v3.render_controllers.json": {
+      "sha256": "251e452aa067b56640b25ad012b6c3857f274e616c8eaad04dd722e558d864ff"
+    },
+    "render_controllers/cod.render_controllers.json": {
+      "sha256": "25f3d4d172fe01f4bae5140c067eb8729e28c2bfd0e8b64d967a917b90730512"
+    },
+    "render_controllers/copper_golem.render_controllers.json": {
+      "sha256": "15cd78198d369a20bbee5b66306c839aa99c43b2a33cadbae6b719fcc9f04531"
+    },
+    "render_controllers/cow.render_controllers.json": {
+      "sha256": "f4196e6a52039742ca8be5632585f44db1bb19c89f1430e42966d2f479d2dd08"
+    },
+    "render_controllers/cow.v2.render_controllres.json": {
+      "sha256": "e0cd1c479d7a8256118130efc3073678273fb3650d73a93b7146b6d0547d85f4"
+    },
+    "render_controllers/cow.v3.render_controllers.json": {
+      "sha256": "89b9aa57ade6277c89c11e0014a9ca06f126064d046d2cdf40f200f530671dca"
+    },
+    "render_controllers/creaking.render_controllers.json": {
+      "sha256": "ea681b3e8d7c7c985565802f3ffa9ad281eb4490d9eadd4ca82814ea68080227"
+    },
+    "render_controllers/creeper.render_controllers.json": {
+      "sha256": "5ede4096f05ae9fb0c6a89b2bb0757904125ee25fe0d01c29c4aeb817d0adf35"
+    },
+    "render_controllers/creeper_armor.render_controllers.json": {
+      "sha256": "437a1693524020ddc460d37c60f54b8306d6db9204cece0323f7f2aab9b51c8b"
+    },
+    "render_controllers/crossbow.render_controllers.json": {
+      "sha256": "4556057a04191201689ce00df66d5789a1cf982b4485828eccb0b07ee3b7881c"
+    },
+    "render_controllers/cushion.render_controllers.json": {
+      "sha256": "37880526007c32581cd7534c919a4646e96a4400dd92863ad0cedcc77ec48308"
+    },
+    "render_controllers/default.render_controllers.json": {
+      "sha256": "61f489b438ab7ed930ccf433247fd86114b1350e04a366641e2fef78a6e1c2ca"
+    },
+    "render_controllers/dolphin.render_controllers.json": {
+      "sha256": "86dd983328ec810965f9ae780cdee6bce39f9cd75c392a4054e0c7911f397ec6"
+    },
+    "render_controllers/dolphin.v2.render_controllers.json": {
+      "sha256": "7628b9a6c99a5ba95683aed695d7c1c8b52a4a4b72961f5162a2d08c91e5377a"
+    },
+    "render_controllers/donkey.v4.render_controllers .json": {
+      "sha256": "31859aeedb53c90a4b9f98c8918cc37bc818389460e72b97f987a86ecd00856c"
+    },
+    "render_controllers/donkey_v1_and_v2.render_controllers.json": {
+      "sha256": "9d2c49e9b3e9a4fcea2a5e70687fd748130379a3541ce2ad4d1453bb3b899776"
+    },
+    "render_controllers/donkey_v3.render_controllers .json": {
+      "sha256": "fbdd63e76b39cc9cd69416a703f559f8c91dc878d07a82a2d5e0c500fc0752e8"
+    },
+    "render_controllers/drowned.render_controllers.json": {
+      "sha256": "1ecd0396db1fba065c22a290fcf25397b2c0824da47ae8cf1f3c46f217412d15"
+    },
+    "render_controllers/egg.render_controllers.json": {
+      "sha256": "cb5645b5d2671de3a2a4cb64d714e125533b8ac13e823cf332eb5b7af586484e"
+    },
+    "render_controllers/enderman.render_controllers.json": {
+      "sha256": "f7453f7ae555c580e464f0b0fecf5e8dad3856b2a6789da21c7a5d69ef07bc0d"
+    },
+    "render_controllers/endermite.render_controllers.json": {
+      "sha256": "1c93b0db54f3f386b29233bff407d3f66ac40371d69db9178b192bcd2eb355f3"
+    },
+    "render_controllers/ender_crystal.render_controllers.json": {
+      "sha256": "7708ebd03555a1a77b98ba9cf72495519988dc30def7f900d5cc35dbeca66aad"
+    },
+    "render_controllers/ender_dragon.render_controllers.json": {
+      "sha256": "553fe35f3e34e089950c337b0a1aa4e72483717fdcdac95b89f1686045db02f0"
+    },
+    "render_controllers/evocation_fang.render_controllers.json": {
+      "sha256": "8f38ae3ef4c5ca114d5d5936d0a1189e3453c0181fcd18a3e70d432ace23760f"
+    },
+    "render_controllers/evoker.render_controllers.json": {
+      "sha256": "bb9af2a72ee713cd55101e3fc162622e4cb5376a8fc0e797ecfe667d35da5c7f"
+    },
+    "render_controllers/experience_bottle.render_controllers.json": {
+      "sha256": "442c44362486361426593904a20e603b8d076f7382af8fcc836f7d290f61af31"
+    },
+    "render_controllers/experience_orb.render_controllers.json": {
+      "sha256": "181d4450fa6c95d7dffb42661e6e60aed32841890d98e703e65b186f425d3990"
+    },
+    "render_controllers/fireball.render_controllers.json": {
+      "sha256": "663500bc068a0159a2e0a0e64a51ba884ccb19c244a7744b84d8270ce821a2d8"
+    },
+    "render_controllers/fireworks_rocket.render_controllers.json": {
+      "sha256": "3bcce6862fef8b0a18bcbc083e6459dd45f614a3e9f3f3db3f10cbce99e4b4a8"
+    },
+    "render_controllers/fishing_hook.render_controllers.json": {
+      "sha256": "8ef991948d5f1c35731869a8ce409f1bec0eb4d7181df243038dba66de1d4592"
+    },
+    "render_controllers/fox.render_controllers.json": {
+      "sha256": "428768a183032a2899e4d428acfd5b846fd28df0710cc81d1b4095ead821e448"
+    },
+    "render_controllers/fox.v2.render_controllers.json": {
+      "sha256": "df889649cd774a350ae8177305c14e343ede41a5a69f6edd09c7ad858eef5d70"
+    },
+    "render_controllers/frog.render_controllers.json": {
+      "sha256": "16466b64e5a89e9d3f5ebc28410a3c6c46921f12bb622cd33563c7960e1655de"
+    },
+    "render_controllers/ghast.render_controllers.json": {
+      "sha256": "02a0712058ee1e6c148401b5a89c788ae91efe4236967de5875f2b6a236411e4"
+    },
+    "render_controllers/glow_squid.render_controllers.json": {
+      "sha256": "8afac645cffe7b4741e5b08bcb14bc002d08059736e8e93b88f339bef95be212"
+    },
+    "render_controllers/glow_squid.v2.render_controllers.json": {
+      "sha256": "5b636d954ee0fbd57218f694f3e7170526c05fc0c84c183e19ae156f53b29f88"
+    },
+    "render_controllers/goat.render_controllers.json": {
+      "sha256": "d3c01920603d87269408a6a9ee2ac0c144233b61d60106ff289c82db59bb21c3"
+    },
+    "render_controllers/goat.v2.render_controllers.json": {
+      "sha256": "f7a290d6fc0c5021beb7dbaf4ddf8887f3e2ebc934abcfb21d1f6c35026b7474"
+    },
+    "render_controllers/guardian.render_controllers.json": {
+      "sha256": "2c70300a7a899082db163f452357bb35d50bdd7ca1e6606b844d816f87fa3fba"
+    },
+    "render_controllers/happy_ghast.render_controllers.json": {
+      "sha256": "79d32883f6b0c23834607111f5f3f66b80f3260d22f2c31b4720f301744a9c1c"
+    },
+    "render_controllers/harness.render_controllers.json": {
+      "sha256": "ebbcd7bb853237e1235443daf16de50b8b930c60380c3e7d146b8eaca097a0b4"
+    },
+    "render_controllers/hoglin.render_controllers.json": {
+      "sha256": "043464e5cf17bc9613a97cec9b04998f1077dd5505088e9fc07634354564cb1c"
+    },
+    "render_controllers/hoglin.v2.render_controllers.json": {
+      "sha256": "a95aca8cb5153b1a5f40a1f78d6cb98259fa47df28e248726507df6e593c431b"
+    },
+    "render_controllers/horse.v4.render_controllers.json": {
+      "sha256": "314e48558cc7bc7f00e8ab326054980db125b267b882ed4dedc9b2fe86f532ff"
+    },
+    "render_controllers/horse_v1_and_v2.render_controllers.json": {
+      "sha256": "6d7aded2977673569048eca73f16524b0ed86550ea47060480e82df2074d1fae"
+    },
+    "render_controllers/horse_v3.render_controllers.json": {
+      "sha256": "edbcba183e868d4488305675e27b67b12655630fee0f89183dc771ed5e495c08"
+    },
+    "render_controllers/husk.render_controllers.json": {
+      "sha256": "f70feb5874c6b3c6750baa00da6a4a606505d9b77d0373196c1ffd631af5c03a"
+    },
+    "render_controllers/iron_golem.render_controllers.json": {
+      "sha256": "01ab29c81f99e8ad32bd63be0d3292fbff7e4884acb50a83ebc9ef08d161bdd3"
+    },
+    "render_controllers/item_default.render_controllers.json": {
+      "sha256": "aff0162558401e591391de352a8c4c7b2914ce7b8283f3d23e249f906e9f84c9"
+    },
+    "render_controllers/item_sprite.render_controllers.json": {
+      "sha256": "c15ea02dedf88980aeb40714a932707999f1eb2a94f62d027c97bfa1de3ed20b"
+    },
+    "render_controllers/leash_knot.render_controllers.json": {
+      "sha256": "53ca336c183a2862ec6ff5102ce8d4463f53fb24b8552a3b36bf1268af079e8d"
+    },
+    "render_controllers/lingering_potion.render_controllers.json": {
+      "sha256": "80cc5a64bd0268563b2b91198e05a9ee7e372225f0f38493a65d7547ad44c7ba"
+    },
+    "render_controllers/llama.render_controllers.json": {
+      "sha256": "93c59934127fd40a1dac9dd8037cc33786b0d75bb4bdbf6a23a8da5246ffde22"
+    },
+    "render_controllers/llama.v2.render_controllers.json": {
+      "sha256": "0f4ca44dfcffe15cdceb83d56763dff220a54323242ce10d903d763deda6e46e"
+    },
+    "render_controllers/llama_spit.render_controllers.json": {
+      "sha256": "7f73843a2bf88981e28acb50f9f7479ac533575e92d32d7ce630be31628fcf70"
+    },
+    "render_controllers/magma_cube.render_controllers.json": {
+      "sha256": "48c0eeab432af2c2fa08a414983c6bfae362bc946ba2dc3316e78dfb2d4cbf97"
+    },
+    "render_controllers/minecart.render_controllers.json": {
+      "sha256": "9035bafc32d25be69035571d53e6fe3e8ec5adf76648e7dca5c54ed5dcc071e5"
+    },
+    "render_controllers/mooshroom.render_controllers.json": {
+      "sha256": "96d6089aeeb1e4b9f8e759bd8ff96fcdc405c6ee5bb73809118afd4a06dfde78"
+    },
+    "render_controllers/mooshroom.v2.render_controllers.json": {
+      "sha256": "ce37cdd4a19a4311b5b0e1fae1081689cc96ce690a97661e261def776d4bd21f"
+    },
+    "render_controllers/mule.v4.render_controllers.json": {
+      "sha256": "3406a5013b2d338a8e566b77ba453f432e0e987966a2195e0e4469cafb5a1255"
+    },
+    "render_controllers/mule_v1_and_v2.render_controllers.json": {
+      "sha256": "c431d47f9e344a9a9312b86f7621a6c99d847449bf96d192fccaaada0684521e"
+    },
+    "render_controllers/mule_v3.render_controllers.json": {
+      "sha256": "6bdc181ae585e2f14ca9026b3d4e1d09eeb579e130941a660fc735248656346e"
+    },
+    "render_controllers/nautilus.render_controllers.json": {
+      "sha256": "8c3b3bde1fd7a70b1b0375356fadb16b0f066bb116112e528221e6a756624216"
+    },
+    "render_controllers/npc.render_controllers.json": {
+      "sha256": "e08d6fbc921b1056c02ca67dd31edf315840c40c6c80e9fe83c4bae2bea4cee7"
+    },
+    "render_controllers/ocelot.render_controllers.json": {
+      "sha256": "0538553d5b24ff67e63c2ee78cfb416b9fa9a2477347db69cbbdad5a2000c2fa"
+    },
+    "render_controllers/ocelot.v2.render_controllers.json": {
+      "sha256": "f5495f07c31ef7bad435026c0abf3d9ace64799e4cb99db74fef31454cc45d1b"
+    },
+    "render_controllers/panda.render_controllers.json": {
+      "sha256": "1ac5ddb525bef62160c4bd7ff2322ec555d601e15287c6364cafe1900488f03d"
+    },
+    "render_controllers/panda.v2.render_controllers.json": {
+      "sha256": "2891c518d5e7b8a7711a8d0ead8a99b5cc4cd8168783c8d56ece875fea816db1"
+    },
+    "render_controllers/parrot.render_controllers.json": {
+      "sha256": "e692b69b2170fdeb9c5288c21db332915f3db5fb04a9832fbe3dffe40cf76c33"
+    },
+    "render_controllers/persona.render_controllers.json": {
+      "sha256": "62e1515bfd938a7f810bcf1f71ba5257524d6c7959a02ac8d2bb939c67e38449"
+    },
+    "render_controllers/phantom.render_controllers.json": {
+      "sha256": "efc1cd5425e6cae55e56d9ad74048488754f542cd85f2352b16ee7703e9847bc"
+    },
+    "render_controllers/pig.render_controllers.json": {
+      "sha256": "6babf8a3946dba2cedaa6af5c8c262ed93f5e077528f08923b3339a6d6c89458"
+    },
+    "render_controllers/pig.v3.render_controllers.json": {
+      "sha256": "e740f47d39c3189c6f3553e01296f91cb2badb220e3e51a528484102aaeea085"
+    },
+    "render_controllers/pig.v4.render_controllers.json": {
+      "sha256": "dd827534f622d0a6b4ddd99b77d7b44aa220aea921629d9e7d2f9bf513558297"
+    },
+    "render_controllers/piglin.render_controllers.json": {
+      "sha256": "a95712c937cad1cf2f32974b4627757bc5f2f00733628e1af5f5891892b4fcf9"
+    },
+    "render_controllers/piglin.v2.render_controllers.json": {
+      "sha256": "30ed526f9fcfa17a76dac9d4a6d8279cfa53ee92296635dbec8a73f02a0d5276"
+    },
+    "render_controllers/piglin_brute.render_controllers.json": {
+      "sha256": "c0523258a48e02d1392837fdf9b5b39d77f8f11480c52c0fb40ef1a68233a61e"
+    },
+    "render_controllers/pillager.render_controllers.json": {
+      "sha256": "17f178296d76cbe175f941e98e00ec1675d2ecc78032d0d4be407ddc29f12eb5"
+    },
+    "render_controllers/player.render_controllers.json": {
+      "sha256": "9fdcf008895fcefcaa5f0bb948728b8d4513007b200c19b717c70908d026299a"
+    },
+    "render_controllers/polar_bear.render_controllers.json": {
+      "sha256": "5015026ad9f40894f7d2a8deb439fc86750dfa8ed73df7b3cc866d442b0480ec"
+    },
+    "render_controllers/polar_bear.v2.render_controllers.json": {
+      "sha256": "4d39f5fdb6ef576a373295c67762117620a824bd339bfbfdb5151b1f918874a9"
+    },
+    "render_controllers/pufferfish.render_controllers.json": {
+      "sha256": "24fc4fad3fd8d4346b820d4219db80b2d43dfba9363e9c7aaf154711ce99623b"
+    },
+    "render_controllers/rabbit.render_controllers.json": {
+      "sha256": "401e2f8265f7abbb192e5909db4196a2936dde49e3eda9d6384fe0a2cd18b991"
+    },
+    "render_controllers/rabbit.v2.render_controllers.json": {
+      "sha256": "6bf49194b27ce0d9e5020f02e761431daaa360d18c22e1ae0c41bf2702ec745a"
+    },
+    "render_controllers/ravager.render_controllers.json": {
+      "sha256": "fde0f6fb88c55f9798c13daee9b935587074e4b651e6d9f10fa0b7ccb6153d40"
+    },
+    "render_controllers/saddle.render_controllers.json": {
+      "sha256": "25dccba29b66f826a36261e9676eeca6ff1a1663c95363018e0eaf2c982da1e4"
+    },
+    "render_controllers/salmon.render_controllers.json": {
+      "sha256": "9c8ee3e8ded4847c17bfb3fdb8640e2b8332354c86fa22aa12c09735e6c0fa27"
+    },
+    "render_controllers/sheep.render_controllers.json": {
+      "sha256": "109672097cc1e9bdb353380880ad1148a78158440d85579aa640f8f7341fb0dd"
+    },
+    "render_controllers/sheep.v2.render_controllers.json": {
+      "sha256": "66f4b92fddbef1929bd124fc32d93be2d616245569d51a172643fe1161bff0f2"
+    },
+    "render_controllers/shield.render_controllers.json": {
+      "sha256": "7ab6d8cdd359a31aa2b2af47a3372fe779259910c418ac109a26dca84c42d1bb"
+    },
+    "render_controllers/shulker.render_controllers.json": {
+      "sha256": "a176f79218ccea464a213d2f7668a6f1c3b83e857cb4958b48020ef0231d6a97"
+    },
+    "render_controllers/shulker_bullet.render_controllers.json": {
+      "sha256": "91fc32b68d7276ee80c3de35f2a191e0abc964f69df843c706fc87b1b5d3c904"
+    },
+    "render_controllers/silverfish.render_controllers.json": {
+      "sha256": "81fd3def2f3fd526f7ff4390e0374e94ad5e562cb5ec302ec4b73e02d09fd21f"
+    },
+    "render_controllers/skeleton.render_controllers.json": {
+      "sha256": "1022fb32d7341893fe1ca60b62713d607cb075f9400eef2b685bb97651348df9"
+    },
+    "render_controllers/skeleton_horse.v4.render_controllers.json": {
+      "sha256": "79bd5f5ea3c9c48ed253a2d58c1e0d42c4a0fa3ec524a4ab0786fc2513e65ed0"
+    },
+    "render_controllers/skeleton_horse_v1_and_v2.render_controllers.json": {
+      "sha256": "aa83a8c1e6898affc148e546f1ac6184f016907c2de5feed9bfa89a4773bd23e"
+    },
+    "render_controllers/skeleton_horse_v3.render_controllers.json": {
+      "sha256": "d713dd14def0a2a21d0ca9205cd7a7b902b25c5076f27c3302831e44e97ace0b"
+    },
+    "render_controllers/slime.render_controllers.json": {
+      "sha256": "1822938c6675e685748d7e6a7048cffbcd6171c95a50852bd29e79dcc73e0a1e"
+    },
+    "render_controllers/slime_armor.render_controllers.json": {
+      "sha256": "d65c7186eb2ab9a130b271ccfa1113f7fcd4405ed7e7c596ac7b954615d814fc"
+    },
+    "render_controllers/sniffer.render_controllers.json": {
+      "sha256": "211a8b33190352878d3f2bde2637a16e82ca9e64f24721eec9ba9cd8ea61356d"
+    },
+    "render_controllers/sniffer.v2.render_controllers.json": {
+      "sha256": "47269e182872aa53c3fc7d64758418e9f3741e988340cee7dddbe5d9f7cc5527"
+    },
+    "render_controllers/snow_golem.render_controllers.json": {
+      "sha256": "245b1ee6752385854330e04a897b61f7a9a1fa15c37615af6d9fba082c7835d3"
+    },
+    "render_controllers/spider.render_controllers.json": {
+      "sha256": "448eb9b8fae1edb4b9aedaf88a3a444312040e37862041713670a9075ef8622a"
+    },
+    "render_controllers/splash_potion.render_controllers.json": {
+      "sha256": "4001ad14adfc38da36e7d32ea42b6d7cb843aecd703ca66dd3630cbafdfdd0f3"
+    },
+    "render_controllers/squid.render_controllers.json": {
+      "sha256": "c6e6dad8e1ac71cb2da7abd529ac773aff7f6f80fe43c5593e89e39c411e9070"
+    },
+    "render_controllers/squid.v2.render_controllers.json": {
+      "sha256": "b7548bdffd5621f9442138510e9fd0fb4f5c87fa0d6a8df689d92a5b4400173e"
+    },
+    "render_controllers/stray.render_controllers.json": {
+      "sha256": "9f8af3a0db7cb6251b826e0bfe59f35038989af5411406381db860c8f7c041c6"
+    },
+    "render_controllers/stray_clothes.render_controllers.json": {
+      "sha256": "964bd31264d8a0ccaf2b62d33fdb1662083fe8bbc9cbbdd08f9c3c36a5a0fbad"
+    },
+    "render_controllers/strider.render_controllers.json": {
+      "sha256": "79544adec65d7226856c237a1046d1dbe4de72f7684e57af3c340cb38f9148b3"
+    },
+    "render_controllers/strider.v2.render_controllers.json": {
+      "sha256": "51cfdb2da48c843e0b63249749bdacd7650a2d633c8af68869269807058ddf0d"
+    },
+    "render_controllers/sulfur_cube.render_controllers.json": {
+      "sha256": "cffeccbb4ff26cbfad302e50bbc3ec8e01bbcd29ed9ebc16f6438a8fd67670de"
+    },
+    "render_controllers/tadpole.render_controllers.json": {
+      "sha256": "6ad34c4a2db12b82f0d5fa4f2bce12c8276f17b633ecfb324b24c31a1b346428"
+    },
+    "render_controllers/tripod_camera.render_controllers.json": {
+      "sha256": "8869c3331813a1a5113b1901c2ea6b603d46ceddfb322a7b43603b251bdc1a7e"
+    },
+    "render_controllers/tropicalfish.render_controllers.json": {
+      "sha256": "5ab120c932a2fcad2e327c39608a56eb88af3861ee8635ff6edc8739215b700c"
+    },
+    "render_controllers/turtle.render_controllers.json": {
+      "sha256": "02d5aa7d1b5ff6b036f49bfa595e092b70e26924d2e6f07e3e9a1e2f2afb691a"
+    },
+    "render_controllers/turtle.v2.render_controllers.json": {
+      "sha256": "b69c37250915c315d96122bf5f18eaf877f34341ed959f303bc4e8366a22882a"
+    },
+    "render_controllers/vex.render_controllers.json": {
+      "sha256": "6a9c355a39b701286551d6e3189f63fe608c5e6848d28c717e468d71266b82e7"
+    },
+    "render_controllers/villager.render_controllers.json": {
+      "sha256": "35e26384a5eab02202a876a07dd82f35a27803fadce02096c404da722f0f9c87"
+    },
+    "render_controllers/villager_v2.render_controllers.json": {
+      "sha256": "7c472dd4bf7a36e7e363ae80f9c147eee2bd76dfec1e7bac6020f1ee0bd2132d"
+    },
+    "render_controllers/villager_v3.render_controllers.json": {
+      "sha256": "8c07947fa873a53642a405aef4b8f76654e8ea61ded4a200bd8a11464ed115a6"
+    },
+    "render_controllers/vindicator.render_controllers.json": {
+      "sha256": "5f0ed2e90a1aec806c9879d14dfa2ba7c0c09d789eb6d80e2cd6189b30ca67e2"
+    },
+    "render_controllers/wandering_trader.render_controllers.json": {
+      "sha256": "f0fb70cf7c54df040e27f4f8bbc7f147bb629b1dcecce2b2dd629e6147a5df47"
+    },
+    "render_controllers/warden.render_controllers.json": {
+      "sha256": "58ac265515a9475a16065abb5137f4b2eac64c11b3b342de9709a6068d0fc72f"
+    },
+    "render_controllers/wind_charge.render_controllers.json": {
+      "sha256": "465d9a9d81c95e18e73e141a15427c95a72d087d4bc054dc3d795a48e660611a"
+    },
+    "render_controllers/witch.render_controllers.json": {
+      "sha256": "e43558c06a220ab4d3f44b838bcdc0c7644c0a232b5ac701c99f80ea445d0281"
+    },
+    "render_controllers/wither_boss.render_controllers.json": {
+      "sha256": "868fc32adcc2d12de76f639d96a50d6adc421dc0a5cf075cc4a627e31b3ecaff"
+    },
+    "render_controllers/wither_boss_armor.render_controllers.json": {
+      "sha256": "3c43c6c8ca1f6f109a8818522d5cef3404ccd2d5ce10913ee6cf8ea96f9cbaa4"
+    },
+    "render_controllers/wither_skeleton.render_controllers.json": {
+      "sha256": "fcdff10bf2a45229039535c82748cd3e12630a713a8f6d2bd7bbef843e4b3d5b"
+    },
+    "render_controllers/wither_skull.render_controllers.json": {
+      "sha256": "aed609746b1959702542872b142b5884fb2649045df780680e226e6c1fd4fb9c"
+    },
+    "render_controllers/wolf.render_controllers.json": {
+      "sha256": "4ea15df146e30e73ff9edb9d779259f784d24b0166df210f3453338dc9bfae23"
+    },
+    "render_controllers/wolf.v2.render_controllers.json": {
+      "sha256": "b7f690103eaa78871ecaaad1b59b8ba3bc141aa82971f31f4de17f1befb7496e"
+    },
+    "render_controllers/wolf_armor.render_controllers.json": {
+      "sha256": "d742a8532d7ac32d98efa0fd1fd1748094bd98b2cad6c1ada6bbf00aa8ce2adf"
+    },
+    "render_controllers/zoglin.render_controllers.json": {
+      "sha256": "d5b6fa8e2f55ee1db59256c71f1b3a66ebf6ad7b50a090f5b8184829aa46a6f1"
+    },
+    "render_controllers/zoglin.v2.render_controllers.json": {
+      "sha256": "cc76ad8acc8d9c74fa4ecdb27835fa282fdac825eecf0dfa1ba9a89d0af68167"
+    },
+    "render_controllers/zombie.render_controllers.json": {
+      "sha256": "9a2735d1c96bea0c1e4271a0368acc07b8965a84f95570b168ef1e8708e67683"
+    },
+    "render_controllers/zombie.v2.render_controllers.json": {
+      "sha256": "d90ca843394c9646ae6be91b21cc346ee07ab377b05299f5916c95323227c32c"
+    },
+    "render_controllers/zombie_horse.v4.render_controllers.json": {
+      "sha256": "34e96723d6b44306aa488fd1f326c9f9acd062aad360c6ee56b1ae9d4e7ce295"
+    },
+    "render_controllers/zombie_horse_v1_and_v2.render_controllers.json": {
+      "sha256": "cbaa6f3f8115ee92bd048028fe0e21c78a7ec52014db4439642e185cf0ee33ef"
+    },
+    "render_controllers/zombie_horse_v3.render_controllers.json": {
+      "sha256": "cd0f1e087a4570038c3fc6d02fe366f0fa7da44f3f792b3223a32ef98c022323"
+    },
+    "render_controllers/zombie_nautilus.render_controllers.json": {
+      "sha256": "01809ddd85941b9c941a7574fa7a15a3810d8b994a19dda626e95710c505d248"
+    },
+    "render_controllers/zombie_pigman.render_controllers.json": {
+      "sha256": "704d93b3c9b32bba519fc43ab8e9eb1ae722a786abf5597ee6f0fce2561eba63"
+    },
+    "render_controllers/zombie_pigman.v2.render_controllers.json": {
+      "sha256": "79ac6823afc4cbd7ee7500c98f4a646d0145b412addfacb4ad1c959b590a679b"
+    },
+    "render_controllers/zombie_villager.render_controllers.json": {
+      "sha256": "6d7dfd8566b8df0f63e287af4519acda400ce15236e3d99c3e25ef797378f686"
+    },
+    "render_controllers/zombie_villager_v2.render_controllers.json": {
+      "sha256": "0afae453587f5feffe1d988414a3adf9f04faec9128a921f3e0532f4b3d39ae9"
+    },
+    "render_controllers/zombie_villager_v3.render_controllers.json": {
+      "sha256": "c2a27824510df63eb8b0961c1859f16c789b7c1edad4ce8211c095e58757f1e6"
+    },
+    "entity/zombie.entity.json": {
+      "sha256": "0c9214c106426f9892ccd4d5b18970e663f4bfc8bf7bcb5a6e71e3ee5ed8ddc7"
+    },
+    "models/entity/zombie.geo.json": {
+      "sha256": "61a8ff5d0443bc29a6946ab165ab144ae87237e19bdd11fdec077e8cf5d9e414"
+    },
+    "entity/husk.entity.json": {
+      "sha256": "5a2e7f8b4a9921e4cdf0e39ef39e623c1c0f8f24a4ee48b6023cb05222b31e70"
+    },
+    "models/entity/husk.geo.json": {
+      "sha256": "2ee8798180297ccce177aba8e8923fcfe7095608ff8c2570e562f13201a8d4e7"
+    },
+    "entity/drowned.entity.json": {
+      "sha256": "8ad0e7864b0b7e78746aa2a6664e9022f7b1dbfdea4a02ecc13f13bcac1d9e37"
+    },
+    "models/entity/drowned.geo.json": {
+      "sha256": "b0f926617a78604a28129e98c2fb1414558322ad3dce4d56f7b29e99b8961d5d"
+    },
+    "entity/zombie_villager.entity.json": {
+      "sha256": "7c6f19a6547f9dc80e0363dbc23f036fbae7d9c86d89cd1d0fc78b04a7f52ab3"
+    },
+    "models/entity/zombie_villager.geo.json": {
+      "sha256": "736cb4febdef37c837831a8fe12e89dd51924b19611465d73519f20428d85b4d"
+    },
+    "entity/zombie_pigman.entity.json": {
+      "sha256": "229ea0666ef3e6e2968477d41b46de9a3b33d7c815117b61829698d2edd99f08"
+    },
+    "models/entity/piglin.geo.json": {
+      "sha256": "9fd69e490199646e1541dde4eacdd15123ff050c4a07eda60b31c485aadb88a8"
+    },
+    "entity/skeleton.entity.json": {
+      "sha256": "1fc1053df3d2658925ee7a3dc8f0d0f4ce5ea60e41dd00d226308e5694fe979f"
+    },
+    "models/entity/skeleton.geo.json": {
+      "sha256": "13cc68d24423b66cd5d2dfd63cf36c28b312a9ffac5cce1b8d6a5c871a1e11aa"
+    },
+    "entity/stray.entity.json": {
+      "sha256": "ddef9cf4b887ea6c85c3e6017c304be75e6ef14a295f7d54a37bd279f21fb653"
+    },
+    "models/entity/stray.geo.json": {
+      "sha256": "6e78613813bcea63130752e45ee03047a7466106b56c4f3290a9dc4cf2595a3a"
+    },
+    "models/entity/stray_armor.geo.json": {
+      "sha256": "1bf5a6ef5dd72ef23f665f47d9ebb45bc6be25237ce5c57954b77e8465041302"
+    },
+    "entity/bogged.entity.json": {
+      "sha256": "d2c751b58498d824967a2d8db2b5d38bab5efe3d9f572c791a2e9e176b77ec70"
+    },
+    "models/entity/bogged.geo.json": {
+      "sha256": "fa88d2bf03c4b487d19630b7509a8bb0d795c5513833c2cb9535dae58820fda6"
+    },
+    "models/entity/bogged_armor.geo.json": {
+      "sha256": "ddf45800a58db98898c6c0983fe4a5bb7cd1ed844c678664f9c0d9e325d872d0"
+    },
+    "entity/parched.entity.json": {
+      "sha256": "935d4f3fd795b0977b927551e1ce08d7cc5620fc2ae45e0cbaf2d3ae38662153"
+    },
+    "models/entity/parched.geo.json": {
+      "sha256": "34cf423874e5c57068bca1f55c0f30f4619ad94ed3bc9452c143720e2b4b0842"
+    },
+    "entity/wither_skeleton.entity.json": {
+      "sha256": "cbf9622b50518d3157535daa3406bacbed8773f03fe2c3c1840b51ccc905dd98"
+    },
+    "models/entity/wither_skeleton.geo.json": {
+      "sha256": "9a0a512aa7cc834852bcc44765c0fbd39993f44bc47b80e7d797cb867b9480f3"
+    },
+    "entity/zoglin.entity.json": {
+      "sha256": "fef7bf5f5b4d91e6f54bc9a9d063d4a94d5c4da831ea33afd50df3aa0ecc181d"
+    },
+    "models/entity/hoglin.geo.json": {
+      "sha256": "b5181a7649b0056342d5467a79ec299a3e2c5f96f5e847835056c6e3b2947862"
+    },
+    "entity/zombie_horse_v3.entity.json": {
+      "sha256": "39b3c64b2476c73eba7e560fa9b61f737a2ae2c302b5966e2af1c02205bc9c89"
+    },
+    "models/entity/horse_v3.geo.json": {
+      "sha256": "5edca8f1b7ca3e76df3d2c75c876da58dd99e517bdc39c097e6314056fabf99e"
+    },
+    "entity/skeleton_horse_v3.entity.json": {
+      "sha256": "155c43d16a18f68274829e2f5053ac68f72e8732e8a474c0ca9c0a3b3c7b6c44"
+    },
+    "entity/camel_husk.entity.json": {
+      "sha256": "8fadd6d792627230b5ac9dab2df3368b00183879a333b0485da835bffc0f6acb"
+    },
+    "models/entity/camel_husk.geo.json": {
+      "sha256": "c438ad4b20496a01bbcbff5c19bc457e7bbe4bc4b09d0f977e1daab63179743b"
+    },
+    "entity/zombie_nautilus.entity.json": {
+      "sha256": "f5794dc66b29786987ad3c2d2a83291d95c4be48e34e846058e7e399f6f957f2"
+    },
+    "models/entity/nautilus.geo.json": {
+      "sha256": "d8f540a94e98ab0e30efe6d4cf400807518031755481f784abb186a8a5c36dce"
+    },
+    "entity/phantom.entity.json": {
+      "sha256": "eb2416ba2bb3b2310bb9ea6f1fd89ef8244df0bfa60a1922d342872417762f9c"
+    },
+    "models/entity/phantom.geo.json": {
+      "sha256": "4cfb1c28f5729a39f6983b2b13519ffe11db42f5c2932506aac7120b4ce48a25"
+    },
+    "entity/wither.entity.json": {
+      "sha256": "01234b71ae6d6439534f6ad9b8b378d4183ab588ae4af48b8ac364cec9dc9e1f"
+    },
+    "models/entity/wither_boss.geo.json": {
+      "sha256": "de2097edee50db825ca0d325fb9ec983e131ff249f5a39df3e1ec6e89cd3aae2"
+    },
+    "entity/allay.entity.json": {
+      "sha256": "f69c1c83f09e33470a5a96aa25998558175393e274a17cdd75f76c48940239a9"
+    },
+    "models/entity/allay.geo.json": {
+      "sha256": "61b7a5efcd93972c0aed8b965599dcb42a885dda2214f4f809e38de107a9163a"
+    },
+    "entity/armadillo.entity.json": {
+      "sha256": "9211d3a0fdf5d561ab5507450abcf3f77afc650783b2c2875b34abeaef8412f1"
+    },
+    "models/entity/armadillo.geo.json": {
+      "sha256": "32f97a395a798cfb78cb22e0a2793f8b18064d145c667c917267e274b702d211"
+    },
+    "entity/axolotl.entity.json": {
+      "sha256": "39ba70237881139e542f4f05d5b570c2e5ae86214d8f8325fdfecc084ad4d746"
+    },
+    "models/entity/axolotl.geo.json": {
+      "sha256": "ec23b6367e069a5c31db845d679c00ed11c81d8555cc5dd8d2d1b132ed4dd7ed"
+    },
+    "entity/bat.entity.json": {
+      "sha256": "5bf03ff2a28222157113435996dfb02eeed8b5baeda7dd6935e255ffeb671f60"
+    },
+    "models/entity/bat_v2.geo.json": {
+      "sha256": "6a94c27d4f0775de2607f33850150e2469019caa4ecc253c56e5a7260d8c10f8"
+    },
+    "entity/bee.entity.json": {
+      "sha256": "74f38220b40996dfb80443ed6d14bb15039460604b64534205ea60eca4cadbc8"
+    },
+    "models/entity/bee.geo.json": {
+      "sha256": "1195ca3f545197de43b5d6b79de1c73b1fda41efc6370446e71f8ef31de7b90f"
+    },
+    "entity/blaze.entity.json": {
+      "sha256": "c03a86ed7131673d639b24d9d28e5d8a6107f5936af78962eeb89232076ae0bc"
+    },
+    "models/entity/blaze.geo.json": {
+      "sha256": "edc1508a7b6d972a038ea4d8514a9876c7de9068823666ff7ecbd2c811a0290d"
+    },
+    "entity/breeze.entity.json": {
+      "sha256": "375e5528f9b46029b2bf091a4651972f5d74a67114b42d0e04a897bcf00befeb"
+    },
+    "models/entity/breeze.geo.json": {
+      "sha256": "e8ecf8a26b38a1367dd496c793e720aa965537f196b87f2eb0ebb0684b7d4737"
+    },
+    "entity/camel.entity.json": {
+      "sha256": "d1ed990928a187283776c39f4203029ecc85a586aec2b2bd0e6697c62c87bf48"
+    },
+    "models/entity/camel.geo.json": {
+      "sha256": "1640b3efc06f3af3249495dde70f40c13cac15d0d6ca8bcdea0c35d2d5a55524"
+    },
+    "entity/cat.entity.json": {
+      "sha256": "c2e7e101f5912ca6f53ce5e307e169eba6f74ae68ad5b5db008bc56b188b1113"
+    },
+    "models/entity/cat.geo.json": {
+      "sha256": "87f924f9938bd056ed041f0f4c7d326cd755c26c59a3c19f9b9e8c338635eed9"
+    },
+    "entity/cave_spider.entity.json": {
+      "sha256": "7824fdbe6c3989f0d2cff913957f1b9ccb9f7dd381658f97936ce395fbdafcca"
+    },
+    "models/entity/spider.geo.json": {
+      "sha256": "035b5ce48207c07a0a6546053adff3bbd1279685e6fa0bbee7014c13d6465a2e"
+    },
+    "entity/chicken.entity.json": {
+      "sha256": "ea37c4be9036f14ee7c2ab4bf2c82910313fba82383c0ae36dbd797b15541f36"
+    },
+    "models/entity/chicken.geo.json": {
+      "sha256": "c803bd306f9f3b123e67d7b4c78e00e1bcb18b3a6851b4671686eff9490ed388"
+    },
+    "entity/cod.entity.json": {
+      "sha256": "d1f4c7499e26cf732def348f3a12f65f96552a2d19f9c6e7cccfa70e2339682a"
+    },
+    "models/entity/cod.geo.json": {
+      "sha256": "a4e26bfc5b149673d5b5645f8590b78a5f6a3f77a61649e5df95e7394b439337"
+    },
+    "entity/copper_golem.entity.json": {
+      "sha256": "bdda4f1599bff5eddc94ca1e3bc947c3a1f607af5db91b256d7d4e3475c818b4"
+    },
+    "models/entity/copper_golem.geo.json": {
+      "sha256": "6257062f49e9d50ff4bd489faede410e663ea331ca117dbde1778b56e30a6809"
+    },
+    "entity/cow.entity.json": {
+      "sha256": "ac63c4178884d97107f19c54e69b912a6e73a32936dc4ada60f1710ff6c96f65"
+    },
+    "models/entity/cow.v2.geo.json": {
+      "sha256": "90f03c9f813e96028d510fa067ca7787ca8533e266633fcaccccd98e124f1f94"
+    },
+    "entity/creaking.entity.json": {
+      "sha256": "8323dbec95ed6afd6c212c1a51ba94e65487d31df2e436251e51e178587ede4a"
+    },
+    "models/entity/creaking.geo.json": {
+      "sha256": "2a2d3110b7520abc861f27013bd13baaafb553013c81f4b84be92d9128179881"
+    },
+    "entity/creeper.entity.json": {
+      "sha256": "3e1ac047ce1472cefbae96c7b26435123c29c1d3f7b58a3784720a7a4f9d537b"
+    },
+    "models/entity/creeper.geo.json": {
+      "sha256": "ca8ffc305c2ec6099e3ab80f6729583aa3228070f774c7af2e86b76192ba9822"
+    },
+    "entity/dolphin.entity.json": {
+      "sha256": "f07e7e905bebf480d1fd684f7b56c964837c034aadca5a901d63d1a6bd94c760"
+    },
+    "models/entity/dolphin.geo.json": {
+      "sha256": "3e1c24f3bfd89296db0529accbf0b5472ae72571a630197c8f58d1fc735f08ff"
+    },
+    "entity/donkey_v3.entity.json": {
+      "sha256": "57166cf116c03f28822b8d1f69b845c817452d8b669f5bd169a04063e52dd7f9"
+    },
+    "entity/elder_guardian.entity.json": {
+      "sha256": "a9892733811b05d9e0f3e8936f37f2f34c86b2701b43d366a72668f2aee52a9f"
+    },
+    "models/entity/guardian.geo.json": {
+      "sha256": "300bb0b5a087b5f75f76040a1afa26ad8b1a3b3d9000645bc729231e6be55bff"
+    },
+    "entity/ender_dragon.entity.json": {
+      "sha256": "b62484b78a0fc9e88a668543e57bb27ac3893369b81978fe2cf561bd418983f3"
+    },
+    "models/entity/ender_dragon.geo.json": {
+      "sha256": "07c9333dc913e046ed041143624a5eb30a33cb340fa07b10d507a8c95be608c6"
+    },
+    "entity/enderman.entity.json": {
+      "sha256": "5ab95558f0c3d3658566d4370eeba8d3d98c3e2573f002b595a3dad3122c5744"
+    },
+    "models/entity/enderman.geo.json": {
+      "sha256": "e09e2e49c456456ef8605c5ef8432571f1714e6f7636cb349367318398b35072"
+    },
+    "entity/endermite.entity.json": {
+      "sha256": "fb0b5704a35252ef9fdc50507abd9f6284b096e4f2154ed503c6a82b6136b0c5"
+    },
+    "models/entity/endermite.geo.json": {
+      "sha256": "e6997a3b643886b75f280fcf769c61965f1ec02226ee58c19f499ee4fb916b08"
+    },
+    "entity/evocation_illager.entity.json": {
+      "sha256": "e4d39d91b482387cf4c73d10d7616c4b9416199f101558dbe8e7d3dd556bc716"
+    },
+    "models/entity/evoker.geo.json": {
+      "sha256": "c5f149fb2ebbcf9dd764053aca4d15f54fbf3aa241718e94a6a3373f7ca22362"
+    },
+    "entity/fox.entity.json": {
+      "sha256": "5d6bbcc7919c5180bae158d8e2bc726a7e714dd6364f8831f5a26c64496e69e7"
+    },
+    "models/entity/fox.geo.json": {
+      "sha256": "55fb6b80e31064b23c2aa60ef282b2a33070ddd7c2f58f2dff680e7e92aaaf57"
+    },
+    "entity/frog.entity.json": {
+      "sha256": "580ac9772a7426645a9801942b9c5720c4d96284c2b39f665cfbe1001b82e6c6"
+    },
+    "models/entity/frog.geo.json": {
+      "sha256": "c04614917461c95e1720692890c9a5720710e7e49debdffda9a1d3244ad1b354"
+    },
+    "entity/ghast.entity.json": {
+      "sha256": "d106677342212b05c44d8a1434501f48bc4eda1d3f9f4542a079b98df277672d"
+    },
+    "models/entity/ghast.geo.json": {
+      "sha256": "15142c9b384b65b947153d8960ae157964ac852b20e6601b68d90ada187dd4f2"
+    },
+    "entity/glow_squid.entity.json": {
+      "sha256": "ceb25bd1837860e69d8cfc26964f30ed0023802c63d7d03fe54711dd477e9c0c"
+    },
+    "models/entity/squid.geo.json": {
+      "sha256": "2bcb76d5578d66f02a1eb1211ccc77dc9c8c17d880429deb8ce14b9e76947e01"
+    },
+    "entity/goat.entity.json": {
+      "sha256": "af79c533a8cb695216b8c8886ff86eefb14b35c4f8b7fb39f45e92aeeb72ba19"
+    },
+    "models/entity/goat.geo.json": {
+      "sha256": "d397aa6727e906e26dd5e75a6d3471d72fac9a3421d3e332ff5a69d98794ea08"
+    },
+    "entity/guardian.entity.json": {
+      "sha256": "db9cf1f39d8cba69d0ef44815364189a7e290947ab54306c00d51b8bd912c0a1"
+    },
+    "entity/happy_ghast.entity.json": {
+      "sha256": "c3e9bad3b366c68084a161de957dac62b4ae294f9c232904027527c44777dd73"
+    },
+    "models/entity/happy_ghast.geo.json": {
+      "sha256": "ee751a4e1fd9647d89f7ec30fd697c689acd3ebde14a7a7242be226616985dd5"
+    },
+    "entity/hoglin.entity.json": {
+      "sha256": "c5bba1220e4d23170321598b3db439e5682fb8d5a4d230bc6376dff75d753ff5"
+    },
+    "entity/horse_v3.entity.json": {
+      "sha256": "a579f5c75b809a5332725657884e51bace966b1e26fb09a3ba55b2a4581b3326"
+    },
+    "entity/pillager.entity.json": {
+      "sha256": "4ca55ccea0c58d159fdf1e3abd4ad57b5e972678af835f0673c6a1dd5be41cee"
+    },
+    "models/entity/pillager.geo.json": {
+      "sha256": "f8845b01c0fd100e5c90d59dee48c26863bb44b9d070e9fff06ba2e4d3fcfc71"
+    },
+    "entity/iron_golem.entity.json": {
+      "sha256": "6dd9761df4999937909f90f01b52115c8fcee54f8fac6fa62e1a1e841b649b63"
+    },
+    "models/entity/iron_golem.geo.json": {
+      "sha256": "635d687a2e3ed34a447f721f3279a3a4e5169bff7d8eb68316f7cbda690980bd"
+    },
+    "entity/rabbit.entity.json": {
+      "sha256": "cd31cd88e31648ce0170f7dc0017bb5be41a26aa4ce7843d3b4c8044bb8d5bc9"
+    },
+    "models/entity/rabbit.v2.geo.json": {
+      "sha256": "549874b446df53e69ce6f915fb970c4e371cd9a3389bc2a8012b5309d82d7ac2"
+    },
+    "entity/llama.entity.json": {
+      "sha256": "1a426bb342a58e7ac6c2c61d683837c45ae580d51550632749fa472077d165a8"
+    },
+    "models/entity/llama.geo.json": {
+      "sha256": "0e8ba9217f877f37bd6586cad15b075de39dc06ead9429755c18e9557df16d6b"
+    },
+    "entity/magma_cube.entity.json": {
+      "sha256": "9c931feba13b3b7d8852c3f4bbaf2254ce5912e70db989fd2d890114ea007ddf"
+    },
+    "models/entity/magma_cube_v2.geo.json": {
+      "sha256": "35c26f228bbc06775c551d8dd0e8439011c473c1fafd33cad451d63dca6cdd1e"
+    },
+    "entity/mooshroom.entity.json": {
+      "sha256": "6ab1a02e949d215c2423a457756f7040c8292770e58b896b4b0e5795395ef7e8"
+    },
+    "models/entity/mooshroom.v2.geo.json": {
+      "sha256": "f4784e02d2f8a489f2a9fe3412bad4299eb02ba475d9edf967ecc6e3cc19044d"
+    },
+    "entity/mule_v3.entity.json": {
+      "sha256": "ccf223bb850edc63f0435531ae2c3741233f57573b77acb333f506bce6e6d6eb"
+    },
+    "entity/nautilus.entity.json": {
+      "sha256": "17db2ffb6ea9eb6c18fd91f18c21eddb0200da201ce64c148613113a6e5165a7"
+    },
+    "entity/ocelot.entity.json": {
+      "sha256": "1b05640da3d5221aadae0ff9c3402c1651eace5615c3c86ac03ae83c68fc52f5"
+    },
+    "models/entity/ocelot.geo.json": {
+      "sha256": "4dc652c9ed6211b38ed161761fc388c2ecee746ce07dee335a4e114fe59e52da"
+    },
+    "entity/panda.entity.json": {
+      "sha256": "81fdb09f93926950a4b990b9cfa0c384d3510506c7d7cad8c4e8eceb86c12d21"
+    },
+    "models/entity/panda.geo.json": {
+      "sha256": "dc49a69c9af09ef55e2ab63f3389a3a1b6a9c3f95a7ca52570e6fdec57565978"
+    },
+    "entity/parrot.entity.json": {
+      "sha256": "21745a52a6226233aab3131cfac5df2e2b505ef3c56a270dd5b025e315d29318"
+    },
+    "models/entity/parrot.geo.json": {
+      "sha256": "bc1981aaa8fcba8e044326b97c05323c53525cbf418d7575db2277b7c25712f0"
+    },
+    "entity/pig.entity.json": {
+      "sha256": "909bf70aca9be45069bd73eed9cc4ec504e0e82d0cd296b5903cd4928761760c"
+    },
+    "models/entity/pig.v3.geo.json": {
+      "sha256": "1123e23b070a905f17efe978ae96b6bca7fc86f3184f92a00ed231a6dd9372b9"
+    },
+    "entity/piglin.entity.json": {
+      "sha256": "00ccdf7a15b4018e3fbe7b1db27aad58076f0b5e166727ce0ea9171ce1aea7ab"
+    },
+    "entity/piglin_brute.entity.json": {
+      "sha256": "b7f9df7924bb14c580252eb638cc7a0f2c58c01eecf3953768e61e3c3e9a6539"
+    },
+    "entity/polar_bear.entity.json": {
+      "sha256": "458e87d67f85a3610a588581a18249beaadb9fe7238608c14fa3c2c38444337b"
+    },
+    "models/entity/polar_bear.geo.json": {
+      "sha256": "5411ea78ae01ce1fa1be30a51859e51e3bab38c43c7202d87dca8595e542f4b0"
+    },
+    "entity/pufferfish.entity.json": {
+      "sha256": "33b4e6eda4f068c018bc7a5c02ed5d7d3e7999f4e9b796a733b2768c8b93abdf"
+    },
+    "models/entity/pufferfish.geo.json": {
+      "sha256": "41d54ae5b483894df07f2a050c7ea37acc24c3706ec90cf2ce0d6943a9a22319"
+    },
+    "entity/ravager.entity.json": {
+      "sha256": "4d8bd6650b62cf9e44ddf5819e9df87f58936168b697bccb6082e34bae8bd6c1"
+    },
+    "models/entity/ravager.geo.json": {
+      "sha256": "6fd22596fa0ce8364e1df714ca9e7642b09675b0dce22cefd72eb98caeacc894"
+    },
+    "entity/salmon.entity.json": {
+      "sha256": "cd9109035ca4589a6b17ae6169269d2f6471831576d5974e2616190cf72e7e88"
+    },
+    "models/entity/salmon.geo.json": {
+      "sha256": "19fe11f04fa891b18cfce34bffedd6d1a11eeba9e2cb65dcf7b9f23d934d1280"
+    },
+    "entity/sheep.entity.json": {
+      "sha256": "6eea63f214cc45febdf14596a63b549f36702cbee897084d90e1cb287fc39e33"
+    },
+    "models/entity/sheep.geo.json": {
+      "sha256": "235fc82d217b13a93ad0323c6b8a1cf312aefffe2212839b6e9f8daa2ba185b7"
+    },
+    "entity/shulker.entity.json": {
+      "sha256": "7b522e74ce76cfc283a53361e00ce213b425aa26eb87a03054ef095d96b70015"
+    },
+    "models/entity/shulker.geo.json": {
+      "sha256": "e203b0cf1d9924e75ff9e01bbe26d34ba458780670fea3c25b40c6b710bf1b00"
+    },
+    "entity/silverfish.entity.json": {
+      "sha256": "ff8a0c800fcf64cb4e04958d7958f12ae25dc760842c9f081ad9867ad5b034f7"
+    },
+    "models/entity/silverfish.geo.json": {
+      "sha256": "7f75af58b2884256e8827201c8e513b8829ea3bde18207b666b2dd4742a9d1e5"
+    },
+    "entity/slime.entity.json": {
+      "sha256": "0f34e0bf4707940bd72fcc21a6552573c8a58db2299eecd5a72121a63d65796e"
+    },
+    "models/entity/slime.geo.json": {
+      "sha256": "2406656a9a60b5b650096f7f6d97806d91b8e7e20860717601f4d2df9324cfde"
+    },
+    "models/entity/slime_armor.geo.json": {
+      "sha256": "42dec2fd30200782001663417fac1d3945a088714ef096b22986db7c47227015"
+    },
+    "entity/sniffer.entity.json": {
+      "sha256": "da2aa2d5d654e0cdaedfb07154c700f5953558a7588ec8bc983003b46dd98592"
+    },
+    "models/entity/sniffer.geo.json": {
+      "sha256": "b7d45a3e4f6ea2452b78887c193e393f72d09cd3347ee79f0911a7d8f13c5546"
+    },
+    "entity/snow_golem.entity.json": {
+      "sha256": "36f7b04c61c54db0e5570774ebac4ff5e386b20a7b1403c035f4b287502ab684"
+    },
+    "models/entity/snow_golem.geo.json": {
+      "sha256": "0d0146dd81f55eebfc67df09e69824d345e82b95fe84bb419fceca6c6a23050c"
+    },
+    "entity/spider.entity.json": {
+      "sha256": "b5e59479ea8479c07c3be0c1c5c9bbd8e2a638f884a498ceead5830b695f5614"
+    },
+    "entity/squid.entity.json": {
+      "sha256": "d73f6732b5ab5bdd3dc8f723e1593b6104e0e1f54a416503f4feca5674cc9d4c"
+    },
+    "entity/strider.entity.json": {
+      "sha256": "9e081e602cd24cda3db5af56ecdcc46b030dbe18c68e2b00352f4dae4a949cd2"
+    },
+    "models/entity/strider.geo.json": {
+      "sha256": "20f7370060ea4853c39c74118190b96cc0ff2622cf44937cdf3aac881f8bfb75"
+    },
+    "entity/sulfur_cube.entity.json": {
+      "sha256": "5bcc4289e94a449eaaa812d7757c4869dee2024dc0ef7c8901cd6e6b73d18d73"
+    },
+    "models/entity/sulfur_cube.geo.json": {
+      "sha256": "af86758584eff4056fa18a16699c10bec1f49d72c496c1cd88f7227cab7be2ae"
+    },
+    "entity/tadpole.entity.json": {
+      "sha256": "ab9cb2e36cfd53a7a6c7424befff9a0b5acabde9ae122031257ad7c31723e894"
+    },
+    "models/entity/tadpole.geo.json": {
+      "sha256": "d298b97243bb88570343d2df5732c2b1459fcb08ac2646d6be8b0520566c9414"
+    },
+    "entity/trader_llama.entity.json": {
+      "sha256": "38b2753f906c0c0f4491e31eb24d5bf483faa989c6ad0b0c5448680ae0050358"
+    },
+    "entity/tropicalfish.entity.json": {
+      "sha256": "a1972ca124e1a6f40f05c2ca71a2dfc9f7de30bf9bec84dbfcf87872bb121c06"
+    },
+    "models/entity/tropical_fish.geo.json": {
+      "sha256": "1044569d9036161814bb1c78aa26b614da3e1b482d7e71d08c58357d43b40df9"
+    },
+    "entity/turtle.entity.json": {
+      "sha256": "d7f0e4c70919cca7f199ff07b14dc8df8cdafe572541bfdae8b07aafc0777c58"
+    },
+    "models/entity/turtle.geo.json": {
+      "sha256": "56b51e62dfa0552725520987fc2da2eabf7cadefcf401c89c0ec671e6770120a"
+    },
+    "entity/vex.entity.json": {
+      "sha256": "de15bcf48875d1c5cfaebdf6efbefedb16c3ecfe48485b04746655432a73fdcb"
+    },
+    "models/entity/vex.geo.json": {
+      "sha256": "735469ea315b9e3432388c607ad14caca368b8d2c58e0a8f94ae9b93813ca638"
+    },
+    "entity/villager.entity.json": {
+      "sha256": "d87c341be5fdbe2a03ce36484b6a1881c92c5f4f40c4e747aa1216a8144b7ce2"
+    },
+    "models/entity/villager.geo.json": {
+      "sha256": "21e69d8ce3abcdac543362f38e2deb08dd03fc1390954f15350422fa765325df"
+    },
+    "entity/vindicator.entity.json": {
+      "sha256": "7d4c7cbd1be3f182ef938dbac3bc488d80b88bbb4572b54cdcd09db019af523d"
+    },
+    "models/entity/vindicator.geo.json": {
+      "sha256": "d6eed26f5d983881e1b2d6b9751fd9727e63a368495e05e956e65fc065a0ea7b"
+    },
+    "entity/wandering_trader.entity.json": {
+      "sha256": "7b2d6c6ba995706a6e65d898b72ff728bf2e9438841ced3ee04a271a64898488"
+    },
+    "models/entity/villager_v2.geo.json": {
+      "sha256": "33271db5b87d3be5656fad93d08f4175bca9afc1692e91885445b0c856b46dcb"
+    },
+    "entity/warden.entity.json": {
+      "sha256": "9fa73303b4c291e3a01932d7474e9e16669fe0286e2c0f53de98ad21415156c5"
+    },
+    "models/entity/warden.geo.json": {
+      "sha256": "3ac7c8166152a254eab962b2c2803d7a13f33929cfb1c5777daf758f3f009664"
+    },
+    "entity/witch.entity.json": {
+      "sha256": "fea0ed4337213836d40f1514b56ad1e96ea02f79090fbbd1d15358e2ea1f3ac8"
+    },
+    "models/entity/witch.geo.json": {
+      "sha256": "36fe685464e6c4c839e8167ed9b5bb376e5bbf6e07d04a1cc7ab41590179400e"
+    },
+    "entity/wolf.entity.json": {
+      "sha256": "cab7af7ff75577a977f6e75522110e4d78eb78fa00353b2f7dcb66d9d6519da3"
+    },
+    "models/entity/wolf.geo.json": {
+      "sha256": "15ed516bfb442f328c70149e1df446b407517934e454a4c5a8b6622b90c7e04d"
+    },
+    "models/mobs.json": {
+      "sha256": "0279492e5f6a7b5bbafb4fbaa80290146acb79332d06ac39619376a4831ff464"
+    },
+    "models/entity/armor_stand.geo.json": {
+      "sha256": "a634d983c5c9fac15d0e8a3c6d9d820fa60a769c4c6bfcbcd76dbbe06ba82b95"
+    },
+    "models/entity/arrow.geo.json": {
+      "sha256": "11387eabc54371b0557a05559cf2cb7ce2ac2c6d1b35a84c9f5864e165cc20b2"
+    },
+    "models/entity/baby_armadillo.geo.json": {
+      "sha256": "5efd5ff6b12ebbb9d1c313a8943c069264402d4283727421a36cc598589860ae"
+    },
+    "models/entity/baby_armor_boots.geo.json": {
+      "sha256": "39681933439ceb7a242b5ac0ae8c272cb2a6bda252b4c053543d3c0ac30cc367"
+    },
+    "models/entity/baby_armor_chestplate.geo.json": {
+      "sha256": "9a53eeb608d5af4058c07a52cc2a873fcff664d51bc7677034747eca40a5b52d"
+    },
+    "models/entity/baby_armor_helmet.geo.json": {
+      "sha256": "119136814b8698e89da2809bef4869119543f733e15bb6de3a46de2600c5ef7f"
+    },
+    "models/entity/baby_armor_leggings.geo.json": {
+      "sha256": "d7dbd865cebf9ba19e70f7bd00ce0f8cfbec980c1f3338704465e084aa26bb96"
+    },
+    "models/entity/baby_axolotl.geo.json": {
+      "sha256": "3cd00822ad6a909240fe6b35e6d29d956e28184b850672397ad6abc655a40fc9"
+    },
+    "models/entity/baby_bee.geo.json": {
+      "sha256": "dfe3b4408d2c0e8b77886444abd8d87b7fa1d20d4c49e5b53885a571738c01da"
+    },
+    "models/entity/baby_camel.geo.json": {
+      "sha256": "216ffa64d405dc285a798cdf45134748eebf720e971da03ad1aad9f497e24988"
+    },
+    "models/entity/baby_cat.geo.json": {
+      "sha256": "20240218144c08e1f36e1c06f20a677fcd7e6e0686d9b0899b615ba0115dde85"
+    },
+    "models/entity/baby_chicken.geo.json": {
+      "sha256": "0be8c6c842ee15679bddf2048ac6c7b1f24bcf98a53eb78a4162ef2e75f49522"
+    },
+    "models/entity/baby_cow.geo.json": {
+      "sha256": "cf7f94d97323f19ca357c301ba0a0c1bb803e3d398c3793bba67561873041875"
+    },
+    "models/entity/baby_dolphin.geo.json": {
+      "sha256": "35f30300439457eb604e0a2759bc56c4267cb085d7656180d19c4a8fc971e2a9"
+    },
+    "models/entity/baby_donkey_mule.geo.json": {
+      "sha256": "ec650c5399a3595f9db4ae462b972bb16e868ad8ce8106f3421209e5f63c03c3"
+    },
+    "models/entity/baby_fox.geo.json": {
+      "sha256": "4dadfe10c3841f88ad4e33f6d521d954d8bfd9450f5f9d53d17902b33aec3851"
+    },
+    "models/entity/baby_goat.geo.json": {
+      "sha256": "382becc2eeb7fc55bef5fdeb730db081ae79468eedddc68b833f1d6706a41d6c"
+    },
+    "models/entity/baby_hoglin.geo.json": {
+      "sha256": "ab783cc42f3cea387f49bbeeeac08a77bca3ce0e2fb273bc241f942a904ec5fe"
+    },
+    "models/entity/baby_horse.geo.json": {
+      "sha256": "caabaebbaafc8b085acfe50bbd6e16c2d297baa756f75e116401a05cb92e67ae"
+    },
+    "models/entity/baby_llama.geo.json": {
+      "sha256": "19401f8229de2d821554bce40c8a436b89460c35ac31b47b581ea141df423cc7"
+    },
+    "models/entity/baby_panda.geo.json": {
+      "sha256": "d72e91ba42c38ede41d54c486aa9c9869d4adaff308f301c18999e55d2ba5671"
+    },
+    "models/entity/baby_pig.geo.json": {
+      "sha256": "ce3c4f62d16334be783a8a0eeeb304b6d2435fe26e30140f3f9611023340302f"
+    },
+    "models/entity/baby_piglin.geo.json": {
+      "sha256": "b44f6e9d960228369af194bb7b42c3b533363543efe5797644ec26460f066c76"
+    },
+    "models/entity/baby_polar_bear.geo.json": {
+      "sha256": "23dc8c95143303a209f0afeb88d78d562694d9ce708c5cd1f353b1c3cb208976"
+    },
+    "models/entity/baby_rabbit.geo.json": {
+      "sha256": "806e3599ef66c829302567603d676198e5fb3fb2ed62b287e121dbcb7beb6a77"
+    },
+    "models/entity/baby_sheep.geo.json": {
+      "sha256": "1b56a4590298b85fb1a91a62e37d10fd918a560efca777f4bb4d718706202893"
+    },
+    "models/entity/baby_squid.geo.json": {
+      "sha256": "4329b598ce5d587d83c1ccb1b49b9ac2a5404d746911e01843bb3923899f7376"
+    },
+    "models/entity/baby_strider.geo.json": {
+      "sha256": "5813a4c12d8ebf2e36593e359c05013c7b244d4ed7625eadddf7c928ae73acc6"
+    },
+    "models/entity/baby_turtle.geo.json": {
+      "sha256": "1906b609328f2c58d3ace57e86543cf5f4d781de780a3327491a28ffa7836f3f"
+    },
+    "models/entity/baby_villager.geo.json": {
+      "sha256": "6957d29c198fed456872eefcfdcea1f50de2d439679bd6096127b1770c9b7827"
+    },
+    "models/entity/baby_wolf.geo.json": {
+      "sha256": "d1b4cbe02df21e5c2eb1bec60a14eb0751742ec306a55c442834f9645e9a1bdf"
+    },
+    "models/entity/baby_zombie.geo.json": {
+      "sha256": "2b984033d05d2224aaed965ad3c4fed569bef4aab446b1e60c17400bdf70006d"
+    },
+    "models/entity/baby_zombie_villager.geo.json": {
+      "sha256": "52892592be3b31651a3c54e4dbdccf5a65db455f7c069f6f0acd79e74f31e0ba"
+    },
+    "models/entity/bat.geo.json": {
+      "sha256": "51343dc499bee4b837c54ff38ac350fcc06d91ffa029a3c3008e2f9b93e81cb7"
+    },
+    "models/entity/bow.geo.json": {
+      "sha256": "4498bf7c2ca9f3d21982a47bbc1b544805220c739926c4090778d25a05844c69"
+    },
+    "models/entity/chicken.cold.geo.json": {
+      "sha256": "22765a9edef0a3e8d75d86899583f039cc7230a742642711460d1ebdc5f5a58f"
+    },
+    "models/entity/copper_golem_running.geo.json": {
+      "sha256": "0df2cf309f4dbaddb44f0da994c1ea69a697b9e8be2c10a3c12ea14f413474a9"
+    },
+    "models/entity/copper_golem_sitting.geo.json": {
+      "sha256": "777ca9d4099ed7af5dd29549ed4a4e0723542cc31e6c2ec3ae41b8b7672ceb21"
+    },
+    "models/entity/copper_golem_star.geo.json": {
+      "sha256": "0060b6ee5801e02118c4ae32fa2fc486e0ea2f5c94985f828847880c55d4c39d"
+    },
+    "models/entity/cow.cold.geo.json": {
+      "sha256": "14abdf1c782e356257f254bcdcfebb94f6a963e0bd104756f4c07b1b5d1df30b"
+    },
+    "models/entity/cow.geo.json": {
+      "sha256": "5ead3a6d5884bbdce224baeaf89bcab71e9c29f2b6d406ff1d3884a75dab0537"
+    },
+    "models/entity/cow.warm.geo.json": {
+      "sha256": "22b9aee50f20988943176b88a51386fc2e889e84082743111bd4250902a0cbb2"
+    },
+    "models/entity/cow_v1.0.geo.json": {
+      "sha256": "99cb369b3ff2caff538522e0ccf696c648c6e9f6a9c17e673aac8734b6237ee9"
+    },
+    "models/entity/creeper.v1.0.geo.json": {
+      "sha256": "009a0bfc7855913b9f36b5168ccfa9f1d229a2ccf3b2291207819fc710a1f4b1"
+    },
+    "models/entity/crossbow.geo.json": {
+      "sha256": "9d7c430efbfd65d9437ed1fdb5224c926fcb6599dcbc3a0f3868560639ca5656"
+    },
+    "models/entity/cushion.geo.json": {
+      "sha256": "e4efa6a3a95040c44deb982e3724ac7983087fc6cd9749ff0dce0f0e116575f4"
+    },
+    "models/entity/drowned_v1.0.geo.json": {
+      "sha256": "6c4f80a91492a079a9234a372de005511c6f9a08cab7b94d66f974a4dd50c49d"
+    },
+    "models/entity/enderman_v1.0.geo.json": {
+      "sha256": "9f17bdf88b18750a1010a383471d6690727c38bac47696921022027c65b3279d"
+    },
+    "models/entity/ender_crystal.geo.json": {
+      "sha256": "82c3d8f773d906801545f00b97e721826a1d75fe6e684b8091ec6c2ee2a756bd"
+    },
+    "models/entity/evocation_fang.json": {
+      "sha256": "dc1b5d8c5bd368503e72acd0692e180d2b544617e86bf8ebed94688dd5814b67"
+    },
+    "models/entity/evoker_v1.0.geo.json": {
+      "sha256": "7a9d28ca4c33e98920a49bdfc68831099ea8a0fc928d71034e33489e4a6c24ea"
+    },
+    "models/entity/experience_orb.geo.json": {
+      "sha256": "29d03385f02d66f70133252415ebe6c512c709ed667270db14b8859dc937eff2"
+    },
+    "models/entity/fireball.geo.json": {
+      "sha256": "b5c31c005c8a0183355927d3fbe8d4b8cfdd048d55f8d9474ea394145f518820"
+    },
+    "models/entity/fireworks_rocket.geo.json": {
+      "sha256": "4c85b4ce967b5763004d42a63dd9cb77e11ccba35d4ee1aef88eaea9c84bc14d"
+    },
+    "models/entity/fishing_hook.geo.json": {
+      "sha256": "cc44ad3ab12e6447480ac227c7b5d0e96708f5795ed23fa8e0572a4be254934d"
+    },
+    "models/entity/glow_squid.geo.json": {
+      "sha256": "6d282b02c42a242c2b9026cc1e3e83d4c86fa9034f1e88a11e739e74c6e6510a"
+    },
+    "models/entity/guardian.v1.0.geo.json": {
+      "sha256": "5f9d4f2ffafcab441c808af566f239357000e24c86c405c209a1a8dc2f8b91af"
+    },
+    "models/entity/harness.geo.json": {
+      "sha256": "1cc9dca6fe566e3c4419c3d2fb86e2ed224553f5d99a15e681b538cd02801096"
+    },
+    "models/entity/horse_v1.geo.json": {
+      "sha256": "507644a10c968dfc9e47b290bb35de1386b7032d728b24626bd182bd8127b9f1"
+    },
+    "models/entity/horse_v2.geo.json": {
+      "sha256": "a5b13121ae9934849b58f226858a5782fc90cc2ff491cb6c8d2bf17db5e9fa07"
+    },
+    "models/entity/humanoid.custom.geo.json": {
+      "sha256": "d3688f959a95f6b39c9bd8b15312a19361256ae161d2d055ba63d810e17a8ca8"
+    },
+    "models/entity/husk.v1.0.geo.json": {
+      "sha256": "9b4e02a1b196c6d1d18f52a165edf3773b4ef24561c8973b9c4c6da88aef9d47"
+    },
+    "models/entity/item_sprite.geo.json": {
+      "sha256": "d5453d7a243b1a2f08c342e69782f5b009217abd50be34239d60b488edf30e90"
+    },
+    "models/entity/leash_knot.geo.json": {
+      "sha256": "2bb02c10149d18927b13c5189049f0f456fb19d79e63c4963e8ccaa6c1985f02"
+    },
+    "models/entity/llama_spit.json": {
+      "sha256": "654e6d4df2cf551208165327cc8ee38763e6a238898919c03e81ba60bcdddfe1"
+    },
+    "models/entity/llama_v1.0.geo.json": {
+      "sha256": "891b63ed02859a49b0541d72c1f09bcbe0e5de47877934510af7f7409ce8ef05"
+    },
+    "models/entity/magma_cube.geo.json": {
+      "sha256": "b3ba22a2f3b11f00cca0b95417c70a3e583988298c84de4840029248d1e328f1"
+    },
+    "models/entity/minecart.geo.json": {
+      "sha256": "e633094e53faa13d72a513ef89d2c9c4a1e97f74bf6340c6048039b740887b37"
+    },
+    "models/entity/minecart_v1.0.geo.json": {
+      "sha256": "21ac53b0097ea169f5357ade2afd6e20779581afb9211c0e1e8312f2639a234a"
+    },
+    "models/entity/mooshroom.geo.json": {
+      "sha256": "55f33a107981a443efe7249846661945acd234109de61d8b33465a2b11c8e427"
+    },
+    "models/entity/mooshroom_v1.0.geo.json": {
+      "sha256": "b7266a9736cf2afd26de05addc0a4243660f9f15eef478bdcd6506c482657a87"
+    },
+    "models/entity/nautilus_armor.geo.json": {
+      "sha256": "0e1ea933ecd2bbecdca7533ee3da0511b95d9c30a5a303e0ed9ece0c43b43ec2"
+    },
+    "models/entity/nautilus_baby.geo.json": {
+      "sha256": "62ea885f829ef7359ea95a858a2881fa8c080ee370ea56d3db58ee28cebccf1b"
+    },
+    "models/entity/npc.geo.json": {
+      "sha256": "1adf6f88efda2151b6c385d0f1a2717d49e0de8246990ec03eb60a7e22ee082d"
+    },
+    "models/entity/ocelot_v1.0.geo.json": {
+      "sha256": "6d60c0702c70fad4c26c2cd7477edb8dccf55d6e8f768590568f81358ab34ecd"
+    },
+    "models/entity/pig.geo.json": {
+      "sha256": "3f91d45c4cb62357106d52119f49170740dcf453046066034143c9f276a0d646"
+    },
+    "models/entity/pig_v1.0.geo.json": {
+      "sha256": "7f3cc59ee3b840be89416c4ee481ff69397346ccf993daed02de46c8d64ccd23"
+    },
+    "models/entity/player_armor.json": {
+      "sha256": "f05bb7de47c09eab411e8f9778768c3110d176ca6c224a8c76c9488da353b78b"
+    },
+    "models/entity/pufferfish_v1.0.geo.json": {
+      "sha256": "8fe996112bff135ebcb0eb8feba3afcf203e4ae99aee1ef6d941ddb6841d23cf"
+    },
+    "models/entity/rabbit.geo.json": {
+      "sha256": "9ec8b690d1e8d3af8ba30329c091d68a2fec05c30d2e24434cef93ecfb46e3c9"
+    },
+    "models/entity/rabbit_v1.0.geo.json": {
+      "sha256": "d0629ecaf48239403e18970d7363113a3ac40dc3a0748306e2658fd74764b059"
+    },
+    "models/entity/sheep_v1.0.geo.json": {
+      "sha256": "d10ec54b9be80465d1c952f1e5658a053df594306d82c0c448fa3883778ecdd4"
+    },
+    "models/entity/shield.geo.json": {
+      "sha256": "34de0c36a9cd7ab737d988ae2554a5b394ac6c502f1c0d4948827c1cd4bf21dc"
+    },
+    "models/entity/shulker_bullet.geo.json": {
+      "sha256": "ecfc460d03c9df237e8dbb4b808b1b3aaa60c163aa54a01027a0d8294c291caf"
+    },
+    "models/entity/shulker_v1.0.geo.json": {
+      "sha256": "f2886fc0959261fa21fa2a5f21d61d281a266ed8000f4db749f870049f506617"
+    },
+    "models/entity/skeleton.v1.0.geo.json": {
+      "sha256": "c39c31e33cda20cd1fd841f4a9f8c95af516e2ff22267e2777d13addcd59382c"
+    },
+    "models/entity/snifflet.geo.json": {
+      "sha256": "edd7c9eaf625faeb41694eb9d823298d6fcebb373e279e3557e672bfb6d0af8f"
+    },
+    "models/entity/snow_golem.v1.0.geo.json": {
+      "sha256": "79021cd69d095d7785e145449fc822cfb4893a06452d4bd7f99b3c73b4a0614c"
+    },
+    "models/entity/spear.geo.json": {
+      "sha256": "792b03858b4fda9ac807968da6a3f8e897ea2fba681f5dacdbe793e81f2a9b27"
+    },
+    "models/entity/spider_v1.0.geo.json": {
+      "sha256": "993ba2ca8411835409104df138ea19266c3211d8d35959064591dafbe750a2b1"
+    },
+    "models/entity/spyglass.geo.json": {
+      "sha256": "1b29caa20edf19bf5c52c52dede08a70d8cac4877b4b6edcba860feecc6a9aec"
+    },
+    "models/entity/stray_armor_v1.0.geo.json": {
+      "sha256": "4df7c5a471a8d155cbef452c54b09f059dbb724a050c3b565ad82359746384e7"
+    },
+    "models/entity/stray_v1.0.geo.json": {
+      "sha256": "d9f2bf910790e027cbe87f2f96aef3c2cfdcd6fc3a4f54aac0664cc38592a5cd"
+    },
+    "models/entity/sulfur_cube_small.geo.json": {
+      "sha256": "3b06f3987f0968df46634ce5c79faa751d40c6ffc4a5b159d4846f7d60aee083"
+    },
+    "models/entity/trident.geo.json": {
+      "sha256": "8be960e07e87f228e33fa08621843dcd5b2ccaae4fd934a2dad776640e5fad05"
+    },
+    "models/entity/tripod.geo.json": {
+      "sha256": "0921200bbf20c0d2b9b9b7d88b6941ac7d01a4bd1c229e38262450b0c407ef33"
+    },
+    "models/entity/vex.v1.0.geo.json": {
+      "sha256": "7eb715bd576d09aa9082eaee2f24e6be6020644fd106162c41f4d746a7dba903"
+    },
+    "models/entity/villager_v1.0.geo.json": {
+      "sha256": "4a5d235e1081dee528884a3026efae62332267110e6063d54c8f5399dd982e96"
+    },
+    "models/entity/vindicator_v1.0.geo.json": {
+      "sha256": "63f5228380a77360a9b5567c7782073ffa4f9a0ff1d53532066275bf1314cd5d"
+    },
+    "models/entity/wind_charge.geo.json": {
+      "sha256": "0ff5c0d894ff5aa56666679a64720f807ff187f0ce963f88d09605f91ec72595"
+    },
+    "models/entity/witch_v1.0.geo.json": {
+      "sha256": "923c5c1ec27c3c8c84f8255890ed4820c4be52d548cdb20996c29d3b88589e43"
+    },
+    "models/entity/wither_boss_armor.geo.json": {
+      "sha256": "0e6ae27a117b9fa8aa2ffbb43d73341ef01b2210bb6011c3f8988c00bddd8d4a"
+    },
+    "models/entity/wither_boss_armor.v1.0.geo.json": {
+      "sha256": "463cdf7581adc6742b8643ca09332978a45d2c3733399908e3657b18493f5de2"
+    },
+    "models/entity/wither_skeleton.v1.0.geo.json": {
+      "sha256": "955b673fa07c343c9fdae4ce0109f465c13040925e7d57a9301a2790711400c9"
+    },
+    "models/entity/wither_skull.geo.json": {
+      "sha256": "e1810b40fbe86e3403827debd4ca8efee69a923a2e2d280616e9998daf588522"
+    },
+    "models/entity/wolf_armor.geo.json": {
+      "sha256": "0ec1f3eb43cba7174af5276c483c4d78d0a62bfff41d1523ded3d6ed2e802a97"
+    },
+    "models/entity/zombie.v1.0.geo.json": {
+      "sha256": "7d9eace3902c6e70ca3ac2cebd016012aecde6ea94757f4dcd68e815ad0a03b1"
+    },
+    "models/entity/zombie_nautilus_coral.geo.json": {
+      "sha256": "7c456d793767d8b44b8c7e830d70acbd127c3570c1f566f0cf274849547c3244"
+    },
+    "models/entity/zombie_pigman.geo.json": {
+      "sha256": "40768d0c9036487a07dde90f3034a0f6039d4ad59507d537f9b9eb934ce99816"
+    },
+    "models/entity/zombie_pigman.v1.0.geo.json": {
+      "sha256": "483d65d96c9cbd72f0e5bcda7659cf4d64b799b487bb4006c99aa7854c9573e8"
+    },
+    "models/entity/zombie_pigman_baby.geo.json": {
+      "sha256": "86d53e30ebddbdc6ff8c952e7e5d1f2ab19656784a3bb13ac83b806e71a46f4a"
+    },
+    "models/entity/zombie_pigman_baby.v1.0.geo.json": {
+      "sha256": "464e3c8468cbd920545689c96e7881e1ebc3d77bcc72edff6b7e32387dbf90f4"
+    },
+    "models/entity/zombie_villager.v1.0.geo.json": {
+      "sha256": "efef3ad8ebc2a2a6691e95477f2077d969485afb89295a84169d4d31f286efcf"
+    },
+    "models/entity/zombie_villager_v2.geo.json": {
+      "sha256": "41a31ce8e79011b27af04d9021176b359182471dab5baa55e0ac096798d2f0cd"
+    }
+  },
+  "mobs": {
+    "zombie": {
+      "client": "entity/zombie.entity.json",
+      "layers": [
+        [
+          "models/entity/zombie.geo.json",
+          "geometry.zombie.v1.8",
+          "textures/entity/zombie/zombie.png"
+        ]
+      ],
+      "material": "zombie"
+    },
+    "husk": {
+      "client": "entity/husk.entity.json",
+      "layers": [
+        [
+          "models/entity/husk.geo.json",
+          "geometry.zombie.husk.v1.8",
+          "textures/entity/zombie/husk.png"
+        ]
+      ],
+      "material": "husk"
+    },
+    "drowned": {
+      "client": "entity/drowned.entity.json",
+      "layers": [
+        [
+          "models/entity/drowned.geo.json",
+          "geometry.zombie.drowned.v1.16",
+          "textures/entity/zombie/drowned.tga"
+        ]
+      ],
+      "material": "drowned"
+    },
+    "zombie_villager": {
+      "client": "entity/zombie_villager.entity.json",
+      "layers": [
+        [
+          "models/entity/zombie_villager.geo.json",
+          "geometry.zombie.villager.v1.8",
+          "textures/entity/zombie_villager2/zombie-villager.png"
+        ]
+      ],
+      "material": "zombie_villager"
+    },
+    "zombified_piglin": {
+      "client": "entity/zombie_pigman.entity.json",
+      "layers": [
+        [
+          "models/entity/piglin.geo.json",
+          "geometry.piglin",
+          "textures/entity/piglin/zombie_piglin.png"
+        ]
+      ],
+      "material": "zombie"
+    },
+    "skeleton": {
+      "client": "entity/skeleton.entity.json",
+      "layers": [
+        [
+          "models/entity/skeleton.geo.json",
+          "geometry.skeleton.v1.8",
+          "textures/entity/skeleton/skeleton.png"
+        ]
+      ],
+      "material": "skeleton"
+    },
+    "stray": {
+      "client": "entity/stray.entity.json",
+      "layers": [
+        [
+          "models/entity/stray.geo.json",
+          "geometry.skeleton.stray.v1.8",
+          "textures/entity/skeleton/stray.png"
+        ],
+        [
+          "models/entity/stray_armor.geo.json",
+          null,
+          "textures/entity/skeleton/stray_overlay.png"
+        ]
+      ],
+      "material": "stray"
+    },
+    "bogged": {
+      "client": "entity/bogged.entity.json",
+      "layers": [
+        [
+          "models/entity/bogged.geo.json",
+          "geometry.skeleton.bogged",
+          "textures/entity/skeleton/bogged.png"
+        ],
+        [
+          "models/entity/bogged_armor.geo.json",
+          null,
+          "textures/entity/skeleton/bogged_clothes.png"
+        ]
+      ],
+      "material": "bogged"
+    },
+    "parched": {
+      "client": "entity/parched.entity.json",
+      "layers": [
+        [
+          "models/entity/parched.geo.json",
+          "geometry.parched",
+          "textures/entity/parched/parched.png"
+        ]
+      ],
+      "material": "entity_alphatest"
+    },
+    "wither_skeleton": {
+      "client": "entity/wither_skeleton.entity.json",
+      "layers": [
+        [
+          "models/entity/wither_skeleton.geo.json",
+          "geometry.skeleton.wither.v1.8",
+          "textures/entity/skeleton/wither_skeleton.png"
+        ]
+      ],
+      "material": "skeleton"
+    },
+    "zoglin": {
+      "client": "entity/zoglin.entity.json",
+      "layers": [
+        [
+          "models/entity/hoglin.geo.json",
+          "geometry.hoglin",
+          "textures/entity/zoglin/zoglin.png"
+        ]
+      ],
+      "material": "zoglin"
+    },
+    "zombie_horse": {
+      "client": "entity/zombie_horse_v3.entity.json",
+      "layers": [
+        [
+          "models/entity/horse_v3.geo.json",
+          "geometry.horse.v3",
+          "textures/entity/horse2/horse_zombie.png"
+        ]
+      ],
+      "material": "horse_leather_armor"
+    },
+    "skeleton_horse": {
+      "client": "entity/skeleton_horse_v3.entity.json",
+      "layers": [
+        [
+          "models/entity/horse_v3.geo.json",
+          "geometry.horse.v3",
+          "textures/entity/horse2/horse_skeleton.png"
+        ]
+      ],
+      "material": "horse"
+    },
+    "camel_husk": {
+      "client": "entity/camel_husk.entity.json",
+      "layers": [
+        [
+          "models/entity/camel_husk.geo.json",
+          "geometry.camel_husk",
+          "textures/entity/camel_husk/camel_husk.png"
+        ]
+      ],
+      "material": "camel"
+    },
+    "zombie_nautilus": {
+      "client": "entity/zombie_nautilus.entity.json",
+      "layers": [
+        [
+          "models/entity/nautilus.geo.json",
+          "geometry.nautilus",
+          "textures/entity/nautilus/zombie_nautilus.png"
+        ]
+      ],
+      "material": "nautilus"
+    },
+    "phantom": {
+      "client": "entity/phantom.entity.json",
+      "layers": [
+        [
+          "models/entity/phantom.geo.json",
+          "geometry.phantom",
+          "textures/entity/phantom.tga"
+        ]
+      ],
+      "material": "phantom"
+    },
+    "wither": {
+      "client": "entity/wither.entity.json",
+      "layers": [
+        [
+          "models/entity/wither_boss.geo.json",
+          "geometry.witherBoss",
+          "textures/entity/wither_boss/wither.png"
+        ]
+      ],
+      "material": "wither_boss"
+    },
+    "allay": {
+      "client": "entity/allay.entity.json",
+      "layers": [
+        [
+          "models/entity/allay.geo.json",
+          "geometry.allay",
+          "textures/entity/allay/allay.png"
+        ]
+      ],
+      "material": "allay"
+    },
+    "armadillo": {
+      "client": "entity/armadillo.entity.json",
+      "layers": [
+        [
+          "models/entity/armadillo.geo.json",
+          "geometry.armadillo",
+          "textures/entity/armadillo.png"
+        ]
+      ],
+      "material": "armadillo"
+    },
+    "axolotl": {
+      "client": "entity/axolotl.entity.json",
+      "layers": [
+        [
+          "models/entity/axolotl.geo.json",
+          "geometry.axolotl",
+          "textures/entity/axolotl/axolotl_lucy.png"
+        ]
+      ],
+      "material": "axolotl"
+    },
+    "bat": {
+      "client": "entity/bat.entity.json",
+      "layers": [
+        [
+          "models/entity/bat_v2.geo.json",
+          "geometry.bat_v2",
+          "textures/entity/bat_v2.png"
+        ]
+      ],
+      "material": "bat_v2"
+    },
+    "bee": {
+      "client": "entity/bee.entity.json",
+      "layers": [
+        [
+          "models/entity/bee.geo.json",
+          "geometry.bee",
+          "textures/entity/bee/bee.png"
+        ]
+      ],
+      "material": "bee"
+    },
+    "blaze": {
+      "client": "entity/blaze.entity.json",
+      "layers": [
+        [
+          "models/entity/blaze.geo.json",
+          "geometry.blaze",
+          "textures/entity/blaze.tga"
+        ]
+      ],
+      "material": null
+    },
+    "breeze": {
+      "client": "entity/breeze.entity.json",
+      "layers": [
+        [
+          "models/entity/breeze.geo.json",
+          "geometry.breeze",
+          "textures/entity/breeze/breeze.png"
+        ],
+        [
+          "models/entity/breeze.geo.json",
+          "geometry.breeze_eyes",
+          "textures/entity/breeze/breeze_eyes.png"
+        ],
+        [
+          "models/entity/breeze.geo.json",
+          "geometry.breeze_wind_top",
+          "textures/entity/breeze/breeze_wind.png"
+        ],
+        [
+          "models/entity/breeze.geo.json",
+          "geometry.breeze_wind_mid",
+          "textures/entity/breeze/breeze_wind.png"
+        ],
+        [
+          "models/entity/breeze.geo.json",
+          "geometry.breeze_wind_bottom",
+          "textures/entity/breeze/breeze_wind.png"
+        ]
+      ],
+      "material": "breeze"
+    },
+    "camel": {
+      "client": "entity/camel.entity.json",
+      "layers": [
+        [
+          "models/entity/camel.geo.json",
+          "geometry.camel",
+          "textures/entity/camel/camel.png"
+        ]
+      ],
+      "material": "camel"
+    },
+    "cat": {
+      "client": "entity/cat.entity.json",
+      "layers": [
+        [
+          "models/entity/cat.geo.json",
+          "geometry.cat",
+          "textures/entity/cat/tabby.png"
+        ]
+      ],
+      "material": "cat"
+    },
+    "cave_spider": {
+      "client": "entity/cave_spider.entity.json",
+      "layers": [
+        [
+          "models/entity/spider.geo.json",
+          "geometry.spider.v1.8",
+          "textures/entity/spider/cave_spider.tga"
+        ]
+      ],
+      "material": "spider"
+    },
+    "chicken": {
+      "client": "entity/chicken.entity.json",
+      "layers": [
+        [
+          "models/entity/chicken.geo.json",
+          "geometry.chicken.v1.12",
+          "textures/entity/chicken/chicken.png"
+        ]
+      ],
+      "material": "chicken"
+    },
+    "cod": {
+      "client": "entity/cod.entity.json",
+      "layers": [
+        [
+          "models/entity/cod.geo.json",
+          "geometry.cod",
+          "textures/entity/fish/cod.png"
+        ]
+      ],
+      "material": "cod"
+    },
+    "copper_golem": {
+      "client": "entity/copper_golem.entity.json",
+      "layers": [
+        [
+          "models/entity/copper_golem.geo.json",
+          "geometry.copper_golem",
+          "textures/entity/copper_golem/copper_golem.png"
+        ]
+      ],
+      "material": "copper_golem"
+    },
+    "cow": {
+      "client": "entity/cow.entity.json",
+      "layers": [
+        [
+          "models/entity/cow.v2.geo.json",
+          "geometry.cow.v2",
+          "textures/entity/cow/cow_v2.png"
+        ]
+      ],
+      "material": "cow"
+    },
+    "creaking": {
+      "client": "entity/creaking.entity.json",
+      "layers": [
+        [
+          "models/entity/creaking.geo.json",
+          "geometry.creaking",
+          "textures/entity/creaking/creaking.png"
+        ]
+      ],
+      "material": "creaking"
+    },
+    "creeper": {
+      "client": "entity/creeper.entity.json",
+      "layers": [
+        [
+          "models/entity/creeper.geo.json",
+          "geometry.creeper.v1.8",
+          "textures/entity/creeper/creeper.png"
+        ]
+      ],
+      "material": "creeper"
+    },
+    "dolphin": {
+      "client": "entity/dolphin.entity.json",
+      "layers": [
+        [
+          "models/entity/dolphin.geo.json",
+          "geometry.dolphin",
+          "textures/entity/dolphin.png"
+        ]
+      ],
+      "material": "dolphin"
+    },
+    "donkey": {
+      "client": "entity/donkey_v3.entity.json",
+      "layers": [
+        [
+          "models/entity/horse_v3.geo.json",
+          "geometry.horse.v3",
+          "textures/entity/horse2/donkey.png"
+        ]
+      ],
+      "material": "horse"
+    },
+    "elder_guardian": {
+      "client": "entity/elder_guardian.entity.json",
+      "layers": [
+        [
+          "models/entity/guardian.geo.json",
+          "geometry.guardian.v1.8",
+          "textures/entity/guardian_elder.png"
+        ]
+      ],
+      "material": "guardian"
+    },
+    "ender_dragon": {
+      "client": "entity/ender_dragon.entity.json",
+      "layers": [
+        [
+          "models/entity/ender_dragon.geo.json",
+          "geometry.dragon",
+          "textures/entity/dragon/dragon.tga"
+        ]
+      ],
+      "material": "ender_dragon"
+    },
+    "enderman": {
+      "client": "entity/enderman.entity.json",
+      "layers": [
+        [
+          "models/entity/enderman.geo.json",
+          "geometry.enderman.v1.8",
+          "textures/entity/enderman/enderman.tga"
+        ]
+      ],
+      "material": "enderman"
+    },
+    "endermite": {
+      "client": "entity/endermite.entity.json",
+      "layers": [
+        [
+          "models/entity/endermite.geo.json",
+          "geometry.endermite",
+          "textures/entity/endermite.png"
+        ]
+      ],
+      "material": "endermite"
+    },
+    "evoker": {
+      "client": "entity/evocation_illager.entity.json",
+      "layers": [
+        [
+          "models/entity/evoker.geo.json",
+          "geometry.evoker.v1.8",
+          "textures/entity/illager/evoker.png"
+        ]
+      ],
+      "material": "evoker"
+    },
+    "fox": {
+      "client": "entity/fox.entity.json",
+      "layers": [
+        [
+          "models/entity/fox.geo.json",
+          "geometry.fox",
+          "textures/entity/fox/fox.png"
+        ]
+      ],
+      "material": "fox"
+    },
+    "frog": {
+      "client": "entity/frog.entity.json",
+      "layers": [
+        [
+          "models/entity/frog.geo.json",
+          "geometry.frog",
+          "textures/entity/frog/temperate_frog.png"
+        ]
+      ],
+      "material": "frog"
+    },
+    "ghast": {
+      "client": "entity/ghast.entity.json",
+      "layers": [
+        [
+          "models/entity/ghast.geo.json",
+          "geometry.ghast",
+          "textures/entity/ghast/ghast.png"
+        ]
+      ],
+      "material": "ghast"
+    },
+    "giant": {
+      "client": "entity/zombie.entity.json",
+      "layers": [
+        [
+          "models/entity/zombie.geo.json",
+          "geometry.zombie.v1.8",
+          "textures/entity/zombie/zombie.png"
+        ]
+      ],
+      "material": "zombie"
+    },
+    "glow_squid": {
+      "client": "entity/glow_squid.entity.json",
+      "layers": [
+        [
+          "models/entity/squid.geo.json",
+          "geometry.squid",
+          "textures/entity/glow_squid/glow_squid.tga"
+        ]
+      ],
+      "material": "glow_squid"
+    },
+    "goat": {
+      "client": "entity/goat.entity.json",
+      "layers": [
+        [
+          "models/entity/goat.geo.json",
+          "geometry.goat",
+          "textures/entity/goat/goat.png"
+        ]
+      ],
+      "material": "goat"
+    },
+    "guardian": {
+      "client": "entity/guardian.entity.json",
+      "layers": [
+        [
+          "models/entity/guardian.geo.json",
+          "geometry.guardian.v1.8",
+          "textures/entity/guardian.png"
+        ]
+      ],
+      "material": "guardian"
+    },
+    "happy_ghast": {
+      "client": "entity/happy_ghast.entity.json",
+      "layers": [
+        [
+          "models/entity/happy_ghast.geo.json",
+          "geometry.happy_ghast",
+          "textures/entity/happy_ghast/happy_ghast.png"
+        ]
+      ],
+      "material": "ghast"
+    },
+    "hoglin": {
+      "client": "entity/hoglin.entity.json",
+      "layers": [
+        [
+          "models/entity/hoglin.geo.json",
+          "geometry.hoglin",
+          "textures/entity/hoglin/hoglin.png"
+        ]
+      ],
+      "material": "hoglin"
+    },
+    "horse": {
+      "client": "entity/horse_v3.entity.json",
+      "layers": [
+        [
+          "models/entity/horse_v3.geo.json",
+          "geometry.horse.v3",
+          "textures/entity/horse2/horse_brown.png"
+        ]
+      ],
+      "material": "horse_leather_armor"
+    },
+    "illusioner": {
+      "client": "entity/pillager.entity.json",
+      "layers": [
+        [
+          "models/entity/pillager.geo.json",
+          "geometry.pillager",
+          "@entity/illager/illusioner.png"
+        ]
+      ],
+      "material": "pillager"
+    },
+    "iron_golem": {
+      "client": "entity/iron_golem.entity.json",
+      "layers": [
+        [
+          "models/entity/iron_golem.geo.json",
+          "geometry.irongolem",
+          "textures/entity/iron_golem.png"
+        ]
+      ],
+      "material": "iron_golem"
+    },
+    "killer_bunny": {
+      "client": "entity/rabbit.entity.json",
+      "layers": [
+        [
+          "models/entity/rabbit.v2.geo.json",
+          "geometry.rabbit.v2",
+          "@entity/rabbit/rabbit_caerbannog.png"
+        ]
+      ],
+      "material": "rabbit"
+    },
+    "llama": {
+      "client": "entity/llama.entity.json",
+      "layers": [
+        [
+          "models/entity/llama.geo.json",
+          "geometry.llama.v1.8",
+          "textures/entity/llama/llama_creamy.png"
+        ]
+      ],
+      "material": "llama"
+    },
+    "magma_cube": {
+      "client": "entity/magma_cube.entity.json",
+      "layers": [
+        [
+          "models/entity/magma_cube_v2.geo.json",
+          "geometry.magma_cube_v2",
+          "textures/entity/slime/magmacube_v2.tga"
+        ]
+      ],
+      "material": "magma_cube"
+    },
+    "mooshroom": {
+      "client": "entity/mooshroom.entity.json",
+      "layers": [
+        [
+          "models/entity/mooshroom.v2.geo.json",
+          "geometry.mooshroom.v2",
+          "textures/entity/cow/mooshroom_v2.png"
+        ]
+      ],
+      "material": "mooshroom"
+    },
+    "mule": {
+      "client": "entity/mule_v3.entity.json",
+      "layers": [
+        [
+          "models/entity/horse_v3.geo.json",
+          "geometry.horse.v3",
+          "textures/entity/horse2/mule.png"
+        ]
+      ],
+      "material": "horse"
+    },
+    "nautilus": {
+      "client": "entity/nautilus.entity.json",
+      "layers": [
+        [
+          "models/entity/nautilus.geo.json",
+          "geometry.nautilus",
+          "textures/entity/nautilus/nautilus.png"
+        ]
+      ],
+      "material": "nautilus"
+    },
+    "ocelot": {
+      "client": "entity/ocelot.entity.json",
+      "layers": [
+        [
+          "models/entity/ocelot.geo.json",
+          "geometry.ocelot.v1.8",
+          "textures/entity/cat/ocelot.png"
+        ]
+      ],
+      "material": "ocelot"
+    },
+    "panda": {
+      "client": "entity/panda.entity.json",
+      "layers": [
+        [
+          "models/entity/panda.geo.json",
+          "geometry.panda",
+          "textures/entity/panda/panda.png"
+        ]
+      ],
+      "material": "panda"
+    },
+    "parrot": {
+      "client": "entity/parrot.entity.json",
+      "layers": [
+        [
+          "models/entity/parrot.geo.json",
+          "geometry.parrot",
+          "textures/entity/parrot/parrot_red_blue.png"
+        ]
+      ],
+      "material": "parrot"
+    },
+    "pig": {
+      "client": "entity/pig.entity.json",
+      "layers": [
+        [
+          "models/entity/pig.v3.geo.json",
+          "geometry.pig.v3",
+          "textures/entity/pig/pig_v3.png"
+        ]
+      ],
+      "material": "pig_v3"
+    },
+    "piglin": {
+      "client": "entity/piglin.entity.json",
+      "layers": [
+        [
+          "models/entity/piglin.geo.json",
+          "geometry.piglin",
+          "textures/entity/piglin/piglin.png"
+        ]
+      ],
+      "material": "piglin"
+    },
+    "piglin_brute": {
+      "client": "entity/piglin_brute.entity.json",
+      "layers": [
+        [
+          "models/entity/piglin.geo.json",
+          "geometry.piglin",
+          "textures/entity/piglin/piglin_brute.png"
+        ]
+      ],
+      "material": "piglin_brute"
+    },
+    "pillager": {
+      "client": "entity/pillager.entity.json",
+      "layers": [
+        [
+          "models/entity/pillager.geo.json",
+          "geometry.pillager",
+          "textures/entity/pillager.png"
+        ]
+      ],
+      "material": "pillager"
+    },
+    "polar_bear": {
+      "client": "entity/polar_bear.entity.json",
+      "layers": [
+        [
+          "models/entity/polar_bear.geo.json",
+          "geometry.polarbear",
+          "textures/entity/polar_bear.png"
+        ]
+      ],
+      "material": "polar_bear"
+    },
+    "pufferfish": {
+      "client": "entity/pufferfish.entity.json",
+      "layers": [
+        [
+          "models/entity/pufferfish.geo.json",
+          "geometry.pufferfish.small.v1.8",
+          "textures/entity/fish/pufferfish.png"
+        ]
+      ],
+      "material": "pufferfish"
+    },
+    "rabbit": {
+      "client": "entity/rabbit.entity.json",
+      "layers": [
+        [
+          "models/entity/rabbit.v2.geo.json",
+          "geometry.rabbit.v2",
+          "textures/entity/rabbit/brown.png"
+        ]
+      ],
+      "material": "rabbit"
+    },
+    "ravager": {
+      "client": "entity/ravager.entity.json",
+      "layers": [
+        [
+          "models/entity/ravager.geo.json",
+          "geometry.ravager",
+          "textures/entity/illager/ravager.png"
+        ]
+      ],
+      "material": "ravager"
+    },
+    "salmon": {
+      "client": "entity/salmon.entity.json",
+      "layers": [
+        [
+          "models/entity/salmon.geo.json",
+          "geometry.salmon",
+          "textures/entity/fish/salmon.png"
+        ]
+      ],
+      "material": "salmon"
+    },
+    "sheep": {
+      "client": "entity/sheep.entity.json",
+      "layers": [
+        [
+          "models/entity/sheep.geo.json",
+          "geometry.sheep.v1.8",
+          "textures/entity/sheep/sheep.tga"
+        ]
+      ],
+      "material": "sheep"
+    },
+    "shulker": {
+      "client": "entity/shulker.entity.json",
+      "layers": [
+        [
+          "models/entity/shulker.geo.json",
+          "geometry.shulker.v1.8",
+          "textures/entity/shulker/shulker_undyed.png"
+        ]
+      ],
+      "material": "shulker"
+    },
+    "silverfish": {
+      "client": "entity/silverfish.entity.json",
+      "layers": [
+        [
+          "models/entity/silverfish.geo.json",
+          "geometry.silverfish",
+          "textures/entity/silverfish.png"
+        ]
+      ],
+      "material": "silverfish"
+    },
+    "slime": {
+      "client": "entity/slime.entity.json",
+      "layers": [
+        [
+          "models/entity/slime.geo.json",
+          "geometry.slime",
+          "textures/entity/slime/slime.png"
+        ],
+        [
+          "models/entity/slime_armor.geo.json",
+          "geometry.slime.armor",
+          "textures/entity/slime/slime.png"
+        ]
+      ],
+      "material": "slime"
+    },
+    "sniffer": {
+      "client": "entity/sniffer.entity.json",
+      "layers": [
+        [
+          "models/entity/sniffer.geo.json",
+          "geometry.sniffer",
+          "textures/entity/sniffer/sniffer.png"
+        ]
+      ],
+      "material": "sniffer"
+    },
+    "snow_golem": {
+      "client": "entity/snow_golem.entity.json",
+      "layers": [
+        [
+          "models/entity/snow_golem.geo.json",
+          "geometry.snowgolem.v1.8",
+          "textures/entity/snow_golem.png"
+        ]
+      ],
+      "material": "snow_golem"
+    },
+    "spider": {
+      "client": "entity/spider.entity.json",
+      "layers": [
+        [
+          "models/entity/spider.geo.json",
+          "geometry.spider.v1.8",
+          "textures/entity/spider/spider.tga"
+        ]
+      ],
+      "material": "spider"
+    },
+    "squid": {
+      "client": "entity/squid.entity.json",
+      "layers": [
+        [
+          "models/entity/squid.geo.json",
+          "geometry.squid",
+          "textures/entity/squid.png"
+        ]
+      ],
+      "material": "squid"
+    },
+    "strider": {
+      "client": "entity/strider.entity.json",
+      "layers": [
+        [
+          "models/entity/strider.geo.json",
+          "geometry.strider",
+          "textures/entity/strider/strider.png"
+        ]
+      ],
+      "material": "strider"
+    },
+    "sulfur_cube": {
+      "client": "entity/sulfur_cube.entity.json",
+      "layers": [
+        [
+          "models/entity/sulfur_cube.geo.json",
+          "geometry.sulfur_cube",
+          "@entity/sulfur_cube/sulfur_cube_outer.png"
+        ]
+      ],
+      "material": "sulfur_cube"
+    },
+    "tadpole": {
+      "client": "entity/tadpole.entity.json",
+      "layers": [
+        [
+          "models/entity/tadpole.geo.json",
+          "geometry.tadpole",
+          "textures/entity/tadpole/tadpole.png"
+        ]
+      ],
+      "material": "tadpole"
+    },
+    "trader_llama": {
+      "client": "entity/trader_llama.entity.json",
+      "layers": [
+        [
+          "models/entity/llama.geo.json",
+          "geometry.llama.v1.8",
+          "textures/entity/llama/llama_creamy.png"
+        ]
+      ],
+      "material": "llama"
+    },
+    "tropical_fish": {
+      "client": "entity/tropicalfish.entity.json",
+      "layers": [
+        [
+          "models/entity/tropical_fish.geo.json",
+          "geometry.tropicalfish_a",
+          "textures/entity/fish/tropical_a.png"
+        ]
+      ],
+      "material": "tropicalfish"
+    },
+    "turtle": {
+      "client": "entity/turtle.entity.json",
+      "layers": [
+        [
+          "models/entity/turtle.geo.json",
+          "geometry.turtle",
+          "textures/entity/sea_turtle.png"
+        ]
+      ],
+      "material": "turtle"
+    },
+    "vex": {
+      "client": "entity/vex.entity.json",
+      "layers": [
+        [
+          "models/entity/vex.geo.json",
+          "geometry.vex.v1.8",
+          "textures/entity/vex/vex.png"
+        ]
+      ],
+      "material": "vex"
+    },
+    "villager": {
+      "client": "entity/villager.entity.json",
+      "layers": [
+        [
+          "models/entity/villager.geo.json",
+          "geometry.villager.v1.8",
+          "textures/entity/villager2/villager.png"
+        ]
+      ],
+      "material": "villager"
+    },
+    "vindicator": {
+      "client": "entity/vindicator.entity.json",
+      "layers": [
+        [
+          "models/entity/vindicator.geo.json",
+          "geometry.vindicator.v1.8",
+          "textures/entity/vindicator.png"
+        ]
+      ],
+      "material": "vindicator"
+    },
+    "wandering_trader": {
+      "client": "entity/wandering_trader.entity.json",
+      "layers": [
+        [
+          "models/entity/villager_v2.geo.json",
+          "geometry.villager_v2",
+          "textures/entity/wandering_trader.png"
+        ]
+      ],
+      "material": "wandering_trader"
+    },
+    "warden": {
+      "client": "entity/warden.entity.json",
+      "layers": [
+        [
+          "models/entity/warden.geo.json",
+          "geometry.warden",
+          "textures/entity/warden/warden.png"
+        ]
+      ],
+      "material": "warden"
+    },
+    "witch": {
+      "client": "entity/witch.entity.json",
+      "layers": [
+        [
+          "models/entity/witch.geo.json",
+          "geometry.villager.witch.v1.8",
+          "textures/entity/witch.png"
+        ]
+      ],
+      "material": "witch"
+    },
+    "wolf": {
+      "client": "entity/wolf.entity.json",
+      "layers": [
+        [
+          "models/entity/wolf.geo.json",
+          "geometry.wolf",
+          "textures/entity/wolf/wolf.png"
+        ]
+      ],
+      "material": "wolf"
+    }
+  }
+}

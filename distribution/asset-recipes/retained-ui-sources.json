@@ -1,0 +1,182 @@
+[
+  {
+    "path": "glyphs/005200.png",
+    "source": "asset:minecraft/font/unifont.zip#unifont_all_no_pua-15.1.05.hex:5200",
+    "sha256": "a9835c7d6b97046b1774ff47c34abe20f782a8bed35302bd2866a79b8e000fee",
+    "operation": "decode-original-unihex-bits",
+    "crop": [
+      0,
+      0,
+      16,
+      16
+    ]
+  },
+  {
+    "path": "glyphs/0053cc.png",
+    "source": "asset:minecraft/font/unifont.zip#unifont_all_no_pua-15.1.05.hex:53CC",
+    "sha256": "c0c36750d8fed89f9ef663fc1a5991368707beb802dfffbf868e11235e504ab2",
+    "operation": "decode-original-unihex-bits",
+    "crop": [
+      0,
+      0,
+      16,
+      16
+    ]
+  },
+  {
+    "path": "glyphs/005510.png",
+    "source": "asset:minecraft/font/unifont.zip#unifont_all_no_pua-15.1.05.hex:5510",
+    "sha256": "83e9bec47f37f30daaf986db980dcc5fd16c290a94e0a1bca327726b2083287b",
+    "operation": "decode-original-unihex-bits",
+    "crop": [
+      0,
+      0,
+      16,
+      16
+    ]
+  },
+  {
+    "path": "original/minecraft/26.3/items/diamond_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/diamond_axe.json",
+    "sha256": "0e9e8940306c98e73b08d53de152a73aacf8de4b87f92513e0b95f43645fbfe8",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/diamond_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/diamond_shovel.json",
+    "sha256": "d70695ee9e4f21f3d8a4e57265b765baf397f8bd48227be606338381ae5e5ed8",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/golden_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/golden_axe.json",
+    "sha256": "8849880221fad244aae0c4a497392b0214c65ca551d0a90c720f15f52e96be1d",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/golden_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/golden_shovel.json",
+    "sha256": "11071c70489c23a737d6a088f0f42f285ba9a3e91ed95275847233007140e9ed",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/iron_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/iron_axe.json",
+    "sha256": "cc2800afa8ed988b1a8d91bd6896ea299d80136de4ff23f10395878bc479b308",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/iron_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/iron_shovel.json",
+    "sha256": "6ffda6231cbaf0e3f293c64a07a74955a0d8fedf460814ad51f7085c20388c5c",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/netherite_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/netherite_axe.json",
+    "sha256": "aeaaef47a063cb60b1339a1a1afcb7a550d575cddaf57968b871566f61fea839",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/netherite_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/netherite_shovel.json",
+    "sha256": "366ed30380ddffa4ded3ee3a42e4171ef5a59799040a867d3101e6f254b43672",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/stone_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/stone_axe.json",
+    "sha256": "e24e3c06e1ab8e1239c248baada3ed3c564ead60bb594e8a9b6a34e174fd604a",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/stone_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/stone_shovel.json",
+    "sha256": "2878eb9780536634275acc69dd73495ca4a4f30252660aeca442e54cf80c8436",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/wooden_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/wooden_axe.json",
+    "sha256": "08cdf9e47a1f967e3095b1a7a8b8e429a428cf547eac1cef17a38bc97151fdd2",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/items/wooden_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/items/wooden_shovel.json",
+    "sha256": "06e0d7b0f61a2dc5527b67a0bca2a96c723f0ca19022cd5483dbeb7c958cf1cc",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/diamond_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/diamond_axe.json",
+    "sha256": "64e29d93c391e19e6fdc54f68e436b9944c69dc4aadbf4be2adff4986050d1cc",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/diamond_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/diamond_shovel.json",
+    "sha256": "7e9ee937b3da757eb6805ad72dcd7912c4b00a5c904c01aa0eb3b0fcb67dc94b",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/golden_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/golden_axe.json",
+    "sha256": "234c7e4bf1e46d244e9e80f0298d06ce1f59c00e3ee87d681973e014c93423fe",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/golden_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/golden_shovel.json",
+    "sha256": "3ca09250bfc5cb665654be0c8ee05aba1994df0e3fdd740a37f2ba41b65722ce",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/iron_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/iron_axe.json",
+    "sha256": "d2f87e9cb80b95fa959f3955a8b76680a6f41adbfa0f821634f0a04a97d5181c",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/iron_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/iron_shovel.json",
+    "sha256": "97309d76ed8df57323d524fd6661bfd3d3db557f54023b298ea52e89b8f42f59",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/netherite_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/netherite_axe.json",
+    "sha256": "9e4aa6c7226d4889d89db691871e1db5e87ee50495ddc1156435e434438b6e1f",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/netherite_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/netherite_shovel.json",
+    "sha256": "73f67fc25b9d6b2d22bb995c278b16000a232a62e36caed5d255541e22bdb7bc",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/stone_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/stone_axe.json",
+    "sha256": "e06a7de13321f52d105e56bc5f7d828fe519c06cad177b012803c11a7930d864",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/stone_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/stone_shovel.json",
+    "sha256": "0774f8767c5bf7da4dbc3cc5db63b2b9b25c8432fbc554ad0c546e0ae702407e",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/wooden_axe.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/wooden_axe.json",
+    "sha256": "a1397b44ec5013e3245e83e1408f9a0a726709cf0d58dc39fda5740836e104ba",
+    "operation": "byte-copy"
+  },
+  {
+    "path": "original/minecraft/26.3/models/item/wooden_shovel.json",
+    "source": "minecraft-original:26.3:assets/minecraft/models/item/wooden_shovel.json",
+    "sha256": "e95aa7ef6e01c278280edf6c0f550a980af41cc806f4e889568d0bc3ea7e3e1e",
+    "operation": "byte-copy"
+  }
+]

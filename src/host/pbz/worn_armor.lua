@@ -94,8 +94,7 @@ function M:set_hidden(hidden)
     end
   end
 end
-function M:update(snapshot,pose,visible)
-  assert(self:is_current(),'armor-stale-owner')
+local function apply(self,snapshot,pose,visible)
   if self.signature~=snapshot.signature then
     local planned=self.catalog:resolve(snapshot) -- Verify before changing visible meshes.
     self.planned=planned;self.signature=snapshot.signature;self.report.changes=self.report.changes+1
@@ -116,6 +115,17 @@ function M:update(snapshot,pose,visible)
     elseif entry and entry.shown then entry.component:SetHiddenInGame(true,false);entry.shown=false end
   end
   self.report.visible=shown;self.report.signature=snapshot.signature;self.report.points=snapshot.points
+end
+function M:update(snapshot,pose,visible)
+  assert(self:is_current(),'armor-stale-owner')
+  apply(self,snapshot,pose,visible)
+end
+-- The owner can recover a detached/replaced instance without auditing every
+-- component twice in the same synchronous frame. No validity result survives
+-- this call; other callers retain update's strict validation.
+function M:refresh(snapshot,pose,visible,hidden)
+  if not self:is_current()then return false end
+  self:set_hidden(hidden);apply(self,snapshot,pose,visible);return true
 end
 function M:hide()self:set_hidden('all')end
 function M:close()

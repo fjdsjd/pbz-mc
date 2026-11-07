@@ -12,7 +12,7 @@ def save(path,raw,source,original,operation,**meta):
 def retain(resource):
  source='assets/minecraft/'+resource;raw=pack.read(source,{})
  return save('original/minecraft/1.21.1/'+resource,raw,'minecraft-original:1.21.1:'+source,raw,'byte-copy')
-effects={id:retain('textures/mob_effect/'+id+'.png') for id in ['regeneration','absorption','resistance','fire_resistance']}
+effects={id:retain('textures/mob_effect/'+id+'.png') for id in ['regeneration','absorption','resistance','fire_resistance','water_breathing']}
 effects['background']=retain('textures/gui/sprites/container/inventory/effect_background_large.png')
 manifest['status_effects']=effects
 lang=json.loads((OUTPUT/'original/lang/zh_cn.json').read_text(encoding='utf-8'))

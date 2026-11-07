@@ -5,7 +5,7 @@ local aliases={lever_click='lever',comparator_click='comparator'}
 function M.new(root,log)
   local f=assert(io.open(root..'/mechanism-blocks/sounds/manifest.json','rb'))
   local manifest=assert(json.decode(f:read('a')));f:close()
-  return setmetatable({variants=manifest.variants,played=0,log=log or function()end},M)
+  return setmetatable({variants=manifest.variants,event_names=manifest.event_names,played=0,log=log or function()end},M)
 end
 function M:play(event,record)
   event=aliases[event]or event
@@ -25,7 +25,8 @@ function M:play(event,record)
   local yaw=math.rad(pov.Rotation.Yaw)
   local pan=distance>1 and math.max(-1,math.min(1,(-math.sin(yaw)*x+math.cos(yaw)*y)/distance))or 0
   local raw,why=PBZMC_BlockSound(json.encode({clip=sample.clip,gain=volume*sample.volume*(1-distance/1600),
-    pitch=pitch*sample.pitch,pan=pan}))
+    pitch=pitch*sample.pitch,pan=pan,sound_event=self.event_names and self.event_names[event]and 'minecraft:'..self.event_names[event]or nil,
+    source=event:match('^bucket_')and 'player' or 'block'}))
   if not raw then self.error=tostring(why);return false end
   self.error=nil;self.played=self.played+1;self.last=event;return true
 end

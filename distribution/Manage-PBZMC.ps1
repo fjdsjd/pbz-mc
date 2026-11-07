@@ -17,6 +17,19 @@ $assetsRelative='platform/steam/ue4ss/Mods/PBZMCProbe/Scripts/pbzmc-assets'
 $manifest=Get-Content -LiteralPath (Join-Path $PSScriptRoot 'release.json') -Raw | ConvertFrom-Json
 $lockStream=$null
 
+function Native-Path([string]$Path) {
+    # Extended absolute paths do not require LongPathsEnabled or a long-path
+    # aware host EXE. Keep ordinary paths in receipts and containment checks.
+    $path=$Path.Replace('/','\')
+    if ($path.StartsWith('\\?\')) { return $path }
+    if ($path.StartsWith('\\')) { return '\\?\UNC\'+$path.Substring(2) }
+    if ($path -notmatch '^[A-Za-z]:\\') { throw 'An absolute filesystem path is required.' }
+    return '\\?\'+$path
+}
+function Copy-File([string]$Source,[string]$Destination) {
+    [IO.Directory]::CreateDirectory((Native-Path ([IO.Path]::GetDirectoryName($Destination)))) | Out-Null
+    [IO.File]::Copy((Native-Path $Source),(Native-Path $Destination),$true)
+}
 function Resolve-Child([string]$Base,[string]$Relative) {
     if ([IO.Path]::IsPathRooted($Relative)) { throw 'Absolute package path rejected.' }
     $parent=[IO.Path]::GetFullPath($Base).TrimEnd('\','/')
@@ -25,13 +38,19 @@ function Resolve-Child([string]$Base,[string]$Relative) {
     # Do not follow user-created junctions out of an installation directory.
     $current=$path
     while ($current.Length -gt $parent.Length) {
-        if ((Test-Path -LiteralPath $current) -and ((Get-Item -LiteralPath $current -Force).Attributes -band [IO.FileAttributes]::ReparsePoint)) { throw "Linked destination rejected: $current" }
-        $current=Split-Path $current -Parent
+        try {
+            if ([IO.File]::GetAttributes((Native-Path $current)) -band [IO.FileAttributes]::ReparsePoint) { throw "Linked destination rejected: $current" }
+        } catch [IO.FileNotFoundException] {
+            # New files still need their existing parents checked.
+        } catch [IO.DirectoryNotFoundException] {
+            # The first existing ancestor may still be a junction.
+        }
+        $current=[IO.Path]::GetDirectoryName($current)
     }
     return $path
 }
 function Hash([string]$Path) {
-    $stream=[IO.File]::OpenRead($Path);$algorithm=[Security.Cryptography.SHA256]::Create()
+    $stream=[IO.File]::OpenRead((Native-Path $Path));$algorithm=[Security.Cryptography.SHA256]::Create()
     try { return [BitConverter]::ToString($algorithm.ComputeHash($stream)).Replace('-','').ToLowerInvariant() }
     finally { $stream.Dispose();$algorithm.Dispose() }
 }
@@ -42,9 +61,9 @@ function Game-IsRunning {
 }
 function Save-Json([string]$Path,$Value) {
     $temp=$Path+'.tmp'
-    [IO.File]::WriteAllText($temp,($Value|ConvertTo-Json -Depth 12),[Text.UTF8Encoding]::new($false))
-    if (Test-Path -LiteralPath $Path) { [IO.File]::Replace($temp,$Path,[NullString]::Value) }
-    else { [IO.File]::Move($temp,$Path) }
+    [IO.File]::WriteAllText((Native-Path $temp),($Value|ConvertTo-Json -Depth 12),[Text.UTF8Encoding]::new($false))
+    if ([IO.File]::Exists((Native-Path $Path))) { [IO.File]::Replace((Native-Path $temp),(Native-Path $Path),[NullString]::Value) }
+    else { [IO.File]::Move((Native-Path $temp),(Native-Path $Path)) }
 }
 function Backup-Saves {
     if (Game-IsRunning) { throw 'Close PBZ before backing up; a running game can change the save during copying.' }
@@ -63,8 +82,7 @@ function Backup-Saves {
         $relative=$file.FullName.Substring($root.Length+1)
         $null=Resolve-Child $root $relative
         $to=Resolve-Child $backup $relative
-        New-Item -ItemType Directory -Force -Path (Split-Path $to -Parent) | Out-Null
-        $before=Hash $file.FullName;Copy-Item -LiteralPath $file.FullName -Destination $to
+        $before=Hash $file.FullName;Copy-File $file.FullName $to
         if ((Hash $to) -ne $before -or (Hash $file.FullName) -ne $before) { throw 'Save changed during backup.' }
         $files+=@{path=$relative;sha256=$before}
     }
@@ -233,6 +251,12 @@ try {
             if ((Hash $path) -ne $entry.sha256) { throw "Modified installation: $critical. Restore the file or inspect the conflict before launching." }
         }
     }
+    if ($current) {
+        # A resource-only correction can keep the Lua/DLL version unchanged.
+        # Check the already hash-verified installed receipt, not just code files.
+        $resourceState=Get-Content -LiteralPath (Resolve-Child $root ($assetsRelative+'/ready.json')) -Raw | ConvertFrom-Json
+        $current=$resourceState.release -eq $manifest.version -and $resourceState.recipe -eq $manifest.asset_recipe_sha256
+    }
     if (-not $current) {
         foreach ($entry in $manifest.files) {
             $source=Resolve-Child (Join-Path $PSScriptRoot 'payload') $entry.path
@@ -285,17 +309,16 @@ try {
                         $files+=@{path=$entry.path;sha256=$entry.sha256};continue
                     }
                     $copy=Resolve-Child $backup ('replaced/'+$entry.path)
-                    New-Item -ItemType Directory -Force -Path (Split-Path $copy -Parent)|Out-Null
-                    Copy-Item -LiteralPath $to -Destination $copy
+                    Copy-File $to $copy
                 }
                 New-Item -ItemType Directory -Force -Path (Split-Path $to -Parent)|Out-Null
-                Copy-Item -LiteralPath $source -Destination ($to+'.pbzmc-new')
+                Copy-File $source ($to+'.pbzmc-new')
                 if ((Hash ($to+'.pbzmc-new')) -ne $entry.sha256) { throw 'Install copy checksum mismatch.' }
                 Move-Item -LiteralPath ($to+'.pbzmc-new') -Destination $to -Force
                 $written+=$entry.path;$files+=@{path=$entry.path;sha256=$entry.sha256}
             }
             # Lua's file API cannot create directories on a new machine.
-            foreach ($relative in @($dataRelative,($dataRelative+'/player-store'))) {
+            foreach ($relative in @($dataRelative,($dataRelative+'/player-store'),($dataRelative+'/functions/minecraft'))) {
                 $directory=Resolve-Child $root $relative
                 New-Item -ItemType Directory -Force -Path $directory | Out-Null
             }
@@ -303,14 +326,21 @@ try {
         } catch {
             foreach ($relative in $written) {
                 $to=Resolve-Child $root $relative;$copy=Resolve-Child $backup ('replaced/'+$relative)
-                if (Test-Path -LiteralPath $copy) { Copy-Item -LiteralPath $copy -Destination $to -Force }
+                if ([IO.File]::Exists((Native-Path $copy))) { Copy-File $copy $to }
                 elseif (Test-Path -LiteralPath $to) { Remove-Item -LiteralPath $to }
             }
             throw
         }
         Write-Host 'PBZMC installed and verified.'
     }
-    if ($Action -eq 'Launch') { Start-Process 'steam://rungameid/4115450' -WindowStyle Hidden }
+    if ($Action -eq 'Launch') {
+        if ($manifest.launch_policy -ne 'PBZMC_LAUNCH_OPT_IN_V1' -or
+            (Hash (Join-Path $PSScriptRoot 'Start-PBZMC.ps1')) -ne $manifest.launch_script_sha256) {
+            throw 'Mismatched launch script. Extract the complete PBZMC release again.'
+        }
+        . (Join-Path $PSScriptRoot 'Start-PBZMC.ps1')
+        Start-PBZMCGame -AppId $manifest.steam_app_id
+    }
 } catch {
     Write-Host ('PBZMC: '+$_.Exception.Message) -ForegroundColor Red
     exit 1

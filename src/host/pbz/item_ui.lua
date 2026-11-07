@@ -157,6 +157,21 @@ function M.new(asset_path,log)
     self.texture_refs[path]=keeper
     self.textures[path]=texture;self.texture_ids[path]=identity.capture(texture);return texture
   end
+  -- A failed campaign has no inventory to render. Show a diagnostic using
+  -- only the existing MC font layer, without manufacturing an empty store.
+  function self:show_message(message,now)
+    assert(self:valid(),'stale-item-ui-owner')
+    local library=object('/Script/UMG.Default__WidgetLayoutLibrary')
+    local size=object('/Script/UMG.WidgetLayoutLibrary:GetViewportSize')(library,self.owner)
+    assert(size.X>=320 and size.Y>=240,'item-ui-viewport-unavailable')
+    self.dpi=object('/Script/UMG.WidgetLayoutLibrary:GetViewportScale')(library,self.owner)
+    assert(self.dpi>0,'invalid-viewport-dpi')
+    self.viewport={width=size.X,height=size.Y}
+    self.layout={scale=math.max(1,math.min(4,math.floor(math.min(size.X/320,size.Y/240))))}
+    self.command_layer=self.command_layer or require('host.pbz.command_ui').new(self)
+    self.command_layer:render(nil,now,message)
+    self:set_visible(true)
+  end
   function self:render(data,options)
     assert(self:valid(),'stale-item-ui-owner')
     options=options or {}

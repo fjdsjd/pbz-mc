@@ -9,11 +9,12 @@ local profiles,by_kind={},{}
 local materials={'wooden','stone','copper','iron','golden','diamond','netherite'}
 local sword_attack={30,39,50.7,65.91,44,85.683,111.3879}
 local spear_attack={31,40.3,52.39,68.107,46,88.5391,115.10083}
+-- Java 26.3 Items/Item.Properties.spear. Speeds are in blocks per second.
 local spear_data={
-  {.65,.7,.75,5,14,10,15,1}, {.75,.82,.7,4.5,10,9,13.75,2},
-  {.85,.82,.65,4,9,8.25,12.5,2}, {.95,.95,.6,2.5,8,6.75,11.25,3},
-  {.95,.7,.7,3.5,10,8.5,13.75,1}, {1.05,1.075,.5,3,7.5,6.5,10,4},
-  {1.15,1.2,.4,2.5,7,5.5,8.75,5},
+  {.65,.7,.75,5,14,10,15,1}, {.75,.82,.7,4.5,13,9,13.75,2},
+  {.85,.82,.65,4,12,8.25,12.5,2}, {.95,.95,.6,2.5,11,6.75,11.25,3},
+  {.95,.7,.7,3.5,13,8.5,13.75,1}, {1.05,1.075,.5,3,10,6.5,10,4},
+  {1.15,1.2,.4,2.5,9,5.5,8.75,5},
 }
 local function add(id,profile)
   assert(items.get(id) and not profiles[id],'combat-profile-content-mismatch:'..id)
@@ -36,12 +37,15 @@ for index,material in ipairs(materials) do
       can_sweep=false,source_version='26.3',adventure_policy='same-material-sword-per-point'})
   end
   local row=spear_data[index]
-  local stats={jab=row[1],multiplier=row[2],delay=row[3],dismount=row[4],min_dismount=row[5],
-    knockback=row[6],damage_seconds=row[7],base_damage=row[8]}
+  local stats={jab=row[1],multiplier=string.unpack('<f',string.pack('<f',row[2])),
+    delay=row[3],dismount=row[4],min_dismount=row[5],
+    knockback=row[6],damage_seconds=row[7],base_damage=row[8],
+    -- Bedrock's piercing and kinetic components share reach and hitbox margin.
+    min_reach=2,max_reach=4.5,creative_reach=7.5,hitbox_margin=.25}
   local function spear(suffix,lunge)
     add('pbzmc:'..material..'_spear'..suffix,{kind='spear',attack_speed=1/stats.jab,
       free_melee_damage=stats.base_damage,adventure_attack=spear_attack[index],can_sweep=false,
-      spear=stats,lunge=lunge})
+      spear=stats,lunge=lunge,source_version='26.3'})
   end
   spear('',0);spear('_lunge_iii',3)
   if material=='netherite' then spear('_lunge_i',1);spear('_lunge_ii',2) end

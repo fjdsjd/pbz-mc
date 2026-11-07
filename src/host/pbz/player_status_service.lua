@@ -47,7 +47,7 @@ end
 function M:current()
  return not self.closed and self.binding:is_current() and require('host.pbz.campaign_inventory').current(self.binding)
 end
-function M:commit(next,address,expected,consume)
+function M:commit(next,address,expected,consume,remainder)
  assert(self:current(),'status-owner-changed')
  local s=self.session;assert(not s.restart_frozen and not s.session.busy,'status-transaction-unavailable')
  local ticket=s.store:checkout({});local candidate=state.object();for k,v in pairs(ticket.data) do candidate[k]=v end
@@ -56,7 +56,8 @@ function M:commit(next,address,expected,consume)
   assert(current and require('storage.canonical_json')(current)==require('storage.canonical_json')(expected),'status-held-stack-changed')
   if consume then
    local draft=slots.edit(candidate.containers);local item=state.clone(current);item.count=item.count-1
-   draft:set(address,item.count>0 and item or nil);candidate.containers=draft.data
+   assert(not remainder or item.count==0,'status-remainder-requires-unstackable')
+   draft:set(address,item.count>0 and item or remainder);candidate.containers=draft.data
   end
  end
  candidate.mc_status=state.clone(next)
@@ -186,7 +187,7 @@ function M:damage(delta,cause)
  -- It is additional MC protection after PBZ's own defense calculation; no
  -- global native Defense value or weapon group attribute is changed.
  local armor=require('host.pbz.armor_state').get(self.session.store.core.containers.player.armor)
- local bypass=cause=='Damage.Cause.MCFall' or cause=='Damage.Cause.MCFlyIntoWall'
+ local bypass=cause=='Damage.Cause.MCFall' or cause=='Damage.Cause.MCFlyIntoWall' or cause=='Damage.Cause.MCDrown' or cause=='Damage.Cause.MCPotion'
  local reduced,armor_receipt=require('rules.armor').reduce(-delta,max,armor,bypass)
  local next,remaining,absorbed=rules.damage(self.value,reduced,fire,false)
  local triggered,address,item=false
@@ -223,16 +224,17 @@ function M:consume(record)
  self.log('MC food consumed id='..item.content_id..' cooldown='..(rules.remaining(next,item.content_id)/20)..'s')
  self:sound('burp');return true
 end
-function M:pearl_cooldown(record)
+function M:projectile_cooldown(record,id,consume)
  if not self:current() then return false,'status-owner-changed' end
  local item=record.equipment[record.hand]
- if not item or item.content_id~='pbzmc:ender_pearl' or rules.remaining(self.value,item.content_id)>0 then return false,'pearl-cooldown' end
+ if not item or item.content_id~=id or rules.remaining(self.value,id)>0 then return false,'projectile-cooldown' end
  local hands=self:held();if not hands then return false,'equipment-unavailable' end
  local selected=record.hand=='offhand' and hands[2] or hands[1]
- -- Cooldown and the unchanged held stack are validated in one memory commit.
- -- The pearl never decrements in any gameplay mode.
- self:commit(rules.start_cooldown(self.value,item.content_id),selected.address,item,false)
+ self:commit(rules.start_cooldown(self.value,id),selected.address,item,consume==true)
  return true
+end
+function M:pearl_cooldown(record)
+ return self:projectile_cooldown(record,'pbzmc:ender_pearl',false)
 end
 function M:sound(event)
  local service=require('host.pbz.building_service').get(self.binding)
@@ -256,26 +258,53 @@ function M:tick()
  require('host.pbz.native_totem_fall').tick(self)
  local hp=self.binding.actor.AttributeSetBase.Health.CurrentValue;local max=self.binding.actor.AttributeSetBase.Health_Max.CurrentValue
  if hp<=0 then
-  if next(self.value.effects) then self.value.effects={};self.value.absorption=0;self.dirty=true end
+  if next(self.value.effects) or self.value.air~=nil then self.value.effects={};self.value.absorption=0;self.value.air=nil;self.dirty=true end
+  self.submerged=nil
   self.accumulator=0
  else
   self.accumulator=self.accumulator+dt
   local ticks=math.floor(self.accumulator*20+1e-7)
   if ticks>0 then
    self.accumulator=self.accumulator-ticks/20
-   if next(self.value.effects) or rules.cooling(self.value) then
-    local next,healing=rules.advance(self.value,ticks,max);self.value=next;self.dirty=true
+   local sampler=self.binding.mc_fluid_sampler
+   self.submerged=sampler and sampler:eyes_in_water(t)
+   local head=self.session.store.core.containers.player.armor.head
+   local helmet=head and head.content_id=='pbzmc:turtle_helmet'
+   if rules.needs_tick(self.value,self.submerged,helmet,self.binding.mc_creative) then
+    local next,healing,drowning,pulses=rules.advance(self.value,ticks,max,self.submerged,helmet,self.binding.mc_creative)
+    self.value=next;self.dirty=true
     if healing>0 and hp<max then
      StaticFindObject('/Script/SGameAttributes.Default__AttributeUtils'):ModifyCharacterAttributeValue(
       self.binding.actor,self.attribute,0,math.min(max-hp,healing))
+    end
+    if drowning>0 then
+     -- Air runs out independently of attack power, blocking and weapon mode.
+     -- Settle gold hearts, resistance and the held totem before writing HP.
+     local delta=self:damage(-max/10,'Damage.Cause.MCDrown')
+     if delta~=0 then StaticFindObject('/Script/SGameAttributes.Default__AttributeUtils'):ModifyCharacterAttributeValue(
+      self.binding.actor,self.attribute,0,delta) end
+    end
+    if not self.binding.mc_creative then
+     for id,count in pairs(pulses)do
+      local current=self.binding.actor.AttributeSetBase.Health.CurrentValue
+      local damage=count*max/20
+      if id=='poison'then damage=math.max(0,math.min(damage,current-max/20))end
+      if damage>0 then
+       local delta=self:damage(-damage,'Damage.Cause.MCPotion')
+       if delta~=0 then StaticFindObject('/Script/SGameAttributes.Default__AttributeUtils'):ModifyCharacterAttributeValue(self.binding.actor,self.attribute,0,delta)end
+      end
+     end
     end
    end
   end
  end
  self.binding.mc_status=self.binding.mc_status or {}
  self.binding.mc_status.regeneration=self.value.effects.regeneration~=nil
- if self.pending_totem or next(self.value.effects) or self.fx then
-  if not self.fx then self.fx=require('host.pbz.status_particles').new(self.binding,require('host.pbz.local_player').controller()) end
+ self.binding.mc_status.poisoned=self.value.effects.poison~=nil
+ self.binding.mc_status.withered=self.value.effects.wither~=nil
+ self.binding.mc_status.blindness=self.value.effects.blindness~=nil or self.value.effects.darkness~=nil
+ if self.pending_totem or self.fx or rules.has_particles(self.value) then
+  if not self.fx then self.fx=require('host.pbz.status_particles').acquire(self.binding,require('host.pbz.local_player').controller(),self,true) end
   if self.pending_totem then self.pending_totem=false;self:sound('totem');self.fx:activate(t);self.activation_at=t end
   self.fx:step(t,self.value)
  end
@@ -285,7 +314,7 @@ function M:close()
  require('host.pbz.native_totem_fall').close(self)
  self.closed=true
  if self.loop then CancelDelayedAction(self.loop);self.loop=nil end
- if self.fx then self.fx:close() end
+ if self.fx then self.fx:release(self) end
  if self.chorus then self.chorus:close() end
  if self.binding.mc_status_service==self then self.binding.mc_status_service=nil end
 end

@@ -24,6 +24,10 @@ function M.apply(amount,target_max,kind,weapon_id,attack)
   if kind=='arrow' then
     out.percentage=M.bow_percentage;reference_base=reference('pbzmc:bow',1.8)
     if not out.weapon_id then out.weapon_id='pbzmc:bow' end
+  elseif kind=='spear' or kind=='mace' or kind=='wind_charge' then
+    -- Kinetic and falling hits use their own MC damage before chapter scaling.
+    out.percentage=M.sword_percentage;reference_base=reference('pbzmc:diamond_sword',1)
+    out.weapon_kind=kind
   elseif kind=='sword' then
     local ok,profile=pcall(profiles.get,weapon_id)
     if ok and profile and melee_kinds[profile.kind] then

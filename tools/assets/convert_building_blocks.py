@@ -1,4 +1,4 @@
-"""Original eight building blocks and shared crack masks; incremental UI/models.
+"""Original building blocks and shared crack masks; incremental UI/models.
 
 Only local assets are changed. Minecraft 1.21.1 JSON/geometry references are
 source-verified. Existing dirt sources and existing tools remain untouched.
@@ -18,7 +18,8 @@ from extend_original_item_labels import language
 OUT=ROOT/'assets/private/building-blocks'
 UI=ROOT/'assets/private/minecraft-1.21.1/ui'
 ITEMS=ROOT/'assets/private/item-models'
-NAMES=('dirt','stone','tnt','oak_log','stripped_oak_log','oak_planks','cobblestone','glass')
+NAMES=('dirt','stone','tnt','oak_log','stripped_oak_log','oak_planks','cobblestone','glass','spawner')
+CUTOUT={'glass','spawner'}
 SCALE=6.25
 EXTRACTOR=ROOT/'third_party/wukong-steve/tools/ExtractMinecraft.py'
 PIN='9f213556519dca4498fd46f02af6236ae121ecae'
@@ -55,7 +56,14 @@ def resolve(pack,name,deps):
         for key,value in local.items():
             if key in CONTEXTS and key not in display:display[key]=display_transform(value)
         name=model.get('parent')
-    assert elements and len(elements)==1,'only original full-cube model is in this task'
+    if 'assets/minecraft/models/block/cube_all_inner_faces.json' in chain:
+        # The reversed, inset copy exposes the same texels from inside the cage.
+        # Share the outside vertices and emit reversed indices in merge().
+        outer,inner=elements
+        assert all(face.get('uv')==[16,0,0,16] and face['texture']=='#all' for face in inner['faces'].values())
+        assert inner['from']==[15.998,.002,.002] and inner['to']==[.002,15.998,15.998]
+        elements=[outer]
+    assert elements and len(elements)==1,'unsupported original cube geometry'
     element=elements[0];assert element['from']==[0,0,0] and element['to']==[16,16,16] and 'rotation' not in element
     assert set(element['faces'])==set(CORNERS)
     faces=[]
@@ -175,13 +183,13 @@ def main():
             choices=states['axis='+axis if axis else ''];state=choices[0] if isinstance(choices,list) else choices
             faces,info=resolve(pack,state['model'],deps);faces=posed(faces,state)
             key='building-blocks/'+name+('_axis_'+axis if axis and axis!='y' else '')
-            mesh,stats=merge(faces,double=name=='glass');model_record(key,mesh,stats,content_id='pbzmc:'+name,axis=axis,original_state=state)
+            mesh,stats=merge(faces,double=name in CUTOUT);model_record(key,mesh,stats,content_id='pbzmc:'+name,axis=axis,original_state=state)
             all_faces[key]=faces;base_stats.append(stats);variants[axis or 'default']=key
         default=variants.get('y',variants.get('default'));item_faces,info=resolve(pack,'minecraft:item/'+name,deps)
-        item_mesh,stats=merge(item_faces,'item',double=name=='glass');icon=original_gui(item_mesh,info['display']);icons[name]=icon
+        item_mesh,stats=merge(item_faces,'item',double=name in CUTOUT);icon=original_gui(item_mesh,info['display']);icons[name]=icon
         items['pbzmc:'+name]=dict(default_model=default,variants=variants,collision=dict(shape='box',half_cm=[50,50,50]),
             original_blockstates='original/'+state_path,original_random_variants_retained_not_selected=isinstance(states.get(''),list),
-            alpha_mode='cutout-holes-double-sided' if name=='glass' else 'opaque',item_mesh=item_mesh,item_model_info=info)
+            alpha_mode='cutout-holes-double-sided' if name in CUTOUT else 'opaque',item_mesh=item_mesh,item_model_info=info)
 
     crack_images=[];cracks=[]
     for shader in ('rendertype_crumbling.fsh','rendertype_crumbling.json'):
@@ -210,7 +218,7 @@ def main():
     # baking only under 32 MiB. Keep glass holes; scene-behind-glass is unknown.
     for key,faces in all_faces.items():
         for stage,texture in enumerate(crack_images):
-            mesh,stats=merge(cracked(faces,texture),double=key=='building-blocks/glass')
+            mesh,stats=merge(cracked(faces,texture),double=key.rsplit('/',1)[-1] in CUTOUT)
             raw=binary(mesh,key.split('/')[-1]+'_crack_'+str(stage));raw_bytes+=len(raw)
             pending[key+'_crack_'+str(stage)]=(mesh,stats,stage)
     assert raw_bytes<32*1024*1024,'baked cracks exceed authorized budget; no crack meshes written'
@@ -273,7 +281,7 @@ def main():
     mp.write_text(json.dumps(im,ensure_ascii=False,indent=2)+'\n',encoding='utf8');up.write_text(json.dumps(ui,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
     assert digest(original_dirt.read_bytes())==dirt_digest,'legacy dirt sources must not be rewritten'
     write('LICENSE-NOTICE.txt',b'Private original Minecraft textures/models: Mojang/Microsoft. Not relicensed.\nOffline format follows STEVEM01 from nicedoctors/wukong-steve commit 9f213556519dca4498fd46f02af6236ae121ecae, PolyForm Noncommercial 1.0.0. See third_party/wukong-steve/LICENSE and NOTICE.\nNo decompiled source is copied to runtime assets.\n')
-    contact=Image.new('RGBA',(1024,200),'#dadada');draw=ImageDraw.Draw(contact)
+    contact=Image.new('RGBA',(128*len(NAMES),200),'#dadada');draw=ImageDraw.Draw(contact)
     for i,name in enumerate(NAMES):
         contact.alpha_composite(icons[name].resize((128,128),Image.Resampling.NEAREST),(i*128,24));draw.text((i*128+4,170),name,fill='#101010')
     contact.save(OUT/'preview.png')

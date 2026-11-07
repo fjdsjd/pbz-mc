@@ -56,13 +56,17 @@ function M:show(target)
   row.until_time=stamp+.16
   self.active[key]=row
   if not self.timer then
-    self.timer=LoopInGameThreadAfterFrames(1,function()
+    local timer
+    timer=LoopInGameThreadAfterFrames(1,function()
+      -- UE4SS can still deliver the last queued frame after close or restart.
+      if self.timer~=timer then return end
       local current=self.binding:is_current() and now(self.binding.actor) or math.huge
       for id,item in pairs(self.active) do
         if current>=item.until_time then pcall(self.restore,self,item);self.active[id]=nil end
       end
-      if next(self.active)==nil then CancelDelayedAction(self.timer);self.timer=nil end
+      if next(self.active)==nil then self.timer=nil;CancelDelayedAction(timer) end
     end)
+    self.timer=timer
   end
   local mesh_class=StaticFindObject('/Script/Engine.MeshComponent')
   local character_class=StaticFindObject('/Script/ProjectPBZ.PBZCharacter')

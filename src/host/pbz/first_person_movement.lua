@@ -93,7 +93,8 @@ function M:tick()
   for name,value in pairs(settings) do
     if name~='MaxWalkSpeed' and name~='bCanWalkOffLedges' and name~='bCanWalkOffLedgesWhenCrouching' then
       if name=='GroundFriction' then value=(1-.546^(dt*20))/dt end
-      self.movement[name]=value;self.written[name]=self.movement[name]
+      if self.movement[name]~=value then self.movement[name]=value end
+      self.written[name]=self.movement[name]
     end
   end
   self:set_anim()
@@ -130,7 +131,12 @@ function M:tick()
     self.input.sprinting=false;frame.sprint=false
     speed=(fluid and fluid.kind)and speed*.2 or (frame.sneak and 431.7*.3 or 431.7)*.2
   end
-  self.movement.MaxWalkSpeed=speed;self.written.MaxWalkSpeed=self.movement.MaxWalkSpeed
+  local effects=self.binding.mc_status_service and self.binding.mc_status_service.value
+  local status_rules=require('rules.status_effects')
+  self.movement.MaxWalkSpeed=speed*status_rules.speed(effects);self.written.MaxWalkSpeed=self.movement.MaxWalkSpeed
+  if status_rules.level(effects,'levitation')>0 then self.movement.GravityScale=0
+  elseif status_rules.level(effects,'slow_falling')>0 and self.binding.actor:GetVelocity().Z<0 then self.movement.GravityScale=400/980 end
+  self.written.GravityScale=self.movement.GravityScale
   -- Minecraft clips unsupported walking while sneaking. Let CharacterMovement
   -- perform this against real floors, including native terrain and MC blocks,
   -- so support, sliding along an edge and stepping stay in the physics update.
@@ -144,7 +150,7 @@ function M:tick()
     -- LivingEntity's held-jump delay is ten 20 Hz ticks; release clears it.
     -- Grounding remains native, with no repeated launch while airborne.
     if now>=self.next_jump then
-      self.binding.actor:LaunchCharacter({X=0,Y=0,Z=840},false,true)
+      self.binding.actor:LaunchCharacter({X=0,Y=0,Z=840+200*status_rules.level(effects,'jump_boost')},false,true)
       self.next_jump=now+.5;self.jump_count=self.jump_count+1
     end
   end

@@ -28,7 +28,24 @@ function Service:wake()
   self.last_time=self.clock:GetTimeSeconds(self.binding.actor);self.idle=nil
  end
 end
-function Service:prime(id,fuse)
+function Service:add_fire(p,lifetime,cell)
+ if count(self.fires)>=32 then return false,'fire-budget'end
+ local state=rules.new_fire(p,lifetime)
+ local ok,h=pcall(self.world.spawn,self.world,'fire',state)
+ if not ok then return false,tostring(h)end
+ self.serial=self.serial+1;local id='fire/'..self.serial
+ self.fires[id]={state=state,handle=h,ticks=0,cell=cell};self.fire_list_dirty=true;self:wake()
+ self:report('fire-created',id);return true,id
+end
+function Service:remove_fire(id,reason)
+ local f=self.fires[id];if not f then return true end
+ local ok,removed=pcall(self.world.destroy,self.world,f.handle)
+ if not ok or removed==false then self.visual_error=tostring(removed);return false end
+ self.fires[id]=nil;self.fire_list_dirty=true
+ if f.cell and self.fire_environment and self.fire_environment.network then self.fire_environment.network:forget(f.cell)end
+ self.extinguished=self.extinguished+1;return true
+end
+function Service:prime(id,fuse,allied)
  if not self:current()then return false,'stale-tnt-scene'end
  if self.primed[id]then return false,'already-primed'end
  if count(self.primed)>=128 then return false,'active-tnt-budget'end
@@ -48,7 +65,7 @@ function Service:prime(id,fuse)
  if self.build.mining==id then self.build.mining=nil;self.build.progress=0 end
  self:wake()
  self.serial=self.serial+1
- self.primed[id]={state=state,handle=handle,action_id='tnt/'..self.serial..'/'..id}
+ self.primed[id]={state=state,handle=handle,action_id='tnt/'..self.serial..'/'..id,allied=allied}
  self.primes=self.primes+1;self:sound('fuse',state);self:report('primed',id..' fuse='..state.fuse)
  return true
 end
@@ -81,15 +98,29 @@ function Service:ignite(aim)
   if ok then self:sound('flint',r)else self:report('prime-rejected',why)end
   return ok,ok and 'success'or 'fail'
  end
- if not hit or hit.ImpactNormal.Z<=.55 then return false,'pass'end
+ if not hit then return false,'pass'end
  local owner=self.build.world:hit_actor(hit)
  if owner and owner:IsValid() and owner:IsA(StaticFindObject('/Script/Engine.Pawn'))then return false,'pass'end
- local p=xyz(hit.ImpactPoint);p.z=p.z+45
+ local p=xyz(hit.ImpactPoint);local normal=hit.ImpactNormal
+ local env=self.fire_environment
+ local surface=not handle
+ if env and env.network and handle then
+  local record=self.build.session.data.buildings[handle.id]
+  if not record then return false,'fail'end
+  local cell=env.mechanisms:cell(record)
+  local axis=require('rules.placement_geometry').face_axis(normal.X,normal.Y,normal.Z)
+  local field=axis==0 and 'x'or axis==1 and 'y'or 'z'
+  cell[field]=cell[field]+((axis==0 and normal.X or axis==1 and normal.Y or normal.Z)>=0 and 1 or -1)
+  p=env.mechanisms:position(cell.x,cell.y,cell.z)
+ else
+  if normal.Z<=.55 then return false,'pass'end
+  p.z=p.z+45
+ end
  for _,fire in pairs(self.fires)do if dist(p,fire.state)<90 then return true,'consume'end end
- if count(self.fires)>=32 then return false,'fail'end
- local state=rules.new_fire(p);local h=self.world:spawn('fire',state);self.serial=self.serial+1
- self:wake();local id='fire/'..self.serial;self.fires[id]={state=state,handle=h,ticks=0}
- self:sound('flint',state);self:report('fire-created',id);return true,'success'
+ local ok
+ if env and env.network then ok=env:ignite(p,surface)else ok=self:add_fire(p)end
+ if ok then self:sound('flint',p)end
+ return ok,ok and 'success'or 'fail'
 end
 function Service:extinguish(aim)
  if not self:current()then return false end
@@ -102,30 +133,50 @@ function Service:extinguish(aim)
  if not target then return false end
  local hit=self.build:target(aim)
  if hit and dist(xyz(start),xyz(hit.ImpactPoint))<t-65 then return false end
- local f=self.fires[target];self:sound('extinguish',f.state);self.world:destroy(f.handle);self.fires[target]=nil
- self.extinguished=self.extinguished+1;self:report('fire-extinguished',target);return true
+ local f=self.fires[target];self:sound('extinguish',f.state)
+ return self:remove_fire(target,'manual')
 end
-function Service:explode(id,entity)
- -- Remove ownership before dispatch: damage/FX failures cannot replay it.
- self.primed[id]=nil;self:visual(self.world.destroy,self.world,entity.handle);self.explosions=self.explosions+1
- local p=rules.explosion_origin(entity.state);local center=vector(p)
+function Service:wind_burst(origin,radius,visible)
+  local wind=require('rules.wind_charge')
+  local removed,pushed=0,0
+  for id,f in pairs(self.fires) do
+    local s=f.state;local dx,dy,dz=s.x-origin.X,s.y-origin.Y,s.z-origin.Z
+    if dx*dx+dy*dy+dz*dz<radius*radius and visible(origin,vector(s),f.handle.actor) then
+      self:sound('extinguish',s);if self:remove_fire(id,'wind')then removed=removed+1 end
+    end
+  end
+  for _,entity in pairs(self.primed) do
+    local s=entity.state
+    local impulse=wind.impulse(origin,{X=s.x,Y=s.y,Z=s.z-49},49,49,radius,wind.multiplier,1)
+    if impulse and visible(origin,vector(s),entity.handle.actor) then
+      s.vx=s.vx+impulse.X;s.vy=s.vy+impulse.Y;s.vz=s.vz+impulse.Z;pushed=pushed+1
+    end
+  end
+  return removed,pushed
+end
+function Service:blast_world(p,power,allied)
+ self:wake()
+ local center=vector(p)
+ local scale=power/4
  self:sound('explosion',p);self:visual(self.fx.explosion,self.fx,p)
  local sampler=self.binding.mc_fluid_sampler
  local wet=sampler and sampler:water_at(p.x,p.y,p.z) or false
  local pushed=0
  for _,other in pairs(self.primed)do
   local s=other.state
-  if not s.exploded and (s.x-p.x)^2+(s.y-p.y)^2+(s.z-49-p.z)^2<rules.blast_radius^2 then
+  if not s.exploded and (s.x-p.x)^2+(s.y-p.y)^2+(s.z-49-p.z)^2<(rules.blast_radius*scale)^2 then
    local exposure=self.damage:tnt_exposure(center,s,other.handle.actor)
    if rules.push_primed(s,p,exposure)then pushed=pushed+1 end
   end
  end
  local boats=require('host.pbz.boat_service').get(self.binding)
- if boats then boats:blast(p,self.damage)end
+ if boats and not allied then boats:blast(p,self.damage)end
  if not wet then
-  self.build.session:visit_nearby(p,rules.blast_radius,function(r)
-   local key=r.id;local effect=rules.block_effect(r.content_id,dist(p,r),self.primed[key]~=nil)
-   if effect=='chain' and not self.chain[key]then self.chain[key]=rules.chain_fuse(math.random())
+  self.build.session:visit_nearby(p,rules.blast_radius*scale,function(r)
+   local key=r.id;local effect=rules.block_effect(r.content_id,dist(p,r)/scale,self.primed[key]~=nil)
+   if effect=='chain' and not self.chain[key]then
+    self.chain[key]=rules.chain_fuse(math.random())
+    if allied then self.chain_allied[key]=true end
    elseif effect=='remove'then self.demolish[key]=true end
   end)
  end
@@ -135,7 +186,14 @@ function Service:explode(id,entity)
   local removed,why=pcall(self.drain_demolition,self)
   if not removed then self.error=tostring(why)end
  end
- self.last_damage=self.damage:explode(center,nil,entity.action_id,4,wet)
+ return wet,pushed
+end
+function Service:explode(id,entity)
+ -- Claim the entity before dispatch; a failed visual cannot replay an explosion.
+ self.primed[id]=nil;self:visual(self.world.destroy,self.world,entity.handle);self.explosions=self.explosions+1
+ local p=rules.explosion_origin(entity.state)
+ local wet,pushed=self:blast_world(p,4,entity.allied)
+ self.last_damage=self.damage:explode(vector(p),nil,entity.action_id,4,wet,entity.allied)
  self:report('exploded',id..' underwater='..tostring(wet)..' primed-pushed='..pushed..' pending-chain='..count(self.chain))
 end
 function Service:drain_demolition()
@@ -156,7 +214,8 @@ function Service:drain_demolition()
 end
 function Service:tick()
  if not next(self.primed) and not next(self.fires) and not next(self.chain) and not next(self.demolish)
-     and #self.fx.particles==0 and not next(self.fx.emitters or {}) and (not self.fx.handle or self.fx.hidden)then
+     and #self.fx.particles==0 and not next(self.fx.emitters or {}) and (not self.fx.handle or self.fx.hidden)
+     and not (self.fire_environment and self.fire_environment:has_work())then
   self.tnt_time=0;self.idle=(self.idle or 0)+1
   if self.idle%30~=1 then return end
   if not self:current()then M.close()end
@@ -169,7 +228,8 @@ function Service:tick()
  local dt=math.max(0,now-(self.last_time or now));self.last_time=now
  -- After long stalls, resume the simulation with bounded work. Never apply
  -- seconds of accumulated environmental damage in one render callback.
- dt=math.min(dt,.1)
+ local fire_dt=dt;dt=math.min(dt,.1)
+ if self.fire_environment then self.fire_environment:tick(fire_dt)end
  if next(self.demolish)then
   local removed,why=pcall(self.drain_demolition,self)
   if not removed then self.error=tostring(why)end
@@ -177,20 +237,39 @@ function Service:tick()
  local attempts=0
  for id,fuse in pairs(self.chain)do
   if attempts>=4 then break end;attempts=attempts+1
-  if not self.build.session.data.buildings[id]then self.chain[id]=nil
+  if not self.build.session.data.buildings[id]then self.chain[id]=nil;self.chain_allied[id]=nil
   else
-   local tried,ok=pcall(self.prime,self,id,fuse)
-   if tried and ok then self.chain[id]=nil elseif not tried then self.error=tostring(ok)end
+   local tried,ok=pcall(self.prime,self,id,fuse,self.chain_allied[id])
+   if tried and ok then self.chain[id]=nil;self.chain_allied[id]=nil elseif not tried then self.error=tostring(ok)end
   end
  end
  if next(self.primed)then self:tick_primed(dt)else self.tnt_time=0 end
- for id,f in pairs(self.fires)do
-  local output=rules.advance_fire(f.state,dt)
-  for _=1,output.damage_ticks do f.ticks=f.ticks+1;self.last_fire_damage=self.damage:burn(vector(f.state),id..'/tick/'..f.ticks)end
-  for _=1,output.smoke_ticks do self:visual(self.fx.smoke,self.fx,f.state);if math.random(5)==1 then self:sound('fire',f.state)end end
-  if output.expired or f.state.expired then self.fires[id]=nil;self:visual(self.world.destroy,self.world,f.handle)
-  else self:visual(self.world.render,self.world,f.handle,f.state,output)end
+ local damage_budget,smoke_budget=4,4
+ -- Rebuild only when fire membership changes; rotate the first recipient so
+ -- distant/later fires cannot starve when the host is running below 16 FPS.
+ if not self.fire_order or self.fire_list_dirty then
+  self.fire_order={};for id in pairs(self.fires)do self.fire_order[#self.fire_order+1]=id end
+  table.sort(self.fire_order);self.fire_list_dirty=false
  end
+ local order=self.fire_order;local n=#order;local first=n>0 and (self.fire_cursor or 0)%n or 0
+ for i=0,n-1 do
+  local id=order[(first+i)%n+1];local f=self.fires[id]
+  if f then
+  local output=rules.advance_fire(f.state,fire_dt)
+  if output.damage_ticks>0 then f.pending_damage=true end
+  if f.pending_damage and not output.expired and damage_budget>0 then
+   f.pending_damage=nil;damage_budget=damage_budget-1;f.ticks=f.ticks+1
+   self.last_fire_damage=self.damage:burn(vector(f.state),id..'/tick/'..f.ticks)
+  end
+  if output.smoke_ticks>0 and smoke_budget>0 then
+   smoke_budget=smoke_budget-1;self:visual(self.fx.smoke,self.fx,f.state)
+   if math.random(5)==1 then self:sound('fire',f.state)end
+  end
+  if output.expired or f.state.expired then self:remove_fire(id,'expired')
+  else self:visual(self.world.render,self.world,f.handle,f.state,output)end
+  end
+ end
+ self.fire_cursor=n>0 and (first+4)%n or 0
  self:visual(self.fx.tick,self.fx,dt)
 end
 function Service:tick_primed(dt)
@@ -221,6 +300,7 @@ function Service:state()
  return {ready=true,primed=primed,fires=count(self.fires),chain=count(self.chain),pending_remove=count(self.demolish),
   primes=self.primes,explosions=self.explosions,removed=self.removed,extinguished=self.extinguished,
   last_event=self.last_event,last_detail=self.last_detail,last_damage=self.last_damage,last_fire_damage=self.last_fire_damage,
+  fire_environment=self.fire_environment and self.fire_environment:state(),
   particles=#self.fx.particles,audio=self.audio.state and self.audio:state() or
    {played=self.audio.played,counts=self.audio.counts,error=self.audio.error},error=self.error,visual_error=self.visual_error}
 end
@@ -238,10 +318,11 @@ function M.ensure(binding,directory,log)
  local self=setmetatable({binding=binding,build=assert(require('host.pbz.building_service').get(binding)),
   world=require('host.pbz.tnt_world').new(binding,directory),damage=damage.new(binding,log),log=log,
   clock=StaticFindObject('/Script/Engine.Default__GameplayStatics'),
-  primed={},fires={},chain={},demolish={},serial=0,primes=0,explosions=0,removed=0,extinguished=0},Service)
+  primed={},fires={},chain={},chain_allied={},demolish={},serial=0,primes=0,explosions=0,removed=0,extinguished=0},Service)
  self.fx=require('host.pbz.tnt_effects').new(self.world)
  self.world.build_world=self.build.world;self.damage.build_world=self.build.world
  self.audio=require('host.pbz.tnt_sounds').new(directory..'/pbzmc-assets/tnt')
+ self.fire_environment=require('host.pbz.fire_environment').new(self)
  active=self
  self.loop=LoopInGameThreadAfterFrames(1,function()
   local ok,err=pcall(self.tick,self)

@@ -149,6 +149,20 @@ function M:commit_buildings(ticket,changes,grids)
   -- status/vehicles and selection caches stay exactly as owned before.
   return true,self.warning
 end
+-- Command metadata is isolated from inventory and placed geometry. Publishing
+-- an objective or tag never clones buildings or writes a disk checkpoint.
+function M:commit_commands(expected,value)
+  if self.read_only or not self.loaded or self.core.commands~=expected then return false,'stale-command-state' end
+  local ok,candidate=pcall(function()
+    state.validate_value(value)
+    assert(#require('storage.canonical_json')(value)<=2*1024*1024,'command-data-limit')
+    return state.clone(value)
+  end)
+  if not ok then return false,tostring(candidate) end
+  local core=state.object();for k,v in pairs(self.core)do core[k]=v end
+  core.commands=candidate;self.core=core;self.generation=self.generation+1
+  self.dirty=true;self.commits=self.commits+1;return true
+end
 function M:flush()
   if not self.dirty and not self.runtime_selected then return true end
   if self.read_only then return false,self.warning or 'session-store-not-writable' end

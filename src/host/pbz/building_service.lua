@@ -10,12 +10,15 @@ function M.get(binding) return active and active.binding==binding and active or 
 function M.close()
   if not active then return true end
   active:cancel()
+  local commands_closed,command_error=require('host.pbz.command_service').close()
+  if not commands_closed then return false,command_error end
+  if active.spawners then active.spawners:close() end
   if active.mechanisms then active.mechanisms:close()end
   local ok,why=active.session:close()
   if ok then active=nil end
   return ok,why
 end
-function M.ensure(binding,directory,log)
+function M.ensure(binding,directory,log,acquire_summons)
   if active and (active.binding~=binding or not current(active)) then
     local ok,why=M.close();assert(ok,why)
   end
@@ -61,11 +64,17 @@ function M.ensure(binding,directory,log)
       local movement=self.binding.actor and self.binding.actor.CharacterMovement
       local mode=movement and movement.MovementMode or 1
       local grounded,submerged=mode~=3,mode==4
+      local status=self.binding.mc_status_service
+      local effect_speed=require('rules.status_effects').mining(status and status.value)
       -- Cache the pure sample until the tool or environment changes. Never
       -- allocate a new rules table or scan block/tool definitions per frame.
-      if not self.mining_sample or self.mining_tool~=tool_id or self.mining_grounded~=grounded or self.mining_submerged~=submerged or self.mining_creative~=creative then
+      if not self.mining_sample or self.mining_tool~=tool_id or self.mining_grounded~=grounded or self.mining_submerged~=submerged or self.mining_creative~=creative or self.mining_effect_speed~=effect_speed then
         self.mining_sample=assert(mining.sample(block.content_id,tool_id,{on_ground=grounded,submerged=submerged}))
         if creative then self.mining_sample={instant=true,progress_per_tick=1,breakable=true,ticks=0}end
+        if not creative and not self.mining_sample.instant then
+          self.mining_sample.progress_per_tick=self.mining_sample.progress_per_tick*effect_speed
+        end
+        self.mining_effect_speed=effect_speed
         self.mining_creative=creative
         self.mining_tool=tool_id;self.mining_grounded=grounded;self.mining_submerged=submerged
       end
@@ -73,7 +82,7 @@ function M.ensure(binding,directory,log)
       self.progress=mining.advance(self.mining_run,record.dt,self.mining_sample)
       local sound_tick=self.mining_run.ticks>0 and math.floor((self.mining_run.ticks-1)/4) or nil
       if not self.mining_sample.instant and sound_tick and sound_tick~=self.sound_tick then
-        if definition.mechanism then self.mechanisms:sound((definition.sound_group or 'stone')..'_hit',block)
+        if definition.mechanism and not (definition.construction or definition.construction_sound) then self.mechanisms:sound((definition.sound_group or 'stone')..'_hit',block)
         else self.audio:play('hit',block,pc)end
         self.sound_tick=sound_tick
       end
@@ -88,7 +97,7 @@ function M.ensure(binding,directory,log)
         if ok then
           self.removed=self.removed+count;self.last_chain=count
           self.log('building removed '..id..' count='..count..' no drop/refund')
-          if definition.mechanism then self.mechanisms:sound((definition.sound_group or 'stone')..'_break',block)
+          if definition.mechanism and not (definition.construction or definition.construction_sound) then self.mechanisms:sound((definition.sound_group or 'stone')..'_break',block)
           else self.audio:play('break',block,pc)end
           -- The first zero-hardness hit remains instant. Continuing to hold
           -- attack must not drill through one new block per render frame.
@@ -115,6 +124,14 @@ function M.ensure(binding,directory,log)
           counts=self.audio.counts,last=self.audio.last}}
     end
     self.mechanisms=require('host.pbz.mechanism_service').new(self)
+    self.spawners=require('host.pbz.mob_spawners').new(self,acquire_summons)
+    self.session.on_change=function(changes,options)
+      self.spawners:changed(changes)
+      self.mechanisms:changed(changes,options)
+      local tnt=require('host.pbz.tnt_service').get(binding)
+      if tnt and tnt.fire_environment then tnt.fire_environment:changed(changes)end
+      if self.commands then self.commands:changed(changes)end
+    end
     active=self;log('production buildings bound; restore='..#self.session.pending)
   end
   active.world:prewarm()
@@ -130,7 +147,9 @@ function M.ensure(binding,directory,log)
   active.world:poll_faces(2)
   if active.mechanisms then
     active.game_clock=active.game_clock or StaticFindObject('/Script/Engine.Default__GameplayStatics')
-    active.mechanisms:tick(active.game_clock:GetTimeSeconds(active.binding.actor))
+    local now=active.game_clock:GetTimeSeconds(active.binding.actor)
+    active.mechanisms:tick(now)
+    active.spawners:tick(now)
   end
   return active
 end

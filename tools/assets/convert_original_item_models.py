@@ -161,6 +161,8 @@ def main():
     try:
         for content_id in ids:
             item = content_id.split(':',1)[1]
+            if item.startswith(('potion_','splash_potion_','lingering_potion_')):
+                continue  # prepare_potions composes the original two tinted layers.
             original = source_aliases.get(item,item)
             version = versions.get(content_id,ui.get('item_icon_sources',{}).get(content_id,{}).get('minecraft_version','1.21.1'))
             pack = packs[version]
@@ -202,7 +204,7 @@ def main():
                 # spear swap_animation_scale, for the action/render consumer.
                 # Retained source metadata does not enable gameplay features.
                 bindings[content_id]['original_item_definition'] = definition
-            if source_aliases.get(item) and item not in ('boat','redstone_dust'):
+            if item.startswith('mace_') or '_spear_lunge_' in item:
                 issues['enchantment_glint'] = 'base geometry only; original glint pass still required'
             if issues:
                 unavailable[content_id] = issues

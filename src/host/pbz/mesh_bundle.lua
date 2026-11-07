@@ -2,6 +2,7 @@
 local M={}
 local unpack=string.unpack
 local huge=math.huge
+local render_configured=setmetatable({},{__mode='k'})
 local function linear(v) return v<=.04045 and v/12.92 or ((v+.055)/1.055)^2.4 end
 function M.read(path,scale)
   local file=assert(io.open(path,'rb'))
@@ -58,6 +59,13 @@ function M.decode(raw,scale)
   return parts
 end
 function M.apply(component,part,section)
+  -- World grime/blood decals belong to PBZ's scenery, not to MC skins and
+  -- block atlases. Apply once per owned mesh, including armor, first-person
+  -- hands, held items, cinematic doubles and summon parts. Keep depth/shadows.
+  if not render_configured[component]then
+    component:SetReceivesDecals(false)
+    render_configured[component]=true
+  end
   component:CreateMeshSection_LinearColor(section or 0,part.positions,part.triangles,part.normals,part.uv,{},{},{},part.colors,{},false,false)
 end
 return M

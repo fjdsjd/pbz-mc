@@ -116,14 +116,25 @@ function M:mechanism_catalog()
   self.mechanisms=self.mechanisms or require('host.pbz.mechanism_assets').open(self.assets..'/mechanism-blocks')
   return self.mechanisms
 end
+function M:construction_catalog(record)
+  local name=type(record)=='table'and record.content_id:sub(7)or type(record)=='string'and record:match('^construction/([^/]+)')
+  if name=='command_block'or name=='repeating_command_block'or name=='chain_command_block'then
+    self.commands_catalog=self.commands_catalog or require('host.pbz.construction_assets').open(self.assets..'/command-blocks')
+    return self.commands_catalog
+  end
+  self.construction=self.construction or require('host.pbz.construction_assets').open(self.assets..'/construction')
+  return self.construction
+end
 function M:model(record)
   local definition=self.registry.get(record.content_id)
+  if definition.construction or definition.construction_render then return self:construction_catalog(record):model(record)end
   if definition.fluid then return 'fluid/'..definition.fluid end
   if definition.mechanism then return self:mechanism_catalog():model(record)end
   return self.catalog:model(record)
 end
 function M:boxes(record)
   local definition=self.registry.get(record.content_id)
+  if definition.construction then return self:construction_catalog(record):boxes(record)end
   if definition.fluid then return {}end
   if definition.mechanism then
     local catalog=self:mechanism_catalog();local boxes=catalog:boxes(record)
@@ -199,11 +210,18 @@ function M:can_place(record,ignored,options,destinations_clear)
   local dx,dy=p.X-rx,p.Y-ry
   local report={terrain=0,components=0};self.last_placement_check=report
   if definition.fluid then return true end
+  -- /fill, /setblock and /clone edit cells even when an entity occupies
+  -- them. Only that explicit transaction scope bypasses entity placement
+  -- checks; hand placement, piston moves and saved-block restore keep them.
+  -- MC object ownership/occupancy and native-solid policies still apply.
+  local command=options and options.command==true
   local piston_rider=options and options.piston_rider
   local player_seated=piston_rider and piston_rider(self.pawn)
-  for _,shape in ipairs(self:boxes(record))do
+  local shapes,selection_only=self:boxes(record)
+  if selection_only then return true end
+  for _,shape in ipairs(shapes)do
   local h={x=shape.half[1],y=shape.half[2],z=shape.half[3]};local o=shape.center
-  if not player_seated and definition.collision~=false and geometry.capsule_overlaps(dx*c+dy*s-o[1],-dx*s+dy*c-o[2],p.Z-rz-o[3],h.x,h.y,h.z,
+  if not command and not player_seated and definition.collision~=false and geometry.capsule_overlaps(dx*c+dy*s-o[1],-dx*s+dy*c-o[2],p.Z-rz-o[3],h.x,h.y,h.z,
     capsule:GetScaledCapsuleRadius(),capsule:GetScaledCapsuleHalfHeight()) then
     report.blocked='player';return false,'player'
   end
@@ -219,13 +237,16 @@ function M:can_place(record,ignored,options,destinations_clear)
     if kind=='terrain' then
       report.terrain=report.terrain+1
       if options and options.native_solid then report.blocked='native-terrain';return false,'native-terrain'end
-    elseif kind~='ignored' then report.blocked=kind;return false,kind end
+    elseif kind~='ignored' and not (command and (kind=='character' or kind=='dynamic-collider')) then
+      report.blocked=kind;return false,kind
+    end
   end
   end
   end
   return true
 end
 function M:part(model)
+  if model:sub(1,13)=='construction/'then return self:construction_catalog(model):part(model)end
   if model:sub(1,17)=='mechanism-blocks/'then return self:mechanism_catalog():part(model)end
   local part=self.mesh_cache[model]
   if part then return part end
@@ -257,6 +278,10 @@ function M:part(model)
 end
 function M:set_crack(handle,model,stage)
   if handle.stage==stage then return end
+  if handle.model:sub(1,13)=='construction/' then
+    handle.mesh:SetMaterial(handle.visible_section or 0,self:construction_catalog(handle.model):material(self,stage,handle.model))
+    handle.stage=stage;return
+  end
   if handle.mechanism then
     if not handle.fluid then
       local ok,why=require('host.pbz.mechanism_cracks').setup(self,handle,stage);assert(ok,why)
@@ -268,6 +293,7 @@ function M:set_crack(handle,model,stage)
   else MeshBundle.apply(handle.mesh,self:part(stage and handle.model..'_crack_'..stage or handle.model)) end
 end
 function M:warm_cracks(model)
+  if model:sub(1,13)=='construction/'then return end
   if model:sub(1,17)=='mechanism-blocks/'or model:sub(1,6)=='fluid/'then return end
   if self.warm_model==model then return end
   self.warm_model=model;self.warm_stage=0
@@ -279,8 +305,8 @@ function M:prewarm()
     local model=self.warm_model..'_crack_'..self.warm_stage
     self.warm_stage=self.warm_stage+1;self:part(model);return
   end
-  local model=self.catalog.base_keys[self.preload_index]
-  if model then self.preload_index=self.preload_index+1;self:part(model) end
+  -- Full cubes now use the construction atlas. Do not decode the retired
+  -- per-pixel meshes in the background after loading every campaign.
 end
 function M:queue_faces(handle)
   if handle and handle.cubic and not handle.face_queued then
@@ -292,7 +318,7 @@ function M:queue_neighbors(handle)
 end
 function M:refresh_faces(handle)
   if not handle.active or not handle.cubic then return end
-  local model=handle.model..(handle.stage~=nil and '_crack_'..handle.stage or '')
+  local model=handle.model..(handle.stage~=nil and handle.model:sub(1,13)~='construction/' and '_crack_'..handle.stage or '')
   local parts=self.face_cache[model]
   if not parts then parts=Faces.split(self:part(model));self.face_cache[model]=parts end
   local mask=0;for i=1,6 do if not Faces.occludes(handle,self.faces:neighbor(handle,i)) then mask=mask|(1<<(i-1)) end end
@@ -372,6 +398,7 @@ function M:test_ground_target(content_id)
 end
 function M:material_for(record,model)
   local definition=self.registry.get(record.content_id)
+  if definition.construction or definition.construction_render then return self:construction_catalog(record):material(self,nil,model)end
   local entry=definition.mechanism and not definition.fluid and self:mechanism_catalog().manifest.models[model]
   if entry and entry.render_layer=='translucent'then
     return require('host.pbz.translucent_blocks').cached(self,self.pawn,self.assets..'/mechanism-blocks',entry.palette)
@@ -462,9 +489,10 @@ function M:light(handle,level)
   if not ok then self.log('mechanism light unavailable '..tostring(why))end
 end
 function M:update_boxes(handle,record)
-  local definition=self.registry.get(record.content_id);local shapes=self:boxes(record)
+  local definition=self.registry.get(record.content_id);local shapes,query=self:boxes(record)
+  query=query or definition.collision==false
   local applied=handle.applied_boxes
-  local same=applied and #applied==#shapes and handle.applied_query==(definition.collision==false)
+  local same=applied and #applied==#shapes and handle.applied_query==query
   if same then
     for i,shape in ipairs(shapes)do
       for axis=1,3 do
@@ -482,16 +510,17 @@ function M:update_boxes(handle,record)
       box=handle.actor:AddComponentByClass(StaticFindObject('/Script/Engine.BoxComponent'),false,transform(),false)
       assert(valid(box),'box-create-failed');handle.boxes[i]=box
       box:SetCollisionObjectType(1)
+      box.CanCharacterStepUpOn=1 -- ECB_Yes; half blocks use CharacterMovement's swept StepUp.
     end
     box:SetBoxExtent(v(math.max(.1,shape.half[1]),math.max(.1,shape.half[2]),math.max(.1,shape.half[3])),false)
     box:K2_SetRelativeLocation(v(shape.center[1],shape.center[2],shape.center[3]),false,{},true)
-    box:SetCollisionResponseToAllChannels(definition.collision==false and 0 or 2)
-    if definition.collision==false then box:SetCollisionResponseToChannel(3,2)end -- query aim, no pawn barrier
-    box:SetCollisionEnabled(handle.active and (definition.collision==false and 1 or 3)or 0)
+    box:SetCollisionResponseToAllChannels(query and 0 or 2)
+    if query then box:SetCollisionResponseToChannel(3,2)end
+    box:SetCollisionEnabled(handle.active and (query and 1 or 3)or 0)
   end
   for i=#shapes+1,#handle.boxes do handle.boxes[i]:SetCollisionEnabled(0)end
-  handle.box=handle.boxes[1];handle.box_count=#shapes;handle.collision_mode=definition.collision==false and 1 or 3
-  handle.applied_boxes=shapes;handle.applied_query=definition.collision==false
+  handle.box=handle.boxes[1];handle.box_count=#shapes;handle.collision_mode=query and 1 or 3
+  handle.applied_boxes=shapes;handle.applied_query=query
 end
 function M:revise(handle,record,options)
   assert(self:is_current()and self:engine_valid(handle.actor),'stale-building-revision')
@@ -525,7 +554,8 @@ function M:revise(handle,record,options)
       require('host.pbz.mechanism_sections').switch(self,handle,record,model,previous)
     end
     handle.visual_uncertain=nil
-  elseif definition.fluid then local yes,reason=self:fluid_renderer():update(handle,record);assert(yes,reason)end
+  elseif definition.fluid then local yes,reason=self:fluid_renderer():update(handle,record);assert(yes,reason)
+  elseif definition.construction and not definition.command_block and old.properties~=record.properties then self:update_boxes(handle,record)end
   handle.record=record
   if definition.light or handle.light_counted then self:light(handle,definition.light)end
   if moved then

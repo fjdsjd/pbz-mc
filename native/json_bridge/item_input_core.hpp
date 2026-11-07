@@ -138,6 +138,7 @@ struct Sample {
 struct Stats {
     std::uint64_t messages{}, consumed{}, ignored_peeks{}, foreign_messages{}, stale_messages{}, repeats{};
     std::uint64_t focus_resets{}, context_resets{}, timeout_resets{}, overflow_resets{}, identity_resets{}, swap_resets{}, quarantine_resets{};
+    std::uint64_t coalesced_motion{};
 };
 struct Batch {
     std::array<Sample, queue_capacity> samples{};
@@ -162,9 +163,10 @@ class Core {
     std::array<std::uint64_t, key_count> down_times_{};
     std::array<std::uint64_t, 3> button_down_times_{};
     bool focused_{}, swapped_{}, expired_{}, overflow_{}, timeout_notice_{}, identity_lost_{}, started_{};
+    bool look_tail_{};
 
     void reset(const Environment& environment, std::uint64_t now) noexcept {
-        ++epoch_; count_ = 0; barrier_ = now;
+        ++epoch_; count_ = 0; barrier_ = now; look_tail_ = false;
         blocked_keys_ = static_cast<std::uint32_t>(environment.held_keys | keys_);
         blocked_buttons_ = static_cast<std::uint8_t>(environment.held_buttons | buttons_);
         keys_ = 0; buttons_ = 0;
@@ -190,16 +192,43 @@ class Core {
         ++stats_.quarantine_resets; reset(held, now);
     }
     void push(Pointer::State pointer, std::int16_t wheel, const Environment& environment, std::uint64_t now,
-              std::int32_t dx=0,std::int32_t dy=0,unsigned command_key=0) noexcept {
+              std::int32_t dx=0,std::int32_t dy=0,unsigned command_key=0,bool look=false) noexcept {
+        pointer.keys = static_cast<std::uint32_t>(keys_ | blocked_keys_);
+        pointer.buttons = static_cast<std::uint8_t>(buttons_ | blocked_buttons_);
+        // High polling-rate mice can otherwise send hundreds of full JSON
+        // objects per render frame. Merge only consecutive, same-millisecond,
+        // same-direction motion. Preserve timestamp boundaries (Lua's legacy
+        // mouse deduplication), pitch-clamp reversals and every action edge.
+        if (look && look_tail_ && count_ != 0) {
+            auto& tail = samples_[count_ - 1];
+            const auto& p = tail.pointer;
+            const auto sum_x = static_cast<std::int64_t>(tail.dx) + dx;
+            const auto sum_y = static_cast<std::int64_t>(tail.dy) + dy;
+            const auto same_direction = [](std::int32_t a, std::int32_t b) {
+                return a == 0 || b == 0 || (a < 0) == (b < 0);
+            };
+            constexpr auto bound = std::int64_t{1} << 31;
+            if (tail.epoch == epoch_ && p.time_ms == pointer.time_ms &&
+                p.keys == pointer.keys && p.buttons == pointer.buttons &&
+                p.shift == pointer.shift && p.ctrl == pointer.ctrl &&
+                p.focused == pointer.focused && p.inside == pointer.inside &&
+                p.x == pointer.x && p.y == pointer.y && p.width == pointer.width && p.height == pointer.height &&
+                same_direction(tail.dx, dx) && same_direction(tail.dy, dy) &&
+                sum_x > -bound && sum_x < bound && sum_y > -bound && sum_y < bound) {
+                tail.dx = static_cast<std::int32_t>(sum_x); tail.dy = static_cast<std::int32_t>(sum_y);
+                tail.seq = ++sequence_; ++stats_.coalesced_motion;
+                latest_ = {pointer, epoch_, sequence_, 0};
+                return;
+            }
+        }
         if (count_ == queue_capacity) {
             ++stats_.overflow_resets; overflow_ = true;
             reset(environment, now);
             refresh_latest(pointer);
             return;
         }
-        pointer.keys = static_cast<std::uint32_t>(keys_ | blocked_keys_);
-        pointer.buttons = static_cast<std::uint8_t>(buttons_ | blocked_buttons_);
         samples_[count_++] = {pointer, epoch_, ++sequence_, wheel,dx,dy,command_key};
+        look_tail_ = look;
         latest_ = {pointer, epoch_, sequence_, 0};
     }
 public:
@@ -214,7 +243,7 @@ public:
         latest_.seq = ++sequence_; samples_[count_++] = latest_;
     }
     void stop() noexcept {
-        started_ = false; context_ = Context::inactive; ++epoch_; count_ = 0;
+        started_ = false; context_ = Context::inactive; ++epoch_; count_ = 0; look_tail_ = false;
         keys_ = blocked_keys_ = owned_keys_ = 0;
         buttons_ = blocked_buttons_ = owned_buttons_ = 0;
         focused_ = false; latest_ = {}; latest_.epoch = epoch_;
@@ -224,7 +253,15 @@ public:
     bool heartbeat_expired() const noexcept { return expired_; }
     bool first_person() const noexcept { return context_==Context::game_fp; }
     bool command() const noexcept { return context_==Context::command && !expired_ && focused_ && !identity_lost_; }
-    bool filter_raw_mouse() const noexcept { return first_person() || command() || context_==Context::creative_pbz; }
+    bool raw_eligible() const noexcept { return started_ && focused_ && !expired_ && !identity_lost_; }
+    bool filter_raw_mouse() const noexcept { return raw_eligible() && (first_person() || command() || context_==Context::creative_pbz); }
+    bool filter_raw_button(unsigned index) const noexcept {
+        return raw_eligible() && index<3 && (consumes_button(context_,index) || (owned_buttons_ & (1u<<index))!=0);
+    }
+    bool filter_raw_wheel() const noexcept { return raw_eligible() && consumes_wheel(context_); }
+    void retain_modifiers(Pointer::State& pointer) const noexcept {
+        pointer.shift=latest_.pointer.shift;pointer.ctrl=latest_.pointer.ctrl;
+    }
     bool needs_baseline(const Environment& environment, std::uint64_t now) const noexcept {
         return environment.pointer.focused != focused_ ||
                (environment.pointer.focused && environment.swapped != swapped_) ||
@@ -281,6 +318,7 @@ public:
         }
     }
     bool event(const Event& event, const Environment& environment, std::uint64_t now) noexcept {
+        if (event.kind != Kind::look) look_tail_ = false;
         const auto previous_pointer = latest_.pointer;
         observe(environment, now);
         if (!started_ || !focused_ || identity_lost_) return false;
@@ -289,7 +327,7 @@ public:
         pointer.focused = true; pointer.time_ms = message_time64(now, event.message_time);
         const auto stamp_delta = static_cast<std::int32_t>(event.message_time - static_cast<std::uint32_t>(barrier_));
         const bool stale = stamp_delta <= 0; // boundary millisecond is intentionally quarantined
-        if (stale) ++stats_.stale_messages;
+        if (stale) { ++stats_.stale_messages; look_tail_ = false; }
         bool consume{}, changed{}, emit_wheel{};
         if (event.kind == Kind::command_down || event.kind == Kind::command_up) {
             consume = command() && !event.system_key;
@@ -351,7 +389,7 @@ public:
         if (!expired_ && !stale && (changed || emit_wheel))
             push(pointer, emit_wheel ? event.wheel : 0, environment, now,
                  event.kind==Kind::look ? event.dx : 0,event.kind==Kind::look ? event.dy : 0,
-                 event.kind==Kind::command_down ? event.index : 0);
+                 event.kind==Kind::command_down ? event.index : 0,event.kind==Kind::look);
         else refresh_latest(pointer);
         return consume;
     }
@@ -369,7 +407,7 @@ public:
         result.heartbeat_expired = expired_; result.identity_lost = identity_lost_;
         // Includes release pairs retained across an epoch transition as well as timeout.
         result.draining_owned_releases = (owned_keys_ & ~keys_) != 0 || (owned_buttons_ & ~buttons_) != 0;
-        count_ = 0; overflow_ = false; timeout_notice_ = false;
+        count_ = 0; overflow_ = false; timeout_notice_ = false; look_tail_ = false;
         return result;
     }
 };
@@ -403,6 +441,7 @@ inline std::string batch_json(const Batch& batch, std::uint32_t game_thread, std
     counter("timeout_resets", batch.stats.timeout_resets); counter("overflow_resets", batch.stats.overflow_resets);
     counter("identity_resets", batch.stats.identity_resets); counter("swap_resets", batch.stats.swap_resets);
     counter("quarantine_resets", batch.stats.quarantine_resets);
+    counter("coalesced_motion", batch.stats.coalesced_motion);
     text += ",\"samples\":[";
     for (std::size_t i = 0; i < batch.count; ++i) { if (i) text += ','; text += sample_json(batch.samples[i]); }
     text += "],\"latest\":" + sample_json(batch.latest) + '}';

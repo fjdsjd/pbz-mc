@@ -19,6 +19,9 @@ def text(path,value):
 
 def audit(stage):
     package=stage/'PBZMC';manifest=json.loads((package/'release.json').read_text('utf-8'))
+    assert manifest.get('launch_policy')=='PBZMC_LAUNCH_OPT_IN_V1','missing per-launch opt-in policy'
+    assert sha(package/'Start-PBZMC.ps1')==manifest['launch_script_sha256'],'damaged launch helper'
+    assert b'PBZMC_LAUNCH_OPT_IN_V1' in (package/'payload/platform/steam/dwmapi.dll').read_bytes(),'always-on loader rejected'
     if 'future_after_cl' in manifest:
         assert sha(package/'Check-PBZHost.exe')==manifest['host_check_sha256'],'damaged host compatibility checker'
     kind=manifest.get('package_kind')
@@ -68,7 +71,7 @@ def audit(stage):
     main=(package/'payload/platform/steam/ue4ss/Mods/PBZMCProbe/Scripts/main.lua').read_text('utf-8')
     assert 'PBZMC_HostCompatible' in main and "require('host.pbz.mod').start"in main
     if shutil.which('powershell.exe'):
-        for name in (('Manage-PBZMC.ps1',)if offline else ('Manage-PBZMC.ps1','Download-PBZMC.ps1')):
+        for name in (('Manage-PBZMC.ps1','Start-PBZMC.ps1')if offline else ('Manage-PBZMC.ps1','Start-PBZMC.ps1','Download-PBZMC.ps1')):
             script=str(package/name).replace("'","''")
             command=f"$e=$null;$t=$null;[System.Management.Automation.Language.Parser]::ParseFile('{script}',[ref]$t,[ref]$e)|Out-Null;if($e.Count){{$e|ForEach-Object{{$_.Message}};exit 1}}"
             subprocess.run(['powershell.exe','-NoProfile','-Command',command],check=True)
@@ -76,8 +79,8 @@ def audit(stage):
     label=f'{len(bundled)-1} verified bundled resources'if bundled else 'no original game resources'
     print(f'PASS: {len(manifest["files"])} runtime files; {label}; no private files or secrets; installer parses')
 
-def installer_test(stage):
-    if not shutil.which('powershell.exe'):raise RuntimeError('Installer tests require Windows PowerShell')
+def installer_test(stage,shell='powershell.exe'):
+    if not shutil.which(shell):raise RuntimeError('Installer tests require Windows PowerShell')
     # This directory is newly allocated and never points at a real installation.
     # Keep it for inspection; no recursive deletion or real executable is used.
     kind=json.loads((stage/'PBZMC/release.json').read_text('utf-8')).get('package_kind')
@@ -102,10 +105,16 @@ def installer_test(stage):
         manifest.update(package_kind=kind,resource_receipt_sha256=sha(resource_receipt))
         write(package/'release.json',manifest)
     saves=['ProjectPBZ/Saved/SaveGames/slot.sav','ProjectPBZ/Saved/PBZSharedSetting.sav',relative+'/pbzmc-data/player-store/state.json']
+    # Real immutable filenames, including temporary checkpoints, exceed the
+    # old 260-character limit after the timestamped backup prefix is added.
+    store=relative+'/pbzmc-data/player-store/'
+    saves += [store+'a'*64+'.blob-'+'b'*64+'.json',
+              store+'c'*64+'.campaign-checkpoint-'+'d'*64+'.json',
+              store+'c'*64+'.campaign-checkpoint-'+'e'*64+'.json.tmp']
     for name in saves:text(root/name,'preserve:'+name)
     saved={name:sha(root/name)for name in saves}
     def run(action,ok=True,explicit_root=True):
-        command=['powershell.exe','-NoProfile','-ExecutionPolicy','Bypass','-File',str(package/'Manage-PBZMC.ps1'),'-Action',action]
+        command=[shell,'-NoProfile','-ExecutionPolicy','Bypass','-File',str(package/'Manage-PBZMC.ps1'),'-Action',action]
         if explicit_root:command+=['-GameRoot',str(root)]
         result=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',errors='replace')
         assert (result.returncode==0)==ok,(action,result.stdout,result.stderr)
@@ -124,6 +133,7 @@ def installer_test(stage):
     receipt=json.loads((package/'installed-files.json').read_text('utf-8'))
     backup=Path(receipt['backup'])
     for name,h in saved.items():assert sha(backup/name)==h
+    assert max(len(str(backup/name))for name in saved)>300,'long-path backup fixture too short'
     assert (root/relative/'pbzmc-data/player-store').is_dir()
     count=len(list((package/'backups').iterdir()));run('Install')
     assert len(list((package/'backups').iterdir()))==count,'idempotent install made a backup'
@@ -142,6 +152,22 @@ def installer_test(stage):
         (resources/'test.saved').rename(resources/'test.txt')
         assert not (package/'cache/downloads').exists()
     assert json.loads((package/'installed-files.json').read_text('utf-8'))['version']=='test.2'
+    # Same-version resource-only corrections must not be mistaken for a fully
+    # current installation merely because none of the Lua/DLL hashes changed.
+    text(resources/'test.txt','updated synthetic runtime resource')
+    data=json.loads(resource_receipt.read_text('utf-8'))
+    data['recipe']='fixture-recipe-2'
+    data['files']=[dict(path='test.txt',sha256=sha(resources/'test.txt'))]
+    write(resource_receipt,data)
+    if kind=='offline-cache':write(resources/'ready.json',data)
+    manifest['asset_recipe_sha256']=data['recipe']
+    if offline:manifest['resource_receipt_sha256']=sha(resource_receipt)
+    write(package/'release.json',manifest)
+    run('Install');run('Verify')
+    assert (root/relative/'pbzmc-assets/test.txt').read_text()=='updated synthetic runtime resource'
+    assert json.loads((root/relative/'pbzmc-assets/ready.json').read_text('utf-8'))['recipe']=='fixture-recipe-2'
+    count=len(list((package/'backups').iterdir()));run('Install')
+    assert len(list((package/'backups').iterdir()))==count,'resource correction lost idempotence'
     run('Uninstall');run('Verify',False);run('Install');run('Verify')
     script=root/critical[-1];text(script,'user modification')
     run('Verify',False);run('Uninstall');assert script.read_text()=='user modification'
@@ -157,12 +183,13 @@ def installer_test(stage):
     malicious={**manifest,'version':'test.3','files':[dict(path='../outside.txt',sha256='0'*64)]}
     write(package/'release.json',malicious);run('Install',False)
     assert not (root.parent/'outside.txt').exists()
-    print('PASS: fresh install, backup hashes, idempotence, code-only upgrade, uninstall/reinstall, modified-file preservation, proxy conflict, unsupported-build disable and unsafe paths')
+    print('PASS: fresh install, backup hashes, idempotence, code-only and same-version resource-only upgrades, uninstall/reinstall, modified-file preservation, proxy conflict, unsupported-build disable and unsafe paths')
     if offline:print('PASS: missing/corrupt offline manifest, damaged resource rollback and zero downloader entry')
     print('Fixture retained at '+str(root))
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__);ap.add_argument('stage',type=Path);ap.add_argument('--installer-test',action='store_true')
+    ap.add_argument('--installer-shell',default='powershell.exe',help='Optional Windows PowerShell host without a longPathAware manifest')
     args=ap.parse_args();audit(args.stage.resolve())
-    if args.installer_test:installer_test(args.stage.resolve())
+    if args.installer_test:installer_test(args.stage.resolve(),args.installer_shell)
 if __name__=='__main__':main()

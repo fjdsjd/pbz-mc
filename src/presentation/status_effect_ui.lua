@@ -18,11 +18,11 @@ function M.draw(value,assets,layout)
  for _,e in ipairs(list) do
   image(assets.status_effects.background,x,y,120*s,32*s)
   image(assets.status_effects[e.id],x+6*s,y+7*s,18*s,18*s)
-  local roman=({'II','III','IV','V'})[e.amplifier]
+  local roman=({'II','III','IV','V','VI'})[e.amplifier]or(e.amplifier>0 and tostring(e.amplifier+1)or nil)
   text(e.name..(roman and ' '..roman or ''),x+28*s,y+6*s,{R=1,G=1,B=1,A=1})
   local seconds=math.floor(e.ticks/20)
   text(string.format('%d:%02d',math.floor(seconds/60),seconds%60),x+28*s,y+16*s,{R=.5,G=.5,B=.5,A=1})
-  y=y+33*s
+  y=y+math.min(33,160/math.max(1,#list))*s
  end
  return out
 end

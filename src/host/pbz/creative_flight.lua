@@ -21,7 +21,8 @@ function M:input_batch(batch,allowed)
  local eligible=allowed and self.binding.mc_creative==true and batch.latest.focused and not batch.overflow
  local function sample(p)
   local held=down(p.keys,18);local t=(p.time_ms or batch.latest.time_ms or 0)/1000
-  local accepted=eligible and not down(batch.blocked_keys,18)
+  local accepted=eligible and p.focused and not down(batch.blocked_keys,18)
+  if not accepted or self.tap.epoch~=p.epoch then self.request=nil end
   if rules.tap(self.tap,held,p.epoch,t,accepted)then self.request=true end
   if not held then self.takeoff_hold=nil end
  end
@@ -35,11 +36,11 @@ end
 function M:take_request(camera)
  local pressed=self.request;self.request=nil
  if not pressed or not self.binding.mc_creative then return false end
- if self.active then self:stop('double-tap');return false end
+ if self.active then return 'stop' end
  local p=self.binding.actor;local mode=p.CharacterMovement.MovementMode
  if p.AttributeSetBase.Health.CurrentValue<=0 or self.binding.mc_boat_riding or camera:traversal(self.binding)
-  or (mode~=1 and mode~=2 and mode~=3)then return false end
- return true
+  or (mode~=1 and mode~=2 and mode~=3 and not (mode==0 and self.binding.mc_gliding))then return false end
+ return 'start'
 end
 function M:set_input_owned(wanted)
  if not identity.matches(self.pc,self.pc_id)then return end
@@ -64,15 +65,16 @@ function M:suspend(value)
   if self.latest then self.input:sample_batch(self.latest,true)end
  end
 end
-function M:start()
+function M:start(initial_velocity)
  assert(not self.closed and not self.active and self.binding:is_current()and self.binding.mc_creative,'creative-flight-owner')
  local p=self.binding.actor;local m=p.CharacterMovement
  assert(not self.binding.mc_movement_owner and not self.binding.mc_gliding,'creative-flight-movement-already-owned')
  self.movement=m;self.movement_id=identity.capture(m);self.mode=m.MovementMode;self.custom=m.CustomMovementMode
  self.anim=self.binding.source:GetAnimInstance();self.anim_id=valid(self.anim)and identity.capture(self.anim)
  self.root=self.anim_id and self.anim.RootMotionMode;self.use_yaw=p.bUseControllerRotationYaw
- self.physics=rules.new(p:GetVelocity());if self.mode==1 or self.mode==2 then self.physics.vz=840 end
- self.velocity=vec(p:GetVelocity());self.accumulator=0;self.last=clock(p);self.pending=0
+ self.velocity=vec(initial_velocity or p:GetVelocity())
+ self.physics=rules.new(self.velocity);if self.mode==1 or self.mode==2 then self.physics.vz=840 end
+ self.accumulator=0;self.last=clock(p);self.pending=0
  self.frame={rotation={Pitch=self.pc.ControlRotation.Pitch,Yaw=self.pc.ControlRotation.Yaw,Roll=0},direction={X=0,Y=0,Z=0}}
  self.input=require('input.first_person_controls').new(self.pc.ControlRotation)
  self.active=true;self.binding.mc_creative_flight=self;self.takeoff_hold=true;self.suspended=nil

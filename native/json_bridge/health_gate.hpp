@@ -24,30 +24,38 @@ inline std::uint64_t observed{},changed{},failures{};
 inline std::uint64_t direct_observed{},direct_changed{};
 inline std::string error;
 inline const FProperty* attribute_name{};
+struct EntityLease { std::wstring name; std::string key; ULONGLONG refreshed{}; };
+inline std::unordered_map<UObject*,EntityLease> entities;
 struct DamageScope {
  const void* previous;
  explicit DamageScope(const void* cause):previous(damage_cause){++damage_depth;damage_cause=cause;}
  ~DamageScope(){--damage_depth;damage_cause=previous;}
 };
-inline void clear() {asc=nullptr;asc_name.clear();pawn=nullptr;pawn_name.clear();heartbeat=0;DeathGate::clear();}
+inline void clear() {asc=nullptr;asc_name.clear();pawn=nullptr;pawn_name.clear();heartbeat=0;entities.clear();DeathGate::clear();}
 inline void start(const Lua& root) {
  callback_state=&root.new_thread();thread_ref=root.registry().make_ref();
 }
 inline void stop() {clear();callback_state=nullptr;thread_ref=0;}
 inline void intercept(UObject* target,const void* attribute,std::uint8_t op,float magnitude) {
- if(target==asc && !inside && op==0 && magnitude<0 && std::isfinite(magnitude)
+ // Lookup only actors with live effects. Never enumerate actors from a hit.
+ const bool on_thread=GetCurrentThreadId()==game_thread;
+ if(!on_thread){original(target,attribute,op,magnitude);return;}
+ const auto entity=damage_depth?entities.find(target):entities.end();
+ const bool npc=entity!=entities.end()&&GetTickCount64()-entity->second.refreshed<1500;
+ if((target==asc||npc) && !inside && op==0 && magnitude<0 && std::isfinite(magnitude)
    && callback_state && GetCurrentThreadId()==game_thread && GetTickCount64()-heartbeat<1500
-   && !target->IsUnreachable() && target->GetFullName()==asc_name && attribute) {
+   && !target->IsUnreachable() && target->GetFullName()==(npc?entity->second.name:asc_name) && attribute) {
   const auto* name=reinterpret_cast<const TStringBase<wchar_t>*>(
       static_cast<const unsigned char*>(attribute)+attribute_name->GetOffset_Internal());
   if(name->Len()==6 && std::wstring_view(**name,6)==L"Health") {
    ++observed;inside=true;
    try {
-    callback_state->prepare_function_call(damage_depth?"PBZMC_HealthDecision":"PBZMC_LethalHealthDecision");
+    callback_state->prepare_function_call(npc?"PBZMC_EntityHealthDecision":damage_depth?"PBZMC_HealthDecision":"PBZMC_LethalHealthDecision");
+    if(npc)callback_state->set_string(entity->second.key);
     callback_state->set_number(magnitude);
     std::string cause;
     if(damage_cause)cause=to_utf8(reinterpret_cast<const FName*>(damage_cause)->ToString());
-    callback_state->set_string(cause);callback_state->call_function(2,1);
+    callback_state->set_string(cause);callback_state->call_function(npc?3:2,1);
     require(callback_state->is_number(),"health decision must be numeric");
     const double next=callback_state->get_number();
     require(std::isfinite(next)&&next>=magnitude&&next<=1e7,"invalid health decision");
@@ -135,6 +143,25 @@ inline int lua_poll(const Lua& lua) {
   lua.set_string(nlohmann::json{{"observed",observed},{"changed",changed},{"direct_observed",direct_observed},{"direct_changed",direct_changed},
    {"failures",failures},{"error",error},{"active",asc!=nullptr},{"death",DeathGate::report()}}.dump());lua.set_nil();
  }catch(const std::exception& e){clear();lua.set_nil();lua.set_string(e.what());}
+ return 2;
+}
+inline int lua_entity(const Lua& lua) {
+ try {
+  require(IsInGameThread()&&lua.get_stack_size()==2&&lua.is_string(1)&&lua.is_string(2),"entity health lease(path,key) on game thread");
+  require(callback_state&&asc,"player health owner required");
+  const auto path=from_utf8(std::string(lua.get_string(1)));
+  const std::string key(lua.get_string(1)); // get_string removes the first argument.
+  // Empty path removes by stable lease key, including after an actor died.
+  if(path.empty()) { for(auto i=entities.begin();i!=entities.end();)if(i->second.key==key)i=entities.erase(i);else ++i; }
+  else {
+   auto* object=find_object(path.c_str());auto name=object->GetFullName();
+   require(object!=asc&&!object->IsUnreachable()&&name.starts_with(L"PBZAbilitySystemComponent "),"entity ASC required");
+   require(!key.empty()&&key.size()<128,"entity lease key invalid");
+   require(entities.contains(object)||entities.size()<256,"entity effect limit 256");
+   entities[object]={std::move(name),key,GetTickCount64()};
+  }
+  lua.set_bool(true);lua.set_nil();
+ }catch(const std::exception& e){lua.set_nil();lua.set_string(e.what());}
  return 2;
 }
 }

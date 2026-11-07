@@ -149,25 +149,29 @@ function M.block_effect(content_id,distance,already_primed)
   if effect.reaction=='chain' and already_primed then return nil end
   return effect.reaction
 end
-function M.new_fire(record)
+function M.new_fire(record,lifetime)
   position(record)
-  return {x=record.x,y=record.y,z=record.z,age=0,damage_emitted=0,smoke_emitted=0,expired=false}
+  return {x=record.x,y=record.y,z=record.z,age=0,lifetime=lifetime or M.fire_seconds,damage_emitted=0,smoke_emitted=0,expired=false}
 end
 function M.advance_fire(state,dt)
   assert(finite(dt) and dt>=0,'invalid-fire-delta')
   local output={expired=false,damage_ticks=0,smoke_ticks=0,frame=math.floor(state.age*20)%32}
   if state.expired or dt==0 then return output end
-  assert(finite(state.age) and state.age>=0 and state.age<=M.fire_seconds,'invalid-fire-age')
-  local age=math.min(M.fire_seconds,state.age+dt)
+  local lifetime=state.lifetime or M.fire_seconds
+  assert(finite(lifetime)and lifetime>0 and lifetime<=60,'invalid-fire-lifetime')
+  assert(finite(state.age) and state.age>=0 and state.age<=lifetime,'invalid-fire-age')
+  local age=math.min(lifetime,state.age+dt)
   -- Upstream NextDamage starts at zero. Keep its immediate first hit followed
   -- by half-second ticks, without render-frame-dependent drift or an end hit.
-  local damage=math.min(16,math.floor((age+EPS)/M.fire_interval)+1)
-  local smoke=math.min(39,math.floor((age+EPS)/.2))
-  output.damage_ticks=damage-state.damage_emitted
-  output.smoke_ticks=smoke-state.smoke_emitted
+  local damage=math.min(math.ceil(lifetime/M.fire_interval),math.floor((age+EPS)/M.fire_interval)+1)
+  local smoke=math.min(math.ceil(lifetime/.2)-1,math.floor((age+EPS)/.2))
+  -- Lifetime follows actual unpaused game time. A hitch never creates a
+  -- catch-up burst of smoke or stacks seconds of damage in one callback.
+  output.damage_ticks=math.min(1,damage-state.damage_emitted)
+  output.smoke_ticks=math.min(1,smoke-state.smoke_emitted)
   output.frame=math.floor((age+EPS)*20)%32
   state.age=age;state.damage_emitted=damage;state.smoke_emitted=smoke
-  if M.fire_seconds-age<EPS then state.age=M.fire_seconds;state.expired=true;output.expired=true end
+  if lifetime-age<EPS then state.age=lifetime;state.expired=true;output.expired=true;output.damage_ticks=0;output.smoke_ticks=0 end
   return output
 end
 function M.fire_damage(distance)

@@ -2,6 +2,7 @@
 #include <atomic>
 #include <chrono>
 #include <condition_variable>
+#include <cstring>
 #include <mutex>
 #include <thread>
 #include "item_input_messages.hpp"
@@ -37,6 +38,28 @@ class Capture {
     std::uintptr_t next_cookie_{};
     bool pinned_{};
     std::uint64_t last_stop_{};
+    bool raw_no_legacy_{};
+    DWORD raw_registration_flags_{};
+    std::uint64_t raw_buffer_calls_{},raw_mouse_packets_{},raw_invalid_buffers_{};
+    std::uint64_t raw_data_calls_{},raw_duplicate_reads_{};
+    DWORD raw_thread_{};
+    struct RawRead {
+        HRAWINPUT handle{};DWORD stamp{},thread{};std::uint64_t time{};
+        RAWMOUSE source{},filtered{};
+    };
+    std::array<RawRead,64> raw_reads_{};
+    std::size_t raw_read_cursor_{};
+
+    void update_raw_mode() {
+        std::array<RAWINPUTDEVICE,64> devices{};UINT count=static_cast<UINT>(devices.size());
+        const auto result=GetRegisteredRawInputDevices(devices.data(),&count,sizeof(RAWINPUTDEVICE));
+        if(result==UINT(-1) || result>devices.size())throw std::runtime_error("PBZMC-INPUT: cannot inspect raw mouse registration");
+        raw_no_legacy_=false;raw_registration_flags_=0;
+        for(unsigned i=0;i<result;++i)if(devices[i].usUsagePage==1 && devices[i].usUsage==2) {
+            raw_registration_flags_=devices[i].dwFlags;
+            raw_no_legacy_=(devices[i].dwFlags&RIDEV_NOLEGACY)==RIDEV_NOLEGACY;break;
+        }
+    }
 
     static bool unreal_class(HWND window) noexcept {
         wchar_t name[32]{};
@@ -104,7 +127,6 @@ class Capture {
             self.stale_callbacks_.fetch_add(1, std::memory_order_relaxed);
             return CallNextHookEx(nullptr, code, remove, data);
         }
-        MSG raw_cleanup{};
         try {
             // No payload read, even its message id, before the remove gate.
             if (!removed_message(code, remove)) {
@@ -124,7 +146,7 @@ class Capture {
                 if (!observed.pointer.focused || message.hwnd != self.target_.window) self.core_.note_foreign();
                 else {
                     Event event;
-                    bool decoded=false,raw_mouse=false;
+                    bool decoded=false;
                     if (self.core_.command() && (message.message==WM_KEYDOWN || message.message==WM_KEYUP)) {
                         event.kind=message.message==WM_KEYDOWN ? Kind::command_down : Kind::command_up;
                         event.index=static_cast<unsigned>(message.wParam);
@@ -137,15 +159,6 @@ class Capture {
                     } else if (self.core_.command() && (message.message==WM_CHAR || message.message==WM_DEADCHAR)) {
                         // Command text is a bounded ASCII grammar, never an engine console.
                         consume_message(message);
-                    } else if (message.message==WM_INPUT && self.core_.filter_raw_mouse()) {
-                        RAWINPUT raw{};UINT size=sizeof(raw);
-                        const auto bytes=GetRawInputData(reinterpret_cast<HRAWINPUT>(message.lParam),RID_INPUT,&raw,&size,sizeof(RAWINPUTHEADER));
-                        if (bytes==sizeof(raw) && raw.header.dwType==RIM_TYPEMOUSE) {
-                            raw_mouse=true;event.kind=Kind::look;decoded=true;
-                            if (!(raw.data.mouse.usFlags&MOUSE_MOVE_ABSOLUTE)) {
-                                event.dx=raw.data.mouse.lLastX;event.dy=raw.data.mouse.lLastY;
-                            }
-                        }
                     } else decoded=decode(message.message, message.wParam, message.lParam, self.bindings_, event);
                     if (decoded) {
                         event.message_time = message.time; event.pointer = observed.pointer;
@@ -166,11 +179,7 @@ class Capture {
                         if (!observed.pointer.focused || !self.foreground_valid()) { observed.pointer = {}; self.core_.observe(observed, now); }
                         else {
                             const auto consumed=self.core_.event(event, observed, now);
-                            if (raw_mouse && self.core_.filter_raw_mouse()) {
-                                // We own MC raw mouse only. Complete WM_INPUT's
-                                // required default cleanup outside the mutex.
-                                raw_cleanup=message;consume_message(message);
-                            } else if (consumed) consume_message(message);
+                            if (consumed) consume_message(message);
                         }
                     }
                 }
@@ -178,8 +187,6 @@ class Capture {
         } catch (...) {
             self.failed_.store(true); self.enabled_.store(false);
         }
-        if (raw_cleanup.message==WM_INPUT && GET_RAWINPUT_CODE_WPARAM(raw_cleanup.wParam)==RIM_INPUT)
-            DefWindowProcW(raw_cleanup.hwnd,WM_INPUT,raw_cleanup.wParam,raw_cleanup.lParam);
         // Outside state mutex: other hooks may reenter code in this process.
         return CallNextHookEx(nullptr, code, remove, data);
     }
@@ -210,6 +217,78 @@ public:
         static Capture* const persistent = new Capture();
         return *persistent; // intentionally never deleted; see pin/unhook boundary
     }
+    // UE 5.7 reads NOLEGACY mouse packets on a separate input thread. Only
+    // scalar input state is touched here; Lua/UObjects remain on the game thread.
+    // Leave WM_INPUT and its default cleanup to the host. Hook the successful
+    // data read, never drain messages or register another raw-input window.
+    void filter_raw_data(HRAWINPUT handle,LPVOID data,UINT capacity,UINT bytes,UINT header,DWORD stamp) noexcept {
+        if(!enabled_.load(std::memory_order_acquire) || !handle || !data || !bytes || bytes==UINT(-1))return;
+        try {
+            std::lock_guard lock(state_mutex_);
+            if(!enabled_.load(std::memory_order_relaxed))return;
+            const auto now=GetTickCount64();auto observed=environment(false);
+            if(core_.needs_baseline(observed,now))observed=environment(true);
+            core_.observe(observed,now);
+            if(!observed.pointer.focused || !core_.raw_eligible())return;
+            ++raw_data_calls_;
+            if(header!=sizeof(RAWINPUTHEADER) || bytes>capacity || bytes<sizeof(RAWINPUTHEADER)) {
+                ++raw_invalid_buffers_;return;
+            }
+            auto& raw=*static_cast<RAWINPUT*>(data);
+            if(raw.header.dwType!=RIM_TYPEMOUSE)return;
+            if(raw.header.dwSize!=bytes || bytes<offsetof(RAWINPUT,data)+sizeof(RAWMOUSE)) {
+                ++raw_invalid_buffers_;return;
+            }
+            raw_thread_=GetCurrentThreadId();
+            for(const auto& prior:raw_reads_)if(prior.handle==handle && prior.stamp==stamp && prior.thread==raw_thread_ &&
+                now-prior.time<1000 && std::memcmp(&prior.source,&raw.data.mouse,sizeof(RAWMOUSE))==0) {
+                raw.data.mouse=prior.filtered;++raw_duplicate_reads_;return;
+            }
+            auto& saved=raw_reads_[raw_read_cursor_++%raw_reads_.size()];
+            saved={handle,stamp,raw_thread_,now,raw.data.mouse,{}};
+            ++raw_mouse_packets_;
+            process_raw_mouse(core_,raw.data.mouse,observed,now,stamp,raw_no_legacy_);
+            saved.filtered=raw.data.mouse;
+        }catch(...){failed_.store(true);enabled_.store(false);}
+    }
+    // Called only after the host's successful GetRawInputBuffer. Do not call
+    // that API ourselves: doing so would drain input before PBZ can receive it.
+    void filter_raw_buffer(PRAWINPUT data, UINT capacity, UINT count, UINT header) noexcept {
+        if(!enabled_.load(std::memory_order_acquire) || !data || !count || count==UINT(-1))return;
+        try {
+            std::lock_guard lock(state_mutex_);
+            if(!enabled_.load(std::memory_order_relaxed))return;
+            const auto now=GetTickCount64();auto observed=environment(false);
+            if(core_.needs_baseline(observed,now))observed=environment(true);
+            core_.observe(observed,now);
+            if(!observed.pointer.focused || !core_.raw_eligible())return;
+            ++raw_buffer_calls_;
+            if(header!=sizeof(RAWINPUTHEADER) || capacity>16*1024*1024 || count>4096) {
+                ++raw_invalid_buffers_;return;
+            }
+            // Validate the whole variable-length array before any queue or
+            // payload mutation. The host's record count/metadata stay intact.
+            std::size_t offset=0;
+            for(UINT i=0;i<count;++i) {
+                if(offset>capacity || capacity-offset<sizeof(RAWINPUTHEADER)){++raw_invalid_buffers_;return;}
+                const auto* raw=reinterpret_cast<const RAWINPUT*>(reinterpret_cast<const BYTE*>(data)+offset);
+                if(raw->header.dwSize<sizeof(RAWINPUTHEADER) || raw->header.dwSize>capacity-offset ||
+                    (raw->header.dwType==RIM_TYPEMOUSE && raw->header.dwSize<offsetof(RAWINPUT,data)+sizeof(RAWMOUSE))) {
+                    ++raw_invalid_buffers_;return;
+                }
+                offset+=(raw->header.dwSize+sizeof(void*)-1)&~(sizeof(void*)-1);
+            }
+            offset=0;
+            for(UINT i=0;i<count;++i) {
+                auto* raw=reinterpret_cast<RAWINPUT*>(reinterpret_cast<BYTE*>(data)+offset);
+                if(raw->header.dwType==RIM_TYPEMOUSE) {
+                    ++raw_mouse_packets_;
+                    process_raw_mouse(core_,raw->data.mouse,observed,now,static_cast<DWORD>(now),raw_no_legacy_);
+                }
+                offset+=(raw->header.dwSize+sizeof(void*)-1)&~(sizeof(void*)-1);
+            }
+        }catch(...){failed_.store(true);enabled_.store(false);}
+    }
     void begin(const Bindings& bindings) {
         std::lock_guard control(control_mutex_);
         if (hook_ || worker_.joinable() || target_.window) throw std::runtime_error("item input already active or cleanup is incomplete");
@@ -235,7 +314,8 @@ public:
                     throw std::runtime_error("cannot set owned item input window identity");
                 const auto initial = environment(true);
                 if (!initial.pointer.focused) throw std::runtime_error("game window changed while beginning item input");
-                game_thread_ = GetCurrentThreadId(); core_.start(initial, now);
+                game_thread_ = GetCurrentThreadId(); core_.start(initial, now);update_raw_mode();
+                raw_reads_={};raw_read_cursor_=0;
             }
             failed_.store(false); stopping_.store(false);
             hook_ = SetWindowsHookExW(WH_GETMESSAGE, &callback, nullptr, thread);
@@ -261,10 +341,11 @@ public:
         std::lock_guard lock(state_mutex_);
         const auto observed = environment(true);
         if (!observed.identity_valid) throw std::runtime_error("item input window identity expired; EndItemInput and BeginItemInput are required");
-        core_.set_context(context, observed, GetTickCount64());
+        core_.set_context(context, observed, GetTickCount64());update_raw_mode();
     }
     std::string read() {
         Batch batch;
+        std::uint64_t calls{},packets{},invalid{},data_calls{},duplicates{};DWORD flags{},raw_thread{};bool no_legacy{};
         DWORD game_thread{}, window_thread{};
         {
             std::lock_guard control(control_mutex_); require_active();
@@ -273,9 +354,18 @@ public:
             auto observed = environment(false);
             if (core_.heartbeat_expired() || core_.needs_baseline(observed, now)) observed = environment(true);
             batch = core_.drain(observed, now);
+            update_raw_mode();calls=raw_buffer_calls_;packets=raw_mouse_packets_;invalid=raw_invalid_buffers_;
+            data_calls=raw_data_calls_;duplicates=raw_duplicate_reads_;raw_thread=raw_thread_;
+            flags=raw_registration_flags_;no_legacy=raw_no_legacy_;
             game_thread = game_thread_; window_thread = target_.thread;
         }
-        return batch_json(batch, game_thread, window_thread, callback_entries_.load(), stale_callbacks_.load());
+        auto text=batch_json(batch, game_thread, window_thread, callback_entries_.load(), stale_callbacks_.load());
+        text.pop_back();
+        return text+",\"raw_data_capture\":true,\"raw_data_calls\":"+std::to_string(data_calls)+
+            ",\"raw_input_thread_id\":"+std::to_string(raw_thread)+",\"raw_duplicate_reads\":"+std::to_string(duplicates)+
+            ",\"raw_buffer_capture\":true,\"raw_buffer_calls\":"+std::to_string(calls)+
+            ",\"raw_mouse_packets\":"+std::to_string(packets)+",\"raw_invalid_buffers\":"+std::to_string(invalid)+
+            ",\"raw_registration_flags\":"+std::to_string(flags)+",\"raw_no_legacy\":"+(no_legacy ? "true" : "false")+"}";
     }
     void end() { std::lock_guard control(control_mutex_); stop_impl(); }
     void stop_noexcept() noexcept {

@@ -90,8 +90,8 @@ function M:update(equipment,body,camera,holders)
       if entry.key~=plan.model.key then
         if entry.shown then entry.component:SetHiddenInGame(true,false);entry.shown=false end
         local material=self.material
-        if plan.model.render_layer=='translucent'then
-          material=require('host.pbz.translucent_blocks').cached(self,self.owner,self.catalog.root,plan.model.palette)
+        if plan.model.palette then
+          material=require('host.pbz.translucent_blocks').cached(self,self.owner,plan.model.material_root or self.catalog.root,plan.model.palette,plan.model.render_layer=='cutout')
         end
         entry.component:SetMaterial(0,material)
         entry.key=nil;bundle.apply(entry.component,plan.model.part);entry.key=plan.model.key

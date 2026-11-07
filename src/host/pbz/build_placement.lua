@@ -39,6 +39,31 @@ function M.place(self,id,aim)
     self.last_rejection='character-is-not-building-support';return false,'pass'
   end
   local position=M.position(self,hit,handle)
+  if definition.fluid=='water' and handle and self.mechanisms then
+    local r=self.session.data.buildings[handle.id];local props=r and (r.properties or registry.get(r.content_id).defaults)
+    if props and props.waterlogged==false and props.type~='double' then
+      local after={};for k,v in pairs(r)do after[k]=v end
+      after.properties={};for k,v in pairs(props)do after.properties[k]=v end;after.properties.waterlogged=true
+      local ok=self.mechanisms:commit({{before=r,after=after}})
+      if ok then self.mechanisms:sound('bucket_empty',after)end
+      return ok,ok and 'success' or 'fail'
+    end
+  end
+  if definition.family=='slab' and self.mechanisms then
+    local hit_record=handle and self.session.data.buildings[handle.id]
+    local other=self.mechanisms:read_world(position.x,position.y,position.z)
+    local rule=require('rules.construction')
+    local target=rule.can_merge(hit_record,id,hit.ImpactNormal) and hit_record or
+      (other and other.content_id==id and (other.properties or {}).type~='double' and other)
+    if target then
+      local next_record={};for k,v in pairs(target)do next_record[k]=v end
+      next_record.properties={type='double',waterlogged=false}
+      if not self.world:can_place(next_record,{[target.id]=true})then return false,'fail'end
+      local ok=self.mechanisms:commit({{before=target,after=next_record}})
+      if ok then self.audio:play('place',next_record,require('host.pbz.local_player').controller())end
+      return ok,ok and 'success' or 'fail'
+    end
+  end
   -- Thin devices, doors and poured fluids sit above native supports. Full
   -- blocks retain the user's terrain-intersection layer.
   local normal=hit.ImpactNormal
@@ -51,11 +76,14 @@ function M.place(self,id,aim)
     position[axis]=sign*(self.session.grid and grid.above(inside,sign*self.session.grid[axis]) or inside)
     local inset=math.floor(sign*position[axis]-inside+.5)
     if inset>0 then position.wall_inset=inset end
-  elseif definition.mechanism and not definition.full_cube and not handle and normal.Z>.5 then
+  elseif (definition.mechanism or definition.construction) and not definition.full_cube and not handle and normal.Z>.5 then
     if not self.session.grid then position.z=hit.ImpactPoint.Z+50
     elseif position.z-50<hit.ImpactPoint.Z-.5 then position.z=position.z+math.ceil((hit.ImpactPoint.Z+50-position.z)/100-1e-6)*100 end
   end
   if definition.axis then position.properties={axis=require('rules.block_properties').axis(hit.ImpactNormal)} end
+  if definition.construction then
+    local _,direction=aim();position.properties=require('rules.construction').placement(definition,position,hit,direction)
+  end
   local transaction_started=os.clock()
   local ok,why
   if definition.mechanism and self.mechanisms then ok,why=self.mechanisms:place(definition,position,hit,aim)
@@ -67,6 +95,8 @@ function M.place(self,id,aim)
     local before=self.session.data.buildings[found.id]
     local previous=before and registry.get(before.content_id)
     if previous and previous.fluid then
+      if position.properties and position.properties.waterlogged~=nil then position.properties.waterlogged=previous.fluid=='water' end
+      if definition.family=='powder' and previous.fluid=='water' then definition=registry.get(id:gsub('_powder$','')) end
       local after={id=before.id,content_id=definition.id,world=self.session.world,
         x=position.x,y=position.y,z=position.z,yaw=position.yaw or 0,properties=position.properties}
       ok,why=self.mechanisms:commit({{before=before,after=after}})
@@ -86,7 +116,7 @@ function M.place(self,id,aim)
     local check=self.world.last_placement_check or {}
     self.log('building placed '..id..' '..why..' terrain-overlaps='..tostring(check.terrain or 0))
     if not definition.fluid then
-      if definition.mechanism then self.mechanisms:sound((definition.sound_group or 'stone')..'_place',self.session.data.buildings[why])
+      if definition.mechanism and not (definition.construction or definition.construction_sound) then self.mechanisms:sound((definition.sound_group or 'stone')..'_place',self.session.data.buildings[why])
       else self.audio:play('place',self.session.data.buildings[why],require('host.pbz.local_player').controller())end
     end
   end

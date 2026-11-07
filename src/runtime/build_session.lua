@@ -139,6 +139,11 @@ function M:remove(id,cause)
   if not record then return false,'unknown-instance' end
   local definition=self.registry.get(record.content_id)
   if not definition then return false,'unsupported-content' end
+  if cause=='mined' and (record.properties or {}).waterlogged then
+    local water={};for k,v in pairs(record)do water[k]=v end
+    water.content_id='pbzmc:water';water.properties={level=0,falling=false}
+    return self:batch({{before=record,after=water}})
+  end
   if self.expand_removals then
     local ids=self.expand_removals({id})
     if #ids>1 then return require('rules.remove_buildings')(self,ids,self.host,self.store)end

@@ -25,6 +25,11 @@ function M:explosion(point)
  if #self.emitters>=16 then table.remove(self.emitters,1)end
  self.emitters[#self.emitters+1]={x=point.x,y=point.y,z=point.z,start=self.now,ticks=0}
 end
+function M:spawner(block)
+ local p={x=block.x+math.random()*70-35,y=block.y+math.random()*70-35,z=block.z+math.random()*70-35}
+ self:smoke(p)
+ self:add({kind='flame',x=p.x,y=p.y,z=p.z,shade=1,life=.65,size=12})
+end
 function M:tick(dt)
  if #self.emitters==0 and #self.particles==0 and (not self.handle or self.hidden)then return end
  if self.handle and not self.world:valid(self.handle)then self.world:destroy(self.handle);self.handle=nil;self.hidden=nil end
@@ -72,15 +77,16 @@ function M:tick(dt)
  local part=self.part or {positions={},normals={},uv={},colors={},triangles={}};self.part=part
  for i,p in ipairs(self.particles)do
   local age=self.now-p.start;local f=age/p.life
-  local index=p.kind=='explosion' and math.min(15,math.floor(math.floor(age*20)*16/(p.life*20+1))) or math.min(7,math.floor(f*8))
-  local sprite=self.asset.sprites[self.asset.animations[p.kind][index+1]];local uv=sprite.atlas_uv
+  local frames=self.asset.animations[p.kind]
+  local index=p.kind=='explosion' and math.floor(math.floor(age*20)*#frames/(p.life*20+1)) or math.floor(f*#frames)
+  local sprite=self.asset.sprites[frames[math.min(#frames,index+1)]];local uv=sprite.atlas_uv
   local size=p.size*(p.kind=='smoke' and math.min(1,f*32)or 1)*.5
   local base=(i-1)*4
   for k,c in ipairs(corners)do
    local j=base+k;local pos=part.positions[j] or {};part.positions[j]=pos
    pos.X=p.x-origin.X+(right.X*c[1]+up.X*c[2])*size
    pos.Y=p.y-origin.Y+(right.Y*c[1]+up.Y*c[2])*size
-   pos.Z=p.z-origin.Z+(right.Z*c[1]+up.Z*c[2])*size
+   pos.Z=p.z-origin.Z+(right.Z*c[1]+up.Z*c[2])*size+(p.kind=='flame' and age*18 or 0)
    part.normals[j]=normal;part.colors[j]=p.color
    local t=part.uv[j] or {};part.uv[j]=t
    t.X=uv[1]+(uv[3]-uv[1])*c[3];t.Y=uv[2]+(uv[4]-uv[2])*c[4]

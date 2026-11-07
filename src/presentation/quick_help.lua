@@ -1,14 +1,7 @@
 -- Session-only help. Only visible gameplay time consumes its brief lifetime.
 local M={};M.__index=M
 M.duration=12
-M.lines={
-  '[B] 打开背包',
-  '[F5] 切换视角',
-  '[F6] 开关影之刃武器自动完美格挡与闪避',
-  '攀岩：请切换到影之刃主武器',
-  '马车战：建议使用影之刃原版武器',
-  '[H] 关闭提示 / 再次查看',
-}
+M.lines=require('content.quick_help')
 function M.new()return setmetatable({remaining=M.duration},M)end
 function M:update(now,eligible,epoch)
   if eligible and self.eligible and self.epoch==epoch and self.last_time and now>=self.last_time then

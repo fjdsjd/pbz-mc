@@ -1,0 +1,5021 @@
+{
+  "source_commit": "15701fa9c13923f12662984c32c124327e40e3d3",
+  "mobs": {
+    "zombie": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/zombie.json",
+      "sha256": "68911bb898c66712e7987694df71f3a1b991c713db12b5bcff065616f84a8a59",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 3
+          },
+          "behavior.melee_box_attack": {
+            "can_spread_on_fire": true,
+            "priority": 4
+          },
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "within_radius": 25,
+            "must_see_forget_duration": 17,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "snowgolem"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "irongolem"
+                    }
+                  ]
+                },
+                "max_dist": 35
+              },
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "villager"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "wandering_trader"
+                    }
+                  ]
+                },
+                "max_dist": 35,
+                "must_see": false
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "value": false
+                    }
+                  ]
+                },
+                "max_dist": 35
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          }
+        },
+        "minecraft:zombie_adult": {
+          "movement": {
+            "value": 0.23
+          }
+        },
+        "minecraft:zombie_baby": {
+          "movement": {
+            "value": 0.35
+          }
+        }
+      }
+    },
+    "husk": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/husk.json",
+      "sha256": "9bec36fff642eb6c3954c624fc26d6d5d43efc7f6012456831a3c2829ad92b54",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 3,
+            "effect_duration": 30,
+            "effect_name": "hunger"
+          },
+          "behavior.melee_box_attack": {
+            "can_spread_on_fire": true,
+            "priority": 4
+          },
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "within_radius": 25,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "snowgolem"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "irongolem"
+                    }
+                  ]
+                },
+                "max_dist": 35
+              },
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "villager"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "wandering_trader"
+                    }
+                  ]
+                },
+                "max_dist": 35,
+                "must_see": false
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "value": false
+                    }
+                  ]
+                },
+                "max_dist": 35
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          }
+        },
+        "minecraft:zombie_husk_adult": {
+          "movement": {
+            "value": 0.23
+          }
+        },
+        "minecraft:zombie_husk_baby": {
+          "movement": {
+            "value": 0.35
+          }
+        }
+      }
+    },
+    "drowned": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/drowned.json",
+      "sha256": "a531f2d7fb3faf7964aa3bc23ee841eb71fff4c5364d639ea94facf79f7379dc",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "within_radius": 12,
+            "must_see_forget_duration": 17,
+            "persist_time": 0.5,
+            "entity_types": [
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "any_of": [
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "snowgolem"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "irongolem"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "axolotl"
+                        }
+                      ]
+                    },
+                    {
+                      "any_of": [
+                        {
+                          "test": "in_water",
+                          "subject": "other",
+                          "value": true
+                        },
+                        {
+                          "test": "is_daytime",
+                          "value": false
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "max_dist": 20
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "any_of": [
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "villager"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "wandering_trader"
+                        }
+                      ]
+                    },
+                    {
+                      "any_of": [
+                        {
+                          "test": "in_water",
+                          "subject": "other",
+                          "value": true
+                        },
+                        {
+                          "test": "is_daytime",
+                          "value": false
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "max_dist": 20,
+                "must_see": false
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": true
+                    }
+                  ]
+                },
+                "max_dist": 20
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 0.23
+          }
+        },
+        "minecraft:baby_drowned": {
+          "movement": {
+            "value": 0.35
+          }
+        },
+        "minecraft:melee_mode": {
+          "attack": {
+            "damage": 3
+          },
+          "behavior.melee_box_attack": {
+            "can_spread_on_fire": true,
+            "require_complete_path": true,
+            "priority": 3
+          }
+        },
+        "minecraft:ranged_mode": {
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 1,
+              "max": 3
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 10.0
+            },
+            "priority": 3,
+            "swing": true
+          }
+        }
+      }
+    },
+    "zombie_villager": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/zombie_villager_v2.json",
+      "sha256": "db7dc461ae718a17a451dadcb53dfd681f52888c6cc8e0ea65f3486a6913d1f5",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 3
+          },
+          "behavior.melee_box_attack": {
+            "can_spread_on_fire": true,
+            "priority": 7
+          },
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "snowgolem"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "irongolem"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "villager"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "wandering_trader"
+                    }
+                  ]
+                },
+                "max_dist": 35
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": true
+                    }
+                  ]
+                },
+                "max_dist": 35
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          }
+        },
+        "adult": {
+          "movement": {
+            "value": 0.23
+          }
+        },
+        "baby": {
+          "movement": {
+            "value": 0.35
+          }
+        }
+      }
+    },
+    "zombified_piglin": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/zombie_pigman.json",
+      "sha256": "acf39566bf7540abee12b4bb690757b4c11d2bcd53524c3ab1fdf423696af77b",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 5
+          },
+          "behavior.melee_box_attack": {
+            "speed_multiplier": 1.5,
+            "priority": 5
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 0.23
+          }
+        }
+      }
+    },
+    "skeleton": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/skeleton.json",
+      "sha256": "cfffa026b8c418ccbedc33ed94eb831c62da7b9398c75e7446aaea326c320cfd",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                }
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "irongolem"
+                }
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "value": false
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          },
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 3.0,
+              "max": 3.0
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 15.0
+            },
+            "priority": 0
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 0.25
+          }
+        },
+        "minecraft:melee_attack": {
+          "attack": {
+            "damage": 2
+          },
+          "behavior.melee_box_attack": {
+            "speed_multiplier": 1.25,
+            "track_target": true,
+            "priority": 4
+          }
+        },
+        "minecraft:ranged_attack": {
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 3.0,
+              "max": 3.0
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 15.0
+            },
+            "priority": 0
+          }
+        },
+        "minecraft:ranged_attack_hard": {
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 2.0,
+              "max": 2.0
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 15.0
+            },
+            "priority": 0
+          }
+        }
+      }
+    },
+    "stray": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/stray.json",
+      "sha256": "b7856e34b95efa750dd307506966eea57eede31b6da726f4c2fd6d36e51b8cb3",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                }
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "irongolem"
+                }
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": true
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          },
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 3.0,
+              "max": 3.0
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 15.0
+            },
+            "priority": 0
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 0.25
+          }
+        },
+        "minecraft:melee_attack": {
+          "attack": {
+            "damage": 3,
+            "effect_duration": 10,
+            "effect_name": "slowness"
+          },
+          "behavior.melee_box_attack": {
+            "speed_multiplier": 1.25,
+            "track_target": true,
+            "priority": 4
+          }
+        },
+        "minecraft:ranged_attack": {
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 3.0,
+              "max": 3.0
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 15.0
+            },
+            "priority": 0
+          }
+        },
+        "minecraft:ranged_attack_hard": {
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 2.0,
+              "max": 2.0
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 15.0
+            },
+            "priority": 0
+          }
+        }
+      }
+    },
+    "bogged": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/bogged.json",
+      "sha256": "df7d191144b215911fa7056e53b4a84694b61a9a56ab9ef21520d161f4e7997a",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                }
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "irongolem"
+                }
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": true
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 16,
+            "value": 16
+          },
+          "movement": {
+            "value": 0.25
+          }
+        },
+        "minecraft:melee_attack": {
+          "attack": {
+            "damage": 3
+          },
+          "behavior.melee_box_attack": {
+            "speed_multiplier": 1.25,
+            "track_target": true,
+            "priority": 4
+          }
+        },
+        "minecraft:ranged_attack": {
+          "behavior.ranged_attack": {
+            "attack_interval": 3.5,
+            "attack_radius": 15.0,
+            "priority": 0
+          }
+        },
+        "minecraft:ranged_attack_hard": {
+          "behavior.ranged_attack": {
+            "attack_interval": 2.5,
+            "attack_radius": 15.0,
+            "priority": 0
+          }
+        }
+      }
+    },
+    "parched": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/parched.json",
+      "sha256": "cfbb7f596c0d145eb1f1dfa6d8e1fba9d95806187d9a36e59989effc70de90e2",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                }
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "irongolem"
+                }
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "value": false
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 16,
+            "value": 16
+          },
+          "movement": {
+            "value": 0.25
+          }
+        },
+        "minecraft:melee_attack": {
+          "attack": {
+            "damage": 2
+          },
+          "behavior.melee_box_attack": {
+            "speed_multiplier": 1.25,
+            "track_target": true,
+            "priority": 4
+          }
+        },
+        "minecraft:ranged_attack": {
+          "behavior.ranged_attack": {
+            "attack_interval": 3.5,
+            "attack_radius": 15.0,
+            "priority": 1
+          }
+        },
+        "minecraft:ranged_attack_hard": {
+          "behavior.ranged_attack": {
+            "attack_interval": 2.5,
+            "attack_radius": 15.0,
+            "priority": 1
+          }
+        }
+      }
+    },
+    "wither_skeleton": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/wither_skeleton.json",
+      "sha256": "552b9ed6b38ceb31ac81f234c4747c16da5471c7fe98dc6c931965079cef866a",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 4,
+            "effect_duration": 10,
+            "effect_name": "wither"
+          },
+          "behavior.melee_box_attack": {
+            "speed_multiplier": 1.25,
+            "track_target": true,
+            "priority": 4
+          },
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "player"
+                    }
+                  ]
+                }
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "piglin"
+                    },
+                    {
+                      "test": "is_difficulty",
+                      "subject": 0,
+                      "operator": 1,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "irongolem"
+                    }
+                  ]
+                }
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": 1,
+                      "operator": 1,
+                      "value": true
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 0.25
+          }
+        }
+      }
+    },
+    "zoglin": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/zoglin.json",
+      "sha256": "b5e42c39b08ab59a3f857a67f1e54d795b8b65d9c74584496a91a0ee026a325d",
+      "groups": {
+        "base": {
+          "behavior.melee_box_attack": {
+            "speed_multiplier": 1.15,
+            "track_target": true,
+            "priority": 4
+          },
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "within_radius": 16,
+            "entity_types": [
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": "zoglin"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": "creeper"
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 3
+          },
+          "health": {
+            "max": 40,
+            "value": 40
+          },
+          "movement": {
+            "value": 0.25
+          }
+        },
+        "zoglin_adult": {
+          "attack": {
+            "damage": [
+              3,
+              8
+            ]
+          }
+        },
+        "zoglin_baby": {
+          "attack": {
+            "damage": 0.5
+          }
+        }
+      }
+    },
+    "zombie_horse": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/zombie_horse.json",
+      "sha256": "35ba346051d724fd8cd5b3e1e420a5f48d6abab3d63a44cb777d4a8a9606ff15",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 25,
+            "max": 25
+          },
+          "movement": {
+            "value": {
+              "range_min": 0.205,
+              "range_max": 0.275
+            }
+          }
+        }
+      }
+    },
+    "skeleton_horse": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/skeleton_horse.json",
+      "sha256": "ddcfe3658c11b5a7a8e0046abb42fbd46a2061635f88cc2dcd956e75812cb4f1",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 15,
+            "max": 15
+          },
+          "movement": {
+            "value": 0.2
+          }
+        }
+      }
+    },
+    "camel_husk": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/camel_husk.json",
+      "sha256": "d003a04cdcb4237fe5d915f546658a40a229808e50f616bfc2b381ad8836256a",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 32
+          },
+          "movement": {
+            "value": 0.09
+          }
+        }
+      }
+    },
+    "zombie_nautilus": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/zombie_nautilus.json",
+      "sha256": "a808e43320dbfb67610fc94c8f9f2cae32294bbe4e602f1c174f683de89c2827",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 3
+          },
+          "health": {
+            "max": 15,
+            "value": 15
+          }
+        },
+        "minecraft:zombie_nautilus_ai_controlled": {
+          "movement": {
+            "value": 0.15
+          }
+        },
+        "minecraft:zombie_nautilus_player_controlled": {
+          "movement": {
+            "value": 0.015
+          }
+        },
+        "minecraft:zombie_nautilus_wild_angry": {
+          "behavior.aquatic_charge_attack": {
+            "charge_speed": 0.96,
+            "charge_cooldown_time": {
+              "min": 4,
+              "max": 4
+            },
+            "priority": 2
+          }
+        },
+        "minecraft:zombie_nautilus_wild_mounted": {
+          "movement": {
+            "value": 0.15
+          }
+        },
+        "minecraft:zombie_nautilus_wild_unmounted": {
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "attack_interval": {
+              "min": 120,
+              "max": 180
+            },
+            "target_acquisition_probability": 0.5,
+            "must_see": true,
+            "within_radius": 25,
+            "must_see_forget_duration": 17,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "pufferfish"
+                    }
+                  ]
+                },
+                "max_dist": 35
+              }
+            ],
+            "priority": 6
+          }
+        }
+      }
+    },
+    "phantom": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/phantom.json",
+      "sha256": "dbd437741c098d3eb4ed935aac71887c776112fe9446af78c11ecb2be6b6c2e6",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 6
+          },
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "scan_interval": 20,
+            "target_search_height": 80,
+            "within_radius": 64,
+            "must_see_forget_duration": 0.5,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "player"
+                    }
+                  ]
+                },
+                "max_dist": 64
+              }
+            ],
+            "priority": 1
+          },
+          "behavior.swoop_attack": {
+            "priority": 2
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 1.8
+          }
+        }
+      }
+    },
+    "wither": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/wither.json",
+      "sha256": "dc25d18ba53baee67df83001e279cf167abb27236e604ecb3b99e548342ba50b",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "player"
+                    }
+                  ]
+                },
+                "max_dist": 70
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 1,
+                      "value": "undead"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 1,
+                      "value": "inanimate"
+                    }
+                  ]
+                },
+                "max_dist": 70
+              }
+            ],
+            "priority": 3
+          },
+          "behavior.wither_random_attack_pos_goal": {
+            "priority": 3
+          },
+          "health": {
+            "max": 600,
+            "value": 600
+          },
+          "movement": {
+            "value": 0.25
+          }
+        }
+      }
+    },
+    "allay": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/allay.json",
+      "sha256": "9de5c30354cb15152279afea95e25f44777be7666ad7d7b34971160afad07297",
+      "groups": {
+        "base": {
+          "behavior.follow_owner": {
+            "can_teleport": false,
+            "priority": 6,
+            "ignore_vibration": false,
+            "speed_multiplier": 8,
+            "start_distance": 16,
+            "stop_distance": 4
+          },
+          "health": {
+            "value": 20
+          },
+          "movement": {
+            "value": 0.1
+          }
+        }
+      }
+    },
+    "armadillo": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/armadillo.json",
+      "sha256": "2048492eacb9705e22a107a7efcce360bc65e9a877a4fc5191647fae33ec80ea",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 12
+          }
+        },
+        "minecraft:unrolled": {
+          "movement": {
+            "value": 0.14
+          }
+        },
+        "minecraft:rolled_up": {
+          "movement": {
+            "value": 0.0
+          }
+        }
+      }
+    },
+    "axolotl": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/axolotl.json",
+      "sha256": "b5769fc320248272ba99099ea435f414f16de71592053350a96a94da0f39c8af",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 14
+          },
+          "movement": {
+            "value": 0.1
+          },
+          "attack": {
+            "damage": 2
+          },
+          "behavior.nearest_attackable_target": {
+            "priority": 3,
+            "must_see": true,
+            "reselect_targets": true,
+            "within_radius": 20.0,
+            "must_see_forget_duration": 17.0,
+            "entity_types": [
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "value": true
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": "self",
+                      "operator": "!=",
+                      "value": "minecraft:attack_cooldown"
+                    },
+                    {
+                      "any_of": [
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "squid"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "fish"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "tadpole"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "max_dist": 8
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "value": true
+                    },
+                    {
+                      "any_of": [
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "drowned"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "guardian"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": "other",
+                          "value": "guardian_elder"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "max_dist": 8
+              }
+            ]
+          },
+          "behavior.melee_box_attack": {
+            "priority": 4,
+            "on_attack": {
+              "event": "killed_enemy_event"
+            }
+          }
+        }
+      }
+    },
+    "bat": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/bat.json",
+      "sha256": "ad7753062e26b01484a383ad7cb22955978bae4670d0975d471f785974fa5e83",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 6,
+            "value": 6
+          },
+          "movement": {
+            "value": 0.1
+          }
+        }
+      }
+    },
+    "bee": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/bee.json",
+      "sha256": "d8734837ccca181af50db24134ba056e50ee1de182eaba3ffcd2d23fbc08d0cf",
+      "groups": {
+        "base": {
+          "movement": {
+            "value": 0.3
+          },
+          "health": {
+            "value": 10,
+            "max": 10
+          }
+        },
+        "angry_bee": {
+          "behavior.melee_box_attack": {
+            "priority": 2,
+            "attack_once": true,
+            "speed_multiplier": 1.4,
+            "on_attack": {
+              "event": "countdown_to_perish_event",
+              "target": "self"
+            }
+          }
+        },
+        "take_nearest_target": {
+          "behavior.nearest_attackable_target": {
+            "priority": 2,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                "max_dist": 10
+              }
+            ]
+          }
+        },
+        "easy_attack": {
+          "attack": {
+            "damage": 2
+          }
+        },
+        "normal_attack": {
+          "attack": {
+            "damage": 2,
+            "effect_name": "poison",
+            "effect_duration": 10
+          }
+        },
+        "hard_attack": {
+          "attack": {
+            "damage": 2,
+            "effect_name": "poison",
+            "effect_duration": 18
+          }
+        }
+      }
+    },
+    "blaze": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/blaze.json",
+      "sha256": "753c79c3733ef2c9a60076b2739fe0acc6cb00da6867c1c5ecea3e04aa498900",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "player"
+                    }
+                  ]
+                },
+                "max_dist": 48
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 0.23
+          }
+        },
+        "melee_mode": {
+          "attack": {
+            "damage": 6
+          },
+          "behavior.melee_box_attack": {
+            "priority": 3
+          }
+        },
+        "ranged_mode": {
+          "behavior.ranged_attack": {
+            "charge_shoot_trigger": 4.0,
+            "attack_interval": {
+              "min": 3.0,
+              "max": 5.0
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 48.0
+            },
+            "burst_interval": 0.3,
+            "burst_shots": 3,
+            "priority": 3
+          }
+        }
+      }
+    },
+    "breeze": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/breeze.json",
+      "sha256": "a3ea3b1f6e2dd39622682ea4c4a9777dc066d4114791937d1831116e0aa24973",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "within_radius": 24,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "player"
+                    }
+                  ]
+                },
+                "max_dist": 24
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "irongolem"
+                    }
+                  ]
+                },
+                "max_dist": 24
+              }
+            ],
+            "priority": 1
+          },
+          "health": {
+            "max": 30,
+            "value": 30
+          },
+          "movement": {
+            "value": 0.4
+          }
+        }
+      }
+    },
+    "camel": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/camel.json",
+      "sha256": "55328f8220f04fab0b229205cdacd0db6b5cf45c361a148fd18ba4731ba605a9",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 32
+          },
+          "movement": {
+            "value": 0.09
+          }
+        }
+      }
+    },
+    "cat": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/cat.json",
+      "sha256": "478a7c8376910c4a9d3be2c10e82e4768d703c5bbb8c49a0d6e4311389f29f4e",
+      "groups": {
+        "base": {
+          "movement": {
+            "value": 0.3
+          },
+          "behavior.leap_at_target": {
+            "priority": 3
+          },
+          "behavior.ocelotattack": {
+            "priority": 4,
+            "cooldown_time": 1.0,
+            "x_max_rotation": 30.0,
+            "y_max_head_rotation": 30.0,
+            "max_distance": 15.0,
+            "max_sneak_range": 15.0,
+            "max_sprint_range": 4.0,
+            "reach_multiplier": 2.0,
+            "sneak_speed_multiplier": 0.6,
+            "sprint_speed_multiplier": 1.33,
+            "walk_speed_multiplier": 0.8
+          }
+        },
+        "minecraft:cat_wild": {
+          "health": {
+            "value": 10,
+            "max": 10
+          },
+          "behavior.nearest_attackable_target": {
+            "priority": 1,
+            "reselect_targets": true,
+            "within_radius": 16.0,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "rabbit"
+                },
+                "max_dist": 8
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": true
+                    }
+                  ]
+                },
+                "max_dist": 8
+              }
+            ]
+          }
+        },
+        "minecraft:cat_tame": {
+          "health": {
+            "value": 20,
+            "max": 20
+          },
+          "behavior.teleport_to_owner": {
+            "priority": 0,
+            "filters": {
+              "all_of": [
+                {
+                  "test": "owner_distance",
+                  "operator": ">",
+                  "value": 12
+                },
+                {
+                  "test": "is_panicking"
+                }
+              ]
+            }
+          },
+          "behavior.follow_owner": {
+            "priority": 4,
+            "speed_multiplier": 1.0,
+            "start_distance": 10,
+            "stop_distance": 2,
+            "post_teleport_distance": -1,
+            "ignore_vibration": true
+          }
+        }
+      }
+    },
+    "cave_spider": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/cave_spider.json",
+      "sha256": "43fc95b2c2d7c1ed118e76fd80446d006ba910b081512e2156add076bd56c7fe",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 12,
+            "value": 12
+          },
+          "movement": {
+            "value": 0.3
+          }
+        },
+        "minecraft:spider_angry": {
+          "behavior.leap_at_target": {
+            "must_be_on_ground": false,
+            "priority": 4,
+            "yd": 0.4
+          },
+          "behavior.melee_box_attack": {
+            "track_target": true,
+            "priority": 3
+          },
+          "behavior.nearest_attackable_target": {
+            "attack_interval": {
+              "min": 10,
+              "max": 10
+            },
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "snowgolem"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "irongolem"
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          }
+        },
+        "minecraft:spider_hostile": {
+          "behavior.leap_at_target": {
+            "must_be_on_ground": false,
+            "priority": 4,
+            "yd": 0.4
+          },
+          "behavior.melee_box_attack": {
+            "random_stop_interval": 100,
+            "track_target": true,
+            "priority": 3
+          },
+          "behavior.nearest_attackable_target": {
+            "attack_interval": {
+              "min": 5,
+              "max": 5
+            },
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "snowgolem"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "irongolem"
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          }
+        },
+        "minecraft:spider_poison_easy": {
+          "attack": {
+            "damage": 2,
+            "effect_duration": 0,
+            "effect_name": "poison"
+          }
+        },
+        "minecraft:spider_poison_hard": {
+          "attack": {
+            "damage": 2,
+            "effect_duration": 15,
+            "effect_name": "poison"
+          }
+        },
+        "minecraft:spider_poison_normal": {
+          "attack": {
+            "damage": 2,
+            "effect_duration": 7,
+            "effect_name": "poison"
+          }
+        }
+      }
+    },
+    "chicken": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/chicken.json",
+      "sha256": "0c451859206ed919f5fdd7da625a0b0cb5272de1b410defce45afe34dbdbf25a",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 4,
+            "max": 4
+          },
+          "movement": {
+            "value": 0.25
+          }
+        }
+      }
+    },
+    "cod": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/fish.json",
+      "sha256": "61c34c891f3a5694173f2defcaafbb5274cdca01bff5f326cba037c2c1e0814e",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 3,
+            "value": 3
+          },
+          "movement": {
+            "value": 0.1
+          }
+        }
+      }
+    },
+    "copper_golem": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/copper_golem.json",
+      "sha256": "230ba43400260803421a7cc140288803966cafc033c95c9ca2c4052ca6012b94",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 2
+          },
+          "health": {
+            "max": 12,
+            "value": 12
+          },
+          "movement": {
+            "value": 0.2
+          }
+        }
+      }
+    },
+    "cow": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/cow.json",
+      "sha256": "df6fbc9859fb810a7a534251bf05b09f6624629b2a8da56eaaca4bef859290cd",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 10,
+            "max": 10
+          },
+          "movement": {
+            "value": 0.25
+          }
+        }
+      }
+    },
+    "creaking": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/creaking.json",
+      "sha256": "1da22f9811c7f1dc3acfd8f13c29e51446fe81642627c37cbe9df1b226e0cf62",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 3
+          },
+          "health": {
+            "max": 1,
+            "value": 1
+          }
+        },
+        "minecraft:mobile": {
+          "movement": {
+            "value": 0.4
+          }
+        },
+        "minecraft:hostile_unobserved": {
+          "behavior.melee_box_attack": {
+            "cooldown_time": 2,
+            "priority": 2
+          }
+        },
+        "minecraft:immobile": {
+          "movement": {
+            "value": 0
+          }
+        }
+      }
+    },
+    "creeper": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/creeper.json",
+      "sha256": "653c8770d37c7edc8aae6963d9ffef2be66811b9fa460ed2d1a28e55e4555309",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 3
+          },
+          "behavior.melee_attack": {
+            "reach_multiplier": 0,
+            "speed_multiplier": 1.25,
+            "priority": 4
+          },
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "player"
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 1
+          },
+          "behavior.swell": {
+            "priority": 2,
+            "start_distance": 2.5,
+            "stop_distance": 6
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 0.2
+          }
+        },
+        "minecraft:charged_exploding": {
+          "explode": {
+            "causes_fire": false,
+            "fuse_lit": true,
+            "power": 6,
+            "destroy_affected_by_griefing": true,
+            "fuse_length": 1.5
+          }
+        },
+        "minecraft:exploding": {
+          "explode": {
+            "causes_fire": false,
+            "fuse_lit": true,
+            "power": 3,
+            "destroy_affected_by_griefing": true,
+            "fuse_length": 1.5
+          }
+        },
+        "minecraft:forced_charged_exploding": {
+          "explode": {
+            "causes_fire": false,
+            "fuse_lit": true,
+            "power": 6,
+            "destroy_affected_by_griefing": true,
+            "fuse_length": 1.5
+          }
+        },
+        "minecraft:forced_exploding": {
+          "explode": {
+            "causes_fire": false,
+            "fuse_lit": true,
+            "power": 3,
+            "destroy_affected_by_griefing": true,
+            "fuse_length": 1.5
+          }
+        }
+      }
+    },
+    "dolphin": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/dolphin.json",
+      "sha256": "d101925f74d069a90fd8a08d716f7df6f6568a1154e728f65b67668508bc3f47",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 10,
+            "max": 10
+          },
+          "attack": {
+            "damage": 3
+          },
+          "movement": {
+            "value": 0.1
+          }
+        },
+        "dolphin_adult": {
+          "behavior.melee_box_attack": {
+            "priority": 2,
+            "track_target": true
+          }
+        }
+      }
+    },
+    "donkey": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/donkey.json",
+      "sha256": "6d2013164da953035e1bfc553efecbeae6b31edcb026d61491fa7bf98d4779b7",
+      "groups": {
+        "base": {
+          "health": {
+            "value": {
+              "range_min": 15,
+              "range_max": 30
+            }
+          },
+          "movement": {
+            "value": 0.175
+          }
+        }
+      }
+    },
+    "elder_guardian": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/elder_guardian.json",
+      "sha256": "e1632d9ae1a5f43045357972ac05bf02608c2231d2e158ea4bcfb74c3f106cab",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 5
+          },
+          "behavior.guardian_attack": {
+            "priority": 4
+          },
+          "behavior.nearest_attackable_target": {
+            "attack_interval": {
+              "max": 1
+            },
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "squid"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "axolotl"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 1
+          },
+          "health": {
+            "max": 80,
+            "value": 80
+          },
+          "movement": {
+            "value": 0.3
+          }
+        }
+      }
+    },
+    "ender_dragon": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/ender_dragon.json",
+      "sha256": "09046514c7d54ec71d860d4b150248dfe480f79791db6d9cbd8a030a5cac31ca",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 3
+          },
+          "health": {
+            "max": 200,
+            "value": 200
+          },
+          "movement": {
+            "value": 0.3
+          }
+        }
+      }
+    },
+    "enderman": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/enderman.json",
+      "sha256": "34122f03b84142c70ded9f3f64d0f6231a6eeedeb249c605882a7b10beeee777",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 40,
+            "max": 40
+          },
+          "attack": {
+            "damage": 7
+          },
+          "behavior.nearest_attackable_target": {
+            "priority": 5,
+            "must_see": true,
+            "attack_interval": {
+              "min": 0,
+              "max": 10
+            },
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "endermite"
+                },
+                "max_dist": 64
+              }
+            ]
+          }
+        },
+        "minecraft:enderman_calm": {
+          "movement": {
+            "value": 0.3
+          }
+        },
+        "minecraft:enderman_angry": {
+          "movement": {
+            "value": 0.45
+          },
+          "behavior.melee_box_attack": {
+            "priority": 2
+          }
+        }
+      }
+    },
+    "endermite": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/endermite.json",
+      "sha256": "aa0893dd3878b0506afed624bb27cbdda24551e2308f623f3059e173f4ab7c71",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 2
+          },
+          "behavior.melee_box_attack": {
+            "track_target": true,
+            "priority": 3
+          },
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "within_radius": 16,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "enderman"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 5
+          },
+          "health": {
+            "max": 8,
+            "value": 8
+          },
+          "movement": {
+            "value": 0.25
+          }
+        }
+      }
+    },
+    "evoker": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/evocation_illager.json",
+      "sha256": "991cd3d48b3b357be235b904763d8ac8d519f7ee692472f09c99acd9ac5ccdb2",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "snowgolem"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "irongolem"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "wandering_trader"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "max_dist": 20
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "villager"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": 1,
+                      "operator": 1,
+                      "value": "minecraft:is_baby"
+                    }
+                  ]
+                },
+                "max_dist": 20
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 24,
+            "value": 24
+          },
+          "movement": {
+            "value": 0.5
+          }
+        }
+      }
+    },
+    "fox": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/fox.json",
+      "sha256": "c93002fe19a6c2178e9d8c014dda1e301a4cbecf03dcf5d88d9f88e89f941f2d",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 10,
+            "max": 10
+          },
+          "movement": {
+            "value": 0.3
+          },
+          "attack": {
+            "damage": 2
+          }
+        },
+        "minecraft:docile_fox": {
+          "behavior.melee_box_attack": {
+            "priority": 10,
+            "track_target": true,
+            "require_complete_path": true
+          }
+        },
+        "minecraft:defending_fox": {
+          "behavior.melee_box_attack": {
+            "priority": 1,
+            "track_target": true,
+            "require_complete_path": true
+          }
+        },
+        "minecraft:fox_red": {
+          "behavior.nearest_prioritized_attackable_target": {
+            "priority": 6,
+            "attack_interval": 2,
+            "reselect_targets": true,
+            "target_search_height": 5,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "rabbit"
+                },
+                "max_dist": 12,
+                "priority": 0
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "chicken"
+                },
+                "max_dist": 12,
+                "priority": 0
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "cod"
+                },
+                "max_dist": 12,
+                "priority": 1
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "salmon"
+                },
+                "max_dist": 12,
+                "priority": 1
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "tropicalfish"
+                },
+                "max_dist": 12,
+                "priority": 1
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": true
+                    }
+                  ]
+                },
+                "max_dist": 12,
+                "priority": 0
+              }
+            ]
+          }
+        },
+        "minecraft:fox_arctic": {
+          "behavior.nearest_prioritized_attackable_target": {
+            "priority": 6,
+            "attack_interval": 2,
+            "reselect_targets": true,
+            "target_search_height": 5,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "rabbit"
+                },
+                "max_dist": 12,
+                "priority": 1
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "chicken"
+                },
+                "max_dist": 12,
+                "priority": 1
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "cod"
+                },
+                "max_dist": 12,
+                "priority": 0
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "salmon"
+                },
+                "max_dist": 12,
+                "priority": 0
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "tropicalfish"
+                },
+                "max_dist": 12,
+                "priority": 0
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": true
+                    }
+                  ]
+                },
+                "max_dist": 12,
+                "priority": 1
+              }
+            ]
+          }
+        }
+      }
+    },
+    "frog": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/frog.json",
+      "sha256": "806c200b60ea591f65cf18c2e5791f930c7918310e9cbbf314b477296b141739",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "within_radius": 16,
+            "entity_types": [
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "slime"
+                    },
+                    {
+                      "test": "is_variant",
+                      "subject": "other",
+                      "operator": "==",
+                      "value": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "magmacube"
+                    },
+                    {
+                      "test": "is_variant",
+                      "subject": "other",
+                      "operator": "==",
+                      "value": 1
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 8
+          },
+          "health": {
+            "value": 10
+          },
+          "movement": {
+            "value": 0.1
+          }
+        }
+      }
+    },
+    "ghast": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/ghast.json",
+      "sha256": "fc9fa726d3b6f805933409799750c4d444c467363be929caee16cc24a683a938",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "player"
+                    }
+                  ]
+                },
+                "max_dist": 28
+              }
+            ],
+            "priority": 2
+          },
+          "behavior.ranged_attack": {
+            "attack_radius": 64,
+            "charge_charged_trigger": 1,
+            "priority": 1,
+            "charge_shoot_trigger": 2
+          },
+          "health": {
+            "max": 10,
+            "value": 10
+          },
+          "movement": {
+            "value": 0.03
+          }
+        }
+      }
+    },
+    "giant": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/zombie.json",
+      "sha256": "68911bb898c66712e7987694df71f3a1b991c713db12b5bcff065616f84a8a59",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 3
+          },
+          "behavior.melee_box_attack": {
+            "can_spread_on_fire": true,
+            "priority": 4
+          },
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "within_radius": 25,
+            "must_see_forget_duration": 17,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "snowgolem"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "irongolem"
+                    }
+                  ]
+                },
+                "max_dist": 35
+              },
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "villager"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "wandering_trader"
+                    }
+                  ]
+                },
+                "max_dist": 35,
+                "must_see": false
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "value": false
+                    }
+                  ]
+                },
+                "max_dist": 35
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          }
+        },
+        "minecraft:zombie_adult": {
+          "movement": {
+            "value": 0.23
+          }
+        },
+        "minecraft:zombie_baby": {
+          "movement": {
+            "value": 0.35
+          }
+        }
+      }
+    },
+    "glow_squid": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/glow_squid.json",
+      "sha256": "82e3ea45eb1cbc060e0d1ca1a81f328fef6bce4b42e8e4b601fbe5951754f5b4",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 10,
+            "value": 10
+          },
+          "movement": {
+            "value": 0.2
+          }
+        }
+      }
+    },
+    "goat": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/goat.json",
+      "sha256": "640106751db4533c69479467e327b268f45705b3f8b1d62f544bc63d268791a0",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 10,
+            "max": 10
+          },
+          "movement": {
+            "value": 0.4
+          },
+          "behavior.nearest_attackable_target": {
+            "priority": 6,
+            "within_radius": 16,
+            "entity_types": [
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": "goat"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": "self",
+                      "operator": "!=",
+                      "value": "minecraft:attack_cooldown"
+                    }
+                  ]
+                },
+                "max_dist": 16
+              }
+            ],
+            "must_see": true
+          }
+        },
+        "goat_baby": {
+          "attack": {
+            "damage": 1
+          }
+        },
+        "goat_adult": {
+          "attack": {
+            "damage": 2
+          }
+        },
+        "ram_default": {
+          "behavior.ram_attack": {
+            "priority": 5,
+            "run_speed": 0.7,
+            "ram_speed": 1.8,
+            "min_ram_distance": 4,
+            "ram_distance": 7,
+            "knockback_force": 2.5,
+            "knockback_height": 0.04,
+            "pre_ram_sound": "pre_ram",
+            "ram_impact_sound": "ram_impact",
+            "cooldown_range": {
+              "min": 30,
+              "max": 300
+            },
+            "on_start": [
+              {
+                "event": "start_event",
+                "target": "self"
+              }
+            ]
+          }
+        },
+        "ram_screamer": {
+          "behavior.ram_attack": {
+            "priority": 5,
+            "run_speed": 0.7,
+            "ram_speed": 1.8,
+            "min_ram_distance": 4,
+            "ram_distance": 7,
+            "knockback_force": 2.5,
+            "knockback_height": 0.04,
+            "pre_ram_sound": "pre_ram.screamer",
+            "ram_impact_sound": "ram_impact.screamer",
+            "cooldown_range": {
+              "min": 5,
+              "max": 15
+            },
+            "on_start": [
+              {
+                "event": "start_event",
+                "target": "self"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "guardian": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/guardian.json",
+      "sha256": "682ed540d14e4738f66b8a430ccc72d7a67bcaa8c024b89f4de734e8c6cb3fba",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 5
+          },
+          "behavior.guardian_attack": {
+            "priority": 4
+          },
+          "behavior.nearest_attackable_target": {
+            "attack_interval": {
+              "max": 1
+            },
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "squid"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "axolotl"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 1
+          },
+          "health": {
+            "max": 30,
+            "value": 30
+          },
+          "movement": {
+            "value": 0.12
+          }
+        },
+        "minecraft:guardian_aggressive": {
+          "behavior.guardian_attack": {
+            "priority": 4
+          },
+          "behavior.nearest_attackable_target": {
+            "attack_interval": {
+              "max": 1
+            },
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "squid"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "axolotl"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 1
+          }
+        }
+      }
+    },
+    "happy_ghast": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/happy_ghast.json",
+      "sha256": "828f860a1131968482b63298926317714acd20a77cf125f7da6bf6757785c0d8",
+      "groups": {
+        "minecraft:baby": {
+          "health": {
+            "value": 20,
+            "max": 20
+          },
+          "movement": {
+            "value": 0.3
+          }
+        },
+        "minecraft:adult": {
+          "health": {
+            "value": 20,
+            "max": 20
+          }
+        },
+        "minecraft:adult_mobile": {
+          "movement": {
+            "value": 0.016
+          }
+        },
+        "minecraft:adult_immobile": {
+          "movement": {
+            "value": 0.0
+          }
+        }
+      }
+    },
+    "hoglin": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/hoglin.json",
+      "sha256": "d319deb1d78c369af792e0e8990744fc3c17daf5395be43b27e516e1cd506331",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 40,
+            "max": 40
+          },
+          "behavior.nearest_attackable_target": {
+            "priority": 4,
+            "within_radius": 16.0,
+            "entity_types": [
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": "self",
+                      "operator": "!=",
+                      "value": "minecraft:attack_cooldown"
+                    }
+                  ]
+                },
+                "max_dist": 16
+              }
+            ],
+            "must_see": true
+          }
+        },
+        "minecraft:hoglin_baby": {
+          "movement": {
+            "value": 0.36
+          },
+          "behavior.melee_box_attack": {
+            "priority": 4,
+            "speed_multiplier": 1,
+            "track_target": true,
+            "cooldown_time": 0.75
+          },
+          "attack": {
+            "damage": 1.0
+          }
+        },
+        "minecraft:hoglin_adult": {
+          "movement": {
+            "value": 0.3
+          },
+          "behavior.melee_box_attack": {
+            "priority": 4,
+            "speed_multiplier": 1,
+            "track_target": true,
+            "cooldown_time": 2
+          },
+          "attack": {
+            "damage": [
+              3,
+              9
+            ]
+          }
+        }
+      }
+    },
+    "horse": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/horse.json",
+      "sha256": "1f708b01f8b9dae81e6cf322d60ac8851ae39c55f6aa350d6b6c977e3db72a04",
+      "groups": {
+        "base": {
+          "health": {
+            "value": {
+              "range_min": 15,
+              "range_max": 30
+            }
+          },
+          "movement": {
+            "value": {
+              "range_min": 0.1125,
+              "range_max": 0.3375
+            }
+          }
+        }
+      }
+    },
+    "illusioner": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/skeleton.json",
+      "sha256": "cfffa026b8c418ccbedc33ed94eb831c62da7b9398c75e7446aaea326c320cfd",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                }
+              },
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "irongolem"
+                }
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "value": false
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          },
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 3.0,
+              "max": 3.0
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 15.0
+            },
+            "priority": 0
+          },
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 0.25
+          }
+        },
+        "minecraft:melee_attack": {
+          "attack": {
+            "damage": 2
+          },
+          "behavior.melee_box_attack": {
+            "speed_multiplier": 1.25,
+            "track_target": true,
+            "priority": 4
+          }
+        },
+        "minecraft:ranged_attack": {
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 3.0,
+              "max": 3.0
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 15.0
+            },
+            "priority": 0
+          }
+        },
+        "minecraft:ranged_attack_hard": {
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 2.0,
+              "max": 2.0
+            },
+            "attack_range": {
+              "min": 0.0,
+              "max": 15.0
+            },
+            "priority": 0
+          }
+        }
+      }
+    },
+    "iron_golem": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/iron_golem.json",
+      "sha256": "ef14cf327deb5c74a07ee3503c7b1d021f7ebc493d565a6b1f0c324541c79d22",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": {
+              "range_max": 21,
+              "range_min": 7
+            }
+          },
+          "behavior.melee_box_attack": {
+            "track_target": true,
+            "priority": 1
+          },
+          "behavior.nearest_attackable_target": {
+            "must_reach": true,
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "monster"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 1,
+                      "value": "creeper"
+                    }
+                  ]
+                }
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "hoglin"
+                    },
+                    {
+                      "test": "is_difficulty",
+                      "subject": 0,
+                      "operator": 1,
+                      "value": 0
+                    }
+                  ]
+                }
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "zoglin"
+                    },
+                    {
+                      "test": "is_difficulty",
+                      "subject": 0,
+                      "operator": 1,
+                      "value": 0
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 3
+          },
+          "health": {
+            "max": 100,
+            "value": 100
+          },
+          "movement": {
+            "value": 0.25
+          }
+        }
+      }
+    },
+    "killer_bunny": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/rabbit.json",
+      "sha256": "b233e2b5b76702b83478c37e0802632503af7578f1d36e9f3dc54336fd378cbc",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 3,
+            "max": 3
+          },
+          "movement": {
+            "value": 0.3
+          }
+        }
+      }
+    },
+    "llama": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/llama.json",
+      "sha256": "19fc88612e25a0759395a2e84ce0d25513663933b89f1932b6438f115ccb08d8",
+      "groups": {
+        "base": {
+          "health": {
+            "value": {
+              "range_min": 15,
+              "range_max": 30
+            }
+          },
+          "movement": {
+            "value": 0.25
+          },
+          "behavior.nearest_attackable_target": {
+            "priority": 2,
+            "attack_interval": {
+              "min": 0,
+              "max": 16
+            },
+            "entity_types": [
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "wolf"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": "minecraft:is_tamed"
+                    }
+                  ]
+                },
+                "max_dist": 10
+              }
+            ],
+            "must_see": false,
+            "must_reach": true
+          }
+        },
+        "minecraft:llama_angry": {
+          "behavior.ranged_attack": {
+            "priority": 2,
+            "attack_range": {
+              "max": 64.0
+            },
+            "charge_shoot_trigger": 2,
+            "charge_charged_trigger": 1
+          }
+        },
+        "minecraft:llama_angry_wolf": {
+          "behavior.ranged_attack": {
+            "priority": 2,
+            "attack_range": {
+              "max": 64.0
+            },
+            "charge_shoot_trigger": 2,
+            "charge_charged_trigger": 1
+          }
+        }
+      }
+    },
+    "magma_cube": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/magma_cube.json",
+      "sha256": "d8ec96a24a4b08960be2d749f401783ed0b7012206b7eb695438ae009f8144e1",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "irongolem"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          },
+          "behavior.slime_attack": {
+            "priority": 3
+          }
+        },
+        "minecraft:slime_large": {
+          "attack": {
+            "damage": 6
+          },
+          "health": {
+            "max": 16,
+            "value": 16
+          },
+          "movement": {
+            "value": 0.75
+          }
+        },
+        "minecraft:slime_medium": {
+          "attack": {
+            "damage": 4
+          },
+          "health": {
+            "max": 4,
+            "value": 4
+          },
+          "movement": {
+            "value": 0.66
+          }
+        },
+        "minecraft:slime_small": {
+          "attack": {
+            "damage": 3
+          },
+          "health": {
+            "max": 1,
+            "value": 1
+          },
+          "movement": {
+            "value": 0.6
+          }
+        }
+      }
+    },
+    "mooshroom": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/mooshroom.json",
+      "sha256": "b1f2b45edae6dbc4297feccbc5ba4bb33b308927b8243d53679d140512d1f4ca",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 10,
+            "max": 10
+          },
+          "movement": {
+            "value": 0.25
+          }
+        }
+      }
+    },
+    "mule": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/mule.json",
+      "sha256": "06ba4b2d5093dee7f6ce2264ce30eb7770f151d490706d4dfb79c3372857b4cb",
+      "groups": {
+        "base": {
+          "health": {
+            "value": {
+              "range_min": 15,
+              "range_max": 30
+            }
+          },
+          "movement": {
+            "value": 0.175
+          }
+        }
+      }
+    },
+    "nautilus": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/nautilus.json",
+      "sha256": "b12bd40f9c2badd5755459c43aae1f60eb67fc6dad753785743ab48c3cc4f271",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 15,
+            "max": 15
+          },
+          "attack": {
+            "damage": 3
+          }
+        },
+        "minecraft:nautilus_baby": {
+          "movement": {
+            "value": 0.15
+          }
+        },
+        "minecraft:nautilus_wild_adult_calm": {
+          "behavior.nearest_attackable_target": {
+            "priority": 5,
+            "must_see": true,
+            "reselect_targets": true,
+            "within_radius": 25.0,
+            "must_see_forget_duration": 17.0,
+            "attack_interval": {
+              "min": 120.0,
+              "max": 180.0
+            },
+            "target_acquisition_probability": 0.5,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "pufferfish"
+                    }
+                  ]
+                },
+                "max_dist": 35
+              }
+            ]
+          }
+        },
+        "minecraft:nautilus_player_controlled": {
+          "movement": {
+            "value": 0.015
+          }
+        },
+        "minecraft:nautilus_ai_controlled": {
+          "movement": {
+            "value": 0.15
+          }
+        },
+        "minecraft:nautilus_wild_adult_angry": {
+          "behavior.aquatic_charge_attack": {
+            "priority": 3,
+            "max_charge_distance": 16,
+            "charge_speed": 1.2,
+            "attack_reach": 0.0,
+            "knockback_force": 2.0,
+            "charge_overshoot_distance": 1.5,
+            "charge_cooldown_time": {
+              "min": 4.0,
+              "max": 4.0
+            }
+          }
+        }
+      }
+    },
+    "ocelot": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/ocelot.json",
+      "sha256": "fd43acafe0c938ae250e359f52e04b14eecb559c7de9230b07e284e33a9cf13a",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 10,
+            "max": 10
+          },
+          "movement": {
+            "value": 0.3
+          },
+          "behavior.nearest_attackable_target": {
+            "priority": 1,
+            "reselect_targets": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "chicken"
+                },
+                "max_dist": 8
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": true
+                    }
+                  ]
+                },
+                "max_dist": 8
+              }
+            ]
+          },
+          "behavior.leap_at_target": {
+            "priority": 3
+          },
+          "behavior.ocelotattack": {
+            "priority": 4,
+            "cooldown_time": 1.0,
+            "x_max_rotation": 30.0,
+            "y_max_head_rotation": 30.0,
+            "max_distance": 15.0,
+            "max_sneak_range": 15.0,
+            "max_sprint_range": 4.0,
+            "reach_multiplier": 2.0,
+            "sneak_speed_multiplier": 0.6,
+            "sprint_speed_multiplier": 1.33,
+            "walk_speed_multiplier": 0.8
+          }
+        },
+        "minecraft:ocelot_tame": {
+          "health": {
+            "value": 20,
+            "max": 20
+          },
+          "behavior.teleport_to_owner": {
+            "priority": 0,
+            "filters": {
+              "all_of": [
+                {
+                  "test": "owner_distance",
+                  "operator": ">",
+                  "value": 12
+                },
+                {
+                  "test": "is_panicking"
+                }
+              ]
+            }
+          },
+          "behavior.follow_owner": {
+            "priority": 4,
+            "speed_multiplier": 1.0,
+            "start_distance": 10,
+            "stop_distance": 2
+          }
+        }
+      }
+    },
+    "panda": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/panda.json",
+      "sha256": "307985f5570a64e38e2dbda3f72daceb455a3dfbcdac17559fe6c425eb4b31cb",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 20,
+            "max": 20
+          },
+          "movement": {
+            "value": 0.15
+          }
+        },
+        "minecraft:panda_adult": {
+          "attack": {
+            "damage": 2.0
+          },
+          "behavior.melee_box_attack": {
+            "priority": 2,
+            "attack_once": true,
+            "track_target": true
+          }
+        },
+        "minecraft:panda_lazy": {
+          "movement": {
+            "value": 0.07
+          }
+        },
+        "minecraft:panda_weak": {
+          "health": {
+            "value": 10,
+            "max": 10
+          }
+        },
+        "minecraft:panda_aggressive": {
+          "attack": {
+            "damage": 6.0
+          },
+          "behavior.melee_box_attack": {
+            "priority": 2,
+            "track_target": true
+          }
+        }
+      }
+    },
+    "parrot": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/parrot.json",
+      "sha256": "fefc120112f2a244e7016e67a5a24e5b1ca13ec94935f06490c5aa36debe20f1",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 6,
+            "value": 6
+          },
+          "movement": {
+            "value": 0.4
+          }
+        },
+        "minecraft:parrot_tame": {
+          "behavior.follow_owner": {
+            "priority": 3,
+            "speed_multiplier": 1.0,
+            "start_distance": 5,
+            "stop_distance": 1
+          },
+          "behavior.teleport_to_owner": {
+            "filters": {
+              "all_of": [
+                {
+                  "test": "owner_distance",
+                  "operator": ">",
+                  "value": 12
+                },
+                {
+                  "test": "is_panicking"
+                }
+              ]
+            },
+            "priority": 0
+          }
+        }
+      }
+    },
+    "pig": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/pig.json",
+      "sha256": "cc4c5cb3f2efb0defebf397c3aaa3a830446c1b9a608fb66e164b2c527886ee0",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 10,
+            "max": 10
+          },
+          "movement": {
+            "value": 0.25
+          }
+        }
+      }
+    },
+    "piglin": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/piglin.json",
+      "sha256": "c9e490e8b57ef30284103b60732ce00fc2fea47a6a0a0b4d6dc5cef54da177d1",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 16,
+            "max": 16
+          }
+        },
+        "ranged_unit": {
+          "behavior.ranged_attack": {
+            "priority": 8,
+            "attack_interval_min": 1,
+            "attack_interval_max": 1,
+            "attack_radius": 8,
+            "attack_radius_min": 4,
+            "speed_multiplier": 1.0,
+            "target_in_sight_time": 0.1
+          }
+        },
+        "melee_unit": {
+          "behavior.melee_box_attack": {
+            "priority": 9,
+            "speed_multiplier": 1.0,
+            "track_target": true
+          },
+          "attack": {
+            "damage": 5
+          }
+        },
+        "piglin_baby": {
+          "movement": {
+            "value": 0.42
+          }
+        },
+        "piglin_adult": {
+          "movement": {
+            "value": 0.35
+          }
+        },
+        "alert_for_attack_targets": {
+          "behavior.nearest_attackable_target": {
+            "priority": 7,
+            "within_radius": 16.0,
+            "persist_time": 0.0,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "wither"
+                    }
+                  ]
+                },
+                "max_dist": 16
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "self",
+                      "value": "piglin_hunter"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "hoglin_huntable"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": "other",
+                      "operator": "not",
+                      "value": "minecraft:is_baby"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": "self",
+                      "operator": "not",
+                      "value": "minecraft:attack_cooldown"
+                    }
+                  ]
+                },
+                "max_dist": 16
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "has_equipment",
+                      "subject": "other",
+                      "domain": "head",
+                      "operator": "not",
+                      "value": "golden_helmet"
+                    },
+                    {
+                      "test": "has_equipment",
+                      "subject": "other",
+                      "domain": "torso",
+                      "operator": "not",
+                      "value": "golden_chestplate"
+                    },
+                    {
+                      "test": "has_equipment",
+                      "subject": "other",
+                      "domain": "leg",
+                      "operator": "not",
+                      "value": "golden_leggings"
+                    },
+                    {
+                      "test": "has_equipment",
+                      "subject": "other",
+                      "domain": "feet",
+                      "operator": "not",
+                      "value": "golden_boots"
+                    }
+                  ]
+                },
+                "max_dist": 16,
+                "reevaluate_description": true
+              },
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "has_container_open",
+                      "subject": "other"
+                    }
+                  ]
+                },
+                "max_dist": 16
+              }
+            ],
+            "must_see": true
+          }
+        },
+        "take_target_as_response_to_block_break": {
+          "behavior.nearest_attackable_target": {
+            "priority": 7,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                "max_dist": 16
+              }
+            ]
+          }
+        }
+      }
+    },
+    "piglin_brute": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/piglin_brute.json",
+      "sha256": "d7b00706fa0e92ec568dee0db4f2280884c554e824c033ef38baf858ab690bb7",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 50,
+            "value": 50
+          },
+          "movement": {
+            "value": 0.35
+          }
+        },
+        "alert_for_attack_targets": {
+          "behavior.nearest_prioritized_attackable_target": {
+            "entity_types": [
+              {
+                "filters": {
+                  "subject": "other",
+                  "test": "is_family",
+                  "value": "player"
+                },
+                "max_dist": 12,
+                "priority": 0
+              },
+              {
+                "filters": {
+                  "subject": "other",
+                  "test": "is_family",
+                  "value": "wither"
+                },
+                "max_dist": 12,
+                "priority": 1
+              }
+            ],
+            "must_see": true,
+            "persist_time": 2,
+            "within_radius": 12,
+            "priority": 3
+          }
+        },
+        "take_target_as_response_to_block_break": {
+          "behavior.nearest_attackable_target": {
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "player"
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 3
+          }
+        },
+        "melee_unit": {
+          "attack": {
+            "damage": 7
+          },
+          "behavior.melee_box_attack": {
+            "track_target": true,
+            "priority": 4
+          }
+        }
+      }
+    },
+    "pillager": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/pillager.json",
+      "sha256": "52a553fda4cda652db414157282d8e171d4fedd24e7d5a8ad4319268ea21e2c3",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "reselect_targets": true,
+            "must_see": true,
+            "within_radius": 16,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "irongolem"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "wandering_trader"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "villager"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": 1,
+                      "operator": 1,
+                      "value": "minecraft:is_baby"
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 24,
+            "value": 24
+          },
+          "movement": {
+            "value": 0.35
+          }
+        },
+        "minecraft:melee_attack": {
+          "attack": {
+            "damage": 3
+          },
+          "behavior.melee_box_attack": {
+            "track_target": true,
+            "priority": 4
+          }
+        },
+        "minecraft:ranged_attack": {
+          "behavior.ranged_attack": {
+            "attack_interval_max": 1,
+            "attack_interval_min": 1,
+            "attack_radius": 8,
+            "priority": 4
+          }
+        }
+      }
+    },
+    "polar_bear": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/polar_bear.json",
+      "sha256": "b493fb2ecee58f8adc03f9a428e67c9eb249ef17cbb0c1a426ca18e3fa9de374",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 30
+          },
+          "movement": {
+            "value": 0.25
+          }
+        },
+        "minecraft:baby_wild": {
+          "behavior.nearest_attackable_target": {
+            "priority": 4,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "player"
+                },
+                "max_dist": 16
+              }
+            ]
+          }
+        },
+        "minecraft:adult_wild": {
+          "behavior.nearest_attackable_target": {
+            "priority": 4,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "fox"
+                },
+                "max_dist": 16
+              }
+            ],
+            "must_see": false
+          }
+        },
+        "minecraft:adult_hostile": {
+          "attack": {
+            "damage": 6.0
+          },
+          "behavior.stomp_attack": {
+            "priority": 1,
+            "track_target": true,
+            "require_complete_path": true,
+            "stomp_range_multiplier": 2.0,
+            "no_damage_range_multiplier": 2.0
+          }
+        }
+      }
+    },
+    "pufferfish": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/pufferfish.json",
+      "sha256": "d2139402cff688678d93c736d3d96fe524c547621b94023a25466887daff01ce",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 3,
+            "value": 3
+          },
+          "movement": {
+            "value": 0.13
+          }
+        }
+      }
+    },
+    "rabbit": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/rabbit.json",
+      "sha256": "b233e2b5b76702b83478c37e0802632503af7578f1d36e9f3dc54336fd378cbc",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 3,
+            "max": 3
+          },
+          "movement": {
+            "value": 0.3
+          }
+        }
+      }
+    },
+    "ravager": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/ravager.json",
+      "sha256": "1d99d35d798ab5da30a524c295a70b0dfcb05c2236134139a0e7b8ee010e8124",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 12.0
+          },
+          "health": {
+            "max": 100,
+            "value": 100
+          },
+          "movement": {
+            "value": 0.0
+          }
+        },
+        "minecraft:hostile": {
+          "movement": {
+            "value": 0.4
+          },
+          "behavior.delayed_attack": {
+            "priority": 4,
+            "attack_once": false,
+            "track_target": true,
+            "require_complete_path": false,
+            "random_stop_interval": 0,
+            "reach_multiplier": 1.5,
+            "speed_multiplier": 1.0,
+            "attack_duration": 0.75,
+            "hit_delay_pct": 0.5
+          },
+          "behavior.nearest_attackable_target": {
+            "priority": 3,
+            "must_see": true,
+            "within_radius": 16.0,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "subject": "other",
+                      "test": "is_family",
+                      "value": "player"
+                    },
+                    {
+                      "subject": "other",
+                      "test": "is_family",
+                      "value": "irongolem"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "wandering_trader"
+                    }
+                  ]
+                },
+                "max_dist": 16
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "villager"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": "minecraft:is_baby"
+                    }
+                  ]
+                },
+                "max_dist": 16
+              }
+            ]
+          }
+        }
+      }
+    },
+    "salmon": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/salmon.json",
+      "sha256": "8feafbe0990acaddb643cc1134dbf0d71931e639b463d2bdf09f2636b16295f0",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 3,
+            "value": 3
+          },
+          "movement": {
+            "value": 0.12
+          }
+        }
+      }
+    },
+    "sheep": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/sheep.json",
+      "sha256": "9132bd48fad5aef2d4a8d5bd116bbad86ae29ca2d9fde8c12eb2c3f262220631",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 8,
+            "max": 8
+          },
+          "movement": {
+            "value": 0.25
+          }
+        }
+      }
+    },
+    "shulker": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/shulker.json",
+      "sha256": "dcc921f59d419b723a686abbb030b01fd73a0c9327f543cd71315c81b404991e",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "player"
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 3
+          },
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 1,
+              "max": 3
+            },
+            "attack_range": {
+              "min": 0,
+              "max": 15
+            },
+            "set_persistent": true
+          },
+          "health": {
+            "max": 30,
+            "value": 30
+          },
+          "movement": {
+            "max": 0.0,
+            "value": 0.0
+          }
+        }
+      }
+    },
+    "silverfish": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/silverfish.json",
+      "sha256": "a5f63b5828a285faf894208b0ac3471e1fa6e30f510b2ec9b89608cba03c7089",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 1
+          },
+          "behavior.nearest_attackable_target": {
+            "attack_interval": {
+              "max": 10
+            },
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "snowgolem"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "irongolem"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "max_dist": 8
+              }
+            ],
+            "priority": 2
+          },
+          "health": {
+            "max": 8,
+            "value": 8
+          },
+          "movement": {
+            "value": 0.25
+          }
+        },
+        "minecraft:silverfish_angry": {
+          "behavior.melee_box_attack": {
+            "track_target": true,
+            "priority": 4
+          }
+        }
+      }
+    },
+    "slime": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/slime.json",
+      "sha256": "e64af073bd6a262748b7ecee7b23c9754d65d289a9997103c03c236a2e4016b7",
+      "groups": {
+        "base": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "snowgolem"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "irongolem"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          },
+          "behavior.slime_attack": {
+            "priority": 3
+          }
+        },
+        "minecraft:slime_large": {
+          "attack": {
+            "damage": 4
+          },
+          "health": {
+            "max": 16,
+            "value": 16
+          },
+          "movement": {
+            "value": 0.6
+          }
+        },
+        "minecraft:slime_medium": {
+          "attack": {
+            "damage": 2
+          },
+          "health": {
+            "max": 4,
+            "value": 4
+          },
+          "movement": {
+            "value": 0.4
+          }
+        },
+        "minecraft:slime_small": {
+          "attack": {
+            "damage": 0
+          },
+          "health": {
+            "max": 1,
+            "value": 1
+          },
+          "movement": {
+            "value": 0.3
+          }
+        }
+      }
+    },
+    "sniffer": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/sniffer.json",
+      "sha256": "b0b9fde7c03728d594b27ac3c3091e16ab75ed3f7c8966b679bb9763bcf830fc",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 14
+          },
+          "movement": {
+            "value": 0.09
+          }
+        }
+      }
+    },
+    "snow_golem": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/snow_golem.json",
+      "sha256": "1418c1eaae19d98feb192da611fa7f861f1e00e1677da65aeb3906ebfb98e65c",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 2
+          },
+          "behavior.nearest_attackable_target": {
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "monster"
+                },
+                "max_dist": 6
+              }
+            ],
+            "priority": 1
+          },
+          "behavior.ranged_attack": {
+            "attack_interval": {
+              "min": 1.0,
+              "max": 1.0
+            },
+            "attack_range": {
+              "min": 0,
+              "max": 10
+            },
+            "priority": 1,
+            "speed_multiplier": 1.25
+          },
+          "health": {
+            "max": 4,
+            "value": 4
+          },
+          "movement": {
+            "value": 0.2
+          }
+        }
+      }
+    },
+    "spider": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/spider.json",
+      "sha256": "fafb5b83d554610c54093d7ca8a5d04ec7fb3016149871565843017096c53760",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 2
+          },
+          "health": {
+            "max": 16,
+            "value": 16
+          },
+          "movement": {
+            "value": 0.3
+          }
+        },
+        "minecraft:spider_angry": {
+          "behavior.leap_at_target": {
+            "must_be_on_ground": false,
+            "priority": 4,
+            "yd": 0.4
+          },
+          "behavior.melee_box_attack": {
+            "track_target": true,
+            "priority": 3
+          }
+        },
+        "minecraft:spider_hostile": {
+          "behavior.nearest_attackable_target": {
+            "attack_interval": {
+              "min": 5,
+              "max": 5
+            },
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "player"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "snowgolem"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "irongolem"
+                    }
+                  ]
+                }
+              }
+            ],
+            "priority": 2
+          }
+        }
+      }
+    },
+    "squid": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/squid.json",
+      "sha256": "83e1ab2b2acbe5f379fb8d05e33a419b6fbbf601193047961eb74287215c8f67",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 10,
+            "value": 10
+          },
+          "movement": {
+            "value": 0.2
+          }
+        }
+      }
+    },
+    "strider": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/strider.json",
+      "sha256": "8474e0ef551cbee01e6f3a605af69e7d1e83ce89f899ae0eb334e83b8cd44253",
+      "groups": {
+        "base": {
+          "movement": {
+            "value": 0.16
+          },
+          "health": {
+            "value": 20,
+            "max": 20
+          }
+        }
+      }
+    },
+    "sulfur_cube": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/sulfur_cube.json",
+      "sha256": "91fc1312c7f51f6b840db526fd18d15d75a65a3cf02943862b09373d676d42e6",
+      "groups": {
+        "minecraft:sulfur_cube_small": {
+          "health": {
+            "value": 4,
+            "max": 4
+          },
+          "movement": {
+            "value": 0.3
+          }
+        },
+        "minecraft:sulfur_cube_medium": {
+          "health": {
+            "value": 8,
+            "max": 8
+          },
+          "movement": {
+            "value": 0.4
+          }
+        },
+        "minecraft:sulfur_cube_medium_primed": {
+          "explode": {
+            "causes_fire": false,
+            "destroy_affected_by_griefing": true,
+            "fuse_lit": true,
+            "power": 3,
+            "fuse_length": 6
+          }
+        },
+        "minecraft:sulfur_cube_medium_primed_by_explosion": {
+          "explode": {
+            "causes_fire": false,
+            "destroy_affected_by_griefing": true,
+            "fuse_lit": true,
+            "power": 3,
+            "fuse_length": {
+              "range_max": 3.0,
+              "range_min": 0.75
+            }
+          }
+        }
+      }
+    },
+    "tadpole": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/tadpole.json",
+      "sha256": "3680d7f13bed479b6b1511be7b6210651c04d1daf48dce6f6d365f3c715500a9",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 6
+          },
+          "movement": {
+            "value": 0.1
+          }
+        }
+      }
+    },
+    "trader_llama": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/llama.json",
+      "sha256": "19fc88612e25a0759395a2e84ce0d25513663933b89f1932b6438f115ccb08d8",
+      "groups": {
+        "base": {
+          "health": {
+            "value": {
+              "range_min": 15,
+              "range_max": 30
+            }
+          },
+          "movement": {
+            "value": 0.25
+          },
+          "behavior.nearest_attackable_target": {
+            "priority": 2,
+            "attack_interval": {
+              "min": 0,
+              "max": 16
+            },
+            "entity_types": [
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "wolf"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": "minecraft:is_tamed"
+                    }
+                  ]
+                },
+                "max_dist": 10
+              }
+            ],
+            "must_see": false,
+            "must_reach": true
+          }
+        },
+        "minecraft:llama_angry": {
+          "behavior.ranged_attack": {
+            "priority": 2,
+            "attack_range": {
+              "max": 64.0
+            },
+            "charge_shoot_trigger": 2,
+            "charge_charged_trigger": 1
+          }
+        },
+        "minecraft:llama_angry_wolf": {
+          "behavior.ranged_attack": {
+            "priority": 2,
+            "attack_range": {
+              "max": 64.0
+            },
+            "charge_shoot_trigger": 2,
+            "charge_charged_trigger": 1
+          }
+        }
+      }
+    },
+    "tropical_fish": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/tropicalfish.json",
+      "sha256": "12808767e57ca1b0e7153538b612fad6ec8e3e0b4f80cfa6c865762c4d13e77d",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 3,
+            "value": 3
+          },
+          "movement": {
+            "value": 0.12
+          }
+        }
+      }
+    },
+    "turtle": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/turtle.json",
+      "sha256": "3ed8660b75fdc6e7ed0e4656ff4702433c4a3149c2abe58770dce6643dc2e121",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 30
+          },
+          "movement": {
+            "value": 0.1
+          }
+        }
+      }
+    },
+    "vex": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/vex.json",
+      "sha256": "f0387145a348913b2399d272fc3dc09f0ea0daf5c9e670474ccaa6fc92e7f0f3",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 3
+          },
+          "behavior.charge_attack": {
+            "priority": 4
+          },
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "irongolem"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "wandering_trader"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "max_dist": 70
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "villager"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": 1,
+                      "operator": 1,
+                      "value": "minecraft:is_baby"
+                    }
+                  ]
+                },
+                "max_dist": 70
+              }
+            ],
+            "priority": 3
+          },
+          "health": {
+            "max": 14,
+            "value": 14
+          },
+          "movement": {
+            "value": 1.0
+          }
+        }
+      }
+    },
+    "villager": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/villager_v2.json",
+      "sha256": "4ddafc6f089c847c467e9b267a612703b7979b95d734b0211e7767602a23ca22",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 0.5
+          }
+        }
+      }
+    },
+    "vindicator": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/vindicator.json",
+      "sha256": "6fb4bb3a489f0e3547c0d8a1bfd61a3f2ca6b28d49de153789ba24d87d798d6d",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 8
+          },
+          "behavior.melee_box_attack": {
+            "priority": 3
+          },
+          "health": {
+            "max": 24,
+            "value": 24
+          },
+          "movement": {
+            "value": 0.35
+          }
+        },
+        "minecraft:default_targeting": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "within_radius": 12,
+            "must_see_forget_duration": 40,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "OR": [
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "player"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "snowgolem"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "irongolem"
+                        },
+                        {
+                          "test": "is_family",
+                          "subject": 1,
+                          "operator": 0,
+                          "value": "wandering_trader"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "max_dist": 12
+              },
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 0,
+                      "value": "villager"
+                    },
+                    {
+                      "test": "has_component",
+                      "subject": 1,
+                      "operator": 1,
+                      "value": "minecraft:is_baby"
+                    }
+                  ]
+                },
+                "max_dist": 12
+              }
+            ],
+            "priority": 2
+          }
+        },
+        "minecraft:vindicator_johnny": {
+          "behavior.nearest_attackable_target": {
+            "must_see": true,
+            "within_radius": 12,
+            "must_see_forget_duration": 40,
+            "entity_types": [
+              {
+                "filters": {
+                  "AND": [
+                    {
+                      "test": "is_family",
+                      "subject": 1,
+                      "operator": 1,
+                      "value": "illager"
+                    }
+                  ]
+                },
+                "max_dist": 12
+              }
+            ],
+            "priority": 2
+          }
+        }
+      }
+    },
+    "wandering_trader": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/wandering_trader.json",
+      "sha256": "285b766487434156aa40d49ef6db1b9c63b9cda122084bbbbffd0f4a976b6d71",
+      "groups": {
+        "base": {
+          "health": {
+            "max": 20,
+            "value": 20
+          },
+          "movement": {
+            "value": 0.5
+          }
+        }
+      }
+    },
+    "warden": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/warden.json",
+      "sha256": "d0615b0d6143719931a6f0a89a0da2614d7da0b9be0937a51bd9b0f379286e7b",
+      "groups": {
+        "base": {
+          "attack": {
+            "damage": 30
+          },
+          "behavior.melee_box_attack": {
+            "melee_fov": 360,
+            "speed_multiplier": 1.2,
+            "priority": 4
+          },
+          "behavior.sonic_boom": {
+            "duration": 3,
+            "speed_multiplier": 1.2,
+            "attack_damage": 10,
+            "attack_cooldown": 2,
+            "knockback_vertical_strength": 0.5,
+            "knockback_horizontal_strength": 2.5,
+            "knockback_height_cap": 0.5,
+            "attack_sound": "sonic_boom",
+            "charge_sound": "sonic_charge",
+            "priority": 3
+          },
+          "health": {
+            "max": 500,
+            "value": 500
+          },
+          "movement": {
+            "value": 0.3
+          }
+        }
+      }
+    },
+    "witch": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/witch.json",
+      "sha256": "cc1808d4ca354c1a1a5317371b494646e2ad2650a45d6f95ab00ae2be7fcb271",
+      "groups": {
+        "base": {
+          "behavior.nearest_prioritized_attackable_target": {
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "subject": "other",
+                      "test": "is_family",
+                      "value": "player"
+                    },
+                    {
+                      "subject": "other",
+                      "test": "is_family",
+                      "value": "snowgolem"
+                    },
+                    {
+                      "subject": "other",
+                      "test": "is_family",
+                      "value": "irongolem"
+                    }
+                  ]
+                },
+                "max_dist": 10,
+                "priority": 1
+              },
+              {
+                "cooldown": 10,
+                "filters": {
+                  "all_of": [
+                    {
+                      "subject": "other",
+                      "test": "is_raider",
+                      "value": true
+                    },
+                    {
+                      "subject": "self",
+                      "test": "is_raider",
+                      "value": true
+                    },
+                    {
+                      "none_of": [
+                        {
+                          "subject": "other",
+                          "test": "is_family",
+                          "value": "witch"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "max_dist": 10,
+                "priority": 2
+              }
+            ],
+            "must_reach": true,
+            "priority": 2
+          },
+          "behavior.ranged_attack": {
+            "attack_interval_max": 3,
+            "attack_interval_min": 3,
+            "attack_radius": 10,
+            "priority": 2,
+            "speed_multiplier": 1
+          },
+          "health": {
+            "max": 26,
+            "value": 26
+          },
+          "movement": {
+            "value": 0.25
+          }
+        }
+      }
+    },
+    "wolf": {
+      "url": "https://raw.githubusercontent.com/Mojang/bedrock-samples/15701fa9c13923f12662984c32c124327e40e3d3/behavior_pack/entities/wolf.json",
+      "sha256": "f5698390df1d656b005f434ce40d12743f42de6d9dce430c7afd3094f689792f",
+      "groups": {
+        "base": {
+          "health": {
+            "value": 8,
+            "max": 8
+          },
+          "movement": {
+            "value": 0.3
+          },
+          "attack": {
+            "damage": 3
+          },
+          "behavior.leap_at_target": {
+            "priority": 4,
+            "yd": 0.4
+          },
+          "behavior.melee_box_attack": {
+            "priority": 5
+          }
+        },
+        "minecraft:wolf_wild": {
+          "behavior.nearest_attackable_target": {
+            "priority": 4,
+            "reselect_targets": true,
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "any_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "skeleton"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "sheep"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "rabbit"
+                    },
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "fox"
+                    }
+                  ]
+                },
+                "max_dist": 16
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "baby_turtle"
+                    },
+                    {
+                      "test": "in_water",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": true
+                    }
+                  ]
+                },
+                "max_dist": 16
+              },
+              {
+                "filters": {
+                  "all_of": [
+                    {
+                      "test": "is_family",
+                      "subject": "other",
+                      "value": "skeleton"
+                    },
+                    {
+                      "test": "is_underwater",
+                      "subject": "other",
+                      "operator": "!=",
+                      "value": true
+                    }
+                  ]
+                },
+                "max_dist": 16
+              }
+            ]
+          }
+        },
+        "minecraft:wolf_increased_max_health": {
+          "health": {
+            "value": 40,
+            "max": 40
+          }
+        },
+        "minecraft:wolf_tame": {
+          "attack": {
+            "damage": 4
+          },
+          "behavior.teleport_to_owner": {
+            "priority": 1,
+            "filters": {
+              "any_of": [
+                {
+                  "all_of": [
+                    {
+                      "test": "owner_distance",
+                      "operator": ">",
+                      "value": 12
+                    },
+                    {
+                      "test": "is_panicking"
+                    }
+                  ]
+                },
+                {
+                  "all_of": [
+                    {
+                      "test": "owner_distance",
+                      "operator": ">",
+                      "value": 24
+                    },
+                    {
+                      "test": "has_target"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "behavior.nearest_attackable_target": {
+            "priority": 5,
+            "must_see": true,
+            "entity_types": [
+              {
+                "filters": {
+                  "test": "is_family",
+                  "subject": "other",
+                  "value": "skeleton"
+                },
+                "max_dist": 16
+              }
+            ]
+          },
+          "behavior.follow_owner": {
+            "priority": 6,
+            "speed_multiplier": 1.0,
+            "start_distance": 10,
+            "stop_distance": 2,
+            "post_teleport_distance": -1,
+            "ignore_vibration": true
+          }
+        }
+      }
+    }
+  }
+}

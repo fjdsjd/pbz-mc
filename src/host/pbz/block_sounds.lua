@@ -20,7 +20,7 @@ end
 function M.new(directory,log)
   local file=assert(io.open(directory..'/sounds/manifest.json','rb'));local manifest=assert(json.decode(file:read('a')));file:close()
   assert(manifest.schema==1 and manifest.version=='1.21.1' and manifest.format=='s16le','block-audio-manifest')
-  local self=setmetatable({events=manifest.events,variants=manifest.variants,log=log,played=0,counts={},directory=directory,groups={}},M)
+  local self=setmetatable({events=manifest.events,event_names=manifest.event_names,variants=manifest.variants,log=log,played=0,counts={},directory=directory,groups={}},M)
   -- The existing dirt/combat pack remains usable by old installations. New
   -- material IDs never silently fall back to grass when their pack is absent.
   local grass={volume=1,pitch=1,events={}}
@@ -35,6 +35,11 @@ function M.new(directory,log)
     for name,group in pairs(block_manifest.groups)do self.groups[name]=prepare(group)end
     self.material_pack=true
   else self.material_pack=false;self.mapping_error='building-block-sound-pack-unavailable' end
+  local extension=io.open(directory..'/construction/sounds/manifest.json','rb')
+  if extension then
+    local game=assert(json.decode(extension:read('a')));extension:close();self.construction={}
+    for name,group in pairs(game.groups)do self.construction[name]=prepare(group)end
+  end
   local raw,why=PBZMC_BlockSound(json.encode({clip='warmup'}));self.ready=raw~=nil;self.error=why
   if not self.ready then log('block audio unavailable: '..tostring(why)) end
   return self
@@ -49,7 +54,11 @@ function M:play(kind,block,pc)
   -- These are the two pre-material building IDs. Position-only legacy calls
   -- also mean dirt; new block records must declare their actual sound group.
   if not name and (not content_id or content_id=='pbzmc:dirt' or content_id=='pbzmc:tnt')then name='grass' end
-  local group=name and self.groups[name]
+  local groups=self.groups
+  if definition and (definition.construction or definition.construction_sound) then
+    groups=self.construction;name=definition.construction_sound or name
+  end
+  local group=name and groups and groups[name]
   if not group then self.error='missing-original-block-sound-group:'..tostring(content_id)..':'..tostring(name);return false end
   local event=group.events[kind];local pick=math.random(event.total_weight);local sample
   for _,candidate in ipairs(event.variants)do if pick<=candidate.upper_weight then sample=candidate;break end end
@@ -63,7 +72,8 @@ function M:play(kind,block,pc)
   local source_volume=(group.volume+action.add)/action.divide*sample.volume
   local pitch=group.pitch*action.pitch*sample.pitch
   local gain=source_volume*math.max(0,1-distance/1600)
-  local raw,why=PBZMC_BlockSound(json.encode({clip=sample.clip,gain=gain,pan=pan,pitch=pitch}))
+  local raw,why=PBZMC_BlockSound(json.encode({clip=sample.clip,gain=gain,pan=pan,pitch=pitch,
+    sound_event='minecraft:'..event.event,source='block'}))
   if not raw then self.error=why;return false end
   self.error=nil;self.played=self.played+1
   self.counts[kind]=(self.counts[kind] or 0)+1
@@ -85,10 +95,12 @@ function M:combat(kind,position,pc,power)
   local pitch=sample.pitch
   -- Vanilla bow uses charge-dependent pitch; arrow impact has its own jitter.
   if kind=='bow_shoot' then pitch=pitch*(1/(math.random()*.4+1.2)+(power or 1)*.5)
-  elseif kind=='pearl_throw' then pitch=pitch*.4/(math.random()*.4+.8)
+  elseif kind=='pearl_throw' or kind=='wind_throw' then pitch=pitch*.4/(math.random()*.4+.8)
   elseif kind=='arrow_hit' then pitch=pitch*1.2/(math.random()*.2+.9) end
-  local gain=sample.volume*(kind=='pearl_throw' and .5 or 1)*math.max(0,1-distance/1600)
-  local raw,why=PBZMC_BlockSound(json.encode({clip=sample.clip,gain=gain,pan=pan,pitch=pitch}))
+  local gain=sample.volume*((kind=='pearl_throw' or kind=='wind_throw') and .5 or 1)*math.max(0,1-distance/1600)
+  local name=self.event_names and self.event_names[kind]
+  local raw,why=PBZMC_BlockSound(json.encode({clip=sample.clip,gain=gain,pan=pan,pitch=pitch,
+    sound_event=name and 'minecraft:'..name or nil,source='player'}))
   if not raw then self.error=why;return false end
   self.played=self.played+1;self.counts[kind]=(self.counts[kind] or 0)+1
   self.last={event=kind,clip=sample.clip,gain=gain,pitch=pitch}

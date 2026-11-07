@@ -78,6 +78,9 @@ def aliases():
     # MinecraftInventory.Asset() at the pinned wukong-steve commit uses these
     # same base assets. Enchanted variants still need the original glint pass.
     result={'redstone_dust':'redstone','boat':'oak_boat'}
+    # Command-only Java mobs have no vanilla egg. Use their closest original sprite.
+    result.update({'giant_spawn_egg':'zombie_spawn_egg','illusioner_spawn_egg':'evoker_spawn_egg',
+                   'killer_bunny_spawn_egg':'rabbit_spawn_egg'})
     for suffix in ('density','breach','wind_i','wind_ii','wind_iii','density_wind','breach_wind'):
         result['mace_'+suffix]='mace'
     for material in ('wooden','stone','copper','iron','golden','diamond','netherite'):

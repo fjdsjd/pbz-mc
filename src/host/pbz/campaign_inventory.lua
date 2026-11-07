@@ -1,7 +1,8 @@
 -- Formal inventory ownership: exact native checkpoint -> existing player store
 -- -> shared InventorySession -> immutable checkpoint -> native ordinary root.
 -- Opt-in until native equipment/world-item adapters are connected. No fixture
--- migration and no fallback to a latest head or a newly empty inventory.
+-- migration or latest-head fallback. Corrupt MC checkpoints use an explicit,
+-- separate recovery branch; the failed immutable files and PBZ progress stay.
 local M={}
 local json=require('dkjson')
 local state=require('storage.state')
@@ -40,11 +41,13 @@ local function snapshot(allow_missing)
   if summary then
     -- For existing campaigns only the verified identity/anchor cross into
     -- Lua. A read error must never be treated as first-time registration.
-    local raw,why=summary(path);assert(raw,why)
+    local raw,why,backup=summary(path);assert(raw,why)
     local current=state.decode(raw)
     assert(identity.matches(UE.GetGameInstance(),gi_id) and identity.matches(chosen,sub_id),'campaign-scope-changed')
     if allow_missing and current.needs_registration==true then
-      return {path=path,instance=gi_id,subsystem=sub_id,needs_registration=true}
+      assert(type(current.root_sha256)=='string' and #current.root_sha256==64,
+        'campaign-registration-bridge-update-required')
+      return {path=path,instance=gi_id,subsystem=sub_id,needs_registration=true,registration=current,backup=backup}
     end
     assert(type(current.campaign_id)=='string' and type(current.checkpoint)=='string'
       and type(current.root_sha256)=='string' and #current.root_sha256==64,'campaign-state-summary')
@@ -57,7 +60,7 @@ local function snapshot(allow_missing)
   local marker=section(root,'PBZMC_CampaignIdentity')
   local anchor=section(root,'PBZMC_Checkpoint')
   if allow_missing and (not marker or not anchor) then
-    return {raw=raw,path=path,instance=gi_id,subsystem=sub_id,needs_registration=true}
+    error('campaign-registration-bridge-update-required')
   end
   assert(marker,'campaign-identity-required')
   assert(type(marker.campaign_id)=='string' and encode(marker)==encode({owner='pbzmc',schema='campaign-identity-v1',
@@ -71,7 +74,7 @@ local function snapshot(allow_missing)
 end
 local function status(operation,why,write)
   local s=active
-  if load_error then s=nil end -- The previous campaign does not own this failed load.
+  if frozen or load_error then s=nil end -- The previous campaign does not own this load.
   local report={schema=2,operation=operation,enabled=config~=nil,
     frozen=frozen,load_epoch=load_epoch,error=why or load_error,campaign_id=s and s.campaign_id,checkpoint=s and s.checkpoint,
     mode=config and config.mode,generation=s and s.store.generation,opened=s and s.session.opened or false,
@@ -82,8 +85,17 @@ local function status(operation,why,write)
   -- No diagnostic serialization or file write on a gameplay transaction.
   if write or why then fs.write(base..'campaign-inventory-status.json',json.encode(report,{indent=true})) end
 end
-local function size_reason(why)
-  if why:find('save-limit:',1,true) then return '存档展开后的 JSON 超过模组安全上限。' end
+local function diagnostic_reason(why)
+  if fs.is_error(why) then return '无法读写模组存档文件。请检查日志中的路径、目录权限与磁盘空间；不要删除存档数据。' end
+  if why:find('save-limit:',1,true) then return '存档展开后的 JSON 超过安全上限（UTF-8 8 MiB、400000 个值）；下方给出实际值和上限。' end
+  if why:find('missing-campaign-checkpoint',1,true) or why:find('existing-campaign-anchor-missing',1,true)
+      or why:find('missing-checkpoint',1,true) then
+    return '缺少此原版存档对应的 MC 数据。请恢复同一备份中的 pbzmc-data/player-store，勿用空背包覆盖。'
+  end
+  if why:find('checksum',1,true) then return 'MC 存档数据校验失败。请保留文件并恢复配套备份，不要删除或重置存档。' end
+  if why:find('campaign-registration-bridge-update-required',1,true) then
+    return 'Lua 脚本和原生存档桥版本不一致。请完整安装新版并重启 PBZ。'
+  end
   if why:find('native FString length exceeds the probe bound',1,true) then
     return '旧版存档桥上限为 262144 个 UTF-16 代码单元，请完整更新模组并重启游戏。'
   end
@@ -92,13 +104,21 @@ local function reject_load(why)
   why=tostring(why)
   frozen=true;pending=nil
   if not load_error then
-    load_error='MC 读档失败：'..(size_reason(why) or '')..
+    load_error='MC 读档失败：'..(diagnostic_reason(why) or '')..
       '背包、快捷栏和建筑未加载。请保留当前存档与 pbzmc-data 的备份；更新后可重新读档。原因：'..why
     log(load_error)
     pcall(status,'load-rejected',load_error,true)
   end
 end
 function M.enabled() return config~=nil end
+function M.failure() return load_error end
+function M.load_epoch() return load_epoch end
+function M.notice()
+  if load_error then return load_error end
+  if active and M.current(active.binding) and active.recovery and active.recovery.automatic_reset then
+    return 'MC 数据已自动重建：旧 MC 数据读取失败，已保留原文件；PBZ 进度不变。请到原版存档点保存。'
+  end
+end
 function M.game_mode(binding)
   return active and active.binding==binding and require('rules.game_mode').get(active.store.core)or 'survival'
 end
@@ -150,7 +170,9 @@ local function install_hooks()
       assert(result and result:IsMappedToObject() and result:GetFullName()=='ScriptStruct /Script/ProjectPBZ.LoadGameResultParam',
         'campaign-load-result-unavailable')
       assert(result.ResultType==0,'campaign-native-load-failed')
-      pending.snapshot=snapshot(true);pending.success=true;status('load-result-success-await-player')
+      -- Do not serialize/parse a large native root on the LoadGame callback
+      -- stack. The first ready player binds it once, outside this callback.
+      pending.success=true;status('load-result-success-await-player')
     end)
     if not ok then reject_load(why) end
     return nil
@@ -179,7 +201,7 @@ local function install_hooks()
       end)
       if not ok then
         active.saving=false;active.save_error=tostring(why)
-        log('MC 存档点未能确认保存背包与建筑：'..(size_reason(tostring(why)) or '')..tostring(why))
+        log('MC 存档点未能确认保存背包与建筑：'..(diagnostic_reason(tostring(why)) or '')..tostring(why))
         pcall(status,'savepoint-failed',tostring(why),true)
       end
     end
@@ -205,8 +227,6 @@ local function bind(binding)
   end
   local snap=snapshot(true)
   if snap.needs_registration then
-    local raw=snap.raw
-    if not raw then local why;raw,why=PBZMC_ReadOrdinaryJson(snap.path);assert(raw,why) end
     local starter_snapshot
     local ok,reader=pcall(require('host.pbz.native_equipment').new,binding,require('host.pbz.local_player').controller(),load_epoch)
     if ok and reader then
@@ -214,25 +234,31 @@ local function bind(binding)
       if read then starter_snapshot=value end
       reader:close()
     end
-    require('host.pbz.campaign_registration').ensure(base,snap.path,raw,starter_snapshot)
+    require('host.pbz.campaign_registration').ensure(base,snap.path,snap.registration,starter_snapshot,snap.backup)
     snap=snapshot()
   end
-  if pending and not pending.snapshot.needs_registration then
-    assert(snap.campaign_id==pending.snapshot.campaign_id and snap.checkpoint==pending.snapshot.checkpoint,
-      'formal-inventory-loaded-checkpoint-changed')
-  end
   local c=Campaign.open(base..'player-store',snap.campaign_id,'local-primary',definitions)
-  local loaded
+  local loaded,recovery
   if active and not pending and active.campaign_id==snap.campaign_id then
     -- Actor replacement is not a reason to rewind committed inventory. A
     -- changed root without a proven load request remains blocked for review.
     assert(snap.checkpoint==active.checkpoint,'formal-inventory-unclassified-root-change')
-    loaded={profiles=active.profiles}
-  else local why;loaded,why=c:load(snap.checkpoint);assert(loaded,why) end
+    loaded={profiles=active.profiles};c=active.campaign;recovery=active.recovery
+  else
+    local why;loaded,why=c:load(snap.checkpoint)
+    if not loaded then
+      c,loaded,recovery=require('storage.campaign_recovery').create(base,snap.campaign_id,snap.checkpoint,why)
+      if recovery.automatic_reset then
+        log('MC 数据已自动重建；PBZ 进度不变，旧文件原位保留。source='..snap.checkpoint..
+          ' replacement='..recovery.checkpoint..' reason='..tostring(recovery.reason))
+      end
+    end
+  end
   for mode,store in pairs(loaded.profiles) do loaded.profiles[mode]=SessionStore.new(store) end
   local s={campaign=c,campaign_id=snap.campaign_id,checkpoint=snap.checkpoint,profiles=loaded.profiles,
     binding=binding,world=identity.capture(binding.actor:GetWorld()),instance=snap.instance,
-    store=assert(loaded.profiles[config.mode]),epoch=load_epoch,mode=config.mode}
+    store=assert(loaded.profiles[config.mode]),epoch=load_epoch,mode=config.mode,recovery=recovery}
+  if recovery and recovery.automatic_reset then s.unpublished=true end
   if active and not pending and active.profiles==s.profiles then
     s.unpublished=active.unpublished;s.savepoint=active.savepoint;s.selection_metrics=active.selection_metrics
   end
@@ -249,43 +275,24 @@ local function bind(binding)
     return s.selection_authority and s.selection_authority(before,after)==true or false
   end
   s.session=Session.new(s.store,host,s.world.name)
-  active=s;pending=nil;frozen=false
-  binding.mc_creative=require('rules.game_mode').creative(s.store.core)
-  local ticket=s.store:checkout({})
-  local starter,address=require('rules.shield_unlock').apply(ticket.data,s.campaign_id)
-  if starter~=ticket.data then
-    local ok,why=s.session:commit(ticket,starter);assert(ok,why)
-    log('MC shield available in '..address..'; memory transaction, next native savepoint persists it')
-  end
-  ticket=s.store:checkout({})
-  local recovery=require('rules.recovery_unlock').apply(ticket.data)
-  if recovery~=ticket.data then local ok,why=s.session:commit(ticket,recovery);assert(ok,why) end
-  ticket=s.store:checkout({})
-  local pearl,address=require('rules.pearl_unlock').apply(ticket.data)
-  if pearl~=ticket.data then
-    local ok,why=s.session:commit(ticket,pearl);assert(ok,why)
-    log('MC infinite ender pearl available in '..address..'; next native savepoint persists it')
-  end
-  ticket=s.store:checkout({})
-  local boat,address=require('rules.boat_unlock').apply(ticket.data)
-  if boat~=ticket.data then
-    local ok,why=s.session:commit(ticket,boat);assert(ok,why)
-    log('MC oak boat available in '..address..'; next native savepoint persists it')
-  end
-  ticket=s.store:checkout({})
-  local chorus,address=require('rules.chorus_unlock').apply(ticket.data)
-  if chorus~=ticket.data then
-    local ok,why=s.session:commit(ticket,chorus);assert(ok,why)
-    log('MC rescue chorus fruit available in '..address..'; next native savepoint persists it')
-  end
-  if require('host.pbz.tnt_damage').ready() then
-    ticket=s.store:checkout({})
-    local tnt,grants=require('rules.tnt_unlock').apply(ticket.data,s.campaign_id)
-    if tnt~=ticket.data then
-      local ok,why=s.session:commit(ticket,tnt);assert(ok,why)
-      log('MC TNT/flint available; next native savepoint persists it')
+  -- Pure legacy grants are preflighted in the detached memory store. Do not
+  -- expose a partially initialized campaign if a migration fails midway.
+  local core=s.store.core
+  local tnt_ready=require('host.pbz.tnt_damage').ready()
+  if not(core.shield_unlocked and core.recovery_items_unlocked and core.pearl_unlocked and core.boat_unlocked
+      and core.chorus_unlocked and (not tnt_ready or core.tnt_unlocked and core.flint_unlocked))then
+    local ticket=s.store:checkout({});local candidate=ticket.data
+    for _,name in ipairs({'shield_unlock','recovery_unlock','pearl_unlock','boat_unlock','chorus_unlock'})do
+      candidate=require('rules.'..name).apply(candidate,s.campaign_id)
+    end
+    if tnt_ready then candidate=require('rules.tnt_unlock').apply(candidate,s.campaign_id)end
+    if candidate~=ticket.data then
+      local ok,why=s.store:commit(ticket,candidate);assert(ok,why)
+      log('MC legacy starter grants applied in one memory transaction; next native savepoint persists them')
     end
   end
+  active=s;pending=nil;frozen=false
+  binding.mc_creative=require('rules.game_mode').creative(s.store.core)
   local ok,service=pcall(require('host.pbz.player_status_service').new,s,log)
   if ok then s.status_service=service else log('MC player status initialization failed: '..tostring(service)) end
   status('bound');log('formal inventory bound mode='..config.mode..' generation='..s.store.generation..' checkpoint='..s.checkpoint)
@@ -301,16 +308,16 @@ function M.ensure(binding)
   end
   local ok,result=pcall(bind,binding)
   if ok then return result end
-  -- A direct bind (e.g. scripts started after LoadGame) can hit the same
-  -- deterministic limit. Do not re-read megabytes every frame until reload.
-  if size_reason(tostring(result)) then reject_load(result);error(load_error,0) end
-  error(result,0)
+  -- All bind failures are terminal for this load, including a missing exact
+  -- checkpoint, invalid old schema or failed migration. A new LoadGame is the
+  -- recovery boundary; rendering must not retry disk/JSON work every frame.
+  reject_load(result);error(load_error,0)
 end
-local function publish(s)
-  local snap=snapshot()
+local function publish(s,snap)
   assert(M.current(s.binding) and snap.campaign_id==s.campaign_id and snap.checkpoint==s.checkpoint,'formal-inventory-anchor-changed')
   local digest,why=s.campaign:create(s.profiles);assert(digest,why)
   assert(M.current(s.binding),'formal-inventory-owner-changed')
+  require('storage.campaign_recovery').before_publish(base,s.campaign,digest)
   local expected=snap.raw_sha256 or sha(snap.raw)
   -- Put performs the exact-root compare immediately before the native write,
   -- then reads back the whole root and checks the anchor and unrelated fields.
@@ -330,6 +337,30 @@ end
 function M.savepoint(source)
   local s=assert(active,'savepoint-profile-unavailable')
   assert(not s.saving and M.current(s.binding) and not s.session.busy,'savepoint-session-unavailable')
+  -- A yielding /fill or /clone can have committed native batches while the
+  -- enclosing command is unfinished. Do not publish that intermediate core.
+  -- Use already-loaded owners only, including a service currently closing.
+  local commands=package.loaded['host.pbz.command_service']
+  local service=commands and commands.get(s.binding)
+  if not service then
+    local buildings=package.loaded['host.pbz.building_service']
+    local build=buildings and buildings.get(s.binding)
+    service=build and build.commands
+  end
+  if service and service.has_pending_mutations and service:has_pending_mutations()then
+    local reason='command-world-transaction-pending: wait for command completion before saving'
+    if service.message then pcall(service.message,service,'chat','命令方块事务尚未完成，请等待命令结束后再次存档。',{source='server'})end
+    error(reason,0)
+  end
+  -- Clock progress is cheap runtime state, carried by the profile across pawn
+  -- replacement. Publish it with scheduled functions only at native saves.
+  for _,store in pairs(s.profiles)do
+    if store.command_tick and store.core.commands and store.core.commands.clock~=store.command_tick then
+      local next_commands=require('storage.state').clone(store.core.commands)
+      next_commands.clock=store.command_tick
+      local committed,why=store:commit_commands(store.core.commands,next_commands);assert(committed,why)
+    end
+  end
   if s.status_service then s.status_service:flush_memory() end
   local boats=package.loaded['host.pbz.boat_service']
   local boat=boats and boats.get(s.binding)
@@ -345,7 +376,7 @@ function M.savepoint(source)
     for _,store in pairs(s.profiles) do
       local flushed,err=store:flush();assert(flushed,err)
     end
-    publish(s)
+    publish(s,snap)
     s.unpublished=false;s.save_error=nil
     s.savepoint={source=source,previous=before,checkpoint=s.checkpoint,milliseconds=(os.clock()-began)*1000,
       disk_generation=s.store.durable.generation,gameplay_revision=s.store.generation}
@@ -557,6 +588,105 @@ function M.enable(binding)
   if not ok then config=nil;error(why) end
   fs.write(base..'campaign-inventory-enabled.json',json.encode(config))
   status('enabled')
+end
+function M.command_state(binding)
+  return M.ensure(binding).store.core.commands
+end
+function M.command_clock(binding)
+  local store=M.ensure(binding).store
+  store.command_tick=store.command_tick or (store.core.commands and store.core.commands.clock)or 0
+  return function(advance)
+    if advance then store.command_tick=store.command_tick+advance end
+    return store.command_tick
+  end
+end
+function M.save_command_state(binding,value,...)
+  local s=M.ensure(binding)
+  if s.restart_frozen or s.session.busy or s.session.quarantined then return false,'command-transaction-busy' end
+  local expected=s.store.core.commands
+  if select('#',...)>0 then expected=(...)end
+  return s.store:commit_commands(expected,value)
+end
+-- Capture this lease while the binding is current. Shutdown may call it after
+-- a death/load has retired the actor or rebound the active campaign. Only the
+-- original in-memory profile is accessible here; no native object or disk API.
+-- Rows are the forward committed journal {before,after}; this applies its
+-- reverse, atomically in memory, after validating every compare-and-swap.
+function M.command_rollback(binding)
+  local s=M.ensure(binding);local store=s.store
+  local world=assert(s.world and s.world.name,'command-rollback-world-required'):gsub('^World ','')
+  local same=SessionStore.same_building
+  return function(changes)
+    local original=store.core
+    local called,prepared=pcall(function()
+      assert(not store.read_only and store.loaded and original,'command-rollback-store-unavailable')
+      assert(type(changes)=='table'and #changes<=16384,'command-rollback-journal-limit')
+      local count=0;for index in pairs(changes)do
+        count=count+1;assert(type(index)=='number'and index%1==0 and index>=1 and index<=#changes,'command-rollback-journal-array')
+      end
+      assert(count==#changes,'command-rollback-journal-array')
+      assert(store.generation+math.ceil(count/128)<2^53,'command-rollback-generation-exhausted')
+      local rows,seen,positions={},{},{}
+      local function position_key(r)return r.world..string.pack('<ddd',r.x+0.,r.y+0.,r.z+0.)end
+      for index=#changes,1,-1 do
+        local row=changes[index];assert(type(row)=='table','command-rollback-journal-row')
+        local before,after=row.before,row.after
+        local id=after and after.id or before and before.id
+        assert(type(id)=='string'and not seen[id],'command-rollback-journal-id')
+        assert(not before or before.id==id,'command-rollback-id-changed')
+        for _,record in pairs({before=before,after=after})do
+          assert(record.world==world,'command-rollback-wrong-world')
+          state.validate_buildings(state.object({[id]=record}));state.validate_value(record)
+        end
+        local current=original.buildings[id]
+        assert(same(current,after),'command-rollback-record-conflict:'..id)
+        rows[#rows+1]={before=current,after=before and state.clone(before)or nil}
+        seen[id]=true
+        if before then positions[position_key(before)]=id end
+      end
+      local candidate=state.object()
+      for id,record in pairs(original.buildings)do
+        -- A newly placed unrelated block must not be overlapped by restoring a
+        -- removed command-owned record, even if its instance ID is different.
+        assert(seen[id]or not positions[position_key(record)],'command-rollback-position-conflict:'..id)
+        candidate[id]=record
+      end
+      for _,row in ipairs(rows)do local id=row.after and row.after.id or row.before.id;candidate[id]=row.after end
+      state.validate_buildings(candidate)
+      return rows
+    end)
+    if not called then return false,tostring(prepared)end
+    if #prepared==0 then return true,0 end
+    -- commit_buildings is pure Lua and never yields. A validation failure in a
+    -- later bounded delta restores the exact pre-call core; the generation is
+    -- kept monotonic so already issued tickets cannot become valid again.
+    local applied,why=pcall(function()
+      for first=1,#prepared,128 do
+        local rows={}
+        for index=first,math.min(first+127,#prepared)do
+          local row=prepared[index];local id=row.after and row.after.id or row.before.id
+          assert(same(store.core.buildings[id],row.before),'command-rollback-record-conflict:'..id)
+          rows[#rows+1]={before=store.core.buildings[id],after=row.after}
+        end
+        local ticket={owner=store,generation=store.generation,core=store.core,
+          buildings=store.core.buildings,building_grids=store.core.building_grids}
+        local ok,reason=store:commit_buildings(ticket,rows);assert(ok,reason)
+      end
+    end)
+    if not applied then store.core=original;return false,tostring(why)end
+    return true,#prepared
+  end
+end
+function M.command_items(binding,operation)
+  local s=M.ensure(binding)
+  assert(not s.session.opened and not s.restart_frozen and not s.session.busy,'command-inventory-unavailable')
+  local ticket=s.store:checkout({})
+  local containers,result=operation(ticket.data.containers,s.store.generation+1,s.campaign_id)
+  if not containers then return result end
+  local candidate=state.object();for k,v in pairs(ticket.data)do candidate[k]=v end
+  candidate.containers=containers
+  local ok,why=s.session:commit(ticket,candidate);assert(ok,why)
+  return result
 end
 function M.take_arrows(binding)
   -- Explicit integration-test setup through the free-mode ownership store.

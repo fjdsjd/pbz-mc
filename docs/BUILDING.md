@@ -18,11 +18,20 @@ powershell -NoProfile -ExecutionPolicy Bypass -File native/json_bridge/build-por
 
 ## 打包
 
+先构建默认关闭、按进程参数启用的 DWM 代理。不要将上游默认常开的 `dwmapi.dll` 直接装入新版包：
+
 ```powershell
-python tools/package_release.py --loader build/loader --version 0.1.0-alpha.5 --output build/package-0.1.0-alpha.5
-python tools/check_release.py build/package-0.1.0-alpha.5/stage
-python tools/package_offline.py --release build/package-0.1.0-alpha.5/stage --cache-only --output build/offline-cache-0.1.0-alpha.5
-python tools/check_release.py build/offline-cache-0.1.0-alpha.5/stage --installer-test
+powershell -NoProfile -ExecutionPolicy Bypass -File native/launcher_proxy/build.ps1
+python tools/check_launcher.py
+```
+
+输出 `build/launcher-proxy/dwmapi.dll` 和源码哈希回执。打包器默认读取该文件，可通过 `--proxy` 指定同目录带回执的构建；源码变更后必须重建。`check_launcher.py` 在独立临时进程中加载实际代理与模拟 UE4SS DLL，验证默认关闭、参数精确匹配、禁用优先、系统 API 转发及异常退出后默认关闭，不操作真实 Steam。真实游戏的两种启动路径需另行验证。
+
+```powershell
+python tools/package_release.py --loader build/loader --version 0.1.0-alpha.6 --output build/package-0.1.0-alpha.6
+python tools/check_release.py build/package-0.1.0-alpha.6/stage
+python tools/package_offline.py --release build/package-0.1.0-alpha.6/stage --cache-only --output build/offline-cache-0.1.0-alpha.6
+python tools/check_release.py build/offline-cache-0.1.0-alpha.6/stage --installer-test
 ```
 
 输出目录必须为空。打包脚本使用明确的文件列表，输出可解压到游戏根目录的 ZIP 与 SHA256SUMS。不会复制本机存档、日志、原游戏文件、私有资源缓存或开发命令入口。
@@ -34,8 +43,8 @@ python tools/check_release.py build/offline-cache-0.1.0-alpha.5/stage --installe
 已有通过校验的运行资源时，可以组合成首次启动也无需下载的离线包：
 
 ```powershell
-python tools/package_offline.py --release build/package-0.1.0-alpha.5/stage --assets build/runtime-assets --output build/offline-0.1.0-alpha.5
-python tools/check_release.py build/offline-0.1.0-alpha.5/stage --installer-test
+python tools/package_offline.py --release build/package-0.1.0-alpha.6/stage --assets build/runtime-assets --output build/offline-0.1.0-alpha.6
+python tools/check_release.py build/offline-0.1.0-alpha.6/stage --installer-test
 ```
 
 `--assets` 必须包含 `ready.json`，且全部资源与固定配方逐项匹配。打包器只复制清单内的运行资源，不带个人存档、下载的客户端归档、转换工具或开发缓存。离线包包含 `PBZMC/cache/runtime-assets`，其安装器校验资源清单后直接使用；缺失或损坏时停止，不联网回退。游戏运行文件和在线包相同。
@@ -54,7 +63,7 @@ python tools/check_release.py build/offline-0.1.0-alpha.5/stage --installer-test
 python tools/prepare_release_assets.py --work build/asset-work --cache build/downloads --ffmpeg-bin PATH_TO_FFMPEG_BIN --resume --output build/runtime-assets
 ```
 
-共有 30 个转换步骤，生成文件逐个与固定资源清单对照。中断后可继续；脚本或配方改变会重新执行转换。最终 `ready.json` 记录实际运行资源的路径与哈希。这些资源只在本地使用，不应提交仓库或重新打进发行包。
+转换器按顺序运行资源配方，并逐一核对生成文件的哈希。中断后可继续；脚本或配方改变会重新执行转换。最终 `ready.json` 记录实际运行资源的路径与哈希。这些资源只在本地使用，不应提交仓库或公开发行包。
 
 ## 验证边界
 
@@ -64,7 +73,11 @@ python tools/prepare_release_assets.py --work build/asset-work --cache build/dow
 
 安装 `lupa` 后可运行 `python tools/check_starter_loadout.py` 检查初始物品及原生槽位延迟发现。规则和安装器测试不能代替真实 PBZ 运行验证。游戏更新需重新验证接口、原生入口、生命／死亡和输入路径，再明确增加受支持的游戏哈希；不能只删除版本保护。
 
+命令扩展运行 `python tools/check_commands.py`：覆盖解析、MC／PBZ 选择器、建筑分帧事务、物品归属、计分／数据、execute 组合、命令方块时序和存档栅栏。它使用真实 Lua 规则及模拟宿主，不启动游戏；原生碰撞、生命变化、实体生命周期和输入界面仍需实机确认。具体命令支持范围见 [COMMANDS.md](COMMANDS.md)。
+
 大存档回归：在 x64 MSVC 开发者命令行中运行 `cl /nologo /std:c++latest /EHsc /O2 /utf-8 /DNOMINMAX tools/check_campaign_save_limits.cpp /Fe:build/check_campaign_save_limits.exe`，再运行生成的程序。它用真实 Windows 字符转换和生产读写校验，覆盖旧界限、中文、新上限与连续检查点。另运行 `python tools/check_campaign_load.py`（需 lupa），检查失败提示、重新读档及背包和建筑归属；两项都不会访问玩家存档。
+
+`python tools/check_campaign_recovery.py` 检查大旧档首次接入时仅解析小型原生回执、中断后的登记恢复和备份不重复。`check_campaign_load.py` 同时覆盖 MC 数据损坏后的独立重建、原文件不变、同一失败检查点复用、存档点精确关联，以及 1000 次正常帧查询没有存档 I/O。读档钩子只记录生命周期，整档读取放到玩家就绪后；兼容补给合并为一次内存事务。原生存档点仍需同步验证并发布，规则测试不代表实际帧率测量。
 
 ### 游戏更新后定位原生入口
 

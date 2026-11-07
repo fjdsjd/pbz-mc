@@ -8,7 +8,12 @@ local definitions=require('content.items')
 local M={};local ids,available={},{}
 for _,definition in ipairs(armor.catalogue())do ids[#ids+1]=definition.id end
 for _,definition in ipairs(tools.catalogue())do ids[#ids+1]=definition.id end
-for _,id in ipairs(require('content.combat_profiles').catalogue('sword'))do ids[#ids+1]=id end
+local profiles=require('content.combat_profiles')
+for _,id in ipairs(profiles.catalogue('sword'))do ids[#ids+1]=id end
+for _,id in ipairs(profiles.catalogue('mace'))do ids[#ids+1]=id end
+for _,id in ipairs(profiles.catalogue('spear'))do
+  if profiles.get(id).lunge==0 then ids[#ids+1]=id end
+end
 for _,id in ipairs(require('content.catalogue_groups').equipment)do ids[#ids+1]=id end
 for _,id in ipairs(ids)do
   local definition=assert(definitions.get(id),'equipment-catalogue-definition-required:'..id)

@@ -66,13 +66,13 @@ inline std::string run(const std::string& input) {
         // Metadata and a local initialized parameter buffer only. No UObject
         // is modified and no ProcessEvent/damage call occurs in this probe.
         const auto signature=damage_schema();ParameterFrame frame(signature);fire_cause(signature,frame,nullptr);
-        return Json{{"api",2},{"kinds",{"sword","arrow","explosion","fire","fall","fly_into_wall"}},
+        return Json{{"api",2},{"kinds",{"sword","spear","mace","arrow","wind_charge","explosion","fire","fall","fly_into_wall"}},
             {"self_damage",true},{"fire_cause","Damage.Cause.Fire"},{"fire_cause_verified",true}}.dump();
     }
     require(phase=="damage"||phase=="feedback","MC hit phase");
     const auto kind=data.at("kind").get<std::string>();
     const bool environmental=kind=="explosion"||kind=="fire"||kind=="fall"||kind=="fly_into_wall";
-    require(kind=="sword"||kind=="arrow"||environmental,"MC hit kind");
+    require(kind=="sword"||kind=="spear"||kind=="mace"||kind=="arrow"||kind=="wind_charge"||environmental,"MC hit kind");
     auto* pawn=object(data,"pawn");auto* target=object(data,"target");auto* source=object(data,"source");
     auto* component=object(data,"component");
     require(component->GetFullName().starts_with(L"AttributeComponent ")&&owner(component)==target,"MC damage target owner");
@@ -93,10 +93,15 @@ inline std::string run(const std::string& input) {
     auto* avatar=class_property(source_class,L"SourceAvatar");
     require(property_kind(avatar)==L"WeakObjectProperty"&&avatar->GetSize()==8,"MC hit source-avatar schema");
     import(avatar,reinterpret_cast<unsigned char*>(source)+avatar->GetOffset_Internal(),source,L"Object'"+pawn_path+L"'");
+    const wchar_t* attack_type=L"HitReact.AttackType.Physical.Slash.TangBlade.Player";
+    if(kind=="arrow") attack_type=L"HitReact.AttackType.Physical.Projectile.Arrow";
+    if(kind=="mace") attack_type=L"HitReact.AttackType.Physical";
+    if(kind=="wind_charge") attack_type=L"HitReact.AttackType.Physical.Projectile";
     const std::array<std::pair<const wchar_t*,const wchar_t*>,4> tags{{
         {L"AttackStyle",L"Hitreact.AttackStyle.Default"},
-        {L"AttackType",kind=="arrow"?L"HitReact.AttackType.Physical.Projectile.Arrow":L"HitReact.AttackType.Physical.Slash.TangBlade.Player"},
-        {L"HitStrength",L"Hitreact.Strength.Income.Normal.Middle"},
+        {L"AttackType",attack_type},
+        {L"HitStrength",kind=="wind_charge"?L"Hitreact.Strength.Income.Normal.Light":
+            kind=="mace"&&data.value("smash",false)?L"Hitreact.Strength.Income.Normal.Heavy":L"Hitreact.Strength.Income.Normal.Middle"},
         {L"AttackDirection",L"Hitreact.AttackDirection.Forward"}}};
     for(const auto& [name,tag]:tags) {
         const auto* property=class_property(source_class,name);require(property_kind(property)==L"StructProperty"&&property->GetSize()==8,"MC hit tag schema");

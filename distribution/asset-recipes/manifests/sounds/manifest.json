@@ -90,6 +90,54 @@
     ],
     "elytra_flying": [
       "item_elytra_elytra_loop"
+    ],
+    "spear_attack": [
+      "item_spear_attack1",
+      "item_spear_attack2",
+      "item_spear_attack3"
+    ],
+    "spear_hit": [
+      "item_spear_hit1",
+      "item_spear_hit2",
+      "item_spear_hit3"
+    ],
+    "spear_use": [
+      "item_spear_use"
+    ],
+    "spear_wood_attack": [
+      "item_spear_wood_attack1",
+      "item_spear_wood_attack2",
+      "item_spear_wood_attack3"
+    ],
+    "spear_wood_hit": [
+      "item_spear_wood_hit1",
+      "item_spear_wood_hit2",
+      "item_spear_wood_hit3"
+    ],
+    "spear_wood_use": [
+      "item_spear_wood_use"
+    ],
+    "mace_air": [
+      "item_mace_smash_air1",
+      "item_mace_smash_air2",
+      "item_mace_smash_air3"
+    ],
+    "mace_ground": [
+      "item_mace_smash_ground1",
+      "item_mace_smash_ground2",
+      "item_mace_smash_ground3",
+      "item_mace_smash_ground4"
+    ],
+    "mace_heavy": [
+      "item_mace_smash_ground_heavy"
+    ],
+    "mace_wind": [
+      "entity_wind_charge_wind_burst1",
+      "entity_wind_charge_wind_burst2",
+      "entity_wind_charge_wind_burst3"
+    ],
+    "wind_throw": [
+      "wind26_random_bow"
     ]
   },
   "event_names": {
@@ -110,7 +158,18 @@
     "firework_launch": "entity.firework_rocket.launch",
     "firework_blast": "entity.firework_rocket.blast",
     "firework_twinkle": "entity.firework_rocket.twinkle",
-    "elytra_flying": "item.elytra.flying"
+    "elytra_flying": "item.elytra.flying",
+    "spear_attack": "item.spear.attack",
+    "spear_hit": "item.spear.hit",
+    "spear_use": "item.spear.use",
+    "spear_wood_attack": "item.spear_wood.attack",
+    "spear_wood_hit": "item.spear_wood.hit",
+    "spear_wood_use": "item.spear_wood.use",
+    "mace_air": "item.mace.smash_air",
+    "mace_ground": "item.mace.smash_ground",
+    "mace_heavy": "item.mace.smash_ground_heavy",
+    "mace_wind": "entity.wind_charge.wind_burst",
+    "wind_throw": "entity.wind_charge.throw"
   },
   "variants": {
     "place": [
@@ -445,6 +504,184 @@
       {
         "clip": "item_elytra_elytra_loop",
         "volume": 0.6,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "spear_attack": [
+      {
+        "clip": "item_spear_attack1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_spear_attack2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_spear_attack3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "spear_hit": [
+      {
+        "clip": "item_spear_hit1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_spear_hit2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_spear_hit3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "spear_use": [
+      {
+        "clip": "item_spear_use",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "spear_wood_attack": [
+      {
+        "clip": "item_spear_wood_attack1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_spear_wood_attack2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_spear_wood_attack3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "spear_wood_hit": [
+      {
+        "clip": "item_spear_wood_hit1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_spear_wood_hit2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_spear_wood_hit3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "spear_wood_use": [
+      {
+        "clip": "item_spear_wood_use",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "mace_air": [
+      {
+        "clip": "item_mace_smash_air1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_mace_smash_air2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_mace_smash_air3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "mace_ground": [
+      {
+        "clip": "item_mace_smash_ground1",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_mace_smash_ground2",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_mace_smash_ground3",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      },
+      {
+        "clip": "item_mace_smash_ground4",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "mace_heavy": [
+      {
+        "clip": "item_mace_smash_ground_heavy",
+        "volume": 1,
+        "pitch": 1,
+        "weight": 1
+      }
+    ],
+    "mace_wind": [
+      {
+        "clip": "entity_wind_charge_wind_burst1",
+        "volume": 1,
+        "pitch": 1.25,
+        "weight": 1
+      },
+      {
+        "clip": "entity_wind_charge_wind_burst2",
+        "volume": 1,
+        "pitch": 1.25,
+        "weight": 1
+      },
+      {
+        "clip": "entity_wind_charge_wind_burst3",
+        "volume": 1,
+        "pitch": 1.25,
+        "weight": 1
+      }
+    ],
+    "wind_throw": [
+      {
+        "clip": "wind26_random_bow",
+        "volume": 1,
         "pitch": 1,
         "weight": 1
       }
@@ -882,6 +1119,316 @@
       "source_sample_rate": 48000,
       "duration_seconds": 10.220340136054421,
       "bundle": "assets/private/elytra-firework"
+    },
+    {
+      "name": "item_spear_attack1",
+      "file": "item_spear_attack1.pcm",
+      "bytes": 162008,
+      "sha256": "8f83efde8fa5c4730d669cda16c699282a4a9045d654f57d6e0c5ebc129333cc",
+      "source": "minecraft/sounds/item/spear/attack1.ogg",
+      "source_sha1": "b7465f5c97e1056f5b49b6b0a7bb5205b21bca26",
+      "source_sha256": "ccdf7ad0894c9534e88cd5cc53ef8b674c8f14a4a41b27ea0dbc4cf63591680b",
+      "duration_seconds": 0.9184126984126985
+    },
+    {
+      "name": "item_spear_attack2",
+      "file": "item_spear_attack2.pcm",
+      "bytes": 118460,
+      "sha256": "ee080218321c107bb71694bd0405c7bc82629f7c88c6f48778b9b649b832d7b5",
+      "source": "minecraft/sounds/item/spear/attack2.ogg",
+      "source_sha1": "f93dad41a57680ecb0e0d65a3ca5776f608beb0b",
+      "source_sha256": "19fbfe758dec13dbb67c9b5350616d5c25b530dc87a71252b85166177c328af6",
+      "duration_seconds": 0.6715419501133787
+    },
+    {
+      "name": "item_spear_attack3",
+      "file": "item_spear_attack3.pcm",
+      "bytes": 151052,
+      "sha256": "7ff4174288e29d675a9f85cf703e6856d7f553959c00823508022021476dc99a",
+      "source": "minecraft/sounds/item/spear/attack3.ogg",
+      "source_sha1": "605719f2e01fe91850a84c83f70b31853aa3e99b",
+      "source_sha256": "39b5adfda849e11c8bdb9488c51d8884ae46153150edd74ab6220043b4475c9d",
+      "duration_seconds": 0.8563038548752835
+    },
+    {
+      "name": "item_spear_hit1",
+      "file": "item_spear_hit1.pcm",
+      "bytes": 121788,
+      "sha256": "de86fdf1d9b868b6b1cbfbedfde335f34c08e89a15295edf3be2ec7e7e4969a4",
+      "source": "minecraft/sounds/item/spear/hit1.ogg",
+      "source_sha1": "0b00ccbaf87997fd2571946b20b8eedb29dd0388",
+      "source_sha256": "508715f2fe2239cc5e70145b791e69ccd111ab4f794d87e483c0b378c6c899cc",
+      "duration_seconds": 0.6904081632653061
+    },
+    {
+      "name": "item_spear_hit2",
+      "file": "item_spear_hit2.pcm",
+      "bytes": 103452,
+      "sha256": "f17d84a5b52bca085408006cb45a482de344b9974d7675d3c336dd991bd9fe49",
+      "source": "minecraft/sounds/item/spear/hit2.ogg",
+      "source_sha1": "d53d8610feeae6d4dc089a65f05e82c939b5eef2",
+      "source_sha256": "e75cf0ab32cc60e89027eadbc7715295ddc018a2f13470a6f6d346f9b69c5613",
+      "duration_seconds": 0.5864625850340136
+    },
+    {
+      "name": "item_spear_hit3",
+      "file": "item_spear_hit3.pcm",
+      "bytes": 103452,
+      "sha256": "c0d6d0e2413165e35d73f930c70c0af856e20048dfcb5e741fc7489102d663ef",
+      "source": "minecraft/sounds/item/spear/hit3.ogg",
+      "source_sha1": "07f255f4919ea113183e1148d96342723e622d07",
+      "source_sha256": "f4a4cd6f2f62b4bc90b7ec52353531cd58394310c64cf07439197c008aded8ea",
+      "duration_seconds": 0.5864625850340136
+    },
+    {
+      "name": "item_spear_use",
+      "file": "item_spear_use.pcm",
+      "bytes": 202556,
+      "sha256": "8e2c2fb12d30cefd16e7882a4fee672c3aac30b2180a5f8393fd372ac6242189",
+      "source": "minecraft/sounds/item/spear/use.ogg",
+      "source_sha1": "1ae7fea3dc9c7b3016ff1b79b5e51bd1c1e1cf50",
+      "source_sha256": "dbb2f79bb8b93551c0af6ff00de21c5bcab7f70f9b858932f5fdc6deb5b1c8c6",
+      "duration_seconds": 1.1482766439909298
+    },
+    {
+      "name": "item_spear_wood_attack1",
+      "file": "item_spear_wood_attack1.pcm",
+      "bytes": 161336,
+      "sha256": "ea276569fa3704ca2e2f6dd7a667ab7f542bb15ce5d9b4444057eaa1f3b1fc21",
+      "source": "minecraft/sounds/item/spear/wood/attack1.ogg",
+      "source_sha1": "b83f0cec28f0b517507b54b879bab7d1e1f52462",
+      "source_sha256": "81368e5f120d1c4c8b642090793f98172ada7d466b583144430709168e9306ed",
+      "duration_seconds": 0.9146031746031746
+    },
+    {
+      "name": "item_spear_wood_attack2",
+      "file": "item_spear_wood_attack2.pcm",
+      "bytes": 145036,
+      "sha256": "0a55bbe8d2aea189ad0002d85dda597d35c59b1f556588f98cd78691dbd1713e",
+      "source": "minecraft/sounds/item/spear/wood/attack2.ogg",
+      "source_sha1": "3d218c4cc63e12d5578675f2db6a6367db88d2fc",
+      "source_sha256": "d309c100b8074a9b1dccddb9fcfc515ee03a05ec453bcf3cbc75dc146f4eb430",
+      "duration_seconds": 0.8221995464852607
+    },
+    {
+      "name": "item_spear_wood_attack3",
+      "file": "item_spear_wood_attack3.pcm",
+      "bytes": 171768,
+      "sha256": "ea7a1c73456cf96c31e26a563700ccfbc829d614f721b6e08f65d4777f6ea9bf",
+      "source": "minecraft/sounds/item/spear/wood/attack3.ogg",
+      "source_sha1": "cbe2ec25a4027f0fcfb0dece47e1cfd074ffaf53",
+      "source_sha256": "69c60b129f41c280333757df91e7362b150d8c54b2ebff50149f8f313e558f19",
+      "duration_seconds": 0.9737414965986395
+    },
+    {
+      "name": "item_spear_wood_hit1",
+      "file": "item_spear_wood_hit1.pcm",
+      "bytes": 121888,
+      "sha256": "f48c4992b82c7cdb59f7ece359dac127067ad3cee7493b5b296d1b62b94b3921",
+      "source": "minecraft/sounds/item/spear/wood/hit1.ogg",
+      "source_sha1": "417611aaa8827bb57188a7b9e7535af4bfd00462",
+      "source_sha256": "555005d8c65b0d3e13ba1af989358e90891cdfde24628d1c5a0233351c9c35c2",
+      "duration_seconds": 0.6909750566893424
+    },
+    {
+      "name": "item_spear_wood_hit2",
+      "file": "item_spear_wood_hit2.pcm",
+      "bytes": 99408,
+      "sha256": "5b2dee42820c583654548ac7af5c759cc50af17faff4268d967200a2a6de39ac",
+      "source": "minecraft/sounds/item/spear/wood/hit2.ogg",
+      "source_sha1": "95cc1a95725bc0dc66159d970664a12fa309d2e9",
+      "source_sha256": "8d5ec42aa2092df24af15af39c63b35c61f0f23c723ae4c58cbca21200559000",
+      "duration_seconds": 0.5635374149659864
+    },
+    {
+      "name": "item_spear_wood_hit3",
+      "file": "item_spear_wood_hit3.pcm",
+      "bytes": 92772,
+      "sha256": "2054cc3a4a4653bfb02ae97006a336ccf399fbb00827814cedebe9f6855b54e7",
+      "source": "minecraft/sounds/item/spear/wood/hit3.ogg",
+      "source_sha1": "5687c0f1c2766c3cb7d0aecfd2ddc34db2b9551b",
+      "source_sha256": "6f5ed4d2c83749fd99607a7ca1fa8b105bcfbd6a2bc42c2823b1e61cd9fd19e7",
+      "duration_seconds": 0.5259183673469388
+    },
+    {
+      "name": "item_spear_wood_use",
+      "file": "item_spear_wood_use.pcm",
+      "bytes": 220772,
+      "sha256": "c69d6105734012c292ba991e4d67661b230f7cd718bb3b02703d9bd944eb9c60",
+      "source": "minecraft/sounds/item/spear/wood/use.ogg",
+      "source_sha1": "2e30e1421b2b749fc4bb1ea187cd497ae06ace90",
+      "source_sha256": "81a2a1bcb3b574c90188a5e7c9912aabd530e0e1833a3d5adb681ba6f484bb15",
+      "duration_seconds": 1.2515419501133787
+    },
+    {
+      "name": "item_mace_smash_air1",
+      "file": "item_mace_smash_air1.pcm",
+      "bytes": 384192,
+      "sha256": "e63021648807474b7dc3e6e3ef3018804da5392bbc8bb76d3cc09683b43e0783",
+      "source": "minecraft/sounds/item/mace/smash_air1.ogg",
+      "source_sha1": "dcdef344e1dff43fd798e3faa41e3ac5e36410f2",
+      "source_sha256": "06897f90b44c0e536f47ce14f72d9dba1e370f9ea7ab3605308c8be062ea7eae",
+      "duration_seconds": 2.1779591836734693
+    },
+    {
+      "name": "item_mace_smash_air2",
+      "file": "item_mace_smash_air2.pcm",
+      "bytes": 394280,
+      "sha256": "0295469d03767701ca0a1dae2d2da7f4061fe7833e23eb455769ea461d564ce8",
+      "source": "minecraft/sounds/item/mace/smash_air2.ogg",
+      "source_sha1": "15f8ff8cda809e33413e5aa428840f37caf15b3c",
+      "source_sha256": "7adfcec22a2e276f641342e9959f0d22d7df98d1709a26220546408ef8fed794",
+      "duration_seconds": 2.2351473922902496
+    },
+    {
+      "name": "item_mace_smash_air3",
+      "file": "item_mace_smash_air3.pcm",
+      "bytes": 418024,
+      "sha256": "cec460bd03c3a12847b1a3114b955615a12ff8779fc9619be958fcc7e205fd4d",
+      "source": "minecraft/sounds/item/mace/smash_air3.ogg",
+      "source_sha1": "7114c65027e2ef0d8f42a406fa226e513a76ab72",
+      "source_sha256": "daf03295b3fa2681a50140a0a58a9d2c0a1f0b04b6bde0a09b3a9bacac8a3177",
+      "duration_seconds": 2.369750566893424
+    },
+    {
+      "name": "item_mace_smash_ground1",
+      "file": "item_mace_smash_ground1.pcm",
+      "bytes": 436172,
+      "sha256": "cc75877a7d249ac3c057727fd1647ed4ffe61f78143c2a2764b80fcd59dcdf61",
+      "source": "minecraft/sounds/item/mace/smash_ground1.ogg",
+      "source_sha1": "8f5008b42cf998a0bf391a9772fab8aa69049cac",
+      "source_sha256": "55094af6fd56ed57bf7e95881c826cce8075991481a574577b5a76f5be1adbba",
+      "duration_seconds": 2.4726303854875282
+    },
+    {
+      "name": "item_mace_smash_ground2",
+      "file": "item_mace_smash_ground2.pcm",
+      "bytes": 436172,
+      "sha256": "f2b20e92ac22acab2c20b4ada9b99774aa6453309043ac31d03e5b93356e9abe",
+      "source": "minecraft/sounds/item/mace/smash_ground2.ogg",
+      "source_sha1": "9f8089db25a221807d6650835ea6af22659ba4d1",
+      "source_sha256": "077283b1ba9970f0e01bb1fa442702c4bd32e9cd33d107d6acb662f1da8818c5",
+      "duration_seconds": 2.4726303854875282
+    },
+    {
+      "name": "item_mace_smash_ground3",
+      "file": "item_mace_smash_ground3.pcm",
+      "bytes": 437316,
+      "sha256": "50a4992bdf734714dc1c1b909d2da31d0bc6274d10f095463bc40de9ac5aa07f",
+      "source": "minecraft/sounds/item/mace/smash_ground3.ogg",
+      "source_sha1": "f0212098e16342cc0270c6b64eaffd7a6edc5c4c",
+      "source_sha256": "060ea9a9aa79b3cca933c47c47088fb41d704a53f2b88041fc70f9a401904f2c",
+      "duration_seconds": 2.4791156462585033
+    },
+    {
+      "name": "item_mace_smash_ground4",
+      "file": "item_mace_smash_ground4.pcm",
+      "bytes": 500632,
+      "sha256": "820e2453f26f01ef472abb3caad93e733815cea24fe334f596b1ff0df1eb34bd",
+      "source": "minecraft/sounds/item/mace/smash_ground4.ogg",
+      "source_sha1": "e747ec6761e14fa3fbb6e9e6c1dacb0891ef52f9",
+      "source_sha256": "29ea796bccf8ccc5c15bd49b2f63df138519da258c47a3885b59c3cd14e975bd",
+      "duration_seconds": 2.8380498866213153
+    },
+    {
+      "name": "item_mace_smash_ground_heavy",
+      "file": "item_mace_smash_ground_heavy.pcm",
+      "bytes": 734220,
+      "sha256": "8dfa79820f617ccc415cb250e01260db342b739e06d0c0c87d8ac86154d6ec1e",
+      "source": "minecraft/sounds/item/mace/smash_ground_heavy.ogg",
+      "source_sha1": "c43e28df256051df61e03b9d3ef5908a6c933e88",
+      "source_sha256": "5c767de537374768afa4b72890f9ea561d64ddf39418da1b45f97af02b62a1bc",
+      "duration_seconds": 4.162244897959184
+    },
+    {
+      "name": "entity_wind_charge_wind_burst1",
+      "file": "entity_wind_charge_wind_burst1.pcm",
+      "bytes": 345340,
+      "sha256": "b20c7d075c7e06b477b7e0d4dfaa4d59b51d1be05b244337c03de72a6fb65a15",
+      "source": "minecraft/sounds/entity/wind_charge/wind_burst1.ogg",
+      "source_sha1": "22b61f8192748c33e482b973edd993eed7c405da",
+      "source_sha256": "66255713c7390009b28d07006ad06c29bf29b0f1e1a18d02a36cba55ea3039c9",
+      "duration_seconds": 1.9577097505668934
+    },
+    {
+      "name": "entity_wind_charge_wind_burst2",
+      "file": "entity_wind_charge_wind_burst2.pcm",
+      "bytes": 228544,
+      "sha256": "39ced1b550cd8e3bb50e037ea0d511003b9f36105cc0995fba28f5327b4d0dcc",
+      "source": "minecraft/sounds/entity/wind_charge/wind_burst2.ogg",
+      "source_sha1": "839b5c67010398d2e655500b498e9931e9a30ce1",
+      "source_sha256": "76d96737110ae4baf5434d9b0343a6c11b9ac7afa209e4a9d9ae93c5cb3064f0",
+      "duration_seconds": 1.2956009070294785
+    },
+    {
+      "name": "entity_wind_charge_wind_burst3",
+      "file": "entity_wind_charge_wind_burst3.pcm",
+      "bytes": 193976,
+      "sha256": "937d11c5e58eccd9acb8ef837b9b8a756ce90c2e0453106b43c6b08db0e30622",
+      "source": "minecraft/sounds/entity/wind_charge/wind_burst3.ogg",
+      "source_sha1": "55ffa7726f8f2603fea7c0db2b27633a49b3fe20",
+      "source_sha256": "80e2a830cc67577d03160f142d5c13ff93d474c0728e0a72ba147f29569bb929",
+      "duration_seconds": 1.099637188208617
+    },
+    {
+      "name": "wind26_random_bow",
+      "file": "wind26_random_bow.pcm",
+      "bytes": 83712,
+      "sha256": "833795a01cf7950a7460ac984ccc6490355a4bac200906d4f64f6af866d55f05",
+      "source": "minecraft/sounds/random/bow.ogg",
+      "source_sha1": "4a6c47aa4f8c2cfe3237b250ed19b8714d611fd2",
+      "source_sha256": "3d983f24930734d6d32428b3b722d688b99475d488ab963f0d61107381d04c4a",
+      "duration_seconds": 0.4745578231292517
+    },
+    {
+      "name": "potion26_random_drink",
+      "file": "potion26_random_drink.pcm",
+      "bytes": 86016,
+      "sha256": "d54d426975baf523f2e71f2e6da792990f7cab3df6d991f2b00ff19f72df55b9",
+      "source": "minecraft/sounds/random/drink.ogg",
+      "source_sha1": "ed402bb1c240a70fa9eb05fe5eec436c248598f2",
+      "source_sha256": "1c8e2a196c8b8dfe6c13740e3c32d27876efb14d8474d90750bd3b409e907461",
+      "duration_seconds": 0.4876190476190476
+    },
+    {
+      "name": "potion26_random_bow",
+      "file": "potion26_random_bow.pcm",
+      "bytes": 83712,
+      "sha256": "833795a01cf7950a7460ac984ccc6490355a4bac200906d4f64f6af866d55f05",
+      "source": "minecraft/sounds/random/bow.ogg",
+      "source_sha1": "4a6c47aa4f8c2cfe3237b250ed19b8714d611fd2",
+      "source_sha256": "3d983f24930734d6d32428b3b722d688b99475d488ab963f0d61107381d04c4a",
+      "duration_seconds": 0.4745578231292517
+    },
+    {
+      "name": "potion26_random_glass1",
+      "file": "potion26_random_glass1.pcm",
+      "bytes": 120956,
+      "sha256": "f50d805d1fcd630f891185c24b9c823a3f163f1476c051f716e6bc07c9324c0d",
+      "source": "minecraft/sounds/random/glass1.ogg",
+      "source_sha1": "fa35a51bb74a4a6cf0c48161342db5a8577f13e5",
+      "source_sha256": "0409013e382d13e121fe464fc99fae4262629e7f6a1f52cff3f5b3475a888c91",
+      "duration_seconds": 0.6856916099773243
+    },
+    {
+      "name": "potion26_random_glass2",
+      "file": "potion26_random_glass2.pcm",
+      "bytes": 120956,
+      "sha256": "17a62d8009c1d55a48175a5a2e700a39e30c51f1e825034bfe8d698874a59058",
+      "source": "minecraft/sounds/random/glass2.ogg",
+      "source_sha1": "f1b8e424aa0559952b08651d792f96381d2fb132",
+      "source_sha256": "c226b5cbd76dcfae6d5f3252b8ccf996cec4e99b43ef0ca3ae6659c35cbf9867",
+      "duration_seconds": 0.6856916099773243
+    },
+    {
+      "name": "potion26_random_glass3",
+      "file": "potion26_random_glass3.pcm",
+      "bytes": 120956,
+      "sha256": "2281609760a1fea61d8d3b9bca55d30e1a841dee182afbb80326b4457ddd70ea",
+      "source": "minecraft/sounds/random/glass3.ogg",
+      "source_sha1": "3be3cf9a5c8534bf6548ba89c699a3b2abf9e074",
+      "source_sha256": "1dd567dda2acb11b303d2592d6bf497ec92dd2818f2469addcb88f44ef052495",
+      "duration_seconds": 0.6856916099773243
     }
   ],
   "extensions": {
@@ -897,6 +1444,21 @@
       "recipe": "tools/integrate_elytra_firework_audio.py",
       "recipe_sha256": "29e24d4bdb807dbd8c108707a9794efbd609125e7a4d03fc25f9b3919a389b02",
       "event_policy": "No-star rocket uses launch only; blast/twinkle are retained original events for explicitly configured explosion components. Flying is an original loop."
+    },
+    "spear": {
+      "version": "26.3",
+      "sounds_json_sha256": "fe9bcabb6be22ac2887082aa88a717ed7f48b079fde0039ca346dcf0d6ef4099",
+      "asset_index_sha256": "46fc3ca895e015637f6a766911dbf8de5d75bd87d0a007e2881cb4710e81cd19"
+    },
+    "mace": {
+      "version": "26.3",
+      "sounds_json_sha256": "fe9bcabb6be22ac2887082aa88a717ed7f48b079fde0039ca346dcf0d6ef4099",
+      "asset_index_sha256": "46fc3ca895e015637f6a766911dbf8de5d75bd87d0a007e2881cb4710e81cd19"
+    },
+    "wind_charge": {
+      "version": "26.3",
+      "sounds_json_sha256": "fe9bcabb6be22ac2887082aa88a717ed7f48b079fde0039ca346dcf0d6ef4099",
+      "asset_index_sha256": "46fc3ca895e015637f6a766911dbf8de5d75bd87d0a007e2881cb4710e81cd19"
     }
   }
 }

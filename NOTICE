@@ -23,6 +23,7 @@ The project noncommercial license does not replace or restrict that third-party 
 
 Dependencies distributed with this mod:
 - UE4SS: MIT, see third_party/UE4SS-LICENSE.
+- The per-launch DWM proxy adapts UE4SS cdbc0b66 proxy_generator under MIT; source, export list and attribution are in native/launcher_proxy.
 - dkjson: MIT, notice embedded in third_party/dkjson/dkjson.lua.
 - nlohmann/json 3.11.3: MIT, see third_party/nlohmann-json-3.11.3/LICENSE.MIT.
 - MinHook 1.3.4: BSD-2-Clause, see third_party/minhook-1.3.4/LICENSE.txt; local narrow trampoline adaptation retained in source.

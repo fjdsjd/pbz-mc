@@ -8,6 +8,22 @@
     {
       "path": "critical_hit.png",
       "sha256": "a7c036fd1b4c73856e3a7d638b56c1cbd047a2b18c504923ad7d5ae07046d908"
+    },
+    {
+      "path": "enchanted_mace_glint.bin",
+      "sha256": "9fed22ea678066447bb1668f2b4bc77809ae85d483efc9bfb056fc86043d89ff"
+    },
+    {
+      "path": "enchanted_mace_glint.json",
+      "sha256": "71c685273c4d6b5c54f6b8eb9b378f1b4ae5907710be75cbbf4f198c75026299"
+    },
+    {
+      "path": "mace.json",
+      "sha256": "d1b0f89debf3cdf8322ebb665cc055697de6dfa3ed1f5b671e0c63cd7e20829f"
+    },
+    {
+      "path": "mace.png",
+      "sha256": "2259956aea9317ae4124ef91f98974a9d93a3e0632207329c471817afc10fb17"
     }
   ],
   "origin": "1.21.1.jar",

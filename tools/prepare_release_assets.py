@@ -77,7 +77,11 @@ def inputs(work,cache,local_cache=None):
     for rel,spec in lock['bedrock'].items():
         fetch(spec['url'],work/'assets/private/bedrock-catalogue/ui'/rel,spec['sha256'])
     shutil.copy2(RECIPE/'bedrock-manifest.json',work/'assets/private/bedrock-catalogue/ui/bedrock_catalogue/manifest.json')
-    for name,spec in lock.get('extra',{}).items():fetch(spec['url'],work/'inputs'/name,spec['sha256'])
+    def extra(entry):
+        name,spec=entry
+        fetch(spec['url'],work/'inputs'/name,spec['sha256'])
+    with ThreadPoolExecutor(max_workers=6) as pool:
+        list(pool.map(extra,lock.get('extra',{}).items()))
 
 def complete_ui(work):
     """Reproduce retained crops and individual glyphs, including late UI labels."""
@@ -92,7 +96,9 @@ def complete_ui(work):
             for line in font.read(name).decode('ascii').splitlines():
                 code,data=line.split(':',1);bits[int(code,16)]=bytes.fromhex(data)
     archives={v:zipfile.ZipFile(work/'inputs'/f'{v}.jar')for v in ('1.21.1','26.3')}
-    for row in manifest['outputs']:
+    # Existing resource caches also contain files that the current UI no
+    # longer indexes. A clean install must recreate the same pinned bytes.
+    for row in manifest['outputs'] + load(RECIPE/'retained-ui-sources.json'):
         dest=ui/row['path']
         if dest.exists() and digest(dest)==row['sha256']:continue
         source=row.get('source','');operation=row.get('operation')
@@ -128,7 +134,9 @@ STEPS=[
  ('collect_building_sounds',[]),('convert_mechanism_blocks',[]),
  ('integrate_mechanism_resources',[]),('convert_mechanism_cracks',[]),
  ('convert_elytra_firework_resources',[]),('integrate_elytra_firework_resources',['--apply']),
- ('integrate_trash_slot',[]),
+ ('integrate_trash_slot',[]),('convert_spear_sounds',[]),('prepare_mace_assets',[]),('prepare_wind_charge',[]),
+ ('prepare_undead',[]),('prepare_mob_animation',[]),('prepare_mob_sounds',[]),('convert_construction',[]),('construction_sounds',[]),
+ ('convert_command_blocks',[]),('extend_command_ui',[]),('prepare_potions',[]),('integrate_command_resources',[]),
 ]
 
 def build(work,ffmpeg,resume):
@@ -168,12 +176,32 @@ def build(work,ffmpeg,resume):
             raise RuntimeError('Conversion failed: '+name)
         completed.append(name);write(receipt,{'recipe':recipe,'steps':completed})
 
+def verify_ui_indexes(output,expected):
+    """Prevent a hash-valid pack from containing contradictory resource indexes."""
+    ui=output/'ui'
+    manifest=load(ui/'manifest.json')
+    records={}
+    for row in manifest['outputs']:
+        path=row['path'];resource=expected.get('ui/'+path)
+        if not resource or resource['sha256']!=row['sha256']:
+            raise RuntimeError('UI resource manifest conflicts with runtime: '+path)
+        if path in records and records[path]['sha256']!=row['sha256']:
+            raise RuntimeError('Conflicting UI resource index entries: '+path)
+        records[path]=row
+    if manifest.get('command_editor'):
+        command=load(ui/manifest['command_editor']['manifest'])
+        for row in command['outputs']:
+            if records.get(row['path'],{}).get('sha256')!=row['sha256']:
+                raise RuntimeError('Command resource manifest conflicts with UI: '+row['path'])
+
+
 def assemble(work,output,release):
     """Select only runtime files. Match all resource bytes against the baseline."""
     expected=load(RECIPE/'runtime-files.json')
     private=work/'assets/private'
     missing=[];different=[]
     output.mkdir(parents=True,exist_ok=True)
+    (output/'ready.json').unlink(missing_ok=True)
     for relative,record in expected.items():
         dest=output/relative;dest.parent.mkdir(parents=True,exist_ok=True)
         if 'template' in record:
@@ -184,7 +212,7 @@ def assemble(work,output,release):
         if prefix=='ui':
             sources=[private/'minecraft-1.21.1'/relative,private/'bedrock-catalogue'/relative]
         elif prefix=='sounds':
-            sources=[private/folder/relative for folder in ('minecraft-1.21.1','tnt','building-blocks','mechanism-blocks','elytra-firework')]
+            sources=[private/folder/relative for folder in ('minecraft-1.21.1','tnt','building-blocks','mechanism-blocks','elytra-firework','spear','mace','wind-charge','construction','mob-sounds','potions')]
         elif len(parts)==0:sources=[private/'minecraft-1.21.1'/relative]
         else:sources=[private/relative]
         source=next((p for p in sources if p.is_file() and digest(p)==record['sha256']),None)
@@ -194,6 +222,7 @@ def assemble(work,output,release):
     write(work/'runtime-comparison.json',{'missing':missing,'different':different})
     if missing or different:
         raise RuntimeError(f'Runtime resource verification: {len(missing)} missing, {len(different)} different; see runtime-comparison.json')
+    verify_ui_indexes(output,expected)
     files=[dict(path=rel,sha256=digest(output/rel))for rel in expected]
     write(output/'ready.json',dict(schema=1,release=release,recipe=digest(RECIPE/'runtime-files.json'),files=files))
     print(f'Runtime resources verified: {len(files)} files',flush=True)
@@ -207,7 +236,7 @@ def main():
     ap.add_argument('--resume',action='store_true')
     ap.add_argument('--skip-inputs',action='store_true')
     ap.add_argument('--output',type=Path)
-    ap.add_argument('--release',default='0.1.0-alpha.4')
+    ap.add_argument('--release',default='0.1.0-alpha.6')
     args=ap.parse_args();work=args.work.resolve();cache=args.cache.resolve()
     work.mkdir(parents=True,exist_ok=True);cache.mkdir(parents=True,exist_ok=True)
     if not args.skip_inputs:inputs(work,cache,args.local_cache)

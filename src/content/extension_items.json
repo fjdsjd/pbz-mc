@@ -3,6 +3,12 @@
   "source": "PBZ user requirements; separate from the pinned 96 upstream IDs",
   "items": [
     {
+      "id": "pbzmc:spawner",
+      "stack_limit": 64,
+      "visual_version": "1.21.1",
+      "source": "minecraft:spawner"
+    },
+    {
       "id": "pbzmc:ender_chest",
       "stack_limit": 64,
       "source": "PBZ requirement 2026-10-30"
@@ -263,6 +269,558 @@
       "stack_limit": 64,
       "visual_version": "1.21.1",
       "source": "PBZ request 2026-11-01"
+    },
+    {
+      "id": "pbzmc:husk_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:husk_spawn_egg"
+    },
+    {
+      "id": "pbzmc:drowned_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:drowned_spawn_egg"
+    },
+    {
+      "id": "pbzmc:zombie_villager_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:zombie_villager_spawn_egg"
+    },
+    {
+      "id": "pbzmc:zombified_piglin_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:zombified_piglin_spawn_egg"
+    },
+    {
+      "id": "pbzmc:skeleton_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:skeleton_spawn_egg"
+    },
+    {
+      "id": "pbzmc:stray_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:stray_spawn_egg"
+    },
+    {
+      "id": "pbzmc:bogged_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:bogged_spawn_egg"
+    },
+    {
+      "id": "pbzmc:parched_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:parched_spawn_egg"
+    },
+    {
+      "id": "pbzmc:wither_skeleton_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:wither_skeleton_spawn_egg"
+    },
+    {
+      "id": "pbzmc:zoglin_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:zoglin_spawn_egg"
+    },
+    {
+      "id": "pbzmc:zombie_horse_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:zombie_horse_spawn_egg"
+    },
+    {
+      "id": "pbzmc:skeleton_horse_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:skeleton_horse_spawn_egg"
+    },
+    {
+      "id": "pbzmc:camel_husk_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:camel_husk_spawn_egg"
+    },
+    {
+      "id": "pbzmc:zombie_nautilus_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:zombie_nautilus_spawn_egg"
+    },
+    {
+      "id": "pbzmc:phantom_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:phantom_spawn_egg"
+    },
+    {
+      "id": "pbzmc:wither_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:wither_spawn_egg"
+    },
+    {
+      "id": "pbzmc:allay_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:allay_spawn_egg"
+    },
+    {
+      "id": "pbzmc:armadillo_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:armadillo_spawn_egg"
+    },
+    {
+      "id": "pbzmc:axolotl_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:axolotl_spawn_egg"
+    },
+    {
+      "id": "pbzmc:bat_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:bat_spawn_egg"
+    },
+    {
+      "id": "pbzmc:bee_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:bee_spawn_egg"
+    },
+    {
+      "id": "pbzmc:blaze_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:blaze_spawn_egg"
+    },
+    {
+      "id": "pbzmc:breeze_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:breeze_spawn_egg"
+    },
+    {
+      "id": "pbzmc:camel_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:camel_spawn_egg"
+    },
+    {
+      "id": "pbzmc:cat_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:cat_spawn_egg"
+    },
+    {
+      "id": "pbzmc:cave_spider_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:cave_spider_spawn_egg"
+    },
+    {
+      "id": "pbzmc:chicken_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:chicken_spawn_egg"
+    },
+    {
+      "id": "pbzmc:cod_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:cod_spawn_egg"
+    },
+    {
+      "id": "pbzmc:copper_golem_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:copper_golem_spawn_egg"
+    },
+    {
+      "id": "pbzmc:cow_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:cow_spawn_egg"
+    },
+    {
+      "id": "pbzmc:creaking_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:creaking_spawn_egg"
+    },
+    {
+      "id": "pbzmc:dolphin_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:dolphin_spawn_egg"
+    },
+    {
+      "id": "pbzmc:donkey_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:donkey_spawn_egg"
+    },
+    {
+      "id": "pbzmc:elder_guardian_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:elder_guardian_spawn_egg"
+    },
+    {
+      "id": "pbzmc:ender_dragon_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:ender_dragon_spawn_egg"
+    },
+    {
+      "id": "pbzmc:enderman_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:enderman_spawn_egg"
+    },
+    {
+      "id": "pbzmc:endermite_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:endermite_spawn_egg"
+    },
+    {
+      "id": "pbzmc:evoker_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:evoker_spawn_egg"
+    },
+    {
+      "id": "pbzmc:fox_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:fox_spawn_egg"
+    },
+    {
+      "id": "pbzmc:frog_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:frog_spawn_egg"
+    },
+    {
+      "id": "pbzmc:ghast_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:ghast_spawn_egg"
+    },
+    {
+      "id": "pbzmc:giant_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:zombie_spawn_egg"
+    },
+    {
+      "id": "pbzmc:glow_squid_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:glow_squid_spawn_egg"
+    },
+    {
+      "id": "pbzmc:goat_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:goat_spawn_egg"
+    },
+    {
+      "id": "pbzmc:guardian_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:guardian_spawn_egg"
+    },
+    {
+      "id": "pbzmc:happy_ghast_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:happy_ghast_spawn_egg"
+    },
+    {
+      "id": "pbzmc:hoglin_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:hoglin_spawn_egg"
+    },
+    {
+      "id": "pbzmc:horse_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:horse_spawn_egg"
+    },
+    {
+      "id": "pbzmc:illusioner_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:evoker_spawn_egg"
+    },
+    {
+      "id": "pbzmc:iron_golem_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:iron_golem_spawn_egg"
+    },
+    {
+      "id": "pbzmc:killer_bunny_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:rabbit_spawn_egg"
+    },
+    {
+      "id": "pbzmc:llama_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:llama_spawn_egg"
+    },
+    {
+      "id": "pbzmc:magma_cube_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:magma_cube_spawn_egg"
+    },
+    {
+      "id": "pbzmc:mooshroom_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:mooshroom_spawn_egg"
+    },
+    {
+      "id": "pbzmc:mule_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:mule_spawn_egg"
+    },
+    {
+      "id": "pbzmc:nautilus_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:nautilus_spawn_egg"
+    },
+    {
+      "id": "pbzmc:ocelot_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:ocelot_spawn_egg"
+    },
+    {
+      "id": "pbzmc:panda_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:panda_spawn_egg"
+    },
+    {
+      "id": "pbzmc:parrot_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:parrot_spawn_egg"
+    },
+    {
+      "id": "pbzmc:pig_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:pig_spawn_egg"
+    },
+    {
+      "id": "pbzmc:piglin_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:piglin_spawn_egg"
+    },
+    {
+      "id": "pbzmc:piglin_brute_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:piglin_brute_spawn_egg"
+    },
+    {
+      "id": "pbzmc:pillager_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:pillager_spawn_egg"
+    },
+    {
+      "id": "pbzmc:polar_bear_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:polar_bear_spawn_egg"
+    },
+    {
+      "id": "pbzmc:pufferfish_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:pufferfish_spawn_egg"
+    },
+    {
+      "id": "pbzmc:rabbit_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:rabbit_spawn_egg"
+    },
+    {
+      "id": "pbzmc:ravager_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:ravager_spawn_egg"
+    },
+    {
+      "id": "pbzmc:salmon_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:salmon_spawn_egg"
+    },
+    {
+      "id": "pbzmc:sheep_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:sheep_spawn_egg"
+    },
+    {
+      "id": "pbzmc:shulker_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:shulker_spawn_egg"
+    },
+    {
+      "id": "pbzmc:silverfish_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:silverfish_spawn_egg"
+    },
+    {
+      "id": "pbzmc:slime_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:slime_spawn_egg"
+    },
+    {
+      "id": "pbzmc:sniffer_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:sniffer_spawn_egg"
+    },
+    {
+      "id": "pbzmc:snow_golem_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:snow_golem_spawn_egg"
+    },
+    {
+      "id": "pbzmc:spider_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:spider_spawn_egg"
+    },
+    {
+      "id": "pbzmc:squid_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:squid_spawn_egg"
+    },
+    {
+      "id": "pbzmc:strider_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:strider_spawn_egg"
+    },
+    {
+      "id": "pbzmc:sulfur_cube_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:sulfur_cube_spawn_egg"
+    },
+    {
+      "id": "pbzmc:tadpole_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:tadpole_spawn_egg"
+    },
+    {
+      "id": "pbzmc:trader_llama_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:trader_llama_spawn_egg"
+    },
+    {
+      "id": "pbzmc:tropical_fish_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:tropical_fish_spawn_egg"
+    },
+    {
+      "id": "pbzmc:turtle_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:turtle_spawn_egg"
+    },
+    {
+      "id": "pbzmc:vex_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:vex_spawn_egg"
+    },
+    {
+      "id": "pbzmc:villager_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:villager_spawn_egg"
+    },
+    {
+      "id": "pbzmc:vindicator_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:vindicator_spawn_egg"
+    },
+    {
+      "id": "pbzmc:wandering_trader_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:wandering_trader_spawn_egg"
+    },
+    {
+      "id": "pbzmc:warden_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:warden_spawn_egg"
+    },
+    {
+      "id": "pbzmc:witch_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:witch_spawn_egg"
+    },
+    {
+      "id": "pbzmc:wolf_spawn_egg",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:wolf_spawn_egg"
+    },
+    {
+      "id": "pbzmc:command_block",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:command_block"
+    },
+    {
+      "id": "pbzmc:repeating_command_block",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:repeating_command_block"
+    },
+    {
+      "id": "pbzmc:chain_command_block",
+      "stack_limit": 64,
+      "visual_version": "26.3",
+      "source": "minecraft:chain_command_block"
     }
   ]
 }

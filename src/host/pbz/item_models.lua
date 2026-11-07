@@ -36,6 +36,14 @@ function M:resolve(stack,context,properties,units)
   if not stack or require('rules.native_slot_reference').is(stack) then return nil end
   local id=stack.content_id
   local item=self.manifest.items[id]
+  if not item and (require('content.blocks').get(id) or {}).construction then
+    if require('content.blocks').get(id).command_block then
+      self.command_blocks=self.command_blocks or require('host.pbz.construction_assets').open(self.root..'/../command-blocks')
+      return self.command_blocks:item(id:sub(7),context,units)
+    end
+    self.construction=self.construction or require('host.pbz.construction_assets').open(self.root..'/../construction')
+    return self.construction:item(id:sub(7),context,units)
+  end
   if not item then return nil,'item-model-unavailable:'..tostring(id) end
   -- This generated trident asset is the GUI icon. Its entity mesh has not been
   -- converted yet; never show the icon as a held or dropped trident.
@@ -86,7 +94,9 @@ function M:resolve(stack,context,properties,units)
     if model.render_layer=='translucent'then require('host.pbz.translucent_blocks').two_sided(part)end
     self.cache[cache_key]=part
   end
-  return {key=cache_key,model=key,part=part,display=model.display,context=context,units=units,enchanted=item.enchantment_glint==true,
+  local command_enchanted=id=='pbzmc:mace'and stack.metadata and stack.metadata.command_enchantments and next(stack.metadata.command_enchantments)~=nil
+  return {key=cache_key,model=key,part=part,display=model.display,context=context,units=units,enchanted=item.enchantment_glint==true or command_enchanted==true,
+    glint_asset=command_enchanted and 'enchanted_mace_glint'or item.glint_asset,
     render_layer=model.render_layer,palette=model.palette}
 end
 return M

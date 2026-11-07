@@ -287,7 +287,7 @@ function Network:_output(n,d,strong,exclude_wire)
   return 0
  elseif k=='redstone_block' then return strong and 0 or 15
  elseif k=='lever' then
-  return powered and (not strong or d==attachment(n)) and 15 or 0
+  return powered and (not strong or d==attachment(n)) and (p.power or 15) or 0
  elseif k=='torch' then
   local support=p.support or (p.wall and D.opposite(face(n)) or 'down')
   return p.lit~=false and (strong and d=='up' or not strong and d~=support) and 15 or 0
@@ -400,7 +400,7 @@ function Network:_evaluate(n)
  local k=n.kind;local p=n.properties
  if n.moving then self:_signal(n,0);return end
  if k=='wire' then self:_wire(n)
- elseif k=='lever' then self:_signal(n,p.powered and 15 or 0,true)
+ elseif k=='lever' then self:_signal(n,p.powered and (p.power or 15) or 0,true)
  elseif k=='redstone_block' then self:_signal(n,15,true)
  elseif k=='torch' then
   self:_signal(n,p.lit and 15 or 0,true)
@@ -413,10 +413,18 @@ function Network:_evaluate(n)
   if output~=n.signal or (p.powered==true)~=(output>0) then self:_schedule(n,2,self:_diode_priority(n,0),'comparator') end
  elseif k=='observer' then self:_signal(n,p.powered and 15 or 0,true)
  elseif k=='door' then
-  local other=self:_relative(n,p.half=='upper' and 'down' or 'up')
-  local powered=self:_power(n)>0 or (other and kind(other)=='door' and self:_power(other)>0) or false
+  local paired=p.half=='upper' or p.half=='lower'
+  local other=paired and self:_relative(n,p.half=='upper' and 'down' or 'up')
+  local powered=self:_power(n)>0 or (other and other.content_id==n.content_id and kind(other)=='door' and self:_power(other)>0) or false
   if (p.powered==true)~=powered then self:_props(n,{powered=powered,open=powered}) end
   self:_signal(n,powered and 15 or 0)
+ elseif k=='bulb' then
+  local powered=self:_power(n)>0
+  if (p.powered==true)~=powered then
+   local delta={powered=powered}
+   if powered then delta.lit=not p.lit end
+   self:_props(n,delta)
+  end
  elseif k=='piston' or k=='sticky_piston' then
   local previous=p.powered==true
   local powered=self:_power(n,face(n))>0
@@ -424,6 +432,11 @@ function Network:_evaluate(n)
   local top={x=n.x,y=n.y,z=n.z+1}
   powered=powered or (not n._restored_retracted and self:_power(top,'down')>0) or false
   self:_props(n,{powered=powered},true);self:_signal(n,powered and 15 or 0,true);self:_actuate(n,powered,previous~=powered)
+ elseif k=='command' then
+  local powered=self:_power(n)>0
+  self:_props(n,{powered=powered},true)
+  local value=0;for _,d in ipairs(D.order)do value=math.max(value,self:_received(n,d,true,false))end
+  self:_signal(n,value,true)
  elseif k=='tnt' then
   local powered=self:_power(n)>0
   -- A stable cube restored with powered=true may have survived a rejected

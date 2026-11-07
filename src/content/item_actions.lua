@@ -4,6 +4,7 @@
 local combat=require('content.combat_profiles')
 local items=require('content.items')
 local blocks=require('content.blocks')
+local summons=require('content.summon_mobs')
 local M={}
 local uses={
   ['pbzmc:shield']='shield',['pbzmc:bow']='bow',['pbzmc:trident']='trident',
@@ -13,15 +14,17 @@ local uses={
   ['pbzmc:life_crystal']='growth',['pbzmc:bottle_capacity']='growth',['pbzmc:bottle_strength']='growth',
 }
 for _,id in ipairs({'boat','piston','sticky_piston','observer','end_rod','lever','redstone_dust',
-  'redstone_block','sheep_machine','tnt','flint_and_steel','dirt','stone','zombie_spawn_egg',
-  'creeper_spawn_egg','ender_chest'}) do uses['pbzmc:'..id]='instant' end
+  'redstone_block','sheep_machine','tnt','flint_and_steel','dirt','stone',
+  'ender_chest'}) do uses['pbzmc:'..id]='instant' end
 for id in pairs(uses) do assert(items.get(id),'unknown-action-content:'..id) end
 function M.get(id)
   local profile=combat.get(id)
   local block=blocks.get(id)
   local definition=items.get(id)
+  local potion=require('rules.potions').get(id)
   return {combat=profile,use=definition and definition.equipment_slot and 'equipment'
-    or profile.kind=='spear' and 'spear' or (block and block.available and 'instant') or uses[id],
+    or potion and (potion.form=='potion'and 'drink'or 'potion_throw') or id=='pbzmc:milk_bucket'and 'drink'
+    or summons.egg(id) and 'summon' or profile.kind=='spear' and 'spear' or (block and block.available and 'instant') or uses[id],
     placeable=block and block.available==true or false,
     -- The user's added axes/shovels use their own target-conversion adapter.
     tool_use=profile.kind=='axe' or profile.kind=='shovel',

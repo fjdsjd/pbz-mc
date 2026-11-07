@@ -8,7 +8,9 @@ function M.update(entry,model,root,seconds)
  if not model.enchanted and not entry.glint then return end
  local part=model.part;local colors=part.colors;local frame
  if model.enchanted then
-  local key=root..'/../effects/enchanted_apple_glint'
+  local name=model.glint_asset or 'enchanted_apple_glint'
+  assert(name=='enchanted_apple_glint' or name=='enchanted_mace_glint','unknown-item-glint')
+  local key=root..'/../effects/'..name
   local frames=caches[key]
   if not frames then
    local spec=assert(require('dkjson').decode(read(key..'.json')));local raw=read(key..'.bin')

@@ -12,6 +12,7 @@ class UClass;
 class UFunction;
 class FField;
 class FOutputDevice;
+struct FFrame;
 struct FieldAccess;
 class FName {
     FName() = delete;
@@ -41,6 +42,8 @@ class UFunction {
     UFunction() = delete;
     ~UFunction() = delete;
 public:
+    using NativeFunction = void (*)(UObject*, FFrame&, void*);
+    __declspec(dllimport) NativeFunction GetFuncPtr();
     __declspec(dllimport) const std::uint16_t& GetParmsSize() const;
     __declspec(dllimport) const std::uint8_t& GetNumParms() const;
     __declspec(dllimport) const std::uint16_t& GetReturnValueOffset() const;

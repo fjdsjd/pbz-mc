@@ -52,8 +52,9 @@ function M.layout(width,height,requested_scale,catalogue,effects,catalogue_state
   if catalogue then
     layout.catalogue={x=left-151*scale,y=top,w=147*scale,h=166*scale,slots={},entries=view.entries,
       category=view.category,page=view.page,pages=view.pages,label=view.label,total=view.total,tabs={}}
-    for i,group in ipairs(require('rules.item_catalogue').categories())do
-      layout.catalogue.tabs[group.id]={x=layout.catalogue.x+(5+(i-1)*23)*scale,y=top+6*scale,w=22*scale,h=25*scale}
+    local groups=require('rules.item_catalogue').categories();local step=math.min(23,137/#groups)
+    for i,group in ipairs(groups)do
+      layout.catalogue.tabs[group.id]={x=layout.catalogue.x+(5+(i-1)*step)*scale,y=top+6*scale,w=(step-1)*scale,h=25*scale}
     end
     layout.catalogue.previous={x=layout.catalogue.x+9*scale,y=top+142*scale,w=18*scale,h=18*scale}
     layout.catalogue.next={x=layout.catalogue.x+120*scale,y=top+142*scale,w=18*scale,h=18*scale}
@@ -147,7 +148,13 @@ function M.draw(data,assets,width,height,options)
     end
     if path then
       image(path,rect.x,rect.y,rect.w,rect.h)
-      if value.content_id=='pbzmc:enchanted_golden_apple' then draw[#draw].enchanted=true;draw[#draw].count=value.count end
+      local animation=assets.item_glint_animations and assets.item_glint_animations[value.content_id]
+      if value.content_id=='pbzmc:mace'and value.metadata and value.metadata.command_enchantments and next(value.metadata.command_enchantments)then
+        animation=assert(assets.item_glint_animations and assets.item_glint_animations['pbzmc:mace_density'],'original-enchanted-mace-icon-required')
+      end
+      if value.content_id=='pbzmc:enchanted_golden_apple' or animation then
+        local icon=draw[#draw];icon.enchanted=true;icon.glint_texture=animation;icon.count=value.count
+      end
     end
     -- Missing model icons remain explicit gaps, never substitute invented art.
     if value.count>1 and not require('rules.block_catalogue').infinite(value) then

@@ -102,8 +102,8 @@
   },
   "particles": {
     "path": "particles.json",
-    "sha256": "7e4f2ea1e9d290b4a5aef8b87d65404ab72629853091a549669b32f6dab44771",
-    "frames": 24
+    "sha256": "42c6a5ab284e021ee29896bfa0b0298b08250ae6cd1479a97a0c45a8d6c12cb8",
+    "frames": 25
   },
   "flint_and_steel": {
     "path": "assets/private/item-models/minecraft/1.21.1/item/flint_and_steel.mesh",
@@ -435,6 +435,16 @@
       "path": "assets/minecraft/textures/particle/explosion_15.png",
       "sha256": "94d0bbc38b84298316831ea5da745747699036261a57d354cefd9fe755289a19",
       "retained": "particles/explosion_15.png"
+    },
+    {
+      "path": "assets/minecraft/particles/flame.json",
+      "sha256": "69e323238364e8061f3836ac2f9fd09756c443dc8b6cf1a05934f7d67f580e65",
+      "retained": "particles/flame.json"
+    },
+    {
+      "path": "assets/minecraft/textures/particle/flame.png",
+      "sha256": "2f2efacac134ce943d142d3a40e43f87e80e1e32d7137645bb1268618505e4a7",
+      "retained": "particles/flame.png"
     }
   ],
   "upstream": {
@@ -444,7 +454,7 @@
     "license": "PolyForm Noncommercial 1.0.0",
     "notice": "third_party/wukong-steve/NOTICE"
   },
-  "recipe_sha256": "2d56b7000ed38abbd06b4bde879103e316da53d88a9514ed61c03d71dc82cf77",
+  "recipe_sha256": "0efc30853b4f6f4a8f6bfa91c20d5450f0753ac011a4f7992ff5e8218ad3cc6a",
   "outputs": [
     {
       "path": "tnt.mesh",

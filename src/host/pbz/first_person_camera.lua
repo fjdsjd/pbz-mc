@@ -123,6 +123,9 @@ function M.start(log)
     -- its collision owner and resumes after the equipment receipt commits.
     if self.transition and self.creative_flight then self.creative_flight:suspend(true)end
   end
+  function self:release_collision()
+    if self.collision then self.collision:close();self.collision=nil end
+  end
   function self:release_facing()
     local lease=self.facing
     if lease then
@@ -325,8 +328,9 @@ function M.start(log)
     sample(batch.latest)
     self.focused=focused
     self.last_batch=batch;self.batch_allowed=allowed
-    if self.creative_flight then self.creative_flight:input_batch(batch,allowed and not self.transition and not binding.mc_native_selection_pending)end
-    if self.flight then self.flight:input_batch(batch,allowed and not self.transition and not binding.mc_creative)end
+    local flight_input=allowed and not self.transition and not binding.mc_native_selection_pending
+    if self.creative_flight then self.creative_flight:input_batch(batch,flight_input)end
+    if self.flight then self.flight:input_batch(batch,flight_input)end
     if allowed and focused and self.desired=='mc_first_person' and self:equipment().group=='pbz' and not binding.mc_creative_flight and not binding.mc_gliding and not binding.mc_boat_riding and not self.transition and not self:traversal(binding) then
       if not self.eye_input then self.eye_input=require('input.first_person_controls').new(pc.ControlRotation) end
       local x,y=self.eye_input:sample_batch(batch,true)
@@ -359,6 +363,7 @@ function M.start(log)
     if self.camera and (not binding or self.binding~=binding or not valid(self.camera)
         or not identity.matches(pc,self.pc_id)) then self:release('owner-replaced') end
     if self.movement and (not binding or self.movement.binding~=binding or not identity.matches(pc,self.movement.pc_id)) then self:release_movement() end
+    if self.collision and (not binding or self.collision.binding~=binding)then self:release_collision()end
     if self.flight and (not binding or self.flight.binding~=binding or not identity.matches(pc,self.flight.pc_id))then self.flight:close();self.flight=nil end
     if self.creative_flight and (not binding or self.creative_flight.binding~=binding or not identity.matches(pc,self.creative_flight.pc_id))then self.creative_flight:close();self.creative_flight=nil end
     if not binding then self:release_free_look();self:release_facing();self.reason='waiting-player';return end
@@ -375,20 +380,29 @@ function M.start(log)
     self.in_story=reason~=nil
     if not self.creative_flight then self.creative_flight=require('host.pbz.creative_flight').new(binding,pc)end
     if not self.flight then self.flight=require('host.pbz.elytra_flight').new(binding,pc)end
-    local creative_wants=self.creative_flight:take_request(self)
-    if creative_wants and not reason and not self.inventory and self.focused and not self.transition and not binding.mc_native_selection_pending then
+    local flight_allowed=not reason and not self.inventory and self.focused==true and not self.transition and not binding.mc_native_selection_pending
+    local toggle=self.creative_flight:take_request(self)
+    -- Consume both edges this tick. A double tap, including one which ends
+    -- creative flight, cannot also deploy the wings.
+    local glide=self.flight:wants_start(self,flight_allowed and not toggle)
+    if not binding.mc_creative_flight then self.flight:observe_fall()end
+    if flight_allowed and toggle=='stop' then
+      self.creative_flight:stop('double-tap')
+    elseif flight_allowed and (toggle=='start' or glide) then
       self:release_movement();self:release_facing();self:release_free_look()
-      if self.flight.active then self.flight:stop('creative-flight')end
-      self.flight:reset_fall();self.creative_flight:start()
+      if toggle=='start' then
+        local velocity=self.flight.active and self.flight.velocity or nil
+        if self.flight.active then self.flight:stop('creative-flight')end
+        self.flight:reset_fall();self.creative_flight:start(velocity)
+      else
+        self.flight:start()
+      end
     end
     if self.creative_flight.active then self:release_movement();self.creative_flight:tick(self,reason)end
-    if not binding.mc_creative_flight then self.flight:observe_fall()end
-    local wants=not binding.mc_creative and self.flight:wants_start(self)
-    if wants and not reason and not self.inventory and self.focused and not self.transition then
-      self:release_movement();self:release_facing();self:release_free_look();self.flight:start()
-    end
     if self.flight.active then self:release_movement();self.flight:tick(self,reason)end
     local equipment=self:equipment();self.source=equipment.group;self.native_motion=self:traversal(binding)
+    if reason or self.native_motion then self:release_collision()
+    elseif not self.collision then self.collision=require('host.pbz.player_collision').new(binding)end
     local move=not binding.mc_creative_flight and not binding.mc_gliding and (equipment.group=='mc' or binding.mc_boat_riding) and not reason and not self.native_motion and not self.inventory and self.focused and not self.transition
     -- Restore MC's rotation policy before snapshotting PBZ first-person facing.
     -- These two owners must never capture each other's temporary settings.
@@ -463,6 +477,7 @@ function M.start(log)
   function self:close()
     if self.closed then return end
     self.closed=true
+    self:release_collision()
     if self.creative_flight then self.creative_flight:close();self.creative_flight=nil end
     if self.flight then self.flight:close();self.flight=nil end
     self:release('shutdown');self.desired='pbz_native'
@@ -473,6 +488,7 @@ function M.start(log)
   self.action=LoopInGameThreadAfterFrames(1,function()
     local ok,why=pcall(self.tick,self)
     if not ok then
+      pcall(self.release_collision,self)
       if self.flight then pcall(self.flight.stop,self.flight,'camera-error')end
       pcall(self.release,self,'camera-error');self.desired='pbz_native'
       if self.error~=tostring(why) then self.error=tostring(why);log('first-person camera failed: '..self.error) end

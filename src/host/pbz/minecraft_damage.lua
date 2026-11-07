@@ -23,19 +23,48 @@ function M.new(binding)
   return setmetatable({binding=binding,seen={},order={},report={},
     flash=require('host.pbz.hit_flash').new(binding)},M)
 end
-function M:_hit(target,amount,action_id,contact)
-  assert(self.binding:is_current() and type(action_id)=='string','mc-damage-source-stale')
-  assert(type(amount)=='number' and amount>0 and amount<=10000,'mc-damage-range')
+function M:eligible(target)
+  if require('host.pbz.mob_living').alive(self.binding,target) then return true end
   if not valid(target) or identity.matches(target,self.binding.actor_id)
     or not target:IsA(StaticFindObject('/Script/ProjectPBZ.PBZCharacter')) or not target.bCanBeDamaged
     or not identity.matches(target:GetWorld(),self.binding.world_id) then return false end
-  local target_id=identity.capture(target);local key=action_id..'/'..target_id.address
-  if self.seen[key] then return false end
   local attributes=target.AttributeSetBase
   if not valid(attributes) or attributes.Health.CurrentValue<=0 then return false end
   local faction=StaticFindObject('/Script/SGameCombatSystem.Default__FactionUtils')
-  if faction:GetFactionRelation(self.binding.actor,target)~=2 then return false end -- verified ETeamAttitude::Hostile
+  return faction:GetFactionRelation(self.binding.actor,target)==2
+end
+function M:_hit(target,amount,action_id,contact)
+  assert(self.binding:is_current() and type(action_id)=='string','mc-damage-source-stale')
+  assert(type(amount)=='number' and amount>0 and amount<=10000,'mc-damage-range')
+  if not self:eligible(target) then return false end
+  if contact.kind=='sword'and not action_id:find('summon/',1,true)then
+    local status=self.binding.mc_status_service
+    local bonus=require('rules.status_effects').attack_bonus(status and status.value)
+    local profile=require('content.combat_profiles').get(contact.weapon_id)
+    local base=profile.free_melee_damage or 4
+    amount=amount*math.max(0,1+bonus/math.max(1,base))
+    if amount<=0 then return false end
+  end
+  local living=require('host.pbz.mob_living')
+  if living.find(self.binding,target) then
+    local p=require('content.combat_profiles').get(contact.weapon_id)
+    -- PBZ coefficients are not MC health points. Keep weapon strength and
+    -- charge/critical multipliers, without scaling to the summon's max HP.
+    local base=p.free_melee_damage or 1
+    if p.kind=='sword' then
+      base=({wooden=4,stone=5,copper=5,iron=6,golden=4,diamond=7,netherite=8})[contact.weapon_id:match('pbzmc:(%a+)_')] or base
+    elseif contact.kind=='arrow' then base=6/1.8 end
+    local points=contact.mc_damage or amount*base/math.max(.001,p.adventure_attack or 1)
+    local accepted,result=living.hit(self.binding,target,points,action_id,contact)
+    self.report=result or {accepted=false,route='mc-living'}
+    return accepted
+  end
+  local target_id=identity.capture(target);local key=action_id..'/'..target_id.address
+  if self.seen[key] then return false end
+  local attributes=target.AttributeSetBase
   local damage=component(target,'/Script/SGameAttributes.AttributeComponent')
+  -- PBZ uses MainBody from this component during damage settlement too,
+  -- including on repeated thrusts that do not replay the hit animation.
   local reaction=component(target,'/Script/SGameCombatSystem.HitreactComponent')
   if not valid(damage) then return false end
   assert(type(PBZMC_NativeHit)=='function','mc-native-hit-bridge-0.14-required')
@@ -52,9 +81,14 @@ function M:_hit(target,amount,action_id,contact)
   local request={phase='damage',kind=contact.kind,pawn=path(self.binding.actor),target=path(target),source=path(source),
     component=path(damage),reaction=valid(reaction) and path(reaction) or nil,coefficient=scaled.coefficient,
     location=contact.location,direction=direction,normal=contact.normal or {X=-direction.X,Y=-direction.Y,Z=-direction.Z}}
+  if contact.smash then request.smash=true end
   local before=attributes.Health.CurrentValue;local shield_before=native_shield(attributes)
-  self.seen[key]=true;self.order[#self.order+1]=key -- Never replay a dispatched hit after readback/FX failure.
-  if #self.order>2048 then self.seen[table.remove(self.order,1)]=nil end
+  -- Reserve before dispatch. Sustained multi-target piercing may fill the
+  -- history quickly, so evict one entry without shifting the entire array.
+  local slot=(self.last_seen_slot or 0)%2048+1
+  local retired=self.order[slot]
+  if retired then self.seen[retired]=nil end
+  self.seen[key]=true;self.order[slot]=key;self.last_seen_slot=slot
   local receipt,why=native(request)
   local after=valid(attributes) and attributes.Health.CurrentValue or nil
   local shield_after=valid(attributes) and native_shield(attributes) or nil
@@ -74,6 +108,7 @@ function M:_hit(target,amount,action_id,contact)
   -- Golden/native shields can absorb a successful hit without HP movement.
   -- Keep their native settlement; only fix the false miss/absent feedback.
   if not self.report.accepted then return false end
+  if contact.feedback==false then return true end
   if after and after>0 and valid(reaction) and identity.matches(target,target_id) then
     request.phase='feedback'
     local feedback,err=native(request)
@@ -86,7 +121,7 @@ function M:_hit(target,amount,action_id,contact)
   return true
 end
 function M:hit(target,amount,action_id,contact)
-  local ok,result=pcall(self._hit,self,target,amount,action_id,contact)
+  local ok,result=pcall(require('host.pbz.entity_effects').with_attack_base,self.binding,self._hit,self,target,amount,action_id,contact)
   if not ok then self.report.error=tostring(result);return false end
   return result
 end

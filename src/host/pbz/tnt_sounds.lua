@@ -71,7 +71,7 @@ function M.new(root,options)
  local ledger=previous and previous.ledger or shared
  if previous and previous.close then previous:close()end
  ledger.serial=ledger.serial+1
- return setmetatable({events=manifest.variants,durations=manifest.durations,root=root,
+ return setmetatable({events=manifest.variants,event_names=manifest.event_names,durations=manifest.durations,root=root,
   ledger=ledger,owner=ledger.serial,clock=options.clock,last_events={},
   counts=copy(previous and previous.counts),played=previous and previous.played or 0,
   requested=previous and previous.requested or 0,merged=previous and previous.merged or 0,
@@ -109,7 +109,9 @@ function M:play(kind,p)
  elseif kind=='flint'then pitch=math.random()*.4+.8 end
  local pan=d>1 and math.max(-1,math.min(1,(-math.sin(yaw)*x+math.cos(yaw)*y)/d))or 0
  local gain=math.min(1,sample.volume*math.max(0,1-d/range)*(kind=='fire' and .4 or 1))
- local ok,raw,why=pcall(PBZMC_BlockSound,json.encode({clip=sample.clip,gain=gain,pitch=pitch,pan=pan}))
+ local ok,raw,why=pcall(PBZMC_BlockSound,json.encode({clip=sample.clip,gain=gain,pitch=pitch,pan=pan,
+  sound_event=self.event_names and self.event_names[kind]and 'minecraft:'..self.event_names[kind]or nil,
+  source=kind=='flint'and 'player'or 'block'}))
  if not ok or not raw then
   self.error=tostring(ok and why or raw);self.last_native_error=self.error;self.native_failures=self.native_failures+1
   ledger.explosion_retry=stamp+.12;ledger.soft_retry=stamp+.75

@@ -368,6 +368,12 @@ function Service:external_push_owner(actor)
   local handle=self.world.by_actor and self.world.by_actor[actor:GetAddress()]
   if handle and self.boats[handle.id]and identity.matches(actor,handle.identity)then return handle.actor end
 end
+function Service:spear_seat(actor)
+  if not next(self.passengers)then return end
+  local rider=key(actor)
+  local boat=self.passengers[rider]
+  if boat and boat.leases[rider] and boat.leases[rider]:is_current() then return boat,rider end
+end
 -- The seat, including equipment attached to its occupant, is not another
 -- piston body. Match a current lease; an empty hull or released mob must
 -- continue through the ordinary collision checks.
@@ -406,6 +412,22 @@ function Service:external_push_candidates(box)
     end
   end
   return out
+end
+function Service:wind_burst(origin,radius,visible)
+  local wind=require('rules.wind_charge')
+  local pushed=0
+  for _,boat in pairs(self.boats) do
+    local s=boat.state
+    if not boat.retired and not boat.dormant_reason and not s.destroyed then
+      local impulse=wind.impulse(origin,{X=s.x,Y=s.y,Z=s.z},rules.width*.5,rules.height*.5,radius,wind.multiplier,1)
+      if impulse and self.world:valid(boat.handle) and visible(origin,{X=s.x,Y=s.y,Z=s.z+rules.height*.5},boat.handle.actor) then
+        -- Boat velocities use cm/tick. Its own solver moves the seated group.
+        s.vx=s.vx+impulse.X/20;s.vy=s.vy+impulse.Y/20;s.vz=s.vz+impulse.Z/20
+        boat.resting=false;pushed=pushed+1
+      end
+    end
+  end
+  return pushed
 end
 function Service:blast(origin,damage)
   local tnt=require('rules.tnt')

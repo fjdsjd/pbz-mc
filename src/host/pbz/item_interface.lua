@@ -348,10 +348,9 @@ function M.start(log,directory)
       end
       local selected=data and slots.get(data,'player/hotbar/'..data.player.selected)
       controls_group=require('rules.native_slot_reference').is(selected) and 'pbz' or 'mc'
-      local first=camera() and camera():mc_controls() and not (selector and selector.pending)
+      local first=camera() and camera():mc_controls(controls_group) and not (selector and selector.pending)
       local traversal=camera() and camera():traversal(binding)
-      controls:set_context(available and (binding.mc_creative_flight and controls_group=='pbz' and 'game-creative-pbz' or first and 'game-first-person' or
-        ((controls_group=='pbz' or traversal) and 'game-pbz-hotbar' or 'game-mc')) or 'inactive')
+      controls:set_context(controls.game_context(available,controls_group,first,traversal,binding.mc_creative_flight))
       local batch=controls:read();local samples={}
       if available and binding.command_block_edit then
         local commands=require('host.pbz.command_service').get(binding)
@@ -367,22 +366,37 @@ function M.start(log,directory)
           return
         end
       end
+      local context={kind=available and 'game' or 'inactive',weapon_group=controls_group,epoch=controls_epoch,unified_hotbar=true}
+      selection_context=context
+      local batch_context=context
+      if selector and selector.pending and selector.pending.result.phase=='waiting'
+          and (not available or not batch.latest.focused or batch.overflow or batch.timed_out_since_read) then
+        selector:abort('gameplay-input-ended')
+      end
+      if selector and selector.pending and available and batch.latest.focused then
+        selector:tick(now)
+        data,revision=campaign.view(binding)
+        selected=slots.get(data,'player/hotbar/'..data.player.selected)
+        controls_group=require('rules.native_slot_reference').is(selected) and 'pbz' or 'mc'
+        first=camera() and camera():mc_controls(controls_group) and not selector.pending
+        -- Publish ownership at the equipment receipt, before displaying the new
+        -- slot. Already-drained edges still belong to the old equipment owner.
+        controls:set_context(controls.game_context(available,controls_group,first,traversal,binding.mc_creative_flight))
+        context={kind=context.kind,weapon_group=controls_group,epoch=controls_epoch,unified_hotbar=true}
+        selection_context=context
+      end
+      local same_owner=batch_context.weapon_group==controls_group
+      batch_context.suppress_item_actions=not same_owner
       for _,sample in ipairs(batch.samples) do samples[#samples+1]=sample end
       if instance and instance.quick_help then instance.quick_help:input(batch,available,controls_epoch)end
       if camera() then camera():input(batch,available,controls_epoch) end
       local boats=require('host.pbz.boat_service').get(binding)
-      if boats then boats:input_batch(batch,available and not (selector and selector.pending),controls_group,data) end
+      if boats then boats:input_batch(batch,available and same_owner and not (selector and selector.pending),controls_group,data) end
       controls_stats={};for key,value in pairs(batch) do if key~='samples' then controls_stats[key]=value end end
       samples[#samples+1]=batch.latest
-      local context={kind=available and 'game' or 'inactive',weapon_group=controls_group,epoch=controls_epoch,unified_hotbar=true}
-      selection_context=context
-      if selector and selector.pending and available and batch.latest.focused then
-        selector:tick(now)
-        data,revision=campaign.view(binding)
-      end
       if batch.overflow then controls_controller=require('presentation.hotbar_input').new() end
       for _,pointer in ipairs(samples) do
-        for _,request in ipairs(controls_controller:update(pointer,context)) do
+        for _,request in ipairs(controls_controller:update(pointer,batch_context)) do
           if request.kind=='open_command'then
             if selector and selector.pending then selector:abort('command-opened')end
             if combat then combat:cancel('command')end
@@ -430,7 +444,7 @@ function M.start(log,directory)
           now,defense_notice,log,healthy_keys)
         local off=slots.get(data,'player/offhand')
         local flight_rocket=binding.mc_gliding and binding.mc_gliding.active and off and off.content_id=='pbzmc:firework_rocket'
-        local allowed=available and first and (controls_group=='mc' or flight_rocket) and not (selector and selector.pending)
+        local allowed=available and same_owner and first and (controls_group=='mc' or flight_rocket) and not (selector and selector.pending)
         local success,why=pcall(function()
           if allowed then acquire_combat() end
           if combat and not combat.error then combat:update(batch,data,revision,context,allowed) end

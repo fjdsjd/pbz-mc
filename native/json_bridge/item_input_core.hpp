@@ -15,7 +15,8 @@ constexpr std::size_t key_count = 24;
 constexpr std::size_t queue_capacity = 512;
 constexpr std::uint64_t heartbeat_limit_ms = 500;
 using Bindings = std::array<std::uint16_t, key_count>;
-enum class Context : std::uint8_t { inactive, game_pbz, game_mc, inventory, game_pbz_hotbar, game_mc_combat, game_fp, command, creative_pbz };
+enum class Context : std::uint8_t { inactive, game_pbz, game_mc, inventory, game_pbz_hotbar, game_mc_combat, game_fp, command, creative_pbz, motion_pbz };
+inline bool mc_motion(Context c) noexcept { return c==Context::game_fp || c==Context::motion_pbz; }
 inline const char* context_name(Context value) noexcept {
     switch (value) {
     case Context::game_pbz: return "game-pbz";
@@ -26,6 +27,7 @@ inline const char* context_name(Context value) noexcept {
     case Context::game_fp: return "game-first-person";
     case Context::command: return "command";
     case Context::creative_pbz: return "game-creative-pbz";
+    case Context::motion_pbz: return "game-motion-pbz";
     default: return "inactive";
     }
 }
@@ -39,6 +41,7 @@ inline Context parse_context(std::string_view text) {
     if (text == "game-first-person") return Context::game_fp;
     if (text == "command") return Context::command;
     if (text == "game-creative-pbz") return Context::creative_pbz;
+    if (text == "game-motion-pbz") return Context::motion_pbz;
     throw std::runtime_error("unsupported item input context");
 }
 inline Bindings parse_bindings(std::string_view text) {
@@ -84,12 +87,12 @@ inline bool consumes_key(Context context, unsigned index) noexcept {
     if (context == Context::command) return true;
     if (index == 22 || index == 23) return context != Context::inventory;
     if (context == Context::creative_pbz) return index==0 || (index>=4 && index<=13) || (index>=18 && index<=20);
-    if (index == 21) return context == Context::game_fp || context == Context::game_mc_combat || context == Context::inventory;
+    if (index == 21) return mc_motion(context) || context == Context::game_mc_combat || context == Context::inventory;
     // Keep native WASD key state current while MC's controller movement lease
     // suppresses native locomotion. Returning to PBZ then needs no fake press
     // or user release/repress. Containers still own their directional input.
     if (index >= 14 && index <= 17) return context == Context::inventory;
-    if (index >= 14) return context == Context::game_fp || context == Context::inventory;
+    if (index >= 14) return mc_motion(context) || context == Context::inventory;
     if (context == Context::game_pbz) return index == 0 || index == 13;
     if (context == Context::game_pbz_hotbar) return index == 0 || index >= 4;
     return context == Context::inventory || index != 1;
@@ -100,11 +103,14 @@ inline bool gameplay_context(Context context) noexcept {
 constexpr std::uint32_t direction_keys = 0xfu << 14;
 inline bool consumes_wheel(Context context) noexcept {
     return context == Context::game_mc || context == Context::inventory || context == Context::command ||
-           context == Context::creative_pbz || context == Context::game_pbz_hotbar || context == Context::game_mc_combat || context == Context::game_fp;
+           context == Context::creative_pbz || context == Context::game_pbz_hotbar || context == Context::game_mc_combat || mc_motion(context);
 }
 inline bool consumes_button(Context context, unsigned index) noexcept {
-    return index <= 2 && (context == Context::command || context == Context::inventory || context == Context::game_mc_combat || context == Context::game_fp ||
-                         (index == 2 && (context == Context::game_mc || context == Context::game_fp)));
+    // Boat/glider controls can own motion and use/attack with a native slot.
+    // The physical middle button still drives PBZ's IA_LockTarget.
+    return index <= 2 && (context == Context::command || context == Context::inventory || context == Context::game_mc_combat ||
+                         context == Context::game_fp || (context == Context::motion_pbz && index < 2) ||
+                         (context == Context::game_mc && index == 2));
 }
 struct Environment {
     Pointer::State pointer{};
@@ -160,6 +166,7 @@ class Core {
     std::uint64_t epoch_{1}, sequence_{}, heartbeat_{}, barrier_{};
     std::uint32_t keys_{}, blocked_keys_{}, owned_keys_{};
     std::uint8_t buttons_{}, blocked_buttons_{}, owned_buttons_{};
+    std::uint8_t legacy_raw_down_{}, legacy_raw_owned_{};
     std::array<std::uint64_t, key_count> down_times_{};
     std::array<std::uint64_t, 3> button_down_times_{};
     bool focused_{}, swapped_{}, expired_{}, overflow_{}, timeout_notice_{}, identity_lost_{}, started_{};
@@ -251,12 +258,22 @@ public:
     void note_peek() noexcept { ++stats_.ignored_peeks; }
     void note_foreign() noexcept { ++stats_.foreign_messages; }
     bool heartbeat_expired() const noexcept { return expired_; }
-    bool first_person() const noexcept { return context_==Context::game_fp; }
+    bool first_person() const noexcept { return mc_motion(context_); }
     bool command() const noexcept { return context_==Context::command && !expired_ && focused_ && !identity_lost_; }
     bool raw_eligible() const noexcept { return started_ && focused_ && !expired_ && !identity_lost_; }
     bool filter_raw_mouse() const noexcept { return raw_eligible() && (first_person() || command() || context_==Context::creative_pbz); }
-    bool filter_raw_button(unsigned index) const noexcept {
-        return raw_eligible() && index<3 && (consumes_button(context_,index) || (owned_buttons_ & (1u<<index))!=0);
+    bool filter_raw_button(unsigned index, bool up) noexcept {
+        if (!raw_eligible() || index>=3) return false;
+        // On legacy registrations WM_* and RAWMOUSE can arrive in either order.
+        // Remember the owner of the raw down independently until its physical up.
+        const auto bit=static_cast<std::uint8_t>(1u<<index);
+        if (!up && !(legacy_raw_down_ & bit)) {
+            legacy_raw_down_|=bit;
+            if (consumes_button(context_,index)) legacy_raw_owned_|=bit;
+        }
+        const bool owned=(legacy_raw_owned_ & bit)!=0;
+        if (up) { legacy_raw_down_&=static_cast<std::uint8_t>(~bit);legacy_raw_owned_&=static_cast<std::uint8_t>(~bit); }
+        return owned;
     }
     bool filter_raw_wheel() const noexcept { return raw_eligible() && consumes_wheel(context_); }
     void retain_modifiers(Pointer::State& pointer) const noexcept {
@@ -272,20 +289,24 @@ public:
         if (!started_) return;
         if (!environment.identity_valid && !identity_lost_) {
             identity_lost_ = true; ++stats_.identity_resets; reset(environment, now);
+            legacy_raw_down_=legacy_raw_owned_=0;
             owned_keys_ = 0; owned_buttons_ = 0;
         }
         const bool focused = environment.pointer.focused && !identity_lost_;
         if (focused != focused_) {
             ++stats_.focus_resets; reset(environment, now); focused_ = focused;
+            legacy_raw_down_=legacy_raw_owned_=0;
             // Other-window releases are never consumed. Return uses a fresh baseline.
             owned_keys_ = 0; owned_buttons_ = 0;
         }
         if (focused && environment.swapped != swapped_) {
             ++stats_.swap_resets; reset(environment, now); swapped_ = environment.swapped;
+            legacy_raw_down_=legacy_raw_owned_=0;
             owned_buttons_ = 0;
         }
         if (!expired_ && now - heartbeat_ > heartbeat_limit_ms) {
             expired_ = true; timeout_notice_ = true; ++stats_.timeout_resets;
+            legacy_raw_down_=legacy_raw_owned_=0;
             reset(environment, now); // retain owned pairs only until their releases
         }
         auto pointer = environment.pointer;
@@ -379,7 +400,7 @@ public:
             consume = !expired_ && !stale && consumes_wheel(context_);
             emit_wheel = !expired_ && !stale && event.wheel != 0;
         } else if (event.kind == Kind::look) {
-            changed = (context_ == Context::game_fp || context_==Context::creative_pbz) && (event.dx != 0 || event.dy != 0);
+            changed = (mc_motion(context_) || context_==Context::creative_pbz) && (event.dx != 0 || event.dy != 0);
         } else {
             changed = event.kind == Kind::move || pointer.x != previous_pointer.x || pointer.y != previous_pointer.y ||
                       pointer.inside != previous_pointer.inside || pointer.width != previous_pointer.width ||
@@ -424,7 +445,7 @@ inline std::string sample_json(const Sample& sample) {
 inline std::string batch_json(const Batch& batch, std::uint32_t game_thread, std::uint32_t window_thread,
                               std::uint64_t callback_entries, std::uint64_t stale_callbacks) {
     const auto boolean = [](bool v) { return v ? "true" : "false"; };
-    std::string text = "{\"protocol\":2,\"quick_help_controls\":true,\"command_controls\":true,\"creative_pbz_controls\":true,\"camera_key\":true,\"first_person_controls\":true,\"chain_mining_controls\":true,\"combat_message_capture\":true,\"raw_input_filtered\":" + std::string(batch.context==Context::game_fp ? "true" : "false") + ",\"context\":\"" + std::string(context_name(batch.context)) + "\",\"epoch\":" + std::to_string(batch.epoch) +
+    std::string text = "{\"protocol\":2,\"quick_help_controls\":true,\"command_controls\":true,\"creative_pbz_controls\":true,\"camera_key\":true,\"first_person_controls\":true,\"chain_mining_controls\":true,\"combat_message_capture\":true,\"raw_input_filtered\":" + std::string((mc_motion(batch.context) || batch.context==Context::creative_pbz || batch.context==Context::command) ? "true" : "false") + ",\"context\":\"" + std::string(context_name(batch.context)) + "\",\"epoch\":" + std::to_string(batch.epoch) +
         ",\"overflow\":" + boolean(batch.overflow) + ",\"timed_out_since_read\":" + boolean(batch.timed_out_since_read) +
         ",\"heartbeat_expired\":" + boolean(batch.heartbeat_expired) + ",\"draining_owned_releases\":" + boolean(batch.draining_owned_releases) +
         ",\"identity_lost\":" + boolean(batch.identity_lost) + ",\"heartbeat_limit_ms\":" + std::to_string(heartbeat_limit_ms) +

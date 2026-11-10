@@ -6,6 +6,7 @@ local json=require('dkjson')
 local identity=require('host.pbz.object_identity')
 local valid=require('host.pbz.appearance').valid
 local rules=require('rules.tnt')
+local guard=require('host.pbz.weapon_guard')
 local M={};M.__index=M
 local capabilities,capability_error,capability_checked
 local color={R=0,G=0,B=0,A=0}
@@ -64,7 +65,7 @@ function M.new(binding,log)
   assert(binding and valid(binding.actor),'tnt-damage-player-unavailable')
   local self=setmetatable({binding=binding,log=log or function()end,pawn=binding.actor,
     pawn_id=identity.capture(binding.actor),world_id=identity.capture(binding.actor:GetWorld()),
-    events={},targets={},next_scan=0,report={}},M)
+    events={},targets={},next_scan=0,report={},guard_classes={}},M)
   self.character=StaticFindObject('/Script/ProjectPBZ.PBZCharacter')
   self.faction=StaticFindObject('/Script/SGameCombatSystem.Default__FactionUtils')
   self.clock=StaticFindObject('/Script/Engine.Default__GameplayStatics')
@@ -194,6 +195,8 @@ function M:hit(row,amount,action_id,kind,location,direction)
     location=location,direction=direction,normal={X=-direction.X,Y=-direction.Y,Z=-direction.Z}}
   local result={action_id=action_id,target=row.id.name,player=row.player,requested=amount,before=health(target),
     native_shield_before=native_shield(target)}
+  local shachi_before
+  if kind=='explosion' and not row.player then shachi_before=guard.prepare(self.guard_classes,target,self.pawn,request,amount) end
   -- The event is already claimed before this call. Never retry native damage
   -- merely because readback, native feedback, red materials or launch failed.
   local receipt,why=native(request)
@@ -216,9 +219,10 @@ function M:hit(row,amount,action_id,kind,location,direction)
   local changed=(result.observed_delta or 0)>0 or (result.absorbed or 0)>0 or result.totem==true
   result.health_hit=result.dispatched and not result.blocked and changed or false
   result.native_shield_hit=result.dispatched and not result.blocked and (result.native_shield_delta or 0)>0 or false
-  result.hurt=result.health_hit or result.native_shield_hit
+  guard.observe(result,shachi_before,target)
+  result.hurt=result.health_hit or result.native_shield_hit or result.native_shachi_hit or false
   if not result.hurt or not valid(target) or not identity.matches(target,row.id) then return result end
-  if kind=='explosion' and (result.after or 0)>0 and valid(reaction) and self:is_current() then
+  if kind=='explosion' and request.phase~='shachi' and (result.after or 0)>0 and valid(reaction) and self:is_current() then
     request.phase='feedback'
     local ok,feedback,err=pcall(native,request)
     result.feedback=ok and feedback and feedback.dispatched==true or false

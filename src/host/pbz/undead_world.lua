@@ -30,6 +30,11 @@ end
 function M:spawn_point(def,aim,ignore)
   local origin,dir=aim()
   local yes,hit,object=self.combat:trace(origin,M.offset(origin,dir,600),1,nil,ignore)
+  if def.phases_terrain then
+    if not yes then return M.offset(origin,dir,600) end
+    local p=M.offset(hit.ImpactPoint,hit.ImpactNormal,2);p.Z=p.Z+def.height/2
+    return p
+  end
   local fluid=self.binding.mc_fluid_sampler
   if def.aquatic and fluid then
     local limit=yes and math.min(600,M.length(M.delta(hit.ImpactPoint,origin))) or 600
@@ -55,6 +60,7 @@ end
 function M:follow_position(m,feet,attempt)
   local p=require('rules.mob_follow').candidate(feet,m.serial,attempt,m.def.radius)
   local def=m.def
+  if def.phases_terrain then return vec(p.X,p.Y,feet.Z+def.height/2+100) end
   local ignored={m.actor}
   if def.aquatic and not def.amphibious then
     local water=self.binding.mc_fluid_sampler
@@ -96,6 +102,7 @@ function M:cage_position(def,block,ignore)
   if p and math.abs((p.Z-def.height/2-4)-(block.z-50))<=104 then return p end
 end
 function M:clear_capsule(def,centre,ignore)
+  if def.phases_terrain then return true end
   local half=def.height/2
   local lib=UE.GetKismetSystemLibrary()
   local color={R=0,G=0,B=0,A=0}
@@ -119,15 +126,20 @@ function M:create(def,p,serial,exact)
     self.default_half=default_half
   end
   local initial=vec(pos.X,pos.Y,pos.Z+math.max(0,default_half-def.height/2))
-  local actor=self.pawn:GetWorld():SpawnActor(self.char,initial,{Pitch=0,Yaw=0,Roll=0})
+  local actor
+  if def.phases_terrain then actor=require('host.pbz.dragon_collision').spawn(self,pos)
+  else actor=self.pawn:GetWorld():SpawnActor(self.char,initial,{Pitch=0,Yaw=0,Roll=0}) end
   if not valid(actor) then return nil end -- an occupied site is a normal failed attempt
   local m={actor=actor,id=ids.capture(actor),def=def,serial=serial,position=pos,
     health=maximum,max_health=maximum,ai=ai}
   local ok,why=pcall(function()
     local cap=actor.CapsuleComponent;local half=def.height/2
     cap:SetCapsuleSize(math.min(def.radius,half),half,true)
-    cap:SetCollisionResponseToChannel(2,1) -- overlap other pawns while walking, block terrain
-    cap:SetCollisionResponseToChannel(3,2) -- allow the owner's reticle to select the summon
+    if def.phases_terrain then require('host.pbz.dragon_collision').target_only(cap)
+    else
+      cap:SetCollisionResponseToChannel(2,1) -- overlap pawns, block terrain
+      cap:SetCollisionResponseToChannel(3,2)
+    end
     actor.bUseControllerRotationYaw=false
     m.move=actor.CharacterMovement;m.move.bRunPhysicsWithNoController=true
     m.move.bOrientRotationToMovement=false;m.move.MaxWalkSpeed=def.speed;m.move.MaxFlySpeed=def.speed
@@ -136,10 +148,11 @@ function M:create(def,p,serial,exact)
     m.move:SetMovementMode(def.flies and 5 or 1,0)
     assert(actor:K2_SetActorLocationAndRotation(pos,{Pitch=0,Yaw=0,Roll=0},false,{},true),'undead-placement')
     local asset=assert(self.models.entries[def.name])
-    local units=def.height/(asset.top-asset.bottom)
+    local units=def.model_units or def.height/(asset.top-asset.bottom)
     m.parts=self.models:attach(actor,def.name,units,def.height/2)
     m.visual=self.models:animation(def.name,assert(asset.rig,'mob-rig-missing'))
     require('host.pbz.undead_models').pose(m,StaticFindObject('/Script/Engine.Default__GameplayStatics'):GetTimeSeconds(self.pawn),false)
+    if def.phases_terrain then require('host.pbz.dragon_collision').attach(m) end
   end)
   if not ok then actor:K2_DestroyActor();error(why) end
   return m

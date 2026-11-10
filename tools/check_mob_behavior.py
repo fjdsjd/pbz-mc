@@ -7,7 +7,7 @@ sys.path.insert(0, str(ROOT / 'build/lua-check'))
 from lupa.lua54 import LuaRuntime
 
 lua = LuaRuntime(unpack_returned_tuples=True)
-lua.execute("package.path=... ..'/src/?.lua;'..package.path", ROOT.as_posix())
+lua.execute("local root=...;package.path=root..'/src/?.lua;'..root..'/third_party/dkjson/?.lua;'..package.path", ROOT.as_posix())
 checks = lua.execute(r'''
 local count=0
 local function check(value,message)count=count+1;assert(value,message)end
@@ -105,7 +105,7 @@ local w=setmetatable({pawn=actor(),combat={trace=function()return true end}},wor
 function w:ground(p)return {X=p.X,Y=p.Y,Z=height}end
 function w:clear_capsule()return free end
 m={actor=actor(),def={radius=30,height=180,speed=250},position={X=0,Y=0,Z=90},steer={X=1,Y=0,Z=0},
- move={GetGravityZ=function()return -980 end}}
+ move={MaxWalkSpeed=250,GetGravityZ=function()return -980 end}}
 w:obstacle(m,0);check(m.jumps==1 and m.actor.velocity.Z>490,'one-block obstacle jumps')
 w:obstacle(m,.1);check(m.jumps==1,'jump cooldown')
 height=200;w:obstacle(m,1);check(m.jumps==1,'two-block wall is not jumped or teleported')
@@ -116,8 +116,10 @@ local service=require('host.pbz.undead_summons')
 local trace_count=0
 local s=setmetatable({candidates={},sight_budget=2,world={sight=function()trace_count=trace_count+1;return false end}},service)
 for i=1,100 do local a=actor();s.candidates[i]={actor=a,id=identity.capture(a),pos={X=i,Y=0,Z=0}}end
-local _,deferred=s:target({position={X=0,Y=0,Z=0}},{})
+local _,deferred=s:target({def={},position={X=0,Y=0,Z=0}},{})
 check(deferred and trace_count==2 and s.sight_budget==0,'crowd visibility cannot overrun query budget')
+local target=s:target({def={phases_terrain=true},position={X=0,Y=0,Z=0}},{})
+check(target==s.candidates[1] and trace_count==2 and s.sight_budget==0,'dragon can pursue through terrain without spending sight rays')
 return count
 ''')
 print(f'{checks} creature reference, goal, health, jump and bounded-work checks passed; game_loaded=false')

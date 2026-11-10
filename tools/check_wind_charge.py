@@ -87,7 +87,7 @@ assert(pawn.BeforeFallingLocation.Z==80 and service.report.burst==1 and service.
 assert(service.report.last_impact.particles==6 and not service.report.last_impact.fx_error)
 -- A native transition may rebase the fall at the apex. Falling back to the
 -- launch height is protected and a later independent fall has its own origin.
-local fall_service={binding=binding,value={totem_cooldown=1},report={}}
+local fall_service={binding=binding,value={effects={},totem_cooldown=1},report={}}
 local fall=require('host.pbz.native_totem_fall')
 pawn.BeforeFallingLocation=v(0,0,900);fall.tick(fall_service);assert(pawn.BeforeFallingLocation.Z==80)
 pawn.CharacterMovement.MovementMode=1;fall.tick(fall_service);assert(not binding.mc_wind_lift)
@@ -100,7 +100,8 @@ local function glide_landing(ground,expected)
   local glider={binding={actor=rider,mc_wind_lift={z=80}},velocity=v(0,0,-1000),fall_distance=1000,report={sweeps=0},
     stop=function(_,reason,grounded)assert(grounded and reason=='landed') end,
     damage=function(_,amount,kind)assert(amount==expected and kind=='fall')end}
-  require('host.pbz.elytra_flight').sweep(glider,.05)
+  setmetatable(glider,{__index=require('host.pbz.elytra_flight')})
+  glider:sweep(.05)
   assert(not glider.binding.mc_wind_lift)
 end
 glide_landing(80,0);glide_landing(-420,2)

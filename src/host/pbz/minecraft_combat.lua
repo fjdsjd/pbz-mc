@@ -220,7 +220,8 @@ function M:melee(record)
       if not ok then self.critical_fx_error=tostring(why);self.log('MC critical particles failed: '..tostring(why)) end
     end
     self.log('MC melee HP delta='..tostring(self.damage.report.observed_delta)
-      ..' native-shield delta='..tostring(self.damage.report.native_shield_delta or 0)..' critical='..tostring(critical)
+      ..' native-shield delta='..tostring(self.damage.report.native_shield_delta or 0)
+      ..' shachi delta='..tostring(self.damage.report.native_shachi_delta or 0)..' critical='..tostring(critical)
       ..' feedback='..tostring(self.damage.report.feedback)..' flash='..tostring(self.damage.report.flash))
   end
   return hit

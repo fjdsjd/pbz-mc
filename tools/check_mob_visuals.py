@@ -27,6 +27,7 @@ def main():
     assert sheep.getpixel((2,24))[3]==255
     assert rigs['chicken']['bottom']==0 and rigs['chicken']['top']==15
     lua.globals().DATA=table(data);lua.globals().RIGS=table(rigs)
+    lua.globals().DRAGON_MESH=(a.assets/rigs['ender_dragon']['mesh']['path']).read_bytes()
     checks=lua.execute(r'''
 local animation=require('presentation.mob_animation');local lib=animation.library(DATA)
 local defs=require('content.summon_mobs').list();local count=0
@@ -35,6 +36,128 @@ local function make(name)
  local def;for _,d in ipairs(defs)do if d.name==name then def=d;break end end
  assert(def);local m={def=def,health=20,position={X=0,Y=0,Z=0},move={MovementMode=1},serial=1}
  return m,animation.new(lib,name,RIGS[name].rig)
+end
+-- Check the positions drawn by the native component hierarchy (parent pivot
+-- is subtracted), including the shared wing template in pre-existing caches.
+do
+ local d,v=make('ender_dragon');d.yaw=175;local p=v:update(d,0)
+ local function joint(name,axis)
+  local parent=v.rig[v.rig[name].parent]
+  return p[name].position[axis]-(parent and parent.pivot[axis]or 0)
+ end
+ near(joint('wingtip',1),-56);near(joint('wingtip1',1),56)
+ for _,end_ in ipairs({'','1'})do
+  near(joint('rearlegtip'..end_,2),-32);near(joint('rearfoot'..end_,2),-31)
+  near(joint('frontlegtip'..end_,2),-20);near(joint('frontfoot'..end_,2),-23)
+ end
+ local parts=require('host.pbz.mesh_bundle').decode(DRAGON_MESH,1)
+ require('presentation.dragon_model').prepare_mesh(parts,1)
+ local wings={};for _,part in ipairs(parts)do wings[part.name]=part end
+ for _,name in ipairs({'wing','wingtip'})do
+  local a,b=wings[name],wings[name..'1']
+  for i,x in ipairs(a.positions)do
+   near(x.X,b.positions[i].X);near(x.Y,-b.positions[i].Y);near(x.Z,b.positions[i].Z)
+  end
+ end
+ local function spine(first,second)
+  local gap=0
+  for i=1,3 do gap=gap+(joint(second,i)-joint(first,i))^2 end
+  near(gap,100)
+ end
+ for i=1,65 do
+  d.yaw=(175+i*2+180)%360-180;d.position.X=i*25;d.position.Z=i*3;p=v:update(d,i*.1)
+  for n=1,4 do spine('neck'..n,'neck'..(n+1))end;spine('neck5','head')
+  for n=1,11 do spine('tail'..n,'tail'..(n+1))end
+  assert(math.abs(p.head.rotation[2])<60 and p.jaw.rotation[1]>=0 and p.jaw.rotation[1]<23)
+  near(p.wing.rotation[3],-p.wing1.rotation[3]);near(p.wingtip.rotation[3],-p.wingtip1.rotation[3])
+ end
+ local d2,v2=make('ender_dragon')
+ for i=0,195 do d2.yaw=(175+i*2/3+180)%360-180;d2.position.X=i*25/3;d2.position.Z=i;p=v2:update(d2,i/30)end
+ near(v.poses.head.rotation[2],p.head.rotation[2]);near(v.poses.tail12.rotation[2],p.tail12.rotation[2])
+ d.position.X=d.position.X+6000;d.yaw=-140;p=v:update(d,6.6)
+ near(p.head.rotation[2],0);near(p.tail12.rotation[2],180)
+ local rules=require('rules.dragon_flight');local home={X=0,Y=0,Z=400}
+ d.dragon_target=nil;d.dragon_phase=nil
+ local patrol=rules.goal(d,0,home,nil,nil);assert(patrol.X~=home.X or patrol.Y~=home.Y)
+ local enemy={X=1600,Y=0,Z=100};rules.goal(d,1,home,enemy,9);assert(d.dragon_phase=='strafe')
+ d.last_attack=1.4;local charge=rules.goal(d,1.5,home,enemy,9)
+ assert(d.dragon_phase=='charge' and charge.X==enemy.X)
+ rules.finish_pass(d,2);local exit=rules.goal(d,2.5,home,enemy,9);assert(d.dragon_phase=='holding')
+ near(math.sqrt((exit.X-d.position.X)^2+(exit.Y-d.position.Y)^2),2000)
+ local shooter={position={X=0,Y=0,Z=800},yaw=90,dragon_sighted=0,breath_charge=0}
+ local below={X=500,Y=0,Z=-400}
+ assert(not rules.breath_ready(shooter,.25,true,below))
+ shooter.yaw=0;assert(rules.breath_ready(shooter,.3,true,below))
+ assert(not rules.breath_ready(shooter,.55,false,below) and not rules.breath_ready(shooter,.65,true,below))
+ assert(rules.breath_ready(shooter,.8,true,below))
+ rules.goal(d,5,home,nil,nil);assert(d.dragon_phase=='holding' and not d.dragon_target)
+ for _,height in ipairs({-800,0,800})do
+  local flyer={position={X=-1400,Y=-80,Z=0},yaw=0};local target={X=0,Y=0,Z=height}
+  local shots=0
+  for step=1,400 do
+   local t=step*.1;local goal=rules.goal(flyer,t,home,target,1)
+   local yaw,steer=rules.steer(flyer,goal,t);flyer.yaw=yaw
+   if flyer.dragon_phase=='strafe' and rules.breath_ready(flyer,t,true,target)then
+    shots=shots+1;flyer.last_attack=t
+   end
+   for axis,speed in pairs(steer)do flyer.position[axis]=flyer.position[axis]+speed*100 end
+  end
+  assert(shots>=3,'dragon circled a stationary target without attacking again')
+ end
+end
+-- A moving head or arm is insufficient: measure both actual walk channels.
+-- The pinned client entities include modern, legacy-only and mixed schedules.
+for _,name in ipairs({'zombie','husk','giant','zombified_piglin','drowned','zombie_villager','skeleton','stray','wither_skeleton','bogged','parched'})do
+ local m,v=make(name);local p=v:update(m,0);local low,high=0,0
+ for i=1,65 do
+  m.position.X=i*13;m.target=i>35 and {} or nil
+  if i==40 then m.last_attack=2;m.last_attack_kind='melee' end
+  p=v:update(m,i*.05)
+  local right=p.rightleg.rotation[1];local left=p.leftleg.rotation[1]
+  local expected=math.cos(math.rad(v.walk_pos*38.17))*v.walk_speed*57.3*1.4
+  assert(math.abs(right-expected)<.0001,name..' right leg '..right..' expected '..expected)
+  near(left,-expected);low=math.min(low,right);high=math.max(high,right)
+ end
+ assert(low < -30 and high > 30,name..' feet did not take alternating steps')
+ for i=66,110 do p=v:update(m,i*.05) end
+ assert(math.abs(p.rightleg.rotation[1])<.001 and math.abs(p.leftleg.rotation[1])<.001,name..' feet did not settle')
+ m.position.X=m.position.X+2000;p=v:update(m,5.55)
+ assert(math.abs(p.rightleg.rotation[1])<.001,name..' teleport started a stride')
+end
+-- The weighted modern zombie attack must keep its condition. The baby head
+-- controller is legacy-only and must still be present in the same entity.
+local _,z=make('zombie');local schedules={}
+for _,step in ipairs(z.entity.run)do
+ local alias=type(step)=='string' and step or next(step)
+ local id=z.entity.aliases[alias] or alias
+ if lib.controllers[id]then
+  assert(not schedules[id],'duplicate zombie controller '..id);schedules[id]=type(step)
+ end
+end
+assert(schedules['controller.animation.zombie.attack_bare_hand']=='table')
+assert(schedules['controller.animation.humanoid.baby_big_head']=='string')
+-- Exercise the renderer's rotation conversion, write threshold and idle cache
+-- at both the near and far sampling rates used by the summon service.
+package.loaded.UEHelpers={}
+local renderer=require('host.pbz.undead_models')
+for _,hz in ipairs({10,30})do
+ local m,v=make('zombie');m.visual=v;m.parts={}
+ for _,leg in ipairs({'rightleg','leftleg'})do
+  local comp={SetVisibility=function()end,SetRelativeScale3D=function()end}
+  function comp:K2_SetRelativeLocationAndRotation(_,r) self.pitch=r.Pitch end
+  m.parts[leg]={component=comp,units=1,root_offset=0}
+ end
+ local low,high=0,0
+ for i=0,5*hz do
+  m.position.X=math.min(i/hz,2)*235;renderer.pose(m,i/hz)
+  local r,l=m.parts.rightleg.component.pitch,m.parts.leftleg.component.pitch
+  assert(math.abs(l+r)<.01,'rendered legs out of phase')
+  low=math.min(low,r);high=math.max(high,r)
+ end
+ assert(low < -30 and high>30 and math.abs(m.parts.rightleg.component.pitch)<.26)
+ local writes=m.pose_writes
+ for i=5*hz+1,6*hz do renderer.pose(m,i/hz)end
+ assert(m.pose_writes==writes,'stationary legs keep writing Unreal transforms')
 end
 -- Villager's crossed arms are a distinct 3-cube bone. Its offset is local to
 -- the bind pivot; interpreting "this" as world Y used to lower arms to feet.

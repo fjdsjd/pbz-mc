@@ -18,20 +18,21 @@ function M:idle()
   end)
 end
 function M:begin(p,now)
-  local category=native.is(p.after) and p.after.metadata.category or 'main'
-  local observed=self.reader:observe(p.epoch,category);local slot=observed.slot or observed.main
+  -- Returning to MC never equips or stows a PBZ weapon. Story loadouts can
+  -- have no runtime slot, or have a different size from the saved backpack.
+  if not native.is(p.after) then
+    if not self:idle() then return {phase='waiting',reason='native-action-active'} end
+    return {phase='ready',reason='native-action-idle-no-stow'}
+  end
+  local observed=self.reader:observe(p.epoch,p.after.metadata.category)
+  local slot=assert(observed.slot or (p.after.metadata.category=='main' and observed.main),'native-request-runtime-slot-unavailable')
   if observed.runtime.in_weapon_transition or slot.with_pending_differs then
     return {phase='waiting',reason='native-weapon-transition'}
   end
-  local current=native.is(p.after) and slot.current_index==p.after.metadata.native_slot_index
-  local crosses_group=not native.is(p.before) or not native.is(p.after)
-  if not current and crosses_group and not self:idle() then return {phase='waiting',reason='native-action-active'} end
-  if native.is(p.after) then
-    local result,why=self.reader:start(p.after,nil,p.epoch,now);assert(result,why);return result
+  if slot.current_index~=p.after.metadata.native_slot_index and not native.is(p.before) and not self:idle() then
+    return {phase='waiting',reason='native-action-active'}
   end
-  -- MC already owns native input suppression and equipment visibility. There
-  -- is no need to toggle the original weapon's armed state to select an item.
-  return {phase='ready',reason='native-action-idle-no-stow',observed=observed.runtime}
+  local result,why=self.reader:start(p.after,nil,p.epoch,now,observed);assert(result,why);return result
 end
 function M:request(request,data,revision,context,now)
   if self.pending then return true end
@@ -71,14 +72,30 @@ function M:queue(request)
 end
 function M:_tick(now)
   local p=self.pending;if not p then return end
-  if p.result.phase=='waiting' then p.result=self:begin(p,now)
+  if p.result.phase=='waiting' and self.queued then
+    -- No native action has been sent. The latest wheel/digit intent can
+    -- replace this wait, including selecting the currently equipped slot.
+    local next_request=self.queued;self.queued=nil
+    self.pending=nil;self.binding.mc_native_selection_pending=nil;self:camera_transition(false)
+    local data,revision=campaign.view(self.binding);local context=self.context()
+    assert(context.epoch==p.epoch and context.kind=='game','native-selection-context-changed')
+    if next_request.index~=data.player.selected and not self:request(next_request,data,revision,context,now) then
+      campaign.dispatch(self.binding,next_request,context)
+    end
+    return
+  end
+  if p.result.phase=='waiting' then
+    p.result=self:begin(p,now)
+    if p.result.phase~='waiting' then p.dispatched_at=now end
   elseif p.result.phase~='ready' then
     local result,why=self.reader:poll(now,true);assert(result,why);p.result=result
   end
   self.last_result=p.result
   if p.result.phase=='rejected' then self:abort(p.result.reason);return end
   if p.result.phase~='ready' then
-    if now-p.started>=5 then self:abort(p.result.reason or 'native-selection-deadline') end
+    -- Native root motion can legitimately last longer than five seconds.
+    -- Only a dispatched request can time out with an uncertain outcome.
+    if p.result.phase~='waiting' and now-(p.dispatched_at or p.started)>=5 then self:abort(p.result.reason or 'native-selection-deadline') end
     return
   end
   local data,revision=campaign.view(self.binding)
@@ -92,11 +109,11 @@ function M:_tick(now)
   local function authorize(before,after)
     assert((before and before.instance_id)==(p.before and p.before.instance_id)
       and (after and after.instance_id)==(p.after and p.after.instance_id),'native-selection-receipt-mismatch')
-    local observed=self.reader:observe(context.epoch,native.is(after) and after.metadata.category or 'main')
-    local slot=observed.slot or observed.main
-    return not observed.runtime.in_weapon_transition and not slot.with_pending_differs
-      and (native.is(after) and slot.current_index==after.metadata.native_slot_index
-        or not native.is(after) and self:idle())
+    if not native.is(after) then return self:idle() end
+    local observed=self.reader:observe(context.epoch,after.metadata.category)
+    local slot=observed.slot or (after.metadata.category=='main' and observed.main)
+    return slot and not observed.runtime.in_weapon_transition and not slot.with_pending_differs
+      and slot.current_index==after.metadata.native_slot_index
   end
   campaign.dispatch(self.binding,p.request,context,authorize)
   local queued=self.queued;self.queued=nil;self.pending=nil;self.binding.mc_native_selection_pending=nil;self:camera_transition(false)

@@ -57,7 +57,7 @@ function M:observe(input_epoch,category)
   category=category or 'main'
   local specification=assert(categories[category],'native-request-category-not-supported')
   self:check(input_epoch,true)
-  local declared,why=self.equipment:read(self.epoch);assert(declared,why)
+  local declared,why=self.equipment:read(self.epoch,{names=false});assert(declared,why)
   local runtime;runtime,why=self.equipment:read_runtime(self.epoch,{selection=true});assert(runtime,why)
   assert(runtime.source=='pbz-character-weapons-v2' and runtime.epoch==self.epoch,
     'native-request-selection-state-unavailable')
@@ -68,7 +68,7 @@ function M:observe(input_epoch,category)
   assert(type(values)=='table','native-request-declared-category-unavailable')
   -- Shachi need not exist before it is unlocked. Do not manufacture a runtime
   -- slot, or let its unrelated transient count block selection of Main.
-  assert(slot and integer(slot.count) and slot.count==#values
+  assert(slot and integer(slot.count)
     and (slot.current_in_range or (slot.count==0 and (category~='main' or not main.armed)))
     or category=='shaqi' and not slot and #values==0,'native-request-inconsistent-'..category..'-state')
   local vitals;vitals,why=self.vitals:read(self.epoch);assert(vitals,why)
@@ -118,7 +118,7 @@ end
 
 -- Exactly one user intent is accepted until its result is observed or the
 -- binding is retired. No timer expiration can authorize replaying a request.
-function M:start(reference,armed,input_epoch,now)
+function M:start(reference,armed,input_epoch,now,observed)
   if self.pending or self.dispatching then return nil,'native-request-already-pending' end
   local request
   local ok,value=pcall(function()
@@ -129,7 +129,7 @@ function M:start(reference,armed,input_epoch,now)
     if reference then references.validate(reference) end
     local category=reference and reference.metadata.category or 'main'
     local specification=assert(categories[category],'native-request-category-not-supported')
-    local observed=self:observe(input_epoch,category)
+    observed=observed or self:observe(input_epoch,category)
     local slot=observed.slot;local values=observed.declared[specification.declared]
     -- Shaqi selection owns its index only, never the Main draw/stow stage.
     if category=='shaqi' then armed=nil end
@@ -160,7 +160,7 @@ function M:start(reference,armed,input_epoch,now)
     if slot.current_index~=request.index then
       local alternatives,only=0,nil
       for i,id in ipairs(values) do
-        if i-1~=slot.current_index and id~='' and id:lower()~='none' then
+        if i<=slot.count and i-1~=slot.current_index and id~='' and id:lower()~='none' then
           alternatives=alternatives+1;only=i-1
         end
       end
@@ -202,6 +202,7 @@ function M:poll(now,allow_actions)
     local observed=self:observe(request.input_epoch,category)
     assert(observed.declared[specification.declared][request.index+1]==request.equipment_id,'native-request-equipment-replaced')
     local main=assert(observed.slot,'native-request-runtime-slot-unavailable')
+    assert(request.index<main.count,'native-request-target-outside-runtime')
     request.changed=main.current_index~=request.before_index or category=='main' and main.armed~=request.before_armed
     -- This counter observes synchronous mutation/reentry only. It cannot prove
     -- animation, ability or queued-input completion; the handoff caller must

@@ -4,7 +4,15 @@ local json=require('dkjson')
 local bindings=require('input.item_bindings')
 local M={};M.__index=M
 local contexts={inactive=true,['game-pbz']=true,['game-mc']=true,inventory=true,
-  ['game-pbz-hotbar']=true,['game-mc-combat']=true,['game-first-person']=true,command=true,['game-creative-pbz']=true}
+  ['game-pbz-hotbar']=true,['game-mc-combat']=true,['game-first-person']=true,command=true,['game-creative-pbz']=true,['game-motion-pbz']=true}
+function M.game_context(available,group,motion,traversal,creative_flight)
+  if not available then return 'inactive' end
+  if group=='pbz' then
+    if creative_flight then return 'game-creative-pbz' end
+    return motion and 'game-motion-pbz' or 'game-pbz-hotbar'
+  end
+  return motion and 'game-first-person' or traversal and 'game-pbz-hotbar' or 'game-mc'
+end
 function M.load_bindings(path)
   local file,why,code=io.open(path,'rb')
   if not file then assert(code==2,why);return bindings.compile() end
@@ -31,7 +39,7 @@ function M:set_context(context)
     assert(self.last and self.last.protocol==2 and self.last.combat_message_capture==true,
       'item-input-protocol-2-required')
   end
-  if context=='game-first-person' then
+  if context=='game-first-person' or context=='game-motion-pbz' then
     assert(self.last and self.last.first_person_controls==true,'native-first-person-input-update-required')
   end
   local done,why=PBZMC_SetItemInputContext(context);assert(done,why)

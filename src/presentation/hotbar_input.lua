@@ -2,16 +2,19 @@
 -- never feed wheel/number events into this context after the UI closes.
 local M={};M.__index=M
 local function down(value,bit) return ((value or 0)&(1<<bit))~=0 end
-function M.new() return setmetatable({armed=false,wheel=0},M) end
+function M.new() return setmetatable({wheel=0},M) end
 function M:update(pointer,context)
   local output={}
   local stamp=tostring(context.kind)..'/'..tostring(context.weapon_group)..'/'..tostring(context.unified_hotbar)..'/'..tostring(context.epoch)..'/'..tostring(pointer.epoch)
-  if not pointer.focused or context.kind~='game' or pointer.overflow or self.context~=stamp then
-    self.context=stamp;self.previous=nil;self.armed=false;self.wheel=0
-    if not pointer.focused or context.kind~='game' or pointer.overflow then return output end
+  if not pointer.focused or context.kind~='game' or pointer.overflow then
+    self.context=nil;self.previous=nil;self.wheel=0
+    return output
   end
-  if not self.armed then
-    if ((pointer.keys or 0)&0x1fff)==0 and (pointer.buttons or 0)==0 then self.armed=true end
+  if self.context~=stamp then
+    -- The bridge starts each epoch with an explicit baseline including keys
+    -- already held. Compare subsequent edges independently; holding attack
+    -- or another digit must never prevent a fresh shortcut or wheel notch.
+    self.context=stamp;self.wheel=0
     self.previous=pointer;return output
   end
   local old=self.previous or pointer;self.previous=pointer
@@ -22,7 +25,7 @@ function M:update(pointer,context)
   for i=1,9 do if pressed(i+3) then output[#output+1]={kind='select_slot',index=i} end end
   -- Native combat keeps its F/Q/middle actions. Only the confirmed MC source
   -- owns item swap/drop/pick; both sources can navigate the mixed hotbar.
-  if context.weapon_group=='mc' then
+  if context.weapon_group=='mc' and not context.suppress_item_actions then
     if pressed(2) then output[#output+1]={kind='swap_selected_offhand'} end
     if pressed(3) then output[#output+1]={kind='drop_selected',count=not pointer.ctrl and 1 or nil} end
     if down(pointer.buttons,2) and not down(old.buttons,2) then output[#output+1]={kind='pick_existing'} end

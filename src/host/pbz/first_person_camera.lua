@@ -2,6 +2,7 @@
 local identity=require('host.pbz.object_identity')
 local valid=require('host.pbz.appearance').valid
 local view=require('presentation.first_person_camera')
+local target_lock=require('host.pbz.camera_target_lock')
 local M={};local active
 local sequence_watcher=false
 local function vector(v) return {X=v.X,Y=v.Y,Z=v.Z} end
@@ -33,7 +34,8 @@ function M.start(log)
   active=self
   -- Construction may run before the player has a world or camera. Invalidate
   -- here and inspect on the game thread, after the new object is initialized.
-  if not sequence_watcher and type(NotifyOnNewObject)=='function' and valid(StaticFindObject('/Script/LevelSequence.LevelSequencePlayer'))then
+  local sequence_class=StaticFindObject('/Script/LevelSequence.LevelSequencePlayer')
+  if not sequence_watcher and type(NotifyOnNewObject)=='function' and valid(sequence_class)then
     sequence_watcher=pcall(NotifyOnNewObject,'/Script/LevelSequence.LevelSequencePlayer',function()
       if active then active.sequence_dirty=true end
     end)
@@ -65,11 +67,26 @@ function M.start(log)
     if self.sequence_dirty or not self.sequence_tick or self.sequence_world~=binding.world_id.address
         or (not self.sequence_watch and self.ticks-self.sequence_tick>=15) then
       self.sequence_dirty=nil
-      self.sequences=FindAllOf('LevelSequencePlayer') or {};self.sequence_world=binding.world_id.address;self.sequence_tick=self.ticks
+      self.sequences={}
+      if not valid(sequence_class) then sequence_class=StaticFindObject('/Script/LevelSequence.LevelSequencePlayer') end
+      if valid(sequence_class) then
+        for _,candidate in ipairs(FindAllOf('LevelSequencePlayer') or {}) do
+          if valid(candidate) and candidate:IsA(sequence_class) and in_world(candidate,binding.world_id) then
+            self.sequences[#self.sequences+1]=candidate
+          end
+        end
+      end
+      self.sequence_world=binding.world_id.address;self.sequence_tick=self.ticks
     end
-    for _,sequence in ipairs(self.sequences) do
-      if valid(sequence) and sequence:IsPlaying() and in_world(sequence,binding.world_id)
-        and valid(sequence:GetActiveCameraComponent()) then self.sequence_reason='native-sequence';return self.sequence_reason end
+    for i=#self.sequences,1,-1 do
+      local sequence=self.sequences[i]
+      -- A released cinematic player can have its address reused by a different
+      -- UObject. Calling IsPlaying on that wrapper used to abort the input tick.
+      if not valid(sequence) or not sequence:IsA(sequence_class) then
+        table.remove(self.sequences,i)
+      elseif sequence:IsPlaying() and valid(sequence:GetActiveCameraComponent()) then
+        self.sequence_reason='native-sequence';return self.sequence_reason
+      end
     end
     -- Damage reactions can temporarily ignore native input. They are not a
     -- cinematic camera owner and must not take the MC camera away.
@@ -112,10 +129,11 @@ function M.start(log)
       end
     end
   end
-  function self:mc_controls()
+  function self:mc_controls(group)
     local binding=self:context()
-    return binding and (binding.mc_creative_flight or binding.mc_gliding or binding.mc_boat_riding or self:equipment().group=='mc') and not self:traversal(binding)
+    return binding and (binding.mc_creative_flight or binding.mc_gliding or binding.mc_boat_riding or (group or self:equipment().group)=='mc') and not self:traversal(binding)
   end
+  self.is_locked=target_lock.active
   function self:release_movement()
     if self.movement then self.movement:close();self.movement=nil end
     -- Native weapon selection checks its controller input gates synchronously.
@@ -217,6 +235,7 @@ function M.start(log)
     self:release_free_look()
     self:release_facing()
     self.eye_input=nil;self.eye_look=nil;self.native_input=nil
+    self.targeting=nil;self.locked=nil;self.lock_binding=nil;self.lock_tick=nil
     -- Only return our own view target. Never overwrite a cinematic's new target.
     if self.pc and identity.matches(self.pc,self.pc_id) and valid(self.pc.PlayerCameraManager)
       and identity.matches(self.pc.PlayerCameraManager.ViewTarget.Target,self.camera_id) then
@@ -234,7 +253,7 @@ function M.start(log)
     if self.reason~=reason then self.log('camera released: '..reason) end
     self.reason=reason
   end
-  function self:camera_view(binding,pc)
+  function self:camera_view(binding,pc,locked)
     if binding.pose_deferred and (self.source=='pbz' or self.native_motion)then
       binding.camera_body_hidden=false;binding:update()
     end
@@ -248,19 +267,17 @@ function M.start(log)
       local eye=require('presentation.rigid_transform').compose(binding.render_pose.head,
         {position={X=4.05*scale,Y=0,Z=6*scale},rotation={Pitch=0,Yaw=0,Roll=0}})
       current.position=eye.position
-      -- Head animation supplies eye position. Mouse is the sole view heading:
-      -- feeding WASD-facing back into controller yaw makes strafing spin in a
-      -- loop. Native action translation/root motion remains entirely native.
+      -- Head animation supplies eye position, not locomotion yaw.
       local control=self.eye_look and self.eye_look.rotation or rotation(pc.ControlRotation)
       local function delta(a,b) return (a-b+180)%360-180 end
       current.rotation={Pitch=delta(control.Pitch,0),Yaw=control.Yaw,Roll=0}
     elseif self.movement and self.movement.frame and self.movement.frame.sneak then current.position.Z=current.position.Z-15 end
     if binding.mc_boat_riding then current.position.Z=current.position.Z-12*require('presentation.native_steve_pose').scale end
-    return current
+    return target_lock.aim(current,binding,pc,locked)
   end
   function self:acquire(binding,pc)
     self.source=self:equipment().group
-    local current=self:camera_view(binding,pc)
+    local current=self:camera_view(binding,pc,self.source=='pbz' and self:is_locked(binding))
     self.binding=binding;self.pc=pc;self.pc_id=identity.capture(pc)
     self.camera=binding.actor:GetWorld():SpawnActor(StaticFindObject('/Script/Engine.CameraActor'),current.position,current.rotation)
     assert(valid(self.camera),'first-person-camera-create-failed')
@@ -331,13 +348,15 @@ function M.start(log)
     local flight_input=allowed and not self.transition and not binding.mc_native_selection_pending
     if self.creative_flight then self.creative_flight:input_batch(batch,flight_input)end
     if self.flight then self.flight:input_batch(batch,flight_input)end
-    if allowed and focused and self.desired=='mc_first_person' and self:equipment().group=='pbz' and not binding.mc_creative_flight and not binding.mc_gliding and not binding.mc_boat_riding and not self.transition and not self:traversal(binding) then
+    local pbz_mouse=allowed and focused and not self.transition and self:equipment().group=='pbz'
+      and not binding.mc_creative_flight and not binding.mc_gliding and not binding.mc_boat_riding and not self:is_locked(binding)
+    if pbz_mouse and self.desired=='mc_first_person' and not self:traversal(binding) then
       if not self.eye_input then self.eye_input=require('input.first_person_controls').new(pc.ControlRotation) end
       local x,y=self.eye_input:sample_batch(batch,true)
       if x then pc:SetMouseLocation(x,y) end
       self.eye_look=self.eye_input:frame()
     else self.eye_input=nil;self.eye_look=nil end
-    if allowed and focused and self.desired=='pbz_native' and self:equipment().group=='pbz' and not binding.mc_creative_flight and not binding.mc_gliding and not binding.mc_boat_riding and not self.transition then
+    if pbz_mouse and self.desired=='pbz_native' then
       if not self.native_input then self.native_input=require('input.first_person_controls').new(pc.ControlRotation) end
       local dx,dy={},{};pc:GetInputMouseDelta(dx,dy)
       local x,y,r=self.native_input:native_sample(batch,true,rotation(pc.ControlRotation),dx.DeltaX or 0,dy.DeltaY or 0)
@@ -366,7 +385,7 @@ function M.start(log)
     if self.collision and (not binding or self.collision.binding~=binding)then self:release_collision()end
     if self.flight and (not binding or self.flight.binding~=binding or not identity.matches(pc,self.flight.pc_id))then self.flight:close();self.flight=nil end
     if self.creative_flight and (not binding or self.creative_flight.binding~=binding or not identity.matches(pc,self.creative_flight.pc_id))then self.creative_flight:close();self.creative_flight=nil end
-    if not binding then self:release_free_look();self:release_facing();self.reason='waiting-player';return end
+    if not binding then self.lock_binding=nil;self.targeting=nil;self.locked=nil;self:release_free_look();self:release_facing();self.reason='waiting-player';return end
     local reason=self:story(binding,pc,manager)
     -- A short camera blend also occurs on native attacks. BeginPlay and mesh
     -- assignments cover new doubles immediately. Reconcile pre-existing
@@ -401,6 +420,8 @@ function M.start(log)
     if self.creative_flight.active then self:release_movement();self.creative_flight:tick(self,reason)end
     if self.flight.active then self:release_movement();self.flight:tick(self,reason)end
     local equipment=self:equipment();self.source=equipment.group;self.native_motion=self:traversal(binding)
+    local locked=equipment.group=='pbz' and not reason and not self.inventory and self:is_locked(binding)
+    if locked then self.eye_input=nil;self.eye_look=nil;self.native_input=nil end
     if reason or self.native_motion then self:release_collision()
     elseif not self.collision then self.collision=require('host.pbz.player_collision').new(binding)end
     local move=not binding.mc_creative_flight and not binding.mc_gliding and (equipment.group=='mc' or binding.mc_boat_riding) and not reason and not self.native_motion and not self.inventory and self.focused and not self.transition
@@ -427,7 +448,7 @@ function M.start(log)
       end
       self.movement:tick()
     end
-    self:update_free_look(binding,pc,(equipment.group=='mc' or binding.mc_boat_riding or binding.mc_gliding or binding.mc_creative_flight) and self.last_batch~=nil and not reason and not self.native_motion and not self.transition)
+    self:update_free_look(binding,pc,not locked and (equipment.group=='mc' or binding.mc_boat_riding or binding.mc_gliding or binding.mc_creative_flight) and self.last_batch~=nil and not reason and not self.native_motion and not self.transition)
     if self.desired~='mc_first_person' then self.reason='native';return end
     if reason then
       -- Sequencer saves the incoming view target for its restore pass. Keep our
@@ -446,7 +467,7 @@ function M.start(log)
       pc:SetViewTargetWithBlend(self.camera,0,0,0,false)
       self.suspended=nil;self.reason='first-person';self.log('camera resumed after native takeover')
     end
-    local current=self:camera_view(binding,pc)
+    local current=self:camera_view(binding,pc,locked)
     self.camera:K2_SetActorLocationAndRotation(current.position,current.rotation,false,{},true)
     if self.fov~=current.fov then self.component:SetFieldOfView(current.fov);self.fov=current.fov end
     self:set_body(true)

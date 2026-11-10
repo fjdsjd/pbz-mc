@@ -26,8 +26,17 @@ function M.poll(session,binding)
     local snapshot,why=cache.reader:read(session.epoch);assert(snapshot,why)
     local runtime;runtime,why=cache.reader:read_runtime(session.epoch,{selection=true});assert(runtime,why)
     local main=runtime.slots['Weapon.Slot.Main']
-    assert(main and main.count==#snapshot.main_weapons,'slot-sync-transition-count')
-    if runtime.in_weapon_transition or main.with_pending_differs then return false end
+    if runtime.in_weapon_transition or not main or main.with_pending_differs then return false end
+    -- Saved loadouts may reserve empty positions after the runtime slots.
+    -- Keep existing references while a real equipped item is still loading.
+    local function ready(values,slot)
+      if slot and slot.with_pending_differs then return false end
+      for i=(slot and slot.count or 0)+1,#values do
+        if values[i]~='' and values[i]:lower()~='none' then return false end
+      end
+      return true
+    end
+    if not ready(snapshot.main_weapons,main) or not ready(snapshot.shaqi_weapons,runtime.slots['Weapon.Slot.Shachi']) then return false end
     cache.reads=cache.reads+1;cache.snapshot=snapshot
     local names=snapshot.weapon_names or {}
     local signature=table.concat(snapshot.main_weapons,'\0')..'\1'..table.concat(snapshot.shaqi_weapons,'\0')

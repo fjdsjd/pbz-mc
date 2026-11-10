@@ -22,7 +22,7 @@ function M:update(batch,context)
   local output={}
   if type(batch)~='table' or type(context)~='table' then return self:cancel('invalid-batch',output) end
   local valid=batch.protocol==2 and batch.combat_message_capture==true
-    and (batch.context=='game-mc-combat' or batch.context=='game-first-person')
+    and (batch.context=='game-mc-combat' or batch.context=='game-first-person' or batch.context=='game-motion-pbz')
     and not batch.overflow and not batch.timed_out_since_read and not batch.heartbeat_expired and not batch.identity_lost
     and context.kind=='game' and context.weapon_group=='mc' and context.allow_actions==true
   if not valid then return self:cancel('context-unavailable',output) end

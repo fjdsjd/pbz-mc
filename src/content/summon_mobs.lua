@@ -8,7 +8,8 @@ end
 for _,row in ipairs(undead.list()) do add(row) end
 local function species(name,attack,speed,radius,height,damage,interval,movement)
   add({name=name,egg='pbzmc:'..name..'_spawn_egg',attack=attack,speed=speed,radius=radius,height=height,
-       damage=damage,interval=interval,flies=movement=='fly',aquatic=movement=='swim' or movement=='amphibious',
+       damage=damage,interval=interval,flies=movement=='fly' or movement=='dragon',phases_terrain=movement=='dragon',
+       model_units=movement=='dragon' and 100/16 or nil,aquatic=movement=='swim' or movement=='amphibious',
        amphibious=movement=='amphibious'})
 end
 species('allay','passive',140,18,60,0,0, 'fly')
@@ -30,7 +31,7 @@ species('creeper','creeper',200,30,180,18,1.5)
 species('dolphin','melee',140,45,60,3,1, 'swim')
 species('donkey','passive',175,70,160,0,0)
 species('elder_guardian','beam',300,100,200,6,2.4, 'swim')
-species('ender_dragon','dragon_breath',300,125,800,9,2.6, 'fly')
+species('ender_dragon','dragon_breath',1000,125,800,9,2.6, 'dragon')
 species('enderman','melee',250,30,290,7,1)
 species('endermite','melee',250,20,30,2,1)
 species('evoker','fang',480,30,190,6,2)

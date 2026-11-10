@@ -1,5 +1,5 @@
 -- Host equivalents of animation state normally supplied by Minecraft's native
--- entity tick: Squid.aiStep, AbstractCubeMob.tick, EnderDragon.aiStep/history.
+-- entity tick: Squid.aiStep and AbstractCubeMob.tick.
 -- All output feeds the original client controllers; no shared walk animation.
 local M={}
 local shulker=require('rules.shulker_pose')
@@ -55,21 +55,6 @@ function M.update(v,m,dt,speed,vertical,ground)
    end
    q.previous_squish_value=s.old or s.value;q.current_squish_value=s.value;q.frame_alpha=s.accumulator/.05
    q.variant=1;q.fuse_time=-1
- end
- if name=='ender_dragon'then
-   v.dragon_phase=(v.dragon_phase or 0)+(.2/(speed/2000*10+1))*2^(vertical/2000)*dt*20
-   q.wing_flap_position=v.dragon_phase
-   local history=v.dragon_history or {};v.dragon_history=history
-   local p=m.position;local tick=math.floor(v.now*20)
-   if tick~=v.dragon_tick then
-     v.dragon_tick=tick;table.insert(history,1,{y=p.Z/100,yaw=m.yaw or 0})
-     if #history>24 then history[25]=nil end
-   end
-   for i=0,23 do
-     local sample=history[math.min(i+1,#history)]
-     vars['variable.historical_frame_'..i..'.pos_y']=sample.y
-     vars['variable.historical_frame_'..i..'.rot_y']=sample.yaw
-   end
  end
 end
 return M

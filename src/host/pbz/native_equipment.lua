@@ -154,7 +154,7 @@ function M.new(binding,controller,epoch)
   if ok then return result end
   return nil,tostring(result)
 end
-function M:read(expected_epoch)
+function M:read(expected_epoch,options)
   local ok,result=pcall(function()
     owner_current(self,expected_epoch)
     local owner=subsystem_current(self)
@@ -171,8 +171,10 @@ function M:read(expected_epoch)
     snapshot.top_medicine_id=name_string(owner.TopMedicineID,'TopMedicineID')
     snapshot.bare_mode=owner.bZlgwBareMode
     assert(type(snapshot.bare_mode)=='boolean','equipment-invalid-bare-mode')
-    local named,names=pcall(function()return require('host.pbz.native_weapon_names').read(self,snapshot)end)
-    if named then snapshot.weapon_names=names else snapshot.weapon_name_error=tostring(names)end
+    if not options or options.names~=false then
+      local named,names=pcall(function()return require('host.pbz.native_weapon_names').read(self,snapshot)end)
+      if named then snapshot.weapon_names=names else snapshot.weapon_name_error=tostring(names)end
+    end
     subsystem_current(self);owner_current(self,expected_epoch)
     local main,shaqi=owner.MainWeapons,owner.ShaqiWeapons
     assert(main and main:IsValid() and main:GetArrayNum()==main_count,'equipment-array-post-count:MainWeapons')

@@ -5,6 +5,7 @@ local models=require('host.pbz.undead_models')
 local ids=require('host.pbz.object_identity')
 local follow=require('rules.mob_follow')
 local ai=require('rules.mob_ai')
+local dragon=require('rules.dragon_flight')
 local valid=require('host.pbz.appearance').valid
 local M={};M.__index=M
 local function distance(a,b)
@@ -109,11 +110,15 @@ end
 function M:command_move(m,position,yaw)
   assert(self:contains(m),'summon-command-stale')
   m.position=world.copy(position);m.command_home=world.copy(position);m.yaw=yaw
+  if m.def.phases_terrain then
+    m.teleports=(m.teleports or 0)+1;m.dragon_phase=nil;m.dragon_target=nil;m.dragon_turn=nil;m.last_dragon_head=nil
+  end
   m.target=nil;m.path=nil;m.steer=nil;m.last_progress=nil;m.repath=nil
   m.move:StopMovementImmediately();self.next_think=0;self.next_scan=0
 end
 function M:target(m,ignore)
-  if m.target and (m.can_see or m.ai and m.ai.sonic) and ids.matches(m.target.actor,m.target.id)
+  local track_hidden=m.def.phases_terrain or m.ai and m.ai.sonic
+  if m.target and (m.can_see or track_hidden) and ids.matches(m.target.actor,m.target.id)
       and self.combat and self.combat.damage:eligible(m.target.actor)
       and distance(m.position,m.target.actor:K2_GetActorLocation())<=defs.detection^2 then
     return m.target
@@ -128,11 +133,13 @@ function M:target(m,ignore)
   -- the remaining candidates next scan instead of tracing the whole crowd.
   local rest=math.max(0,#choices-2)
   for i=1,math.min(5,#choices) do
-    if self.sight_budget and self.sight_budget<=0 then return nil,true end
-    if self.sight_budget then self.sight_budget=self.sight_budget-1 end
+    if not track_hidden and self.sight_budget then
+      if self.sight_budget<=0 then return nil,true end
+      self.sight_budget=self.sight_budget-1
+    end
     local index=i<=2 and i or 3+((m.sight_cursor or 0)+i-3)%rest
     local e=choices[index].enemy
-    if ids.matches(e.actor,e.id) and (m.ai and m.ai.sonic or self.world:sight(m.position,e.pos,e.actor,ignore)) then return e end
+    if ids.matches(e.actor,e.id) and (track_hidden or self.world:sight(m.position,e.pos,e.actor,ignore)) then return e end
   end
   if rest>0 then m.sight_cursor=((m.sight_cursor or 0)+3)%rest end
 end
@@ -206,10 +213,10 @@ function M:creeper(m,target,now,ignore)
   end
   return next_fuse>0
 end
-function M:attack(m,target,now,ignore,selected_kind)
+function M:attack(m,target,now,ignore,selected_kind,origin)
   if now<(m.next_attack or 0) or not self.combat.damage:eligible(target) then return end
   local p=m.position
-  local start={X=p.X,Y=p.Y,Z=p.Z+m.def.height*.20}
+  local start=origin or {X=p.X,Y=p.Y,Z=p.Z+m.def.height*.20}
   local finish=world.copy(target:K2_GetActorLocation())
   local kind=selected_kind or m.def.attack
   local visible=kind=='sonic' or m.can_see and now-(m.sight_time or 0)<=.25
@@ -218,10 +225,11 @@ function M:attack(m,target,now,ignore,selected_kind)
   if kind=='flame' and range<200 then kind='melee' end
   local charging=m.charge_started
   m.charging_kind=kind
-  local ready=ai.ready(m,now,target:GetAddress(),range,visible,attacks.contact(kind))
+  local ready=kind=='dragon_breath' or ai.ready(m,now,target:GetAddress(),range,visible,attacks.contact(kind))
   if not charging and m.charge_started then self.sounds:play(m,'charge',now)end
   if not ready then return end
   if not attacks.contact(kind) and #self.shots>=24 then return end
+  if kind=='dragon_breath' then m.next_attack=now+m.def.interval end
   m.last_attack=now;m.last_attack_kind=kind;m.charging_kind=nil
   self.sounds:play(m,attacks.contact(kind) and 'attack' or 'shoot',now)
   self.attack_serial=self.attack_serial+1
@@ -314,6 +322,34 @@ function M:flight(now,dt,ignore)
     end
   end
 end
+function M:fly_dragon(m,target,home,now,ignore)
+  local dest=target and world.copy(target.actor:K2_GetActorLocation())
+  local goal=dragon.goal(m,now,home,dest,target and target.id.address)
+  local yaw,steer=dragon.steer(m,goal,now);m.yaw=yaw;m.steer=steer
+  m.actor:K2_SetActorRotation({Yaw=yaw,Pitch=0,Roll=0},false)
+  if not dest then m.last_dragon_head=nil;return end
+  local head=world.copy(m.parts.head.component:K2_GetComponentLocation())
+  if m.dragon_phase=='charge' then
+    -- Sweep between samples so a fast pass cannot skip a narrow target.
+    local old=m.last_dragon_head or head;local segment=world.delta(head,old)
+    local delta=world.delta(dest,old)
+    local length2=segment.X^2+segment.Y^2+segment.Z^2
+    local t=math.max(0,math.min(1,(delta.X*segment.X+delta.Y*segment.Y+delta.Z*segment.Z)/math.max(1,length2)))
+    local nearest=world.offset(old,segment,t);local cap=target.actor.CapsuleComponent
+    local dx,dy=dest.X-nearest.X,dest.Y-nearest.Y
+    if dx*dx+dy*dy<=(120+cap:GetScaledCapsuleRadius())^2 and math.abs(nearest.Z-dest.Z)<=120+cap:GetScaledCapsuleHalfHeight() then
+      self.attack_serial=self.attack_serial+1
+      if self:hit(m.def,target.actor,dest,steer,'melee',self.attack_serial,m.attack_damage or 10) then
+        self.report.melee=self.report.melee+1;dragon.finish_pass(m,now)
+      end
+    end
+  elseif m.dragon_phase=='strafe' and now>=(m.next_sight or 0) and self.sight_budget>0 then
+    self.sight_budget=self.sight_budget-1;m.next_sight=now+.1;m.sight_time=now
+    m.can_see=distance(head,dest)<6400^2 and self.world:sight(head,dest,target.actor,ignore)
+    if dragon.breath_ready(m,now,m.can_see,dest) then self:attack(m,target.actor,now,ignore,'dragon_breath',head) end
+  end
+  m.last_dragon_head=head
+end
 function M:think(m,now,player,scan,ignore)
   local aura=require('rules.mob_effects').aura[m.def.name]
   if aura and now>=(m.effect_aura_at or 0)then
@@ -342,6 +378,7 @@ function M:think(m,now,player,scan,ignore)
   local home=m.command_home or {X=player.X,Y=player.Y,Z=player.Z-self.binding.actor.CapsuleComponent:GetScaledCapsuleHalfHeight()+m.def.height/2}
   local home_distance=math.sqrt(distance(home,m.position))
   local walking,recover=follow.goal(m,home_distance,m.target~=nil)
+  if m.def.phases_terrain then recover=not m.command_home and home_distance>defs.leash end
   m.following=walking
   if recover then
     m.target=nil;m.path=nil
@@ -354,6 +391,7 @@ function M:think(m,now,player,scan,ignore)
       if point and m.actor:K2_SetActorLocation(point,false,{},true) then
         m.move:StopMovementImmediately();m.position=point;m.steer=nil;m.path=nil;m.last_progress=nil;m.stuck_since=nil
         m.teleports=(m.teleports or 0)+1;m.teleport_attempt=0;m.next_teleport=now+follow.retry
+        m.last_dragon_head=nil
         self.sounds:play(m,'teleport',now,player)
         return
       elseif m.teleport_attempt>=follow.attempts then m.teleport_attempt=0;m.next_teleport=now+follow.retry end
@@ -367,6 +405,7 @@ function M:think(m,now,player,scan,ignore)
   end
   local target=m.target
   if target and (not ids.matches(target.actor,target.id) or not self.combat.damage:eligible(target.actor)) then target=nil;m.target=nil end
+  if m.def.phases_terrain then self:fly_dragon(m,target,home,now,ignore);return end
   if kind=='creeper' and self:creeper(m,target,now,ignore) then
     m.steer=nil;m.path=nil
     return

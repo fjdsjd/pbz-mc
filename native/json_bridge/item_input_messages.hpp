@@ -59,7 +59,7 @@ inline void process_raw_mouse(Core& core, RAWMOUSE& mouse, const Environment& en
             const auto flag=static_cast<USHORT>(1u<<(physical*2+up));
             if (!(flags&flag))continue;
             e.kind=up ? Kind::button_up : Kind::button_down;
-            const bool consume=no_legacy ? core.event(e,env,now) : core.filter_raw_button(e.index);
+            const bool consume=no_legacy ? core.event(e,env,now) : core.filter_raw_button(e.index,up!=0);
             if(consume)mouse.usButtonFlags&=static_cast<USHORT>(~flag);
         }
     }

@@ -29,6 +29,10 @@ function M:model(name,units)
   local raw=read(self.root..'/'..entry.mesh.path)
   assert(#raw==entry.mesh.bytes and require('storage.sha256')(raw)==entry.mesh.sha256,'undead-model-checksum:'..name)
   cache={parts=mesh.decode(raw,units),bottom=entry.bottom*units,units=units,texture=entry.texture,rig=entry.rig}
+  if name=='ender_dragon' then
+    require('presentation.dragon_model').prepare_mesh(cache.parts,units)
+    cache.bottom=0 -- dragon root animation is relative to the entity's feet
+  end
   -- Native components already own the uploaded buffers and material. Retain
   -- only recent decoded Lua vertex arrays when browsing a large egg catalogue.
   local slot=self.next_cache%18+1
@@ -110,7 +114,7 @@ local sizes={skull=4, trident=5.5, spit=4, fang=5.5, bullet=5,gust=5,
 -- actor has no capsule, AI or damage ownership and cannot intercept an egg.
 function M:preview(def,block)
   local entry=assert(self.entries[def.name])
-  local units=def.height/(entry.top-entry.bottom)
+  local units=def.model_units or def.height/(entry.top-entry.bottom)
   local cached=self:model(def.name,units)
   if not cached.preview_scale then
     local radial=0

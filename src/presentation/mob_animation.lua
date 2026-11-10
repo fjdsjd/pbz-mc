@@ -12,6 +12,19 @@ function M.library(data)
  assert(data.schema==1,'mob-animation-schema')
  local lib={entities=data.entities,animations=data.animations,controllers=data.controllers,expressions={}}
  for i,node in ipairs(data.expressions)do lib.expressions[i]=molang.compile(node)end
+ -- Some client definitions list the same controller both in scripts.animate
+ -- (possibly with a weight) and in the legacy animation_controllers array.
+ -- The compiled schedule appends the legacy IDs after the explicit aliases.
+ for _,entity in pairs(lib.entities)do
+   local named,run={},{}
+   for _,step in ipairs(entity.run)do
+     local alias=type(step)=='string' and step or next(step)
+     if type(step)~='string' or not named[step] then run[#run+1]=step end
+     local id=entity.aliases[alias]
+     if lib.controllers[id] then named[id]=true end
+   end
+   entity.run=run
+ end
  local function prepare(channel)
    if type(channel)~='table'or channel.e or channel.ordered or #channel>0 then return end
    if channel.pre or channel.post then prepare(channel.pre);prepare(channel.post);return end
@@ -30,8 +43,12 @@ function M.library(data)
  return lib
 end
 function M.new(lib,name,rig)
+ if name=='ender_dragon' then return require('presentation.dragon_model').new(rig) end
  local self=setmetatable({lib=lib,entity=assert(lib.entities[name],'missing-vanilla-animation:'..name),
-   rig=rig,poses={},controllers={},playing={},vars={},frame=0},M)
+   rig=rig,poses={},controllers={},playing={},
+   -- Vanilla humanoids divide their stride by this engine-supplied value.
+   -- Summoned mobs do not use Elytra, including naturally flying species.
+   vars={['variable.gliding_speed_value']=1},frame=0},M)
  for name,b in pairs(rig)do self.poses[name]={rotation=copy(b.rotation),position=copy(b.pivot),scale={1,1,1}}end
  self.visibility={}
  for _,rule in ipairs(self.entity.visibility or {})do

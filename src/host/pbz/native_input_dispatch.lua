@@ -48,9 +48,14 @@ function M.action_idle(controller,validate)
   local class=StaticFindObject(COMPONENT)
   fields(class,COMPONENT,{InActionPhase={'BoolProperty',416}})
   assert(handler and handler:IsValid() and handler:IsA(class),'native-input-idle-handler')
-  local idle=handler.InActionPhase==false and not controller:IsLookInputIgnored()
+  local weapons=actor['Character Weapons Component']
+  local idle=handler.InActionPhase==false and not (weapons and weapons:IsValid() and weapons:IsInWeaponTransition())
+    and not controller:IsLookInputIgnored()
     and not controller:IsMoveInputIgnored() and not actor.DisableMovement
-    and not actor:IsPlayingRootMotion() and not actor:HasAnyRootMotion()
+    -- PBZ can keep a movement source after lock-on while standing idle.
+    -- Active combat phases, animation root motion and control locks still
+    -- defer the handoff. Selection never removes a native movement source.
+    and not actor:IsPlayingRootMotion()
   assert(validate()~=false,'native-input-idle-owner-changed')
   return idle
 end

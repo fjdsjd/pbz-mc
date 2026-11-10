@@ -19,7 +19,7 @@
 
 **从 0.1.0-alpha.6 起，每次玩模组都使用 `Launch-PBZMC.cmd`。直接从 Steam 点“开始游戏”会进入原版。** 启动脚本只对本次进程开启模组，不改 Steam 的持久启动选项。正常退出或崩溃后无需运行卸载器，也不必重新下载资源。旧版升级后需运行一次新版 CMD，完成加载器替换。
 
-**0.1.0-alpha.6.1**　[标准包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6.1/PBZMC-0.1.0-alpha.6.1-win64.zip) · [免下载包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6.1/PBZMC-0.1.0-alpha.6.1-win64-offline-cache.zip) · [标准包大陆备用](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6.1/PBZMC-0.1.0-alpha.6.1-win64.zip) · [免下载包大陆备用](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6.1/PBZMC-0.1.0-alpha.6.1-win64-offline-cache.zip) · [SHA-256](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6.1/SHA256SUMS.txt)。
+**0.1.0-alpha.6.2**　[标准包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6.2/PBZMC-0.1.0-alpha.6.2-win64.zip) · [免下载包](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6.2/PBZMC-0.1.0-alpha.6.2-win64-offline-cache.zip) · [标准包大陆备用](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6.2/PBZMC-0.1.0-alpha.6.2-win64.zip) · [免下载包大陆备用](https://gh-proxy.com/https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6.2/PBZMC-0.1.0-alpha.6.2-win64-offline-cache.zip) · [SHA-256](https://github.com/fjdsjd/pbz-mc/releases/download/v0.1.0-alpha.6.2/SHA256SUMS.txt)。
 
 已有完整 alpha.6 资源缓存的玩家可以直接使用本版免下载包。
 

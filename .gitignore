@@ -22,6 +22,7 @@
 !/native/json_bridge/potion_sounds.inc
 !/native/json_bridge/main.cpp
 !/native/json_bridge/check_host.cpp
+!/native/json_bridge/check_middle_lock.cpp
 !/native/json_bridge/build-portable.ps1
 !/native/launcher_proxy/
 /native/launcher_proxy/*
@@ -56,6 +57,7 @@
 !/tools/package_offline.py
 !/tools/check_release.py
 !/tools/check_packaged_inventory.py
+!/tools/check_hotbar_handoff.lua
 !/tools/check_launcher.py
 !/tools/check_starter_loadout.py
 !/tools/check_campaign_save_limits.cpp
@@ -71,6 +73,7 @@
 !/tools/check_boat_distance_sleep.py
 !/tools/check_terrain_placement.py
 !/tools/check_spear.py
+!/tools/check_weapon_guard.py
 !/tools/check_mace.py
 !/tools/check_wind_charge.py
 !/tools/check_turtle_helmet.py

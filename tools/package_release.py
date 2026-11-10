@@ -52,7 +52,7 @@ def main():
     parser.add_argument('--bridge',type=Path,default=ROOT/'build/native-release/main.dll')
     parser.add_argument('--host-check',type=Path,default=ROOT/'build/native-release/Check-PBZHost.exe')
     parser.add_argument('--output',type=Path,required=True,help='New, empty output directory; never overwrites earlier releases')
-    parser.add_argument('--version',default='0.1.0-alpha.6.1')
+    parser.add_argument('--version',default='0.1.0-alpha.6.2')
     args=parser.parse_args()
     if not args.version or any(c not in '0123456789abcdefghijklmnopqrstuvwxyz.-' for c in args.version):raise ValueError('Invalid release version')
     if sha(args.loader/'ue4ss/UE4SS.dll')!=LOADER_HASH:raise ValueError('Wrong loader DLL')

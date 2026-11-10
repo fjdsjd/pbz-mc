@@ -3,6 +3,7 @@ local valid=require('host.pbz.appearance').valid
 local identity=require('host.pbz.object_identity')
 local json=require('dkjson')
 local scaling=require('rules.damage_scaling')
+local guard=require('host.pbz.weapon_guard')
 local M={};M.__index=M
 local function path(o) return assert(o:GetFullName():match('^[^ ]+ (.+)$')) end
 local function component(actor,class)
@@ -20,7 +21,7 @@ local function native_shield(attributes)
   return ok and type(value)=='number' and value==value and value>=0 and value<math.huge and value or nil
 end
 function M.new(binding)
-  return setmetatable({binding=binding,seen={},order={},report={},
+  return setmetatable({binding=binding,seen={},order={},report={},guard_classes={},
     flash=require('host.pbz.hit_flash').new(binding)},M)
 end
 function M:eligible(target)
@@ -82,6 +83,7 @@ function M:_hit(target,amount,action_id,contact)
     component=path(damage),reaction=valid(reaction) and path(reaction) or nil,coefficient=scaled.coefficient,
     location=contact.location,direction=direction,normal=contact.normal or {X=-direction.X,Y=-direction.Y,Z=-direction.Z}}
   if contact.smash then request.smash=true end
+  local shachi_before=guard.prepare(self.guard_classes,target,self.binding.actor,request,scaled.requested)
   local before=attributes.Health.CurrentValue;local shield_before=native_shield(attributes)
   -- Reserve before dispatch. Sustained multi-target piercing may fill the
   -- history quickly, so evict one entry without shifting the entire array.
@@ -97,19 +99,31 @@ function M:_hit(target,amount,action_id,contact)
     scaling_multiplier=scaled.scaling_multiplier,percentage=scaled.percentage,weapon_id=scaled.weapon_id,
     weapon_kind=scaled.weapon_kind,full_weapon_percentage=scaled.full_weapon_percentage,
     scaling_reason=scaled.scaling_reason,reference_full_base=scaled.reference_full_base,
-    clamped=scaled.clamped,native_limit=scaled.native_limit,coefficient=scaled.coefficient,before=before,after=after,
+    clamped=scaled.clamped,native_limit=scaled.native_limit,coefficient=request.coefficient,before=before,after=after,
     observed_delta=after and before-after,native_shield_before=shield_before,native_shield_after=shield_after,
     native_shield_delta=shield_before and shield_after and shield_before-shield_after,
     dispatched=receipt and receipt.dispatched==true or false,blocked=receipt and receipt.blocked==true or false,
     error=why,route='native-AttributeComponent-TakeDamage'}
   self.report.health_hit=self.report.dispatched and not self.report.blocked and (self.report.observed_delta or 0)>0
   self.report.native_shield_hit=self.report.dispatched and not self.report.blocked and (self.report.native_shield_delta or 0)>0
-  self.report.accepted=self.report.health_hit or self.report.native_shield_hit
-  -- Golden/native shields can absorb a successful hit without HP movement.
-  -- Keep their native settlement; only fix the false miss/absent feedback.
+  guard.observe(self.report,shachi_before,target)
+  self.report.damage_channel=request.phase
+  self.report.accepted=self.report.health_hit or self.report.native_shield_hit or self.report.native_shachi_hit or false
+  if shachi_before~=nil then
+    local outcome=request.phase
+    if not self.report.accepted then outcome='rejected-'..outcome
+    elseif request.phase=='shachi' and self.report.native_shachi_after==0 then outcome='break' end
+    if self.guard_target~=target_id.address or self.guard_outcome~=outcome then
+      self.guard_target,self.guard_outcome=target_id.address,outcome
+      self.binding.log(('MC dragon-pillar hit %s %s shachi=%s->%s HP=%s->%s%s'):format(contact.kind,outcome,
+        shachi_before,tostring(self.report.native_shachi_after),before,tostring(after),why and ' '..tostring(why) or ''))
+    end
+  end
   if not self.report.accepted then return false end
   if contact.feedback==false then return true end
-  if after and after>0 and valid(reaction) and identity.matches(target,target_id) then
+  -- The Shachi transition owns the break animation. A second generic flinch
+  -- here can replace the punish window on the strike that emptied the meter.
+  if request.phase~='shachi' and after and after>0 and valid(reaction) and identity.matches(target,target_id) then
     request.phase='feedback'
     local feedback,err=native(request)
     self.report.feedback=feedback~=nil;self.report.feedback_error=err

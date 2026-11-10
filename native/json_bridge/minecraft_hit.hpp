@@ -67,13 +67,15 @@ inline std::string run(const std::string& input) {
         // is modified and no ProcessEvent/damage call occurs in this probe.
         const auto signature=damage_schema();ParameterFrame frame(signature);fire_cause(signature,frame,nullptr);
         return Json{{"api",2},{"kinds",{"sword","spear","mace","arrow","wind_charge","explosion","fire","fall","fly_into_wall"}},
-            {"self_damage",true},{"fire_cause","Damage.Cause.Fire"},{"fire_cause_verified",true}}.dump();
+            {"self_damage",true},{"shachi_damage",true},{"fire_cause","Damage.Cause.Fire"},{"fire_cause_verified",true}}.dump();
     }
-    require(phase=="damage"||phase=="feedback","MC hit phase");
+    const bool shachi=phase=="shachi";
+    require(phase=="damage"||shachi||phase=="feedback","MC hit phase");
     const auto kind=data.at("kind").get<std::string>();
     const bool environmental=kind=="explosion"||kind=="fire"||kind=="fall"||kind=="fly_into_wall";
     require(kind=="sword"||kind=="spear"||kind=="mace"||kind=="arrow"||kind=="wind_charge"||environmental,"MC hit kind");
     auto* pawn=object(data,"pawn");auto* target=object(data,"target");auto* source=object(data,"source");
+    if(shachi) require(pawn!=target && (!environmental||kind=="explosion"),"MC shachi requires a weapon hit on a target");
     auto* component=object(data,"component");
     require(component->GetFullName().starts_with(L"AttributeComponent ")&&owner(component)==target,"MC damage target owner");
     if(pawn==target) {
@@ -113,7 +115,7 @@ inline std::string run(const std::string& input) {
         reaction=object(data,"reaction");require(reaction->GetFullName().starts_with(L"HitreactComponent ")&&owner(reaction)==target,"MC hit reaction owner");
     }
     const auto blocked_before=ShieldGate::blocked.load();
-    if(phase=="damage") {
+    if(phase!="feedback") {
         const double coefficient=data.at("coefficient").get<double>();require(std::isfinite(coefficient)&&coefficient>0&&coefficient<=1000,"MC attack coefficient");
         const auto signature=damage_schema();ParameterFrame frame(signature);
         interface_value(signature.at(L"DamageSource"),frame.address(signature.at(L"DamageSource")),component,source,source_path);
@@ -126,8 +128,9 @@ inline std::string run(const std::string& input) {
         find_object(L"/Script/SGameAttributes.Default__AttributeUtils")->ProcessEvent(capture.function,snapshot.data());
         require(signature.at(L"AttackerAttributes").property->SameType(capture.at(L"Snapshot").property),"MC snapshot type");
         signature.at(L"AttackerAttributes").property->CopyCompleteValue(frame.address(signature.at(L"AttackerAttributes")),snapshot.address(capture.at(L"Snapshot")));
+        const wchar_t* attack_tag=shachi?L"Damage.Attack.Target.TrueShachiDamage":L"Damage.Attack.Target.PhysicalDamage";
         import(signature.at(L"AttackData").property,frame.address(signature.at(L"AttackData")),component,
-            L"(((TagName=\"Damage.Attack.Target.PhysicalDamage\"),"+std::to_wstring(coefficient)+L"))");
+            std::wstring(L"(((TagName=\"")+attack_tag+L"\"),"+std::to_wstring(coefficient)+L"))");
         if(reaction) {
             auto* body=class_property(L"/Script/SGameCombatSystem.HitreactComponent",L"MainBody");
             require(body->SameType(signature.at(L"HitBody").property),"MC hit body schema");
@@ -155,7 +158,7 @@ inline std::string run(const std::string& input) {
         reaction->ProcessEvent(signature.function,frame.data());
     }
     return Json{{"phase",phase},{"dispatched",true},{"blocked",phase=="damage"&&pawn==target&&ShieldGate::blocked.load()!=blocked_before},
-        {"route",phase=="damage"?"native-AttributeComponent-TakeDamage":"native-HitreactComponent-PlayHitreact"}}.dump();
+        {"route",phase=="feedback"?"native-HitreactComponent-PlayHitreact":"native-AttributeComponent-TakeDamage"}}.dump();
 }
 inline int lua_hit(const Lua& lua) {
     try {require(lua.get_stack_size()==1&&lua.is_string(1),"usage: PBZMC_NativeHit(json)");lua.set_string(run(std::string(lua.get_string(1))));lua.set_nil();}

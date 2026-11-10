@@ -58,7 +58,7 @@ local p={BeforeFallingLocation={Z=4000},DeadDepth=2000,CharacterMovement={Moveme
 local pos={X=20,Y=10,Z=2500}
 function p:K2_GetActorLocation()return pos end
 function p:GetVelocity()return {Z=-1600}end
-local s={binding={actor=p,mc_mace_owner={}},report={},value={totem_cooldown=1},totem_hand=function()return nil end}
+local s={binding={actor=p,mc_mace_owner={}},report={},value={effects={},totem_cooldown=1},totem_hand=function()return nil end}
 local gate=require('host.pbz.native_totem_fall')
 gate.tick(s);assert(active and probes==0)
 pos.Z=2200;gate.tick(s);assert(not active and probes==1 and p.BeforeFallingLocation.Z==4000)

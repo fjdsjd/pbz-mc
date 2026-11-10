@@ -1,6 +1,8 @@
 [CmdletBinding()]
 param([string]$UE4SSDll, [string]$SdkRoot, [string]$BuildToolsRoot)
 $ErrorActionPreference='Stop'
+# Resolve Get-FileHash from this host when a parent process uses another PowerShell edition.
+Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Utility/Microsoft.PowerShell.Utility.psd1') -ErrorAction Stop
 $root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 if (-not $SdkRoot) { $SdkRoot=Join-Path $root 'build/dependencies' }
 if (-not $UE4SSDll) { $UE4SSDll=Join-Path $root 'build/loader/ue4ss/UE4SS.dll' }

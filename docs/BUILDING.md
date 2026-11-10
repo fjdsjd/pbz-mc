@@ -2,6 +2,8 @@
 
 需要 Windows x64、Python 3.12 或更高版本、Visual Studio Build Tools 的 C++ 桌面工作负载及 Windows SDK。正式运行只需发行包，玩家不需要这些编译工具。
 
+核对 Nexus 上的 `0.1.0-alpha.6.2` 时，可按英文指南从发布标签重建两个安装包，并逐项核对原生文件。[Nexus 构建与校验说明](https://github.com/fjdsjd/pbz-mc/blob/main/docs/review/alpha.6.2.md)
+
 ## 原生桥
 
 下载 [KintaroModding/ue4ss v3.0.1-1183-gcdbc0b66](https://github.com/KintaroModding/ue4ss/releases/tag/v3.0.1-1183-gcdbc0b66) 中的 `phantombladezero_ue4ss_v3.0.1-1183-gcdbc0b66.zip`，解压到 `build/loader`。

@@ -1,6 +1,8 @@
 [CmdletBinding()]
 param([string]$BuildToolsRoot)
 $ErrorActionPreference='Stop'
+# A build started by another PowerShell edition can inherit its module search path.
+Import-Module (Join-Path $PSHOME 'Modules/Microsoft.PowerShell.Utility/Microsoft.PowerShell.Utility.psd1') -ErrorAction Stop
 $root=[IO.Path]::GetFullPath((Join-Path $PSScriptRoot '../..'))
 $build=Join-Path $root 'build/launcher-proxy'
 if (-not $BuildToolsRoot) {

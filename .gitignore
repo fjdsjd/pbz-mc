@@ -102,6 +102,9 @@
 !/docs/COMMANDS.md
 !/docs/POTIONS.md
 !/docs/FIRE.md
+!/docs/review/
+/docs/review/*
+!/docs/review/alpha.6.2.md
 !/docs/media/
 !/docs/media/**
 **/__pycache__/
